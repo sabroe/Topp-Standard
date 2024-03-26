@@ -13,7 +13,7 @@ the collection of useful utilities to examine if coherent libraries can be manif
 
 ### Scope
 
-Addressed is selected functionalities of Java SE 17/21 and Jakarta EE 10/11:
+Addressed is selected functionalities of Java SE 17 and Jakarta EE 10:
 
 * Collections
 * Functional interfaces and streams
