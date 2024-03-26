@@ -17,6 +17,7 @@ Addressed is selected functionalities of Java SE 17 and Jakarta EE 10:
 
 * Collections
 * Functional interfaces and streams
+* Date and time
 * Dependency injection
 
 Started March 2024.
