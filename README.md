@@ -16,6 +16,7 @@ the collection of useful utilities to examine if coherent libraries can be manif
 Addressed is selected functionalities of Java SE 17 and Jakarta EE 10:
 
 * Collections
+* Concurrency
 * Functional interfaces and streams
 * Date and time
 * Dependency injection
