@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+    id 'java-library-distribution'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    api 'org.slf4j:slf4j-api:2.0.11'
+    api 'org.slf4j:slf4j-ext:2.0.11'
+
+    testImplementation 'org.slf4j:slf4j-simple:2.0.11'
+}
