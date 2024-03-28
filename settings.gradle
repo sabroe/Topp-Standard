@@ -1,0 +1,4 @@
+rootProject.name = 'Yelstream Topp Standard Project'
+
+include 'Topp-Standard-Core-Library'
+//include 'Topp-Standard-Inject-Library'

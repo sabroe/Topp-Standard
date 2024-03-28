@@ -1,0 +1,24 @@
+def projectNameC14N = "${project.name.replaceAll(' ', '-')}"
+logger.info(":> Project name canonicalization: ${projectNameC14N}.")
+
+def baseNamePrefix = custom['archives.base-name-prefix'] ?: ""
+logger.info(":> Base name prefix: ${baseNamePrefix}.")
+
+plugins.withType(JavaLibraryDistributionPlugin) {
+    base {
+        archivesName = "${baseNamePrefix}${projectNameC14N}"
+    }
+    distributions {
+        main {
+            distZip {
+                duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            }
+        }
+    }
+}
+
+plugins.withType(BasePlugin) {
+    base {
+        archivesName = "${baseNamePrefix}${projectNameC14N}"
+    }
+}
