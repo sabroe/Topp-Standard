@@ -1,4 +1,5 @@
 # Topp Standard // Yelstream v/Morten Sabroe Mortensen
+
 Selected functionalities touching upon standard functionalities within Java SE and Jakarta EE.
 
 
@@ -23,6 +24,10 @@ Addressed is selected functionalities of Java SE 17 and Jakarta EE 10:
 
 Started March 2024.
 
+### Naming
+
+The naming _Standard_ is a reference to the Standard Edition of Java and the specifications behind Jakarta Enterprise Edition.
+
 
 ## Content
 
@@ -37,7 +42,10 @@ TODO:
 * Gradle
 * Artifacts on Maven Central 
 
+
 ## Releases
 
-Pending is the first version.
-I use Maven Central for my Java artifacts.
+Released artifacts cen be sound on Maven Central:
+
+* https://mvnrepository.com/artifact/com.yelstream.topp.standard/topp-standard-core
+* https://central.sonatype.com/artifact/com.yelstream.topp.standard/topp-standard-cora
