@@ -1,0 +1,90 @@
+package com.yelstream.topp.standard.time;
+
+import com.yelstream.topp.standard.lang.Comparables;
+import lombok.experimental.UtilityClass;
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Utility addressing instances of {@link Duration}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-02-24
+ */
+@UtilityClass
+public class Durations {
+    /**
+     * Duration indicating "forever".
+     */
+    public static final Duration FOREVER=of(ChronoUnit.FOREVER);
+
+    /**
+     * Minimum duration.
+     */
+    public static final Duration MIN_VALUE=FOREVER.negated();
+
+    /**
+     * maximum duration.
+     */
+    public static final Duration MAX_VALUE=FOREVER;
+
+    /**
+     * Creates a duration from a temporal unit.
+     * @param temporalUnit Temporal unit.
+     * @return Resulting duration.
+     */
+    public static Duration of(TemporalUnit temporalUnit) {
+        return temporalUnit.getDuration();
+    }
+
+    /**
+     * Creates a duration from a time unit.
+     * @param timeUnit Time unit.
+     * @return Resulting duration.
+     */
+    public static Duration of(TimeUnit timeUnit) {
+        return timeUnit.toChronoUnit().getDuration();
+    }
+
+    /**
+     * Gets the minimum of two durations.
+     * @param a First duration.
+     * @param b Second duration.
+     * @return Minimum duration.
+     */
+    public static Duration min(Duration a, Duration b) {
+        return Comparables.min(a,b);
+    }
+
+    /**
+     * Gets the maximumof two durations.
+     * @param a First duration.
+     * @param b Second duration.
+     * @return Maximum duration.
+     */
+    public static Duration max(Duration a, Duration b) {
+        return Comparables.max(a,b);
+    }
+
+    /**
+     * Indicates, if a duration is practically infinite.
+     * @param duration Duration.
+     * @return Indicates, if duration is infinite.
+     */
+    public static boolean isInfinite(Duration duration) {
+        return duration.abs().equals(FOREVER);
+    }
+
+    /**
+     * Indicates, if a duration is finite.
+     * @param duration Duration.
+     * @return Indicates, if duration is finite.
+     */
+    public static boolean isFinite(Duration duration) {
+        return !isInfinite(duration);
+    }
+}
