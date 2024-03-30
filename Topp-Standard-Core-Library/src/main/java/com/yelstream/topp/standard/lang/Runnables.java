@@ -25,4 +25,14 @@ public class Runnables {
             }
         };
     }
+
+    /**
+     * Runs a runnable.
+     * @param runnable Runnable.
+     */
+    public static void run(Runnable runnable) {
+        if (runnable!=null) {
+            runnable.run();
+        }
+    }
 }
