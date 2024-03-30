@@ -87,4 +87,20 @@ public class Durations {
     public static boolean isFinite(Duration duration) {
         return !isInfinite(duration);
     }
+
+    public static Duration clearHours(Duration duration) {
+        return duration.minusHours(duration.toHours());
+    }
+
+    public static Duration clearMinutes(Duration duration) {
+        return duration.minusMinutes(duration.toMinutes());
+    }
+
+    public static Duration clearSeconds(Duration duration) {
+        return duration.minusSeconds(duration.toMillis()/1000);
+    }
+
+    public static Duration clearMilliseconds(Duration duration) {
+        return duration.minusMillis(duration.toMillis()%1000);
+    }
 }
