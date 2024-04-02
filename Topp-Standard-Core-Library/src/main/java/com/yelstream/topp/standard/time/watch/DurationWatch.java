@@ -34,6 +34,10 @@ public interface DurationWatch {
      * Time measured.
      */
     interface Time {
+        /**
+         * Gets the time measured.
+         * @return Time measured.
+         */
         Duration toDuration();
     }
 }
