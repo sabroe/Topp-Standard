@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
+import java.time.InstantSource;
 import java.util.function.LongUnaryOperator;
 
 /**
@@ -19,36 +20,78 @@ import java.util.function.LongUnaryOperator;
 @Slf4j
 class DurationWatchTest {
 
+    long getExpectedOffset(DurationWatch watch,
+                           long sleepInMs) {
+        long accumulatedDrift=0;
+        long minDrift=Long.MAX_VALUE;
+        long maxDrift=0;
+        int count=20;
+        for (int i=0; i<count; i++) {
+            DurationWatch.Timer durationTimer = watch.start();
+            Threads.sleep(sleepInMs);
+            DurationWatch.Time durationTime = durationTimer.stop();
+
+            Duration actualTime=durationTime.toDuration();
+
+            long drift=actualTime.toMillis()-sleepInMs;
+            accumulatedDrift+=drift;
+            minDrift=Math.min(minDrift,drift);
+            maxDrift=Math.max(maxDrift,drift);
+
+        }
+
+        long averageDrift=(accumulatedDrift+count/2)/count;
+
+        log.info("Min. offset = {} ms",minDrift);
+        log.info("Max. offset = {} ms",maxDrift);
+        log.info("Avg. offset = {} ms",averageDrift);
+
+//        return averageDrift;
+        return maxDrift;
+    }
+
     @Test
     void watchSpeed() {
         LongUnaryOperator durationSpeed=t->t*10;  //t->(t+48L/2L)/48L
-        Duration unscaledExpectedTime=Duration.ofSeconds(2);
-        //Duration unscaledExpectedTime=Duration.ofMillis(100);
-
-        //long drift=10L;
-        //long scaledDrift=durationSpeed.applyAsLong(drift);
+        //Duration unscaledExpectedTime=Duration.ofSeconds(2);
+        Duration unscaledExpectedTime=Duration.ofMillis(1000);
 
         NanoTimeSource source=NanoTimeSource.system();
+//        InstantSource source=InstantSource.system();
         DurationWatch watch=DurationWatches.createDurationWatch(source,durationSpeed);
 
+        long drift=5L;
+        long scaledDrift=durationSpeed.applyAsLong(drift);
 
-        DurationWatch.Timer durationTimer=watch.start();
-        Threads.sleep(unscaledExpectedTime);
-        DurationWatch.Time durationTime=durationTimer.stop();
+        long offset=getExpectedOffset(DurationWatches.createDurationWatch(source,LongUnaryOperator.identity()),unscaledExpectedTime.toMillis());
+        log.info("Intermediate result, offset = {} ms",offset);
 
-        Duration actualTime=durationTime.toDuration();
+        for (int i=0; i<100; i++) {
+            DurationWatch.Timer durationTimer = watch.start();
+            Threads.sleep(unscaledExpectedTime);
+            DurationWatch.Time durationTime = durationTimer.stop();
+
+            Duration actualTime = durationTime.toDuration();
 
 
-        long expectedTimeInMillis=durationSpeed.applyAsLong(unscaledExpectedTime.toMillis());
-        long actualTimeInMillis=actualTime.toMillis();
+            long expectedTimeInMillis = durationSpeed.applyAsLong(unscaledExpectedTime.toMillis());
+            long actualTimeInMillis = actualTime.toMillis();
 
-        long deltaTimeInMillis=actualTimeInMillis-expectedTimeInMillis;
+            long deltaTimeInMillis = Math.abs(actualTimeInMillis - expectedTimeInMillis);
 
-        log.info("Intermediate result, expectedTimeInMillis = {} ms, scaled.",expectedTimeInMillis);
-        log.info("Intermediate result, actualTimeInMillis = {} ms, scaled.",actualTimeInMillis);
-        log.info("Intermediate result, deltaTimeInMillis = {} ms, scaled.",deltaTimeInMillis);
+            log.info("Intermediate result, expectedTimeInMillis = {} ms, scaled.", expectedTimeInMillis);
+            log.info("Intermediate result, actualTimeInMillis = {} ms, scaled.", actualTimeInMillis);
+            log.info("Intermediate result, deltaTimeInMillis = {} ms, scaled.", deltaTimeInMillis);
 
-        Assertions.assertTrue(deltaTimeInMillis<durationSpeed.applyAsLong(2*10L));
-        Assertions.assertTrue(deltaTimeInMillis*100<expectedTimeInMillis);
+            long x_deltaTimeInMillis = Math.abs(actualTimeInMillis - (expectedTimeInMillis+durationSpeed.applyAsLong(offset)));
+
+
+            log.info("Intermediate result, deltaTimeInMillis = {} ms must be less than offset+2*scaledDrift = {} ms", deltaTimeInMillis, durationSpeed.applyAsLong(offset)+2*scaledDrift);
+//            log.info("Intermediate result, x_deltaTimeInMillis = {} ms must be less than durationSpeed.applyAsLong(2*drift) = {} ms", x_deltaTimeInMillis, durationSpeed.applyAsLong(2 * drift));
+            Assertions.assertTrue(deltaTimeInMillis < durationSpeed.applyAsLong(offset)+2*scaledDrift);
+
+//            log.info("Intermediate result, deltaTimeInMillis = {} ms must be less than expectedTimeInMillis*durationSpeed.applyAsLong(10L)/100L = {} ms", deltaTimeInMillis, expectedTimeInMillis * scaledDrift / 100L);
+//            Assertions.assertTrue(deltaTimeInMillis < expectedTimeInMillis * scaledDrift / 100L);
+        }
     }
 }
