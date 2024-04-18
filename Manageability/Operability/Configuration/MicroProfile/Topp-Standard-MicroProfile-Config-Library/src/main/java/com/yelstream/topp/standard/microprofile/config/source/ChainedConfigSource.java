@@ -11,6 +11,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -31,13 +33,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(staticName="of")
 public class ChainedConfigSource implements ConfigSource {
     @lombok.Builder.Default
-    private final String name=UUID.randomUUID().toString();
+    private final Supplier<String> nameSupplier=()->UUID.randomUUID().toString();
 
     /**
      * Ordinal.
      */
     @lombok.Builder.Default
-    private final int ordinal=DEFAULT_ORDINAL;
+    private final IntSupplier ordinalSupplier=()->DEFAULT_ORDINAL;
 
     /**
      * Configuration-sources held.
@@ -48,12 +50,12 @@ public class ChainedConfigSource implements ConfigSource {
 
     @Override
     public String getName() {
-        return name;
+        return nameSupplier.get();
     }
 
     @Override
     public int getOrdinal() {
-        return ordinal;
+        return ordinalSupplier.getAsInt();
     }
 
     @Override
@@ -83,8 +85,22 @@ public class ChainedConfigSource implements ConfigSource {
             .collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue,(v1,v2)->v1,HashMap::new));
     }
 
+    @SuppressWarnings({"java:S1068","java:S1450","unused","FieldCanBeLocal","UnusedReturnValue"})
     public static class Builder {
+        private Supplier<String> nameSupplier=()->UUID.randomUUID().toString();
+        private IntSupplier ordinalSupplier=()->DEFAULT_ORDINAL;
+
         //private final List<ConfigSource> configSources=new CopyOnWriteArrayList<>();
+
+        public Builder name(String name) {
+            nameSupplier=()->name;
+            return this;
+        }
+
+        public Builder ordinal(int ordinal) {
+            ordinalSupplier=()->ordinal;
+            return this;
+        }
     }
     //TO-DO: Test methods configSources(List), clearConfigSources().
 }

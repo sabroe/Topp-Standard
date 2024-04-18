@@ -8,7 +8,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 import java.util.OptionalInt;
 
 /**
- * Static proxy of {@link ConfigSourceFactory} instances.
+ * Static proxy for {@link ConfigSourceFactory} instances.
  * <p>
  *     The primary, intended usage is to be able to set up non-trivial configuration-sources within
  *     a specific sub-class of this proxy having a default constructor and hence applicable
