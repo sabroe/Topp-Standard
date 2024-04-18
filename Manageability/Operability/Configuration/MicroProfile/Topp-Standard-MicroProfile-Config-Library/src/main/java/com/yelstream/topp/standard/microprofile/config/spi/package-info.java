@@ -1,1 +1,0 @@
-package com.yelstream.topp.standard.microprofile.config.spi;

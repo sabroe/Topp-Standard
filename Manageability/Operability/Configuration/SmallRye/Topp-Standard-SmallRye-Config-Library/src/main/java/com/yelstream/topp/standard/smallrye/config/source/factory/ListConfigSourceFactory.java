@@ -1,4 +1,4 @@
-package com.yelstream.topp.standard.smallrye.config;
+package com.yelstream.topp.standard.smallrye.config.source.factory;
 
 import io.smallrye.config.ConfigSourceContext;
 import io.smallrye.config.ConfigSourceFactory;

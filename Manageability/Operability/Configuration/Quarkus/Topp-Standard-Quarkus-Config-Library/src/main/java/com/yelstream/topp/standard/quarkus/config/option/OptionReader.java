@@ -1,10 +1,9 @@
-package com.yelstream.topp.standard.quarkus.config;
+package com.yelstream.topp.standard.quarkus.config.option;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 import org.slf4j.event.Level;
 
 import java.util.Optional;
