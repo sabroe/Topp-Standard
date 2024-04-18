@@ -2,3 +2,13 @@ rootProject.name = 'Yelstream Topp Standard Project'
 
 include 'Topp-Standard-Core-Library'
 //include 'Topp-Standard-Inject-Library'
+
+//Manageability/Operability/Configuration
+include 'Manageability:Operability:Configuration:MicroProfile:Topp-Standard-MicroProfile-Config-Library'
+//include 'Manageability:Operability:Configuration:SmallRye:Topp-Standard-SmallRye-Config-Library'
+//include 'Manageability:Operability:Configuration:Quarkus:Topp-Standard-Quarkus-Configuration-Library'
+
+//Manageability/Observability/Logging
+//include 'Manageability:Observability:Logging:Topp-Standard-XXX-XXX-Library'
+
+//include 'Resilience:...'

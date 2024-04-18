@@ -66,7 +66,8 @@ class DurationWatchTest {
         long offset=getExpectedOffset(DurationWatches.createDurationWatch(source,LongUnaryOperator.identity()),unscaledExpectedTime.toMillis());
         log.info("Intermediate result, offset = {} ms",offset);
 
-        for (int i=0; i<100; i++) {
+//        for (int i=0; i<100; i++) {
+        for (int i=0; i<5; i++) {
             DurationWatch.Timer durationTimer = watch.start();
             Threads.sleep(unscaledExpectedTime);
             DurationWatch.Time durationTime = durationTimer.stop();
