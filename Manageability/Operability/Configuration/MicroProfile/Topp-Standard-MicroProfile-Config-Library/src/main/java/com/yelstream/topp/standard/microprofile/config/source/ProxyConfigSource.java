@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Static proxy of {@link ConfigSource} instances.
+ * Static proxy for {@link ConfigSource} instances.
  * <p>
  *     The primary, intended usage is to be able to set up non-trivial configuration-sources within
  *     a specific sub-class of this proxy having a default constructor and hence applicable
