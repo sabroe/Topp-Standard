@@ -1,6 +1,8 @@
-package com.yelstream.topp.standard.smallrye.config;
+package com.yelstream.topp.standard.smallrye.config.source.factory.instance;
 
-import com.yelstream.topp.standard.microprofile.config.spi.RuntimeConfigSource;
+import com.yelstream.topp.standard.microprofile.config.source.instance.RuntimeConfigSource;
+import com.yelstream.topp.standard.smallrye.config.source.factory.ListConfigSourceFactory;
+import com.yelstream.topp.standard.smallrye.config.source.factory.ProxyConfigSourceFactory;
 import lombok.Getter;
 
 import java.util.OptionalInt;

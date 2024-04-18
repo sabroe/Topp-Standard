@@ -1,4 +1,4 @@
-package com.yelstream.topp.standard.quarkus.config;
+package com.yelstream.topp.standard.quarkus.config.option;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

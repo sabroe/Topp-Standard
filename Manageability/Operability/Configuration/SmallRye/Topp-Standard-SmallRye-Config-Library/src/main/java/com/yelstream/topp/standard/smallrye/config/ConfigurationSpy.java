@@ -3,6 +3,7 @@ package com.yelstream.topp.standard.smallrye.config;
 import io.smallrye.config.SmallRyeConfig;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.spi.ConfigSource;
 
 public class ConfigurationSpy {
 
@@ -15,7 +16,7 @@ public class ConfigurationSpy {
         System.out.println("Profiles: "+smallRyeConfig.getProfiles());
 
         int index=0;
-        for (var configSource: smallRyeConfig.getConfigSources()) {
+        for (ConfigSource configSource: smallRyeConfig.getConfigSources()) {
             System.out.format("[%s] ConfigSource: %n",index);
             System.out.println("    Name:           "+configSource.getName());
             System.out.println("    Class:          "+configSource.getClass());
