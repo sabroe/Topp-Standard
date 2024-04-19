@@ -27,7 +27,7 @@ import java.util.function.Supplier;
  * </ol>
  * <p>
  *     This is thread-safe given that the source supplier is thread safe or the strategy is "double-checked locking".
- * </ol>
+ * </p>
  *
  * @param <X> Type of value supplied.
  *

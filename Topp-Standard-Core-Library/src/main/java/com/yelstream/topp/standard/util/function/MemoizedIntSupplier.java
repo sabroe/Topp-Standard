@@ -27,7 +27,7 @@ import java.util.function.IntSupplier;
  * </ol>
  * <p>
  *     This is thread-safe given that the source supplier is thread safe or the strategy is "double-checked locking".
- * </ol>
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
