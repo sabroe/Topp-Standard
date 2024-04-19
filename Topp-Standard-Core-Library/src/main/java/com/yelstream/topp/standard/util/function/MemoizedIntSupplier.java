@@ -23,7 +23,7 @@ import java.util.function.IntSupplier;
  * <p>
  *     If the non-blocking strategy is chosen then there is no protection against multiple parties calling
  *     the inner source supplier simultaneously and before a result has been obtained for the first time.
- * <p>
+ * </p>
  * </p>
  *     If the "double-checked locking" strategy is chosen then there is guarantied to be only a single invocation
  *     of the source supplier while blocking the first invocation of this memoized supplier.
