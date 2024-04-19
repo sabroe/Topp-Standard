@@ -13,21 +13,21 @@ import java.util.function.IntSupplier;
  *     if sources of values are dynamic or hide some expensive operation which should not be called more than once.
  * </p>
  * <p>
- *     This is thread-safe.
+ *     Source suppliers are queried only on-demand and in one of two ways:
  * </p>
+ * <ol>
+ *     <li>
+ *         If the non-blocking strategy is chosen then there is no protection against multiple parties calling
+ *         the inner source supplier simultaneously and before a result has been obtained for the first time.
+ *     </li>
+ *     <li>
+ *         If the "double-checked locking" strategy is chosen then there is guarantied to be only a single invocation
+ *         of the source supplier while blocking the first invocation of this memoized supplier.
+ *     </li>
+ * </ol>
  * <p>
- *     This is non-blocking.
- *     However, there is no protection against multiple parties calling the inner source supplier simultaneously and
- *     before a result has been obtained for the first time.
- * </p>
- * <p>
- *     If the non-blocking strategy is chosen then there is no protection against multiple parties calling
- *     the inner source supplier simultaneously and before a result has been obtained for the first time.
- * </p>
- * </p>
- *     If the "double-checked locking" strategy is chosen then there is guarantied to be only a single invocation
- *     of the source supplier while blocking the first invocation of this memoized supplier.
- * </p>
+ *     This is thread-safe given that the source supplier is thread safe or the strategy is "double-checked locking".
+ * </ol>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
