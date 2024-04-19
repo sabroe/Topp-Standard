@@ -49,8 +49,10 @@ public class MemoizedSupplier<X> implements Supplier<X> {
 
     /**
      * Resolved value as a supplier.
-     * If the source supplier has returned {@code null} then
-     * the resolved supplier is non-{@code null} and returns {@code null}.
+     * <p>
+     *     If the source supplier has returned {@code null} then
+     *     the resolved supplier is non-{@code null} and returns {@code null}.
+     * </p>
      */
     private final AtomicReference<Supplier<X>> resolvedSupplier=new AtomicReference<>();
 
@@ -59,7 +61,16 @@ public class MemoizedSupplier<X> implements Supplier<X> {
      */
     @SuppressWarnings("java:S115")
     public enum Strategy {
+        /**
+         * Non-blocking with no protection against multiple parties calling the inner source supplier simultaneously
+         * and before a result has been obtained for the first time.
+         */
         NonBlocking,
+
+        /**
+         * Double-checked locking with the guarantee of leading to only a single invocation of the source supplier
+         * while blocking the first invocation of this memoized supplier.
+         */
         DoubleChecked;
 
         /**
@@ -120,6 +131,9 @@ public class MemoizedSupplier<X> implements Supplier<X> {
 
     /**
      * Creates a memoized supplier.
+     * <p>
+     *     This uses the non-blocking strategy.
+     * </p>
      * @param sourceSupplier Source supplier.
      * @return Memoized supplier.
      * @param <X> Type of value supplied.
