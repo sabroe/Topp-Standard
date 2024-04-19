@@ -1,12 +1,10 @@
 package com.yelstream.topp.standard.microprofile.config.source;
 
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
@@ -71,50 +69,5 @@ public class ConfigSources {
             }
         }
         return ordinalSupplier.getAsInt();
-    }
-
-    @RequiredArgsConstructor(staticName="of")
-    public static class MemoizedSupplier<X> implements Supplier<X> {  //TO-DO: Move!
-        private final Supplier<X> sourceSupplier;
-        private final AtomicReference<Supplier<X>> resolvedSupplier=new AtomicReference<>();
-
-        @Override
-        public X get() {
-            Supplier<X> currentResolvedSupplier=resolvedSupplier.get();
-            if (currentResolvedSupplier==null) {
-                X value=sourceSupplier.get();
-                Supplier<X> newResolvedSupplier=()->value;
-                if (resolvedSupplier.compareAndSet(null,newResolvedSupplier)) {
-                    currentResolvedSupplier=newResolvedSupplier;
-                } else {
-                    currentResolvedSupplier=resolvedSupplier.get();
-                }
-            }
-            return currentResolvedSupplier.get();
-        }
-    }
-
-    @RequiredArgsConstructor(staticName="of")
-    public static class MemoizedIntSupplier implements IntSupplier {  //TO-DO: Move!
-        private final IntSupplier sourceSupplier;
-        private final AtomicReference<Integer> resolvedValue=new AtomicReference<>();
-
-        @Override
-        public int getAsInt() {
-            Integer value=resolvedValue.get();
-            if (value==null) {
-                int newValue=sourceSupplier.getAsInt();
-                if (resolvedValue.compareAndSet(null,newValue)) {
-                    value=newValue;
-                } else {
-                    value=resolvedValue.get();
-                }
-            }
-            return value;
-        }
-    }
-
-    public static IntSupplier memoized(IntSupplier supplier) {  //TO-DO: Move!
-        return MemoizedIntSupplier.of(supplier);
     }
 }
