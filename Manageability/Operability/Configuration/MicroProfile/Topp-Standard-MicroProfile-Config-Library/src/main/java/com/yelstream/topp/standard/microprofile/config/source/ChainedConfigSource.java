@@ -4,58 +4,54 @@ import lombok.AllArgsConstructor;
 import lombok.Singular;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
- * In-memory configuration-source keeping properties as a {@link Map}.
+ * "Chain-of-responsibility"-like configuration-source keeping properties as a {@link Map}.
  * <p>
- *     Actual properties may be handed over at the time of instantiation and
- *     otherwise created, read, updated or removed during runtime.
+ *     This may be immutable depending upon the contained configuration-sources being immutable.
  * </p>
  * <p>
- *     This is thread safe.
+ *     This may be thread-safe depending upon the contained configuration-sources being thread-safe.
  * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-04-15
+ * @since 2024-04-20
  */
-@lombok.Builder(builderClassName="Builder",toBuilder=true)
 @AllArgsConstructor(staticName="of")
 public class ChainedConfigSource implements ConfigSource {
-    @lombok.Builder.Default
-    private final Supplier<String> nameSupplier=()->UUID.randomUUID().toString();
+    /**
+     * Name.
+     */
+    private final String name;
 
     /**
      * Ordinal.
      */
-    @lombok.Builder.Default
-    private final IntSupplier ordinalSupplier=()->DEFAULT_ORDINAL;
+    private final int ordinal;
 
     /**
      * Configuration-sources held.
-     * In practice, this is always an instance of {@link CopyOnWriteArrayList}.
+     * This is immutable.
      */
-    @Singular
     private final List<ConfigSource> configSources;
 
     @Override
     public String getName() {
-        return nameSupplier.get();
+        return name;
     }
 
     @Override
     public int getOrdinal() {
-        return ordinalSupplier.getAsInt();
+        return ordinal;
     }
 
     @Override
@@ -85,22 +81,18 @@ public class ChainedConfigSource implements ConfigSource {
             .collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue,(v1,v2)->v1,HashMap::new));
     }
 
-    @SuppressWarnings({"java:S1068","java:S1450","unused","FieldCanBeLocal","UnusedReturnValue"})
-    public static class Builder {
-        private Supplier<String> nameSupplier=()->UUID.randomUUID().toString();
-        private IntSupplier ordinalSupplier=()->DEFAULT_ORDINAL;
-
-        //private final List<ConfigSource> configSources=new CopyOnWriteArrayList<>();
-
-        public Builder name(String name) {
-            nameSupplier=()->name;
-            return this;
-        }
-
-        public Builder ordinal(int ordinal) {
-            ordinalSupplier=()->ordinal;
-            return this;
-        }
+    @SuppressWarnings("unused")
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    private static ChainedConfigSource createInstance(String name,
+                                                      int ordinal,
+                                                      @Singular List<ConfigSource> configSources) {
+        return of(name,ordinal,Collections.unmodifiableList(configSources));
     }
-    //TO-DO: Test methods configSources(List), clearConfigSources().
+
+    @SuppressWarnings({"java:S1068","java:S1450","unused","FieldCanBeLocal","UnusedReturnValue","FieldMayBeFinal"})
+    public static class Builder {
+        private String name=ConfigSources.createName();
+
+        private int ordinal=ConfigSources.DEFAULT_ORDINAL;
+    }
 }

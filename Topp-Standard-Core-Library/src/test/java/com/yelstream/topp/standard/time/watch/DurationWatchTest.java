@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
-import java.time.InstantSource;
 import java.util.function.LongUnaryOperator;
 
 /**
