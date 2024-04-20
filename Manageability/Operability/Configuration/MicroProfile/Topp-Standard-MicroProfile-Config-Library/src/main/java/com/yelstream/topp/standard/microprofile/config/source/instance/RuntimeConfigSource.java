@@ -1,6 +1,6 @@
 package com.yelstream.topp.standard.microprofile.config.source.instance;
 
-import com.yelstream.topp.standard.microprofile.config.source.MemoryConfigSource;
+import com.yelstream.topp.standard.microprofile.config.source.DynamicMapConfigSource;
 import com.yelstream.topp.standard.microprofile.config.source.ProxyConfigSource;
 import lombok.Getter;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -27,13 +27,13 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 @SuppressWarnings("unused")
 public final class RuntimeConfigSource extends ProxyConfigSource {
     @Getter
-    private final MemoryConfigSource configSource;
+    private final DynamicMapConfigSource configSource;
 
     public RuntimeConfigSource() {
         this(createMemoryConfigSource());
     }
 
-    private RuntimeConfigSource(MemoryConfigSource configSource) {
+    private RuntimeConfigSource(DynamicMapConfigSource configSource) {
         super(configSource);
         this.configSource=configSource;
     }
@@ -42,8 +42,8 @@ public final class RuntimeConfigSource extends ProxyConfigSource {
 
     public static final int ORDINAL=ConfigSource.DEFAULT_ORDINAL+1000;
 
-    private static MemoryConfigSource createMemoryConfigSource() {
-        MemoryConfigSource.Builder builder=MemoryConfigSource.builder();
+    private static DynamicMapConfigSource createMemoryConfigSource() {
+        DynamicMapConfigSource.Builder builder= DynamicMapConfigSource.builder();
         builder.name(NAME).ordinal(ORDINAL);
         return builder.build();
     }
