@@ -1,6 +1,7 @@
 package com.yelstream.topp.standard.microprofile.config.source;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
 import java.util.Map;
@@ -24,6 +25,7 @@ public class ProxyConfigSource implements ConfigSource {
      * Wrapped configuration-source.
      * Not open for external access.
      */
+    @NonNull
     private final ConfigSource configSource;
 
     @Override

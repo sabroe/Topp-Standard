@@ -1,5 +1,6 @@
 package com.yelstream.topp.standard.microprofile.config.source;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Singular;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -16,6 +17,9 @@ import java.util.concurrent.ConcurrentMap;
  *     All values are set and locked in the most conservative manner possible.
  * </p>
  * <p>
+ *     This supports properties whose value is {@code null}.
+ * </p>
+ * <p>
  *     This is immutable.
  * </p>
  * <p>
@@ -26,7 +30,7 @@ import java.util.concurrent.ConcurrentMap;
  * @version 1.0
  * @since 2024-04-20
  */
-@AllArgsConstructor(staticName="of")
+@AllArgsConstructor(access= AccessLevel.PRIVATE)
 public class ConcurrentMapConfigSource implements ConfigSource {
     /**
      * Name.
@@ -40,6 +44,9 @@ public class ConcurrentMapConfigSource implements ConfigSource {
 
     /**
      * Properties held.
+     * <p>
+     *     Note that this {@link ConcurrentMap}, together with {@link ConcurrentHashMap}, does not carry {@code null} values.
+     * </p>
      */
     private final ConcurrentMap<String,String> properties;
 
@@ -66,6 +73,13 @@ public class ConcurrentMapConfigSource implements ConfigSource {
     @Override
     public Map<String,String> getProperties() {
         return properties;
+    }
+
+    public static ConcurrentMapConfigSource of(String name,
+                                               int ordinal,
+                                               ConcurrentMap<String,String> properties) {
+        properties=properties==null?new ConcurrentHashMap<>():properties;
+        return new ConcurrentMapConfigSource(name,ordinal,properties);
     }
 
     @SuppressWarnings("unused")

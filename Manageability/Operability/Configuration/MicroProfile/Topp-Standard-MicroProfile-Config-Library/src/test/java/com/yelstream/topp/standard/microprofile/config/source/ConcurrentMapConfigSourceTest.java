@@ -19,18 +19,31 @@ import java.util.concurrent.ConcurrentHashMap;
 class ConcurrentMapConfigSourceTest {
     @Test
     void create() {
-        ConcurrentMapConfigSource configSource=ConcurrentMapConfigSource.of("name-1",100,new ConcurrentHashMap<>());
-        Assertions.assertNotNull(configSource);
-        Assertions.assertEquals("name-1",configSource.getName());
-        Assertions.assertEquals(100,configSource.getOrdinal());
+        {
+            ConcurrentMapConfigSource configSource=ConcurrentMapConfigSource.of("name-1",100,null);
+
+            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        }
+        {
+            ConcurrentMapConfigSource configSource=ConcurrentMapConfigSource.of("name-1",100,new ConcurrentHashMap<>());
+
+            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
+            Assertions.assertEquals("name-1",configSource.getName());
+            Assertions.assertEquals(100,configSource.getOrdinal());
+            Assertions.assertNotNull(configSource.getProperties());
+            Assertions.assertEquals(0,configSource.getProperties().size());
+        }
     }
+
 
     @Test
     void createByBuilder() {
         ConcurrentMapConfigSource.Builder builder=ConcurrentMapConfigSource.builder();
         ConcurrentMapConfigSource configSource=builder.build();
-        Assertions.assertNotNull(configSource);
-        Assertions.assertNotNull(configSource.getName());
+
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
         Assertions.assertEquals(ConfigSources.DEFAULT_ORDINAL,configSource.getOrdinal());
         Assertions.assertNotNull(configSource.getProperties());
         Assertions.assertEquals(0,configSource.getProperties().size());
@@ -41,7 +54,9 @@ class ConcurrentMapConfigSourceTest {
         ConcurrentMapConfigSource.Builder builder=ConcurrentMapConfigSource.builder();
         builder.name("name-1").ordinal(100).properties(new HashMap<>());
         ConcurrentMapConfigSource configSource=builder.build();
-        Assertions.assertNotNull(configSource);
+
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
         Assertions.assertEquals("name-1",configSource.getName());
         Assertions.assertEquals(100,configSource.getOrdinal());
         Assertions.assertNotNull(configSource.getProperties());
@@ -53,8 +68,9 @@ class ConcurrentMapConfigSourceTest {
         ConcurrentMapConfigSource.Builder builder=ConcurrentMapConfigSource.builder();
         builder.clearProperties().property("name-1","value-1").properties(new HashMap<>());
         ConcurrentMapConfigSource configSource=builder.build();
-        Assertions.assertNotNull(configSource);
-        Assertions.assertNotNull(configSource.getName());
+
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
         Assertions.assertEquals(ConfigSources.DEFAULT_ORDINAL,configSource.getOrdinal());
         Assertions.assertEquals("value-1",configSource.getValue("name-1"));
     }
@@ -62,12 +78,16 @@ class ConcurrentMapConfigSourceTest {
     @Test
     void toBuilder() {
         ConcurrentMapConfigSource.Builder builder=ConcurrentMapConfigSource.builder();
+        builder.name("name-1").ordinal(100).property("name-1","value-1");
         ConcurrentMapConfigSource configSource=builder.build();
+
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
         builder=configSource.toBuilder();
-        Assertions.assertNotNull(builder);
-        Assertions.assertNotNull(configSource.getName());
-        Assertions.assertEquals(ConfigSources.DEFAULT_ORDINAL,configSource.getOrdinal());
-        Assertions.assertNotNull(configSource.getProperties());
+        builder.name("name-2").ordinal(200).property("name-1","value-2");
+        configSource=builder.build();
+
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
     }
 
     @Test
@@ -76,10 +96,18 @@ class ConcurrentMapConfigSourceTest {
         builder.property("name-1","value-1");
         ConcurrentMapConfigSource configSource=builder.build();
 
-        Assertions.assertNotNull(configSource);
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
 
         Map<String,String> properties=configSource.getProperties();
         properties.put("name-1","value-2");
         Assertions.assertEquals("value-2",configSource.getValue("name-1"));
+    }
+
+    @Test
+    void carriesNullPropertyValues() {
+        ConcurrentMapConfigSource.Builder builder=ConcurrentMapConfigSource.builder();
+        builder.property("name-1",null);
+
+        Assertions.assertThrows(NullPointerException.class,builder::build);
     }
 }

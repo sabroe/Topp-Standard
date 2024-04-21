@@ -90,4 +90,13 @@ public class ConfigSources {
         }
         return ordinalSupplier.getAsInt();
     }
+
+    public static ConfigSource createEmptyConfigSource(String name,
+                                                       int ordinal) {
+        return FixedMapConfigSource.of(name,ordinal,null);
+    }
+
+    public static ConfigSource createEmptyConfigSource() {
+        return FixedMapConfigSource.of(createName(),DEFAULT_ORDINAL,null);
+    }
 }

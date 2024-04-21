@@ -22,11 +22,20 @@ import java.util.function.Supplier;
 class DynamicMapConfigSourceTest {
     @Test
     void create() {
-        DynamicMapConfigSource configSource=DynamicMapConfigSource.of("name-1",100,new HashMap<>());
+        {
+            DynamicMapConfigSource configSource=DynamicMapConfigSource.of("name-1",100,null);
 
-        Assertions.assertNotNull(configSource);
-        Assertions.assertEquals("name-1",configSource.getName());
-        Assertions.assertEquals(100,configSource.getOrdinal());
+            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        }
+        {
+            DynamicMapConfigSource configSource=DynamicMapConfigSource.of("name-1",100,new HashMap<>());
+
+            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
+            Assertions.assertEquals("name-1",configSource.getName());
+            Assertions.assertEquals(100,configSource.getOrdinal());
+            Assertions.assertEquals(0,configSource.getProperties().size());
+        }
     }
 
     @Test
@@ -34,10 +43,9 @@ class DynamicMapConfigSourceTest {
         DynamicMapConfigSource.Builder builder=DynamicMapConfigSource.builder();
         DynamicMapConfigSource configSource=builder.build();
 
-        Assertions.assertNotNull(configSource);
-        Assertions.assertNotNull(configSource.getName());
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
         Assertions.assertEquals(ConfigSources.DEFAULT_ORDINAL,configSource.getOrdinal());
-        Assertions.assertNotNull(configSource.getProperties());
         Assertions.assertEquals(0,configSource.getProperties().size());
     }
 
@@ -47,10 +55,10 @@ class DynamicMapConfigSourceTest {
         builder.name("name-1").ordinal(100).properties(new HashMap<>());
         DynamicMapConfigSource configSource=builder.build();
 
-        Assertions.assertNotNull(configSource);
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
         Assertions.assertEquals("name-1",configSource.getName());
         Assertions.assertEquals(100,configSource.getOrdinal());
-        Assertions.assertNotNull(configSource.getProperties());
         Assertions.assertEquals(0,configSource.getProperties().size());
     }
 
@@ -60,8 +68,8 @@ class DynamicMapConfigSourceTest {
         builder.clearProperties().property("name-1","value-1").properties(new HashMap<>());
         DynamicMapConfigSource configSource=builder.build();
 
-        Assertions.assertNotNull(configSource);
-        Assertions.assertNotNull(configSource.getName());
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
         Assertions.assertEquals(ConfigSources.DEFAULT_ORDINAL,configSource.getOrdinal());
         Assertions.assertEquals("value-1",configSource.getValue("name-1"));
     }
@@ -73,7 +81,8 @@ class DynamicMapConfigSourceTest {
         DynamicMapConfigSource.Builder builder=DynamicMapConfigSource.builder();
         builder.nameSupplier(nameSupplier);
         DynamicMapConfigSource configSource=builder.build();
-        Assertions.assertNotNull(configSource);
+
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
 
         Assertions.assertEquals("X",configSource.getName());
 
@@ -91,7 +100,8 @@ class DynamicMapConfigSourceTest {
         DynamicMapConfigSource.Builder builder=DynamicMapConfigSource.builder();
         builder.ordinalSupplier(ordinalSupplier);
         DynamicMapConfigSource configSource=builder.build();
-        Assertions.assertNotNull(configSource);
+
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
 
         Assertions.assertEquals(100,configSource.getOrdinal());
 
@@ -108,7 +118,8 @@ class DynamicMapConfigSourceTest {
         DynamicMapConfigSource.Builder builder=DynamicMapConfigSource.builder();
         builder.properties(properties1);
         DynamicMapConfigSource configSource=builder.build();
-        Assertions.assertNotNull(configSource);
+
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
 
         Assertions.assertNotSame(properties1,configSource.getProperties());
         Assertions.assertEquals(properties1,configSource.getProperties());
@@ -117,5 +128,18 @@ class DynamicMapConfigSourceTest {
         configSource.replaceProperties(properties2);
         Assertions.assertNotSame(properties1,configSource.getProperties());
         Assertions.assertSame(properties2,configSource.getProperties());
+    }
+
+    @Test
+    void carriesNullPropertyValues() {
+        DynamicMapConfigSource.Builder builder=DynamicMapConfigSource.builder();
+        builder.property("name-1",null);
+        DynamicMapConfigSource configSource=builder.build();
+
+        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
+        Assertions.assertEquals(1,configSource.getProperties().size());
+        Assertions.assertEquals(1,configSource.getPropertyNames().size());
+        Assertions.assertNull(configSource.getValue("name-1"));
     }
 }
