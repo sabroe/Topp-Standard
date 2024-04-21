@@ -14,6 +14,8 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses({FixedMapConfigSourceTest.class,
                 ConcurrentMapConfigSourceTest.class,
                 DynamicMapConfigSourceTest.class,
-                ChainedConfigSourceTest.class})
+                ChainedConfigSourceTest.class,
+                ProxyConfigSourceTest.class,
+                OverrideConfigSourceTest.class})
 class ConfigSourceTestSuite {
 }

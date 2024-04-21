@@ -2,6 +2,8 @@ package com.yelstream.topp.standard.lang;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.function.Supplier;
+
 /**
  * Addresses instances of {@link String}.
  *
@@ -29,5 +31,15 @@ public class Strings {
      */
     public static boolean isEmpty(String text) {
         return text==null || text.isEmpty();
+    }
+
+    public static String nonNull(String text,
+                                 String defaultText) {
+        return text!=null?text:defaultText;
+    }
+
+    public static String nonNull(String text,
+                                 Supplier<String> defaultTextSupplier) {
+        return text!=null?text:defaultTextSupplier.get();
     }
 }

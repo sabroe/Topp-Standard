@@ -21,6 +21,9 @@ import java.util.function.Supplier;
  *     otherwise created, read, updated or removed during runtime.
  * </p>
  * <p>
+ *     This may support properties whose value is {@code null} depending upon construction.
+ * </p>
+ * <p>
  *     This may be immutable depending upon construction.
  * </p>
  * <p>
@@ -83,6 +86,7 @@ public class DynamicMapConfigSource implements ConfigSource {
     public static DynamicMapConfigSource of(String name,
                                             int ordinal,
                                             Map<String,String> properties) {
+        properties=properties==null?Map.of():properties;
         AtomicReference<Map<String,String>> propertiesReference=new AtomicReference<>(properties);
         return of(()->name,()->ordinal,propertiesReference);
     }
@@ -114,6 +118,11 @@ public class DynamicMapConfigSource implements ConfigSource {
         public Builder ordinalSupplierWithStrategy(IntSupplier ordinalSupplier,
                                                    MemoizedIntSupplier.Strategy strategy) {
             return ordinalSupplier(strategy.of(ordinalSupplier));
+        }
+
+        public Builder initializeProperties(Map<String,String> properties) {
+            this.properties=properties;
+            return this;
         }
 
         public Builder propertiesBuilder(MapBuilders.MapBuilder<String,String> mapBuilder) {

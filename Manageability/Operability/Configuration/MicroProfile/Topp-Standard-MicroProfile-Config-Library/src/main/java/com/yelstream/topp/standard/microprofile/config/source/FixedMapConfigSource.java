@@ -1,5 +1,6 @@
 package com.yelstream.topp.standard.microprofile.config.source;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Singular;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -8,11 +9,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Fixed-content, in-memory configuration-source keeping properties as a {@link Map}.
  * <p>
  *     All values are set and locked in the most conservative manner possible.
+ * </p>
+ * <p>
+ *     This supports properties whose value is {@code null}.
  * </p>
  * <p>
  *     This is immutable.
@@ -25,7 +31,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2024-04-20
  */
-@AllArgsConstructor(staticName="of")
+@AllArgsConstructor(access=AccessLevel.PRIVATE)
 public class FixedMapConfigSource implements ConfigSource {
     /**
      * Name.
@@ -40,6 +46,9 @@ public class FixedMapConfigSource implements ConfigSource {
     /**
      * Properties held.
      * This is immutable.
+     * <p>
+     *     Note that this, being based upon {@link HashMap}, does carry {@code null} values.
+     * </p>
      */
     private final Map<String,String> properties;
 
@@ -66,6 +75,14 @@ public class FixedMapConfigSource implements ConfigSource {
     @Override
     public Map<String,String> getProperties() {
         return properties;
+    }
+
+    public static FixedMapConfigSource of(String name,
+                                         int ordinal,
+                                         Map<String,String> properties) {
+        properties=properties==null?Map.of():properties;
+        properties=Collections.unmodifiableMap(properties);
+        return new FixedMapConfigSource(name,ordinal,properties);
     }
 
     @SuppressWarnings("unused")
