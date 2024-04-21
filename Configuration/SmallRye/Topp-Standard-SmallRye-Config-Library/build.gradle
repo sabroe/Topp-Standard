@@ -13,7 +13,7 @@ dependencies {
     api 'org.slf4j:slf4j-api:2.0.13'
     api 'org.slf4j:slf4j-ext:2.0.13'
 
-    api project(':Manageability:Operability:Configuration:MicroProfile:Topp-Standard-MicroProfile-Config-Library')
+    api project(':Configuration:MicroProfile:Topp-Standard-MicroProfile-Config-Library')
     api 'io.smallrye.config:smallrye-config:3.7.1'
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.13'
