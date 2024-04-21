@@ -91,6 +91,7 @@ public class DynamicMapConfigSource implements ConfigSource {
         return of(()->name,()->ordinal,propertiesReference);
     }
 
+    @SuppressWarnings("unused")
     @lombok.Builder(builderClassName="Builder",toBuilder=false)  //Yes, no #toBuilder() wanted!
     private static DynamicMapConfigSource createInstance(Supplier<String> nameSupplier,
                                                          IntSupplier ordinalSupplier,

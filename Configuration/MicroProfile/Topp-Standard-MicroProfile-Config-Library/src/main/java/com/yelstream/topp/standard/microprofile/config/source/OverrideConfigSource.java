@@ -2,19 +2,31 @@ package com.yelstream.topp.standard.microprofile.config.source;
 
 import com.yelstream.topp.standard.util.MapBuilders;
 import com.yelstream.topp.standard.util.function.MemoizedIntSupplier;
+import com.yelstream.topp.standard.util.stream.MapCollectors;
 import lombok.Singular;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
- *
+ * Overriding configuration-source.
+ * <p>
+ *     This may support properties whose value is {@code null} depending upon construction.
+ * </p>
+ * <p>
+ *     This may be immutable depending upon construction.
+ * </p>
+ * <p>
+ *     This may be thread-safe depending upon construction.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -42,11 +54,10 @@ public class OverrideConfigSource extends ProxyConfigSource {
 
     /**
      * Properties held.
-     * <p>
-     *     This reference may contain the map value {@code null}.
-     * </p>
      */
-    private final AtomicReference<ConcurrentHashMap<String,String>> propertiesReference;
+    private final AtomicReference<Map<String,String>> propertiesReference;
+
+//TO-DO: Add "remove properties"!
 
     @Override
     public String getName() {
@@ -68,57 +79,66 @@ public class OverrideConfigSource extends ProxyConfigSource {
 
     @Override
     public Set<String> getPropertyNames() {
-        ConcurrentHashMap<String,String> properties=propertiesReference.get();
-        if (properties!=null) {
-
-        }
-
-        return propertiesReference.get().keySet();
+        List<Set<String>> propertyNamesList=List.of(propertiesReference.get().keySet(),super.getPropertyNames());
+        return propertyNamesList.stream()
+            .filter(Objects::nonNull)
+            .flatMap(Set::stream)
+            .collect(Collectors.toSet());
     }
 
     @Override
     public String getValue(String propertyName) {
-        return propertiesReference.get().get(propertyName);
+        String value=null;
+        Map<String,String> properties=propertiesReference.get();
+        if (properties.containsKey(propertyName)) {
+            value=properties.get(propertyName);
+        } else {
+            value=super.getValue(propertyName);
+        }
+        return value;
     }
 
     @Override
     public Map<String,String> getProperties() {
-        return propertiesReference.get();
+        List<Map<String,String>> propertiesList=List.of(propertiesReference.get(),super.getProperties());
+        return propertiesList.stream()
+            .filter(Objects::nonNull)
+            .flatMap(map->map.entrySet().stream())
+            .collect(MapCollectors.toHashMap(Map.Entry::getKey,Map.Entry::getValue));
     }
 
-    public void replaceProperties(ConcurrentHashMap<String,String> properties) {
+    public void replaceProperties(Map<String,String> properties) {
         propertiesReference.set(properties);
     }
 
     private OverrideConfigSource(ConfigSource configSource,
                                  Supplier<String> nameSupplier,
                                  IntSupplier ordinalSupplier,
-                                 HashMap<String,String> properties) {
-        this(configSource,nameSupplier,ordinalSupplier,new ConcurrentHashMap<>(properties));
-    }
-
-    private OverrideConfigSource(ConfigSource configSource,
-                                 Supplier<String> nameSupplier,
-                                 IntSupplier ordinalSupplier,
-                                 ConcurrentHashMap<String,String> properties) {
+                                 AtomicReference<Map<String,String>> propertiesReference) {
         super(configSource);
         this.nameSupplier=nameSupplier;
         this.ordinalSupplier=ordinalSupplier;
-        this.propertiesReference=new AtomicReference<>(properties);
+        this.propertiesReference=propertiesReference;
     }
 
-/*
+    public static OverrideConfigSource of(ConfigSource configSource,
+                                          Supplier<String> nameSupplier,
+                                          IntSupplier ordinalSupplier,
+                                          Map<String,String> properties) {
+        properties=properties==null?Map.of():properties;
+        AtomicReference<Map<String,String>> propertiesReference=new AtomicReference<>(properties);
+        return new OverrideConfigSource(configSource,nameSupplier,ordinalSupplier,propertiesReference);
+    }
+
+    @SuppressWarnings("unused")
     @lombok.Builder(builderClassName="Builder",toBuilder=false)  //Yes, no #toBuilder() wanted!
-    private static DynamicMapConfigSource createInstance(ConfigSource configSource,
+    private static OverrideConfigSource createInstance(ConfigSource configSource,
                                                          Supplier<String> nameSupplier,
                                                          IntSupplier ordinalSupplier,
                                                          @Singular Map<String,String> properties) {
-        AtomicReference<Map<String,String>> propertiesReference=new AtomicReference<>(properties);
-        return of(nameSupplier,ordinalSupplier,propertiesReference);
+        return of(configSource,nameSupplier,ordinalSupplier,properties);
     }
-*/
 
-/*
     @SuppressWarnings({"java:S1068","java:S1450","unused","FieldCanBeLocal","UnusedReturnValue","FieldMayBeFinal"})
     public static class Builder {
         private Supplier<String> nameSupplier=ConfigSources.DEFAULT_NAME_SUPPLIER;
@@ -152,5 +172,4 @@ public class OverrideConfigSource extends ProxyConfigSource {
             return mapBuilder;
         }
     }
-*/
 }
