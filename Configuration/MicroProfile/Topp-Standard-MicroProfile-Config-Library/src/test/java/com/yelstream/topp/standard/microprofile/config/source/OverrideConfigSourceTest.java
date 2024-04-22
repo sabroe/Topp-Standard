@@ -99,6 +99,72 @@ class OverrideConfigSourceTest {
     }
 
     @Test
+    void createOverrideOfName() {
+        FixedMapConfigSource proxy=createProxy();
+
+        {
+            OverrideConfigSource.Builder builder=OverrideConfigSource.builder();
+            builder.configSource(proxy);
+            OverrideConfigSource configSource=builder.build();
+
+            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
+            Assertions.assertEquals(proxy.getName(),configSource.getName());  //Yes, per default, name comes from the wrapped configuration-source!
+        }
+        {
+            OverrideConfigSource.Builder builder=OverrideConfigSource.builder();
+            builder.configSource(proxy);
+            builder.name("Override-Name-1");
+            OverrideConfigSource configSource=builder.build();
+
+            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
+            Assertions.assertNotEquals(proxy.getName(),configSource.getName());
+            Assertions.assertEquals("Override-Name-1",configSource.getName());  //Yes, override of name works!
+        }
+        {
+            OverrideConfigSource.Builder builder=OverrideConfigSource.builder();
+            builder.configSource(proxy);
+            builder.nameSupplier(()->null);  //Non-null supplier, but gives 'null' as a result!
+            OverrideConfigSource configSource=builder.build();
+
+            /*
+             * Note: A 'null' name is not really valid and according to the MicroProfile Config specification!
+             * ConfigSourceTests.assertConfigSourceSemantics(configSource);
+             */
+
+            Assertions.assertNotEquals(proxy.getName(),configSource.getName());
+            Assertions.assertNull(configSource.getName());  //Yes, override of name with 'null' works!
+        }
+    }
+
+    @Test
+    void createOverrideOfOrdinal() {
+        FixedMapConfigSource proxy = createProxy();
+
+        {
+            OverrideConfigSource.Builder builder = OverrideConfigSource.builder();
+            builder.configSource(proxy);
+            OverrideConfigSource configSource = builder.build();
+
+            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
+            Assertions.assertEquals(proxy.getOrdinal(), configSource.getOrdinal());  //Yes, per default, ordinal comes from the wrapped configuration-source!
+        }
+        {
+            OverrideConfigSource.Builder builder = OverrideConfigSource.builder();
+            builder.configSource(proxy);
+            builder.ordinal(999);
+            OverrideConfigSource configSource = builder.build();
+
+            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+
+            Assertions.assertNotEquals(proxy.getOrdinal(),configSource.getOrdinal());
+            Assertions.assertEquals(999, configSource.getOrdinal());  //Yes, override of ordinal works!
+        }
+    }
+
+    @Test
     void mutableName() {
         FixedMapConfigSource proxy=createProxy();
 
