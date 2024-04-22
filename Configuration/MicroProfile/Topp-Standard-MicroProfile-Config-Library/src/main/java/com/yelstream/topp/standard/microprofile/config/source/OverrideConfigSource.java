@@ -107,6 +107,7 @@ public class OverrideConfigSource extends ProxyConfigSource {
             .collect(MapCollectors.toHashMap(Map.Entry::getKey,Map.Entry::getValue));
     }
 
+    @SuppressWarnings("unused")
     public void replaceProperties(Map<String,String> properties) {
         propertiesReference.set(properties);
     }
@@ -128,6 +129,13 @@ public class OverrideConfigSource extends ProxyConfigSource {
         properties=properties==null?Map.of():properties;
         AtomicReference<Map<String,String>> propertiesReference=new AtomicReference<>(properties);
         return new OverrideConfigSource(configSource,nameSupplier,ordinalSupplier,propertiesReference);
+    }
+
+    public static OverrideConfigSource of(ConfigSource configSource,
+                                          String name,
+                                          int ordinal,
+                                          Map<String,String> properties) {
+        return of(configSource,()->name,()->ordinal,properties);
     }
 
     @SuppressWarnings("unused")
