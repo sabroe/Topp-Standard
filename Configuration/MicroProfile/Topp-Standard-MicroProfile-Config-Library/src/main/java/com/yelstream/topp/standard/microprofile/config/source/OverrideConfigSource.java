@@ -149,9 +149,17 @@ public class OverrideConfigSource extends ProxyConfigSource {
 
     @SuppressWarnings({"java:S1068","java:S1450","unused","FieldCanBeLocal","UnusedReturnValue","FieldMayBeFinal"})
     public static class Builder {
-        private Supplier<String> nameSupplier=ConfigSources.DEFAULT_NAME_SUPPLIER;
+        /**
+         * Name supplier.
+         * The default value is {@code null}.
+         */
+        private Supplier<String> nameSupplier;
 
-        private IntSupplier ordinalSupplier=ConfigSources.DEFAULT_ORDINAL_SUPPLIER;
+        /**
+         * Ordinal supplier.
+         * The default value is {@code null}.
+         */
+        private IntSupplier ordinalSupplier;
 
         private Map<String,String> properties=new HashMap<>();
 
