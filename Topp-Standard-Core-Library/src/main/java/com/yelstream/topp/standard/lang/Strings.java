@@ -2,6 +2,7 @@ package com.yelstream.topp.standard.lang;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -33,6 +34,16 @@ public class Strings {
         return text==null || text.isEmpty();
     }
 
+    /**
+     * Indicates, if a text is non-empty.
+     * @param text Text to test.
+     *             This may be {@code null}.
+     * @return Indicates, if text is non-empty.
+     */
+    public static boolean isNonEmpty(String text) {
+        return !isEmpty(text);
+    }
+
     public static String nonNull(String text,
                                  String defaultText) {
         return text!=null?text:defaultText;
@@ -41,5 +52,9 @@ public class Strings {
     public static String nonNull(String text,
                                  Supplier<String> defaultTextSupplier) {
         return text!=null?text:defaultTextSupplier.get();
+    }
+
+    public static List<String> distinct(List<String> texts) {
+        return texts==null?null:texts.stream().map(Strings::trim).filter(Strings::isNonEmpty).distinct().toList();
     }
 }
