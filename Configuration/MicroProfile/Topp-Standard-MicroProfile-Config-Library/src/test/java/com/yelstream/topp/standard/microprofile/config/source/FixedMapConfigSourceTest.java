@@ -21,12 +21,12 @@ class FixedMapConfigSourceTest {
         {
             FixedMapConfigSource configSource=FixedMapConfigSource.of("name-1",100,null);
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
         }
         {
             FixedMapConfigSource configSource=FixedMapConfigSource.of("name-1",100,new HashMap<>());
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertEquals("name-1",configSource.getName());
             Assertions.assertEquals(100,configSource.getOrdinal());
@@ -39,7 +39,7 @@ class FixedMapConfigSourceTest {
         FixedMapConfigSource.Builder builder=FixedMapConfigSource.builder();
         FixedMapConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Assertions.assertEquals(ConfigSources.DEFAULT_ORDINAL,configSource.getOrdinal());
         Assertions.assertEquals(0,configSource.getProperties().size());
@@ -51,7 +51,7 @@ class FixedMapConfigSourceTest {
         builder.name("name-1").ordinal(100).properties(new HashMap<>());
         FixedMapConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Assertions.assertEquals("name-1",configSource.getName());
         Assertions.assertEquals(100,configSource.getOrdinal());
@@ -64,7 +64,7 @@ class FixedMapConfigSourceTest {
         builder.clearProperties().property("name-1","value-1").properties(new HashMap<>());
         FixedMapConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Assertions.assertEquals(ConfigSources.DEFAULT_ORDINAL,configSource.getOrdinal());
         Assertions.assertEquals("value-1",configSource.getValue("name-1"));
@@ -76,13 +76,13 @@ class FixedMapConfigSourceTest {
         builder.name("name-1").ordinal(100).property("name-1","value-1");
         FixedMapConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         builder=configSource.toBuilder();
         builder.name("name-2").ordinal(200).property("name-1","value-2");
         configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
     }
 
     @Test
@@ -91,7 +91,7 @@ class FixedMapConfigSourceTest {
         builder.property("name-1","value-1");
         FixedMapConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Map<String,String> properties=configSource.getProperties();
         Assertions.assertThrows(UnsupportedOperationException.class,()-> {
@@ -105,7 +105,7 @@ class FixedMapConfigSourceTest {
         builder.property("name-1",null);
         FixedMapConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Assertions.assertEquals(1,configSource.getProperties().size());
         Assertions.assertEquals(1,configSource.getPropertyNames().size());

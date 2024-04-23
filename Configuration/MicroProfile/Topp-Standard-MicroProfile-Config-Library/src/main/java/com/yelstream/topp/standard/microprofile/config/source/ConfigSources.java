@@ -1,5 +1,6 @@
 package com.yelstream.topp.standard.microprofile.config.source;
 
+import com.yelstream.topp.standard.util.function.Suppliers;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -20,14 +21,32 @@ import java.util.function.UnaryOperator;
 @Slf4j
 @UtilityClass
 public class ConfigSources {
+    /**
+     * Default factory of suppliers of the name of config sources.
+     * <p>
+     *     To create a new name supplier of the default kind, do {@code DEFAULT_NAME_SUPPLIER_FACTORY.get()}.
+     * </p>
+     */
+    public static final Supplier<Supplier<String>> DEFAULT_NAME_SUPPLIER_FACTORY=()->Suppliers.fix(ConfigSources::createName);
 
     /**
-     * Default supplier of the name of config sources.
+     * Creates a random name for a config source.
+     * Multiple invocations results in different names.
+     * @return Created name.
      */
-    public static final Supplier<String> DEFAULT_NAME_SUPPLIER=ConfigSources::createName;
-
     public static String createName() {
-        return "Config source "+UUID.randomUUID().toString();
+        return createName(null);
+    }
+
+    /**
+     * Creates a random name for a config source.
+     * Multiple invocations results in different names.
+     * @param namePrefix Fixed name prefix.
+     * @return Created name.
+     */
+    public static String createName(String namePrefix) {
+        namePrefix=namePrefix!=null?namePrefix:"Config source";
+        return String.format("%s // %s",namePrefix,UUID.randomUUID());
     }
 
     /**

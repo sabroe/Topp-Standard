@@ -36,14 +36,14 @@ class OverrideConfigSourceTest {
         {
             OverrideConfigSource configSource=OverrideConfigSource.of(proxy,"name-1",100,null);
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
         }
         {
             Map<String,String> properties=new HashMap<>();
             properties.put("name-10","value-10");
             OverrideConfigSource configSource=OverrideConfigSource.of(proxy,"name-1",100,properties);
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertEquals("name-1",configSource.getName());
             Assertions.assertEquals(100,configSource.getOrdinal());
@@ -59,7 +59,7 @@ class OverrideConfigSourceTest {
         builder.property("name-10","value-10");
         OverrideConfigSource configSource=builder.configSource(proxy).build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Assertions.assertEquals(ConfigSources.DEFAULT_ORDINAL,configSource.getOrdinal());
         Assertions.assertEquals(3,configSource.getProperties().size());
@@ -74,7 +74,7 @@ class OverrideConfigSourceTest {
         builder.name("name-1").ordinal(101).properties(new HashMap<>());
         OverrideConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Assertions.assertEquals("name-1",configSource.getName());
         Assertions.assertEquals(101,configSource.getOrdinal());
@@ -90,7 +90,7 @@ class OverrideConfigSourceTest {
         builder.clearProperties().property("name-10","value-10").properties(new HashMap<>());
         OverrideConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Assertions.assertEquals(ConfigSources.DEFAULT_ORDINAL,configSource.getOrdinal());
         Assertions.assertEquals("value-10",configSource.getValue("name-10"));
@@ -107,7 +107,7 @@ class OverrideConfigSourceTest {
             builder.configSource(proxy);
             OverrideConfigSource configSource=builder.build();
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertEquals(proxy.getName(),configSource.getName());  //Yes, per default, name comes from the wrapped configuration-source!
         }
@@ -117,7 +117,7 @@ class OverrideConfigSourceTest {
             builder.name("Override-Name-1");
             OverrideConfigSource configSource=builder.build();
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertNotEquals(proxy.getName(),configSource.getName());
             Assertions.assertEquals("Override-Name-1",configSource.getName());  //Yes, override of name works!
@@ -147,7 +147,7 @@ class OverrideConfigSourceTest {
             builder.configSource(proxy);
             OverrideConfigSource configSource = builder.build();
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertEquals(proxy.getOrdinal(), configSource.getOrdinal());  //Yes, per default, ordinal comes from the wrapped configuration-source!
         }
@@ -157,7 +157,7 @@ class OverrideConfigSourceTest {
             builder.ordinal(999);
             OverrideConfigSource configSource = builder.build();
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertNotEquals(proxy.getOrdinal(),configSource.getOrdinal());
             Assertions.assertEquals(999, configSource.getOrdinal());  //Yes, override of ordinal works!
@@ -175,7 +175,7 @@ class OverrideConfigSourceTest {
         builder.nameSupplier(nameSupplier);
         OverrideConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Assertions.assertEquals("X",configSource.getName());
 
@@ -197,7 +197,7 @@ class OverrideConfigSourceTest {
         builder.ordinalSupplier(ordinalSupplier);
         OverrideConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Assertions.assertEquals(100,configSource.getOrdinal());
 
@@ -218,7 +218,7 @@ class OverrideConfigSourceTest {
         builder.properties(properties1);
         OverrideConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Assertions.assertNotSame(properties1,configSource.getProperties());
         Map<String,String> map=new HashMap<>();
@@ -244,7 +244,7 @@ class OverrideConfigSourceTest {
         builder.property("name-3","value-3");
         OverrideConfigSource configSource=builder.build();
 
-        ConfigSourceTests.assertConfigSourceSemantics(configSource);
+        ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
         Assertions.assertEquals(3,configSource.getProperties().size());
         Map<String,String> properties=new HashMap<>();
