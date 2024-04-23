@@ -102,7 +102,7 @@ public class DynamicMapConfigSource implements ConfigSource {
 
     @SuppressWarnings({"java:S1068","java:S1450","unused","FieldCanBeLocal","UnusedReturnValue","FieldMayBeFinal"})
     public static class Builder {
-        private Supplier<String> nameSupplier=ConfigSources.DEFAULT_NAME_SUPPLIER;
+        private Supplier<String> nameSupplier=ConfigSources.DEFAULT_NAME_SUPPLIER_FACTORY.get();
 
         private IntSupplier ordinalSupplier=ConfigSources.DEFAULT_ORDINAL_SUPPLIER;
 

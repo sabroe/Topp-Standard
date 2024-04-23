@@ -25,7 +25,7 @@ class ChainedConfigSourceTest {
         {
             ChainedConfigSource configSource=ChainedConfigSource.of("name-1",100,null);
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertEquals("name-1", configSource.getName());
             Assertions.assertEquals(100, configSource.getOrdinal());
@@ -35,7 +35,7 @@ class ChainedConfigSourceTest {
             List<ConfigSource> emptyConfigSources=List.of();
             ChainedConfigSource configSource=ChainedConfigSource.of("name-1",100,emptyConfigSources);
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertEquals("name-1", configSource.getName());
             Assertions.assertEquals(100, configSource.getOrdinal());
@@ -48,7 +48,7 @@ class ChainedConfigSourceTest {
                         FixedMapConfigSource.builder().property("name-1","value-2").build());
             ChainedConfigSource configSource=ChainedConfigSource.of("name-1",100,configSources);
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertEquals("name-1", configSource.getName());
             Assertions.assertEquals(100, configSource.getOrdinal());
@@ -66,7 +66,7 @@ class ChainedConfigSourceTest {
                         FixedMapConfigSource.builder().property("name-2","value-2").build());
             ChainedConfigSource configSource=ChainedConfigSource.of("name-1",100,configSources);
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertEquals("name-1", configSource.getName());
             Assertions.assertEquals(100, configSource.getOrdinal());
@@ -96,7 +96,7 @@ class ChainedConfigSourceTest {
             builder.name("name-1").ordinal(100).configSources(emptyConfigSources);
             ChainedConfigSource configSource=builder.build();
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertEquals("name-1", configSource.getName());
             Assertions.assertEquals(100, configSource.getOrdinal());
@@ -111,7 +111,7 @@ class ChainedConfigSourceTest {
             builder.name("name-1").ordinal(100).configSources(configSources);
             ChainedConfigSource configSource=builder.build();
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertEquals("name-1", configSource.getName());
             Assertions.assertEquals(100, configSource.getOrdinal());
@@ -131,7 +131,7 @@ class ChainedConfigSourceTest {
             builder.name("name-1").ordinal(100).configSources(configSources);
             ChainedConfigSource configSource=builder.build();
 
-            ConfigSourceTests.assertConfigSourceSemantics(configSource);
+            ConfigSourceTests.verifyConfigSourceBasics(configSource);
 
             Assertions.assertEquals("name-1", configSource.getName());
             Assertions.assertEquals(100, configSource.getOrdinal());
