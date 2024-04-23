@@ -1,31 +1,47 @@
 package com.yelstream.topp.standard.microprofile.config;
 
+import com.yelstream.topp.standard.microprofile.config.source.describe.ConfigSourceDescriptor;
+import com.yelstream.topp.standard.microprofile.config.source.describe.ConfigSourceDescriptors;
+import com.yelstream.topp.standard.util.Lists;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
+import java.util.List;
+import java.util.function.Supplier;
+
+@Slf4j
 @UtilityClass
 public class Configs {
 
-    public static ConfigSource xx() {
-        return null;
+    public static Config getConfig() {
+        return ConfigProvider.getConfig();
     }
 
-    public static void inspectConfigSources(Config config) {
-        Iterable<ConfigSource> configSources = config.getConfigSources();
-        for (ConfigSource source : configSources) {
-            // Examine the properties or other details of each ConfigSource
-            System.out.println("ConfigSource name: " + source.getName());
-            // Add more inspection logic as needed
-        }
+    public static Config getConfig(ClassLoader classLoader) {
+        return ConfigProvider.getConfig(classLoader);
     }
 
-/*
-    public static void modifyConfig(Config config) {
-        // Update a configuration property
-        // This change will override any value provided by the ConfigSource
-        configsetValue("my.property", "new value");
+    public static List<ConfigSource> getConfigSources(Config config) {
+        Iterable<ConfigSource> iterable=config.getConfigSources();
+        return Lists.createList(iterable);
     }
-*/
 
+    public static void logDescription(org.slf4j.Logger log,
+                                      org.slf4j.event.Level level,
+                                      Config config) {
+        logDescription(log,level,()->getConfigSources(config));
+    }
+
+    public static void logDescription(org.slf4j.Logger log,
+                                      org.slf4j.event.Level level,
+                                      Supplier<List<ConfigSource>> configSourcesSupplier) {
+        log.atLevel(level).setMessage("Configuration sources.").addArgument(()->{
+            List<ConfigSource> configSources=configSourcesSupplier.get();
+            List<ConfigSourceDescriptor> configSourceDescriptors=ConfigSourceDescriptors.from(configSources);
+            return ConfigSourceDescriptors.createDescription(configSourceDescriptors);
+            }).log();
+    }
 }
