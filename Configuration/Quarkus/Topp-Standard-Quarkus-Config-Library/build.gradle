@@ -17,4 +17,9 @@ dependencies {
     api 'io.quarkus:quarkus-config-yaml:3.9.3'
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+
+    /*
+     * Note:
+     *     https://javadoc.io/doc/io.quarkus/quarkus-core/latest/io/quarkus/runtime/configuration/package-summary.html
+     */
 }
