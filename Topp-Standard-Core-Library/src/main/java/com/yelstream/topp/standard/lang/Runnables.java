@@ -16,7 +16,7 @@ public class Runnables {
      * @param closeable Auto-closable.
      * @return Created runnable.
      */
-    public static Runnable createRunnable(AutoCloseable closeable) {
+    public static Runnable of(AutoCloseable closeable) {
         return () -> {
             try {
                 closeable.close();
