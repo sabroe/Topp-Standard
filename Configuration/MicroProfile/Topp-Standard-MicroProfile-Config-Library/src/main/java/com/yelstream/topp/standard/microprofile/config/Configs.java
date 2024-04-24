@@ -26,7 +26,7 @@ public class Configs {
 
     public static List<ConfigSource> getConfigSources(Config config) {
         Iterable<ConfigSource> iterable=config.getConfigSources();
-        return Lists.createList(iterable);
+        return Lists.of(iterable);
     }
 
     public static void logDescription(org.slf4j.Logger log,

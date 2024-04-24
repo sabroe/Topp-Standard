@@ -45,7 +45,7 @@ public class Strings {
     }
 
     /**
-     * Returns the given text if it is non-{@link null} and otherwise an alternative text.
+     * Returns the given text if it is non-{@code null} and otherwise an alternative text.
      * @param text Tested text.
      * @param alternativeText Alternative text.
      * @return Resulting text.
@@ -56,7 +56,7 @@ public class Strings {
     }
 
     /**
-     * Returns the given text if it is non-{@link null} and otherwise an alternative text.
+     * Returns the given text if it is non-{@code null} and otherwise an alternative text.
      * @param text Tested text.
      * @param alternativeTextSupplier Supplier of alternative text.
      * @return Resulting text.
