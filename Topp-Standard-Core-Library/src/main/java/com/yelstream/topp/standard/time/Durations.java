@@ -52,22 +52,56 @@ public class Durations {
 
     /**
      * Gets the minimum of two durations.
+     * <p>
+     *     Note that values may be {@link null}.
+     * </p>
      * @param a First duration.
+     *          This may be {@link null}.
      * @param b Second duration.
+     *          This may be {@link null}.
      * @return Minimum duration.
+     *         This may be {@link null}.
      */
     public static Duration min(Duration a, Duration b) {
         return Comparables.min(a,b);
     }
 
     /**
-     * Gets the maximumof two durations.
+     * Gets the maximum of two durations.
+     * <p>
+     *     Note that values may be {@link null}.
+     * </p>
      * @param a First duration.
+     *          This may be {@link null}.
      * @param b Second duration.
+     *          This may be {@link null}.
      * @return Maximum duration.
+     *         This may be {@link null}.
      */
     public static Duration max(Duration a, Duration b) {
         return Comparables.max(a,b);
+    }
+
+    /**
+     * Gets the sum of two durations.
+     * <p>
+     *     Note that values may be {@link null}.
+     * </p>
+     * @param a First duration.
+     *          This may be {@link null}.
+     * @param b Second duration.
+     *          This may be {@link null}.
+     * @return Maximum duration.
+     *         This may be {@link null}.
+     */
+    public static Duration sum(Duration a, Duration b) {
+        if (a==null) {
+            return b;
+        } else if (b==null) {
+            return a;
+        } else {
+            return a.plus(b);
+        }
     }
 
     /**
@@ -76,7 +110,7 @@ public class Durations {
      * @return Indicates, if duration is infinite.
      */
     public static boolean isInfinite(Duration duration) {
-        return duration.abs().equals(FOREVER);
+        return duration!=null&&duration.abs().equals(FOREVER);
     }
 
     /**

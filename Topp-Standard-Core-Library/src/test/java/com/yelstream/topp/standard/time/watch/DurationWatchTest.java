@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.util.function.LongUnaryOperator;
 
 /**
- * Test of {@link DurationWatch} and {@link DurationWatches}.
+ * Test of {@link DurationWatch}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -57,12 +57,12 @@ class DurationWatchTest {
 
         NanoTimeSource source=NanoTimeSource.system();
 //        InstantSource source=InstantSource.system();
-        DurationWatch watch=DurationWatches.createDurationWatch(source,durationSpeed);
+        DurationWatch watch=DurationWatches.of(source,durationSpeed);
 
         long drift=5L;
         long scaledDrift=durationSpeed.applyAsLong(drift);
 
-        long offset=getExpectedOffset(DurationWatches.createDurationWatch(source,LongUnaryOperator.identity()),unscaledExpectedTime.toMillis());
+        long offset=getExpectedOffset(DurationWatches.of(source,LongUnaryOperator.identity()),unscaledExpectedTime.toMillis());
         log.info("Intermediate result, offset = {} ms",offset);
 
 //        for (int i=0; i<100; i++) {
