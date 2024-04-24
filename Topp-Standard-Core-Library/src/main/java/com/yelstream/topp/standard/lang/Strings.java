@@ -44,16 +44,55 @@ public class Strings {
         return !isEmpty(text);
     }
 
-    public static String nonNull(String text,
-                                 String defaultText) {
-        return text!=null?text:defaultText;
+    /**
+     * Returns the given text if it is non-{@link null} and otherwise an alternative text.
+     * @param text Tested text.
+     * @param alternativeText Alternative text.
+     * @return Resulting text.
+     */
+    public static String nonNullOrElse(String text,
+                                       String alternativeText) {
+        return text!=null?text:alternativeText;
     }
 
-    public static String nonNull(String text,
-                                 Supplier<String> defaultTextSupplier) {
-        return text!=null?text:defaultTextSupplier.get();
+    /**
+     * Returns the given text if it is non-{@link null} and otherwise an alternative text.
+     * @param text Tested text.
+     * @param alternativeTextSupplier Supplier of alternative text.
+     * @return Resulting text.
+     */
+    public static String nonNullOrElse(String text,
+                                       Supplier<String> alternativeTextSupplier) {
+        return text!=null?text:alternativeTextSupplier.get();
     }
 
+    /**
+     * Returns the given text if it is non-empty and otherwise an alternative text.
+     * @param text Tested text.
+     * @param alternativeText Alternative text.
+     * @return Resulting text.
+     */
+    public static String nonEmptyOrElse(String text,
+                                        String alternativeText) {
+        return isNonEmpty(text)?text:alternativeText;
+    }
+
+    /**
+     * Returns the given text if it is non-empty and otherwise an alternative text.
+     * @param text Tested text.
+     * @param alternativeTextSupplier Supplier of alternative text.
+     * @return Resulting text.
+     */
+    public static String nonEmptyOrElse(String text,
+                                        Supplier<String> alternativeTextSupplier) {
+        return isNonEmpty(text)?text:alternativeTextSupplier.get();
+    }
+
+    /**
+     * Filters a list of texts to a reduced list containing non-{@code null}, non-empty values.
+     * @param texts Texts to reduce.
+     * @return Reduced texts.
+     */
     public static List<String> distinct(List<String> texts) {
         return texts==null?null:texts.stream().map(Strings::trim).filter(Strings::isNonEmpty).distinct().toList();
     }
