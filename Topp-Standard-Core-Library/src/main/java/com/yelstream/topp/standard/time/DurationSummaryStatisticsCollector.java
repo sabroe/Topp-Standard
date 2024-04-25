@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 
 import java.time.Duration;
 import java.util.EnumSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
@@ -13,7 +12,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 @AllArgsConstructor(staticName="of")
-public class DurationSummaryStatisticsCollector implements Collector<Duration,DurationSummaryStatistics,DurationSummaryStatistics/*Optional<DurationSummaryStatistics>*/> {
+public class DurationSummaryStatisticsCollector implements Collector<Duration,DurationSummaryStatistics,DurationSummaryStatistics> {
     @Override
     public Supplier<DurationSummaryStatistics> supplier() {
         return DurationSummaryStatistics::new;
@@ -33,11 +32,6 @@ public class DurationSummaryStatisticsCollector implements Collector<Duration,Du
     }
 
     @Override
-/*
-    public Function<DurationSummaryStatistics,Optional<DurationSummaryStatistics>> finisher() {
-        return DurationSummaryStatistics::toOptional;
-    }
-*/
     public Function<DurationSummaryStatistics,DurationSummaryStatistics> finisher() {
         return Function.identity();
     }

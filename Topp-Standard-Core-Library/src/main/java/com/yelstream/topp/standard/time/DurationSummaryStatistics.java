@@ -5,10 +5,15 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.Duration;
-import java.util.Optional;
 import java.util.stream.Stream;
 
-@Getter
+/**
+ * Summary statistics for a stream of {@link Duration} instances.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-25
+ */@Getter
 @ToString
 @NoArgsConstructor
 public class DurationSummaryStatistics {
@@ -21,7 +26,7 @@ public class DurationSummaryStatistics {
                                      Duration min,
                                      Duration max,
                                      Duration sum) {
-        if (count>0L) {
+        if (count<=0L) {
             throw new IllegalArgumentException(String.format("Failure to create object; 'count' %d must be positive!", count));
         }
         this.count=count;
@@ -32,10 +37,6 @@ public class DurationSummaryStatistics {
 
     public boolean isValid() {
         return count>0L;
-    }
-
-    public Optional<DurationSummaryStatistics> toOptional() {
-        return !isValid()?Optional.empty():Optional.of(this);
     }
 
     public void accept(Duration duration) {
@@ -57,7 +58,7 @@ public class DurationSummaryStatistics {
         return count==0?null:sum.dividedBy(count);
     }
 
-    public static DurationSummaryStatistics collect(Stream<Duration> stream) {
+    public static DurationSummaryStatistics of(Stream<Duration> stream) {
         return stream.collect(DurationSummaryStatistics::new,
                               DurationSummaryStatistics::accept,
                               DurationSummaryStatistics::combine);

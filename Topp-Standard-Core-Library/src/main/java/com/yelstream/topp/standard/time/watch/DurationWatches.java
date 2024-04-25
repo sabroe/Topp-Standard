@@ -1,21 +1,16 @@
 package com.yelstream.topp.standard.time.watch;
 
 import com.yelstream.topp.standard.lang.thread.Threads;
-import com.yelstream.topp.standard.time.DurationStreams;
 import com.yelstream.topp.standard.time.DurationSummaryStatistics;
 import com.yelstream.topp.standard.time.DurationSummaryStatisticsCollector;
-import com.yelstream.topp.standard.time.DurationSummaryStatisticsCollectors;
 import com.yelstream.topp.standard.time.NanoTimeSource;
 import lombok.AllArgsConstructor;
 import lombok.experimental.UtilityClass;
 
-import java.time.Duration;
 import java.time.InstantSource;
 import java.time.temporal.ChronoUnit;
 import java.util.LongSummaryStatistics;
-import java.util.Optional;
 import java.util.function.LongUnaryOperator;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -53,36 +48,43 @@ public class DurationWatches {
 
 
 
-
     @lombok.Builder(builderClassName="Builder",toBuilder=true)
     @AllArgsConstructor(staticName="of")
-    public static class DurationWatchStat {
+    public static class DurationWatchSetup {
+//        private final NanoTimeSource nanoTimeSource;
+//        private final InstantSource instantSource;
         private final DurationWatch watch;
         private final long sleepInMs;
         private final int repetitions;
-        private final LongSummaryStatistics summaryStatistics;
+    }
+
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    @AllArgsConstructor(staticName="of")
+    public static class DurationWatchStatistics {
+        private final DurationSummaryStatistics summaryStatistics;
+    }
+
+
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    @AllArgsConstructor(staticName="of")
+    public static class DurationWatchMeasurement {
+        private DurationWatchSetup setup;
+        private final DurationWatchStatistics statistics;
     }
 
     public static DurationSummaryStatistics stat(DurationWatch watch,
                                                  long sleepInMs,
                                                  int repetitions) {
 
-//        Optional<DurationSummaryStatistics> x=
-        DurationSummaryStatistics x=
+        return
             IntStream.range(0,repetitions).mapToObj(i->{
                 DurationWatch.Timer durationTimer=watch.start();
-                if (sleepInMs>0) {
+                /*if (sleepInMs>0)*/ {
                     Threads.sleep(sleepInMs);
                 }
                 DurationWatch.Time durationTime = durationTimer.stop();
                 return durationTime.toDuration();
-            }).collect(DurationSummaryStatisticsCollector.of()/*DurationSummaryStatisticsCollectors.toOptional()*/);
-
-        return x.toOptional().get();
-//        return x.get();
-
-//        return x;
-//        return null;//x.orElse(null);
+            }).collect(DurationSummaryStatisticsCollector.of());
     }
 
 
