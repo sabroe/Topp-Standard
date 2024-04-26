@@ -17,11 +17,33 @@ import java.util.stream.Stream;
 @ToString
 @NoArgsConstructor
 public class DurationSummaryStatistics {
+    /**
+     * Number of durations this summarizes.
+     */
     private long count;
+
+    /**
+     * Sum of all durations.
+     */
     private Duration sum;
+
+    /**
+     * Minimum of all durations.
+     */
     private Duration min;
+
+    /**
+     * Maximum of all durations.
+     */
     private Duration max;
 
+    /**
+     * Constructor.
+     * @param count Number of durations.
+     * @param min Minimum duration.
+     * @param max Maximum duration.
+     * @param sum Durations summarized.
+     */
     public DurationSummaryStatistics(long count,
                                      Duration min,
                                      Duration max,
@@ -35,29 +57,67 @@ public class DurationSummaryStatistics {
         this.max=max;
     }
 
+    /**
+     * Indicates, if this is valid.
+     * @return Indicates, if this is valid.
+     */
     public boolean isValid() {
         return count>0L;
     }
 
+    /**
+     * Accept a duration into the statistics.
+     * @param duration Duration.
+     *                 This may be {@code null}.
+     */
     public void accept(Duration duration) {
-        count++;
-        sum=Durations.sum(sum,duration);
-        min=Durations.min(min,duration);
-        max=Durations.max(max,duration);
+        if (duration!=null) {
+            count++;
+            sum=Durations.sum(sum,duration);
+            min=Durations.min(min,duration);
+            max=Durations.max(max,duration);
+        }
     }
 
+    /**
+     * Combine this with another statistics object.
+     * @param other Another statistics object.
+     *              This may be {@code null}.
+     */
     public void combine(DurationSummaryStatistics other) {
-        count+=other.count;
-        sum=Durations.sum(sum,other.sum);
-        min=Durations.min(min,other.min);
-        max=Durations.max(max,other.max);
+        if (other!=null) {
+            count+=other.count;
+            sum=Durations.sum(sum,other.sum);
+            min=Durations.min(min,other.min);
+            max=Durations.max(max,other.max);
+        }
     }
 
+    /**
+     * Gets the average duration.
+     * @return Average duration.
+     */
     @ToString.Include(name="average")
     public Duration getAverage() {
         return count==0?null:sum.dividedBy(count);
     }
 
+    /**
+     * Creates duration statistics from a single durations.
+     * @param duration Duration.
+     * @return Duration statistics.
+     */
+    public static DurationSummaryStatistics of(Duration duration) {
+        DurationSummaryStatistics summaryStatistics=new DurationSummaryStatistics();
+        summaryStatistics.accept(duration);
+        return summaryStatistics;
+    }
+
+    /**
+     * Creates duration statistics from a stream of durations.
+     * @param stream Stream of durations.
+     * @return Duration statistics.
+     */
     public static DurationSummaryStatistics of(Stream<Duration> stream) {
         return stream.collect(DurationSummaryStatistics::new,
                               DurationSummaryStatistics::accept,
