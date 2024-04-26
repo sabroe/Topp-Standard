@@ -3,10 +3,15 @@ package com.yelstream.topp.standard.time;
 import com.yelstream.topp.standard.lang.Comparables;
 import lombok.experimental.UtilityClass;
 
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
+import java.util.random.RandomGenerator;
+import java.util.stream.IntStream;
 
 /**
  * Utility addressing instances of {@link Duration}.
@@ -136,5 +141,16 @@ public class Durations {
 
     public static Duration clearMilliseconds(Duration duration) {
         return duration.minusMillis(duration.toMillis()%1000);
+    }
+
+    public static Supplier<Duration> randomSupplier(RandomGenerator random,
+                                                    Duration minDuration,
+                                                    Duration maxDuration) {
+        return RandomDurationGenerator.of(random,minDuration,maxDuration).supplier();
+    }
+
+    public static Supplier<Duration> randomSupplier(Duration minDuration,
+                                                    Duration maxDuration) {
+        return RandomDurationGenerator.of(minDuration,maxDuration).supplier();
     }
 }
