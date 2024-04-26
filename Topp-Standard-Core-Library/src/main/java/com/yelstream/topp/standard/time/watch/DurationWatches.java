@@ -3,15 +3,22 @@ package com.yelstream.topp.standard.time.watch;
 import com.yelstream.topp.standard.lang.thread.Threads;
 import com.yelstream.topp.standard.time.DurationSummaryStatistics;
 import com.yelstream.topp.standard.time.DurationSummaryStatisticsCollector;
+import com.yelstream.topp.standard.time.Durations;
 import com.yelstream.topp.standard.time.NanoTimeSource;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.UtilityClass;
 
+import java.time.Duration;
 import java.time.InstantSource;
 import java.time.temporal.ChronoUnit;
-import java.util.LongSummaryStatistics;
+import java.util.concurrent.TimeUnit;
 import java.util.function.LongUnaryOperator;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Utility addressing instances of {@link DurationWatch}.
@@ -46,43 +53,87 @@ public class DurationWatches {
         return DefaultDurationWatch.of(source::millis,ChronoUnit.MILLIS,durationScale);
     }
 
+/*
+    1) Uret - 'watch'
+    2) Parametrene til uret
+    3) De målte resultater
+    4) Alt sammenhørende
+*/
 
+    @UtilityClass
+    public static class Data {
 
-    @lombok.Builder(builderClassName="Builder",toBuilder=true)
-    @AllArgsConstructor(staticName="of")
-    public static class DurationWatchSetup {
-//        private final NanoTimeSource nanoTimeSource;
-//        private final InstantSource instantSource;
-        private final DurationWatch watch;
-        private final long sleepInMs;
-        private final int repetitions;
+        @lombok.Builder(builderClassName="Builder",toBuilder=true)
+        @AllArgsConstructor(staticName="of")
+        public static class Source {
+          private final NanoTimeSource nanoTimeSource;
+          private final InstantSource instantSource;
+          private final DurationWatch watch;
+        }
+
+        @lombok.Builder(builderClassName="Builder",toBuilder=true)
+        @AllArgsConstructor(staticName="of")
+        public static class Input {
+            private final long sleepInMs;
+            private final int repetitions;
+        }
+
+        @lombok.Builder(builderClassName="Builder",toBuilder=true)
+        @AllArgsConstructor(staticName="of")
+        public static class Characteristics {
+            //private final String name;
+            private final DurationWatch watch;
+            private final Duration absoluteDivergence;  //Around 1 ms?
+            private final DurationSummaryStatistics summaryStatistics;
+        }
     }
 
-    @lombok.Builder(builderClassName="Builder",toBuilder=true)
-    @AllArgsConstructor(staticName="of")
-    public static class DurationWatchStatistics {
-        private final DurationSummaryStatistics summaryStatistics;
+    /**
+     * Measures the duration of executing an action.
+     * @param watch Watch.
+     * @param action Action.
+     * @return Duration measured.
+     */
+    public static Duration measure(DurationWatch watch,
+                                   Runnable action) {
+        DurationWatch.Timer durationTimer=watch.start();
+        action.run();
+        DurationWatch.Time durationTime=durationTimer.stop();
+        return durationTime.toDuration();
+    }
+
+    /**
+     * Measures the duration of putting the current thread to sleep.
+     * @param watch Watch.
+     * @param sleep Requested sleep duration.
+     * @return Measured sleep duration.
+     */
+    public static Duration measureSleep(DurationWatch watch,
+                                        Duration sleep) {
+        return measure(watch,()->Threads.sleep(sleep));
     }
 
 
-    @lombok.Builder(builderClassName="Builder",toBuilder=true)
-    @AllArgsConstructor(staticName="of")
-    public static class DurationWatchMeasurement {
-        private DurationWatchSetup setup;
-        private final DurationWatchStatistics statistics;
+    public static Duration estimateSleepDivergence(DurationWatch watch,
+                                                   Duration minDuration,
+                                                   Duration maxDuration,
+                                                   int repeatCount) {
+        Supplier<Duration> durationSupplier=Durations.randomSupplier(minDuration,maxDuration);
+        Stream<Duration> durationStream=IntStream.range(0,repeatCount).mapToObj(i->durationSupplier.get());
+        Stream<Duration> statStream=durationStream.map(duration->measureSleep(watch,duration));
+        DurationSummaryStatistics summaryStatistics=statStream.collect(DurationSummaryStatisticsCollector.of());
+
+        return summaryStatistics.getAverage();
     }
 
     public static DurationSummaryStatistics stat(DurationWatch watch,
-                                                 long sleepInMs,
+                                                 Duration sleep,
                                                  int repetitions) {
-
         return
             IntStream.range(0,repetitions).mapToObj(i->{
                 DurationWatch.Timer durationTimer=watch.start();
-                /*if (sleepInMs>0)*/ {
-                    Threads.sleep(sleepInMs);
-                }
-                DurationWatch.Time durationTime = durationTimer.stop();
+                Threads.sleep(sleep);
+                DurationWatch.Time durationTime=durationTimer.stop();
                 return durationTime.toDuration();
             }).collect(DurationSummaryStatisticsCollector.of());
     }
