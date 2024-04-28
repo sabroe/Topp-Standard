@@ -3,15 +3,12 @@ package com.yelstream.topp.standard.time;
 import com.yelstream.topp.standard.lang.Comparables;
 import lombok.experimental.UtilityClass;
 
-import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
-import java.util.stream.IntStream;
 
 /**
  * Utility addressing instances of {@link Duration}.
@@ -58,7 +55,7 @@ public class Durations {
     /**
      * Gets the minimum of two durations.
      * <p>
-     *     Note that values may be {@link null}.
+     *     Note that durations may be {@link null}.
      * </p>
      * @param a First duration.
      *          This may be {@link null}.
@@ -74,7 +71,7 @@ public class Durations {
     /**
      * Gets the maximum of two durations.
      * <p>
-     *     Note that values may be {@link null}.
+     *     Note that durations may be {@link null}.
      * </p>
      * @param a First duration.
      *          This may be {@link null}.
@@ -88,15 +85,31 @@ public class Durations {
     }
 
     /**
-     * Gets the sum of two durations.
+     * Indicates, if two durations are equal.
      * <p>
-     *     Note that values may be {@link null}.
+     *     Note that durations may be {@link null}.
      * </p>
      * @param a First duration.
      *          This may be {@link null}.
      * @param b Second duration.
      *          This may be {@link null}.
-     * @return Maximum duration.
+     * @return Indicates, if durations are equal.
+     *         This may be {@link null}.
+     */
+    public static boolean equals(Duration a, Duration b) {
+        return Comparables.equals(a,b);
+    }
+
+    /**
+     * Gets the sum of two durations.
+     * <p>
+     *     Note that durations may be {@link null}.
+     * </p>
+     * @param a First duration.
+     *          This may be {@link null}.
+     * @param b Second duration.
+     *          This may be {@link null}.
+     * @return Durations summed.
      *         This may be {@link null}.
      */
     public static Duration sum(Duration a, Duration b) {
@@ -112,35 +125,21 @@ public class Durations {
     /**
      * Indicates, if a duration is practically infinite.
      * @param duration Duration.
+     *                 This may be {@link null}.
      * @return Indicates, if duration is infinite.
      */
     public static boolean isInfinite(Duration duration) {
-        return duration!=null&&duration.abs().equals(FOREVER);
+        return duration!=null && duration.abs().equals(FOREVER);
     }
 
     /**
      * Indicates, if a duration is finite.
      * @param duration Duration.
+     *                 This may be {@link null}.
      * @return Indicates, if duration is finite.
      */
     public static boolean isFinite(Duration duration) {
-        return !isInfinite(duration);
-    }
-
-    public static Duration clearHours(Duration duration) {
-        return duration.minusHours(duration.toHours());
-    }
-
-    public static Duration clearMinutes(Duration duration) {
-        return duration.minusMinutes(duration.toMinutes());
-    }
-
-    public static Duration clearSeconds(Duration duration) {
-        return duration.minusSeconds(duration.toMillis()/1000);
-    }
-
-    public static Duration clearMilliseconds(Duration duration) {
-        return duration.minusMillis(duration.toMillis()%1000);
+        return duration!=null && !duration.abs().equals(FOREVER);
     }
 
     public static Supplier<Duration> randomSupplier(RandomGenerator random,

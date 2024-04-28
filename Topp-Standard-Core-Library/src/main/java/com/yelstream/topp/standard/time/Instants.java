@@ -15,22 +15,51 @@ import java.time.Instant;
 @UtilityClass
 public class Instants {
     /**
-     * Determines the minimum of two instants.
+     * Gets the minimum of two instants.
+     * <p>
+     *     Note that instants may be {@link null}.
+     * </p>
      * @param a First instant.
+     *          This may be {@link null}.
      * @param b Second instant.
+     *          This may be {@link null}.
      * @return Minimum instant.
+     *         This may be {@link null}.
      */
     public static Instant min(Instant a, Instant b) {
         return Comparables.min(a,b);
     }
 
     /**
-     * Determines the maximum of two instants.
+     * Gets the maximum of two instants.
+     * <p>
+     *     Note that instants may be {@link null}.
+     * </p>
      * @param a First instant.
+     *          This may be {@link null}.
      * @param b Second instant.
+     *          This may be {@link null}.
      * @return Maximum instant.
+     *         This may be {@link null}.
      */
     public static Instant max(Instant a, Instant b) {
         return Comparables.max(a,b);
     }
+
+    /**
+     * Indicates, if two instants are equal.
+     * <p>
+     *     Note that instants may be {@link null}.
+     * </p>
+     * @param a First instant.
+     *          This may be {@link null}.
+     * @param b Second instant.
+     *          This may be {@link null}.
+     * @return Indicates, if instants are equal.
+     *         This may be {@link null}.
+     */
+    public static boolean equals(Instant a, Instant b) {
+        return Comparables.equals(a,b);
+    }
+
 }

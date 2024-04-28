@@ -1,4 +1,5 @@
 package com.yelstream.topp.standard.time;
+
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -10,6 +11,11 @@ import org.junit.platform.suite.api.Suite;
  * @since 2024-04-26
  */
 @Suite
-@SelectClasses({DurationSummaryStatisticsTest.class,RandomDurationGeneratorTest.class})
+@SelectClasses({DurationSummaryStatisticsTest.class,
+                DurationSummaryStatisticsCollectorTest.class,
+                RandomDurationGeneratorTest.class,
+                DurationsTest.class,
+                InstantsTest.class,
+                InstantSourcesTest.class})
 class TimeTestSuite {
 }

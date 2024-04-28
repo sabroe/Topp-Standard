@@ -96,4 +96,20 @@ public class Strings {
     public static List<String> distinct(List<String> texts) {
         return texts==null?null:texts.stream().map(Strings::trim).filter(Strings::isNonEmpty).distinct().toList();
     }
+
+    /**
+     * Indicates, if two texts are equal.
+     * <p>
+     *     Note that values may be {@link null}.
+     * </p>
+     * @param a First text.
+     *          This may be {@link null}.
+     * @param b Second text.
+     *          This may be {@link null}.
+     * @return Indicates, if texts are equal.
+     *         This may be {@link null}.
+     */
+    public static boolean equals(String a, String b) {
+        return Comparables.equals(a,b);
+    }
 }
