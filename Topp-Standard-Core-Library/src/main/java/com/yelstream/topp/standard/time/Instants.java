@@ -17,14 +17,14 @@ public class Instants {
     /**
      * Gets the minimum of two instants.
      * <p>
-     *     Note that instants may be {@link null}.
+     *     Note that instants may be {@code null}.
      * </p>
      * @param a First instant.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @param b Second instant.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @return Minimum instant.
-     *         This may be {@link null}.
+     *         This may be {@code null}.
      */
     public static Instant min(Instant a, Instant b) {
         return Comparables.min(a,b);
@@ -33,14 +33,14 @@ public class Instants {
     /**
      * Gets the maximum of two instants.
      * <p>
-     *     Note that instants may be {@link null}.
+     *     Note that instants may be {@code null}.
      * </p>
      * @param a First instant.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @param b Second instant.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @return Maximum instant.
-     *         This may be {@link null}.
+     *         This may be {@code null}.
      */
     public static Instant max(Instant a, Instant b) {
         return Comparables.max(a,b);
@@ -49,14 +49,14 @@ public class Instants {
     /**
      * Indicates, if two instants are equal.
      * <p>
-     *     Note that instants may be {@link null}.
+     *     Note that instants may be {@code null}.
      * </p>
      * @param a First instant.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @param b Second instant.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @return Indicates, if instants are equal.
-     *         This may be {@link null}.
+     *         This may be {@code null}.
      */
     public static boolean equals(Instant a, Instant b) {
         return Comparables.equals(a,b);

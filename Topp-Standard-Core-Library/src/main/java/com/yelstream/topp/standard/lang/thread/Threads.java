@@ -17,25 +17,29 @@ public class Threads {
     /**
      * Causes the currently executing thread to sleep for the specified duration.
      * @param durationInMillis Sleep duration in ms.
+     * @return Indicates, if the currently executing thread slept as requested implying that it is not interrupted.
      */
-    public static void sleep(long durationInMillis) {
+    public static boolean sleep(long durationInMillis) {
         try {
             Thread.sleep(durationInMillis);
         } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt();  //Yes, propagate the signal send by the exception to the state of the current thread
         }
+        return !Thread.currentThread().isInterrupted();
     }
 
     /**
      * Causes the currently executing thread to sleep for the specified duration.
      * @param duration Sleep duration.
+     * @return Indicates, if the currently executing thread slept as requested implying that it is not interrupted.
      */
-    public static void sleep(Duration duration) {
+    public static boolean sleep(Duration duration) {
         try {
             Thread.sleep(duration);
         } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt();  //Yes, propagate the signal send by the exception to the state of the current thread
         }
+        return !Thread.currentThread().isInterrupted();
     }
 
     /**
@@ -48,9 +52,9 @@ public class Threads {
         boolean success=false;
         try {
             thread.join();
-            success=true;
+            success=thread.getState()==Thread.State.TERMINATED;
         } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt();  //Yes, propagate the signal send by the exception to the state of the current thread
         }
         return success;
     }
@@ -67,9 +71,9 @@ public class Threads {
         boolean success=false;
         try {
             thread.join(durationInMillis);
-            success=true;
+            success=thread.getState()==Thread.State.TERMINATED;
         } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt();  //Yes, propagate the signal send by the exception to the state of the current thread
         }
         return success;
     }
@@ -83,6 +87,12 @@ public class Threads {
      */
     public static boolean join(Thread thread,
                                Duration duration) {
-        return join(thread,duration.toMillis());
+        boolean success=false;
+        try {
+            success=thread.join(duration);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();  //Yes, propagate the signal send by the exception to the state of the current thread
+        }
+        return success;
     }
 }
