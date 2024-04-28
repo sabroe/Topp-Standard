@@ -30,6 +30,23 @@ public class Threads {
 
     /**
      * Causes the currently executing thread to sleep for the specified duration.
+     * @param durationPartMillis Sleep duration in ms.
+     * @param durationPartNanos Sleep duration in ns.
+     *                          Valid range is {@code 0-999999}.
+     * @return Indicates, if the currently executing thread slept as requested implying that it is not interrupted.
+     */
+    public static boolean sleep(long durationPartMillis,
+                                int durationPartNanos) {
+        try {
+            Thread.sleep(durationPartMillis,durationPartNanos);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();  //Yes, propagate the signal send by the exception to the state of the current thread
+        }
+        return !Thread.currentThread().isInterrupted();
+    }
+
+    /**
+     * Causes the currently executing thread to sleep for the specified duration.
      * @param duration Sleep duration.
      * @return Indicates, if the currently executing thread slept as requested implying that it is not interrupted.
      */
@@ -52,7 +69,7 @@ public class Threads {
         boolean success=false;
         try {
             thread.join();
-            success=thread.getState()==Thread.State.TERMINATED;
+            success=true;
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();  //Yes, propagate the signal send by the exception to the state of the current thread
         }
@@ -71,6 +88,28 @@ public class Threads {
         boolean success=false;
         try {
             thread.join(durationInMillis);
+            success=thread.getState()==Thread.State.TERMINATED;
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();  //Yes, propagate the signal send by the exception to the state of the current thread
+        }
+        return success;
+    }
+
+    /**
+     * Waits for a specific thread to die.
+     * @param thread Thread to wait for to die.
+     * @param durationPartMillis Time to wait in ms.
+     * @param durationPartNanos Time to wait in ns.
+     *                          Valid range is {@code 0-999999}.
+     * @return Indicates, if the wait is a success.
+     *         If not, the calling thread was interrupted.
+     */
+    public static boolean join(Thread thread,
+                               long durationPartMillis,
+                               int durationPartNanos) {
+        boolean success=false;
+        try {
+            thread.join(durationPartMillis,durationPartNanos);
             success=thread.getState()==Thread.State.TERMINATED;
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();  //Yes, propagate the signal send by the exception to the state of the current thread
