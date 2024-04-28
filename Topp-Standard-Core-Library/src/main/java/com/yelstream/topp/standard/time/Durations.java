@@ -55,14 +55,14 @@ public class Durations {
     /**
      * Gets the minimum of two durations.
      * <p>
-     *     Note that durations may be {@link null}.
+     *     Note that durations may be {@code null}.
      * </p>
      * @param a First duration.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @param b Second duration.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @return Minimum duration.
-     *         This may be {@link null}.
+     *         This may be {@code null}.
      */
     public static Duration min(Duration a, Duration b) {
         return Comparables.min(a,b);
@@ -71,14 +71,14 @@ public class Durations {
     /**
      * Gets the maximum of two durations.
      * <p>
-     *     Note that durations may be {@link null}.
+     *     Note that durations may be {@code null}.
      * </p>
      * @param a First duration.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @param b Second duration.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @return Maximum duration.
-     *         This may be {@link null}.
+     *         This may be {@code null}.
      */
     public static Duration max(Duration a, Duration b) {
         return Comparables.max(a,b);
@@ -87,14 +87,14 @@ public class Durations {
     /**
      * Indicates, if two durations are equal.
      * <p>
-     *     Note that durations may be {@link null}.
+     *     Note that durations may be {@code null}.
      * </p>
      * @param a First duration.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @param b Second duration.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @return Indicates, if durations are equal.
-     *         This may be {@link null}.
+     *         This may be {@code null}.
      */
     public static boolean equals(Duration a, Duration b) {
         return Comparables.equals(a,b);
@@ -103,14 +103,14 @@ public class Durations {
     /**
      * Gets the sum of two durations.
      * <p>
-     *     Note that durations may be {@link null}.
+     *     Note that durations may be {@code null}.
      * </p>
      * @param a First duration.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @param b Second duration.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @return Durations summed.
-     *         This may be {@link null}.
+     *         This may be {@code null}.
      */
     public static Duration sum(Duration a, Duration b) {
         if (a==null) {
@@ -125,7 +125,7 @@ public class Durations {
     /**
      * Indicates, if a duration is practically infinite.
      * @param duration Duration.
-     *                 This may be {@link null}.
+     *                 This may be {@code null}.
      * @return Indicates, if duration is infinite.
      */
     public static boolean isInfinite(Duration duration) {
@@ -135,7 +135,7 @@ public class Durations {
     /**
      * Indicates, if a duration is finite.
      * @param duration Duration.
-     *                 This may be {@link null}.
+     *                 This may be {@code null}.
      * @return Indicates, if duration is finite.
      */
     public static boolean isFinite(Duration duration) {

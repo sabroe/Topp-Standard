@@ -100,14 +100,14 @@ public class Strings {
     /**
      * Indicates, if two texts are equal.
      * <p>
-     *     Note that values may be {@link null}.
+     *     Note that values may be {@code null}.
      * </p>
      * @param a First text.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @param b Second text.
-     *          This may be {@link null}.
+     *          This may be {@code null}.
      * @return Indicates, if texts are equal.
-     *         This may be {@link null}.
+     *         This may be {@code null}.
      */
     public static boolean equals(String a, String b) {
         return Comparables.equals(a,b);
