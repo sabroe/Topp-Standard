@@ -17,11 +17,11 @@ import java.util.random.RandomGenerator;
  * @since 2024-04-26
  */
 @Slf4j
-public class RandomDurationGeneratorTest {
-
+class RandomDurationGeneratorTest {
     /**
-     * Tests {@link RandomDurationGenerator#of(RandomGenerator,Duration,Duration)}
+     * Tests {@link RandomDurationGenerator#of(RandomGenerator,Duration,Duration)}.
      */
+    @SuppressWarnings("java:S5778")
     @Test
     void noArgsConstructor() {
         {
@@ -35,7 +35,7 @@ public class RandomDurationGeneratorTest {
         }
         {
             Assertions.assertThrows(IllegalArgumentException.class,()-> {
-                RandomDurationGenerator g = RandomDurationGenerator.of(new SecureRandom(), Duration.ofSeconds(2L), Duration.ofSeconds(1L));
+                RandomDurationGenerator.of(new SecureRandom(),Duration.ofSeconds(2L),Duration.ofSeconds(1L));
             });
         }
         {
@@ -46,6 +46,27 @@ public class RandomDurationGeneratorTest {
             Assertions.assertNotNull(d);
             Assertions.assertTrue(Duration.of(1000L*365L,ChronoUnit.DAYS).compareTo(d)<=0);
             Assertions.assertTrue(d.compareTo(Duration.of(2000L*365L,ChronoUnit.DAYS))<=0);
+        }
+    }
+
+    /**
+     * Tests basic randomness.
+     */
+    @SuppressWarnings("java:S5778")
+    @Test
+    void random() {
+        Duration a=Duration.ofDays(-10);
+        Duration b=Duration.ofDays(100);
+        RandomDurationGenerator g=RandomDurationGenerator.of(a,b);
+
+        Duration lastRandom=null;
+        for (int i=0; i<100; i++) {
+            Duration random=g.nextDuration();
+            Assertions.assertNotNull(random);
+            Assertions.assertTrue(a.compareTo(random)<=0);
+            Assertions.assertTrue(random.compareTo(b)<=0);
+            Assertions.assertFalse(Durations.equals(lastRandom,random));
+            lastRandom=random;
         }
     }
 }

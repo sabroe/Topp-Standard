@@ -61,6 +61,6 @@ public class Comparables {
      *         This may be {@link null}.
      */
     public static <T extends Comparable<T>> boolean equals(T a, T b) {
-        return a!=null&&b!=null&& a.compareTo(b)==0;
+        return a!=null && b!=null && a.compareTo(b)==0;
     }
 }

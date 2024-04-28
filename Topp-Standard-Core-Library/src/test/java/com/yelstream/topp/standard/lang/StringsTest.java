@@ -113,4 +113,38 @@ class StringsTest {
         Assertions.assertEquals(Arrays.asList("abc"),Strings.distinct(Arrays.asList(null,null,"abc",null)));
         Assertions.assertEquals(Arrays.asList("abc","xyz"),Strings.distinct(Arrays.asList("abc"," ","xyz")));
     }
+
+
+    /**
+     * Test of {@link Comparables#equals(Comparable,Comparable)}.
+     */
+    @SuppressWarnings({"ConstantValue","StringOperationCanBeSimplified"})
+    @Test
+    void equals() {
+        {
+            String a=null;
+            String b=null;
+            Assertions.assertFalse(Strings.equals(a,b));
+        }
+        {
+            String a="x";
+            String b=null;
+            Assertions.assertFalse(Strings.equals(a,b));
+            Assertions.assertFalse(Strings.equals(b,a));
+        }
+        {
+            String a="x";
+            String b="y";
+            Assertions.assertFalse(Strings.equals(a,b));
+            Assertions.assertFalse(Strings.equals(b,a));
+        }
+        {
+            String a="z";
+            String b=new String("z");
+            Assertions.assertNotSame(a,b);
+            Assertions.assertTrue(Strings.equals(a,b));
+            Assertions.assertTrue(Strings.equals(b,a));
+        }
+    }
+
 }

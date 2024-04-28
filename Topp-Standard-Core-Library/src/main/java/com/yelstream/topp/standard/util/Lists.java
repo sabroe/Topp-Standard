@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /**
@@ -20,6 +21,9 @@ import java.util.stream.StreamSupport;
 public class Lists {
     /**
      * Creates a list from an {@link Iterable} instance.
+     * <p>
+     *     Note that the create list is always a copy, it is not immutable, and it may contain {@code null} elements.
+     * </p>
      * @param iterable Iterable.
      * @return Created list.
      * @param <T> Type of elements.
@@ -35,6 +39,9 @@ public class Lists {
 
     /**
      * Creates a list from an {@link Iterator} instance.
+     * <p>
+     *     Note that the create list is always a copy, it is not immutable, and it may contain {@code null} elements.
+     * </p>
      * @param iterator Iterator.
      * @return Created list.
      * @param <T> Type of elements.
@@ -49,7 +56,10 @@ public class Lists {
     }
 
     /**
-     * Creates a list from an {@link Spliterator} instance.
+     * Creates a list from a {@link Spliterator} instance.
+     * <p>
+     *     Note that the create list is always a copy, it is not immutable, and it may contain {@code null} elements.
+     * </p>
      * @param spliterator Spliterator.
      * @return Created list.
      * @param <T> Type of elements.
@@ -57,7 +67,7 @@ public class Lists {
     public static <T> List<T> of(Spliterator<T> spliterator) {
         List<T> result=null;
         if (spliterator!=null) {
-            result=StreamSupport.stream(spliterator,false).toList();
+            result=StreamSupport.stream(spliterator,false).collect(Collectors.toCollection(ArrayList::new));
         }
         return result;
     }
@@ -65,7 +75,8 @@ public class Lists {
     /**
      * Creates a list of elements.
      * <p>
-     *     Note that elements may be {@code null} and contrary to {@link List#of(Object[])}.
+     *     Note that the create list is always a copy, it is not immutable, and it may contain {@code null} elements.
+     *     The last contrary to {@link List#of(Object[])}.
      * </p>
      * @param elements Elements.
      * @return Created list.
@@ -79,13 +90,14 @@ public class Lists {
     /**
      * Creates a list of elements.
      * <p>
-     *     Note that elements may be {@code null} and contrary to {@link List#of(Object[])}.
+     *     Note that the create list is always a copy, it is not immutable, and it may contain {@code null} elements.
+     *     The last contrary to {@link List#of(Object[])}.
      * </p>
      * @param elements Elements.
      * @return Created list.
      * @param <T> Type of elements.
      */
     public static <T> List<T> ofArray(T[] elements) {
-        return elements==null?null:Arrays.asList(elements);
+        return elements==null?null:new ArrayList<>(Arrays.asList(elements));
     }
 }
