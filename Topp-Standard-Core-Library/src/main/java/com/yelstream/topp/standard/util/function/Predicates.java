@@ -21,7 +21,10 @@ public class Predicates {
      */
     @SuppressWarnings("java:S1201")
     public static Predicate<String> equals(String value) {
-        return x->x.equals(value);
+        if (value==null) {
+            throw new IllegalArgumentException("Failure to construct predicate for 'equals'; argument must be non-null!");
+        }
+        return x->x!=null && x.equals(value);
     }
 
     /**
@@ -30,7 +33,10 @@ public class Predicates {
      * @return Created matcher.
      */
     public static Predicate<String> equalsIgnoreCase(String value) {
-        return x->x.equalsIgnoreCase(value);
+        if (value==null) {
+            throw new IllegalArgumentException("Failure to construct predicate for 'equalsIgnoreCase'; argument must be non-null!");
+        }
+        return x->x!=null && x.equalsIgnoreCase(value);
     }
 
     /**
@@ -39,7 +45,10 @@ public class Predicates {
      * @return Created matcher.
      */
     public static Predicate<String> contains(String value) {
-        return x->x.contains(value);
+        if (value==null) {
+            throw new IllegalArgumentException("Failure to construct predicate for 'contains'; argument must be non-null!");
+        }
+        return x->x!=null && x.contains(value);
     }
 
     /**
@@ -48,7 +57,10 @@ public class Predicates {
      * @return Created matcher.
      */
     public static Predicate<String> matches(String regEx) {
-        return x->x.matches(regEx);
+        if (regEx==null) {
+            throw new IllegalArgumentException("Failure to construct predicate for 'matches'; argument must be non-null!");
+        }
+        return x->x!=null && x.matches(regEx);
     }
 
     /**
@@ -57,6 +69,9 @@ public class Predicates {
      * @return Created matcher.
      */
     public static Predicate<String> matches(Pattern pattern) {
-        return x->pattern.matcher(x).matches();
+        if (pattern==null) {
+            throw new IllegalArgumentException("Failure to construct predicate for 'matches'; argument must be non-null!");
+        }
+        return x->x!=null && pattern.matcher(x).matches();
     }
 }
