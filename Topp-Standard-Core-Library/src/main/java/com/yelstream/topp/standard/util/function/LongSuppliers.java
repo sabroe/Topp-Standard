@@ -2,25 +2,24 @@ package com.yelstream.topp.standard.util.function;
 
 import lombok.experimental.UtilityClass;
 
-import java.util.function.Supplier;
+import java.util.function.LongSupplier;
 
 /**
- * Utility addressing instances of {@link Supplier}.
+ * Utility addressing instances of {@link LongSupplier}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-04-23
+ * @since 2024-04-29
  */
 @UtilityClass
-public class Suppliers {
+public class LongSuppliers {
     /**
      * Creates a new supplier which is fixed in its value.
      * @param value Supplied value.
      * @return Created supplier.
      *         On multiple invocations, the supplied value is unchanged.
-     * @param <T> Type of supplied value.
      */
-    public static <T> Supplier<T> fix(T value) {
+    public static LongSupplier fix(long value) {
         return ()->value;
     }
 
@@ -30,9 +29,8 @@ public class Suppliers {
      *                 This is called immediately and up-front.
      * @return Created supplier.
      *         On multiple invocations, the supplied value is unchanged.
-     * @param <T> Type of supplied value.
      */
-    public static <T> Supplier<T> fix(Supplier<T> supplier) {
+    public static LongSupplier fix(LongSupplier supplier) {
         return fixInAdvance(supplier);
     }
 
@@ -42,13 +40,12 @@ public class Suppliers {
      *                 This is called immediately and up-front.
      * @return Created supplier.
      *         On multiple invocations, the supplied value is unchanged.
-     * @param <T> Type of supplied value.
      */
-    public static <T> Supplier<T> fixInAdvance(Supplier<T> supplier) {
+    public static LongSupplier fixInAdvance(LongSupplier supplier) {
         if (supplier==null) {
             return null;
         } else {
-            T value=supplier.get();
+            long value=supplier.getAsLong();
             return ()->value;
         }
     }
@@ -59,9 +56,8 @@ public class Suppliers {
      *                 This is called only on-demand.
      * @return Created supplier.
      *         On multiple invocations, the supplied value is unchanged.
-     * @param <T> Type of supplied value.
      */
-    public static <T> Supplier<T> fixOnDemand(Supplier<T> supplier) {
-        return supplier==null?null:MemoizedSupplier.Strategy.DoubleChecked.of(supplier);
+    public static LongSupplier fixOnDemand(LongSupplier supplier) {
+        return supplier==null?null:MemoizedLongSupplier.Strategy.DoubleChecked.of(supplier);
     }
 }
