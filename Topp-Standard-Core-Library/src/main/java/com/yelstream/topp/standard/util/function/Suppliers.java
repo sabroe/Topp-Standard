@@ -45,8 +45,12 @@ public class Suppliers {
      * @param <T> Type of supplied value.
      */
     public static <T> Supplier<T> fixInAdvance(Supplier<T> supplier) {
-        T value=supplier.get();
-        return ()->value;
+        if (supplier==null) {
+            return null;
+        } else {
+            T value=supplier.get();
+            return ()->value;
+        }
     }
 
     /**
@@ -58,6 +62,6 @@ public class Suppliers {
      * @param <T> Type of supplied value.
      */
     public static <T> Supplier<T> fixOnDemand(Supplier<T> supplier) {
-        return MemoizedSupplier.Strategy.DoubleChecked.of(supplier);
+        return supplier==null?null:MemoizedSupplier.Strategy.DoubleChecked.of(supplier);
     }
 }

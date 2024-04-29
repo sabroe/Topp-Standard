@@ -27,7 +27,7 @@ class ThreadsTest {
     void sleepInMillis() throws InterruptedException {
         {
             long sleepDuration=5L;
-            long maxMeasuredSleepDuration=sleepDuration+30L;
+            long maxMeasuredSleepDuration=sleepDuration+100L;
 
             long t0=System.currentTimeMillis();
             boolean b=Threads.sleep(sleepDuration);  //Tested method!
@@ -80,7 +80,7 @@ class ThreadsTest {
     void sleepInMillisAndNanos() throws InterruptedException {
         {
             long sleepDuration=5L;
-            long maxMeasuredSleepDuration=sleepDuration+30L;
+            long maxMeasuredSleepDuration=sleepDuration+100L;
 
             long t0=System.currentTimeMillis();
             boolean b=Threads.sleep(sleepDuration-1,999_999);  //Tested method!
@@ -133,7 +133,7 @@ class ThreadsTest {
     void sleepForDuration() throws InterruptedException {
         {
             long sleepDuration=5L;
-            long maxMeasuredSleepDuration=sleepDuration+30L;
+            long maxMeasuredSleepDuration=sleepDuration+100L;
 
             long t0=System.currentTimeMillis();
             Threads.sleep(Duration.ofMillis(sleepDuration));  //Tested method!

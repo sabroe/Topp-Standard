@@ -11,6 +11,9 @@ import org.junit.platform.suite.api.Suite;
  * @since 2024-04-24
  */
 @Suite
-@SelectClasses({SuppliersTest.class})
-class StreamTestSuite {
+@SelectClasses({SuppliersTest.class,
+                MemoizedIntSupplierTest.class,
+                MemoizedLongSupplierTest.class,
+                MemoizedSupplierTest.class})
+class FunctionTestSuite {
 }
