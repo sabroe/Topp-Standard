@@ -100,4 +100,74 @@ public class Lists {
     public static <T> List<T> ofArray(T[] elements) {
         return elements==null?null:new ArrayList<>(Arrays.asList(elements));
     }
+
+    /**
+     * Indicates, if a list is empty.
+     * @param list List to test.
+     *             This may be {@code null}.
+     * @return Indicates, if list is empty.
+     * @param <T> Type of elements.
+     */
+    public static <T> boolean isEmpty(List<T> list) {
+        return list==null || list.isEmpty();
+    }
+
+    /**
+     * Indicates, if a list is non-empty.
+     * @param list List to test.
+     *             This may be {@code null}.
+     * @return Indicates, if list is non-empty.
+     * @param <T> Type of elements.
+     */
+    public static <T> boolean isNonEmpty(List<T> list) {
+        return !isEmpty(list);
+    }
+
+    /**
+     * Gets the first element of a list.
+     * @param list List.
+     *             This may be {@code null}.
+     * @return First element
+     *         This may be {@code null}.
+     * @param <T> Type of elements.
+     */
+    public static <T> T getFirst(List<T> list) {
+        return isEmpty(list)?null:list.getFirst();
+    }
+
+    /**
+     * Gets the last element of a list.
+     * @param list List.
+     *             This may be {@code null}.
+     * @return Last element
+     *         This may be {@code null}.
+     * @param <T> Type of elements.
+     */
+    public static <T> T getLast(List<T> list) {
+        return isEmpty(list)?null:list.getLast();
+    }
+
+    /**
+     * Removes the first element of a list.
+     * @param list List.
+     *             This may be {@code null}.
+     * @return Removed element
+     *         This may be {@code null}.
+     * @param <T> Type of elements.
+     */
+    public static <T> T removeFirst(List<T> list) {
+        return isEmpty(list)?null:list.removeFirst();
+    }
+
+    /**
+     * Removes the last element of a list.
+     * @param list List.
+     *             This may be {@code null}.
+     * @return Last element
+     *         This may be {@code null}.
+     * @param <T> Type of elements.
+     */
+    public static <T> T removeLast(List<T> list) {
+        return isEmpty(list)?null:list.removeLast();
+    }
 }
