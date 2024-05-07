@@ -46,6 +46,8 @@ class SuppliersTest {
      */
     @Test
     void fixInAdvance() {
+        Assertions.assertNull(Suppliers.fixInAdvance(null));
+
         Supplier<Integer> source=()->117;
         Supplier<Integer> supplier=Suppliers.fixInAdvance(source);
 
@@ -59,6 +61,8 @@ class SuppliersTest {
      */
     @Test
     void fixOnDemand() {
+        Assertions.assertNull(Suppliers.fixOnDemand(null));
+
         AtomicInteger value=new AtomicInteger(0);  //No value set ... yet!
         Supplier<Integer> source=value::get;
         Supplier<Integer> supplier=Suppliers.fixOnDemand(source);  //If anything is executed and read here then it is not 117!

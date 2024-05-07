@@ -12,8 +12,11 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({SuppliersTest.class,
+                IntSuppliersTest.class,
+                LongSuppliersTest.class,
                 MemoizedIntSupplierTest.class,
                 MemoizedLongSupplierTest.class,
-                MemoizedSupplierTest.class})
+                MemoizedSupplierTest.class,
+                PredicatesTest.class})
 class FunctionTestSuite {
 }

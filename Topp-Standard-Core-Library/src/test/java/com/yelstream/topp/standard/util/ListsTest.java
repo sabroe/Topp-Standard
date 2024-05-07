@@ -229,4 +229,72 @@ class ListsTest {
             Assertions.assertTrue(l2.containsAll(l));
         }
     }
+
+    /**
+     * Test of {@link Lists#isEmpty(List)}.
+     */
+    @Test
+    void isEmpty() {
+       Assertions.assertTrue(Lists.isEmpty(null));
+       Assertions.assertTrue(Lists.isEmpty(List.of()));
+       Assertions.assertFalse(Lists.isEmpty(List.of("X","Y")));
+    }
+
+    /**
+     * Test of {@link Lists#isNonEmpty(List)}.
+     */
+    @Test
+    void isNonEmpty() {
+        Assertions.assertFalse(Lists.isNonEmpty(null));
+        Assertions.assertFalse(Lists.isNonEmpty(List.of()));
+        Assertions.assertTrue(Lists.isNonEmpty(List.of("X","Y")));
+    }
+
+    /**
+     * Test of {@link Lists#getFirst(List)}.
+     */
+    @Test
+    void getFirst() {
+        Assertions.assertNull(Lists.getFirst(null));
+        Assertions.assertNull(Lists.getFirst(List.of()));
+        Assertions.assertEquals("X",Lists.getFirst(List.of("X","Y")));
+    }
+
+    /**
+     * Test of {@link Lists#getLast(List)}.
+     */
+    @Test
+    void getLast() {
+        Assertions.assertNull(Lists.getLast(null));
+        Assertions.assertNull(Lists.getLast(List.of()));
+        Assertions.assertEquals("Y",Lists.getLast(List.of("X","Y")));
+    }
+
+    /**
+     * Test of {@link Lists#removeFirst(List)}.
+     */
+    @Test
+    void removeFirst() {
+        Assertions.assertNull(Lists.removeFirst(null));
+        Assertions.assertNull(Lists.removeFirst(List.of()));
+
+        List<String> l=Lists.of("X","Y","Z");
+        Assertions.assertEquals("X",Lists.removeFirst(l));
+        Assertions.assertEquals(2,l.size());
+        Assertions.assertEquals(Lists.of("Y","Z"),l);
+    }
+
+    /**
+     * Test of {@link Lists#removeLast(List)}.
+     */
+    @Test
+    void removeLast() {
+        Assertions.assertNull(Lists.removeLast(null));
+        Assertions.assertNull(Lists.removeLast(List.of()));
+
+        List<String> l=Lists.of("X","Y","Z");
+        Assertions.assertEquals("Z",Lists.removeLast(l));
+        Assertions.assertEquals(2,l.size());
+        Assertions.assertEquals(Lists.of("X","Y"),l);
+    }
 }
