@@ -235,9 +235,9 @@ class ListsTest {
      */
     @Test
     void isEmpty() {
-       Assertions.assertTrue(Lists.isEmpty(null));
-       Assertions.assertTrue(Lists.isEmpty(List.of()));
-       Assertions.assertFalse(Lists.isEmpty(List.of("X","Y")));
+        Assertions.assertTrue(Lists.isEmpty(null));
+        Assertions.assertTrue(Lists.isEmpty(List.of()));
+        Assertions.assertFalse(Lists.isEmpty(List.of("X","Y")));
     }
 
     /**
