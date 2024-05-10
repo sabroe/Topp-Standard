@@ -3,6 +3,7 @@ package com.yelstream.topp.standard.time.watch;
 import lombok.AllArgsConstructor;
 
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.function.LongSupplier;
 import java.util.function.LongUnaryOperator;
@@ -54,6 +55,18 @@ class DefaultDurationWatch implements DurationWatch {
     @SuppressWarnings("java:S3398")
     private long scaledDelta(long t) {
         return durationScale.applyAsLong(t);
+    }
+
+    /**
+     * Converts a duration value to a duration object.
+     * @param st Duration value.
+     *           This in nanoseconds.
+     * @return Duration.
+     *         This in nanoseconds.
+     */
+    @SuppressWarnings("java:S3398")
+    private long toNanos(long st) {
+        return timeUnit.getDuration().toNanos()*st;  //Yes, please avoid allocation; instead of 'Duration.of(st,timeUnit).toNanos()', use this!
     }
 
     /**
@@ -121,6 +134,19 @@ class DefaultDurationWatch implements DurationWatch {
             private long scaledDelta() {
                 long t=delta();
                 return DefaultDurationWatch.this.scaledDelta(t);
+            }
+
+            @Override
+            public long toNanos() {
+                long st=scaledDelta();
+                return DefaultDurationWatch.this.toNanos(st);
+            }
+
+            private static final long NANOSECONDS_PER_MILLISECOND=ChronoUnit.MILLIS.getDuration().toNanos();
+
+            @Override
+            public long toMillis() {
+                return (toNanos()+(NANOSECONDS_PER_MILLISECOND/2))/NANOSECONDS_PER_MILLISECOND;
             }
 
             @Override
