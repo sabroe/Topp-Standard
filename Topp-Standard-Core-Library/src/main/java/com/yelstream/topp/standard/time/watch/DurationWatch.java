@@ -37,6 +37,20 @@ public interface DurationWatch {
         /**
          * Gets the time measured.
          * @return Time measured.
+         *         This is in nanoseconds.
+         */
+        long toNanos();
+
+        /**
+         * Gets the time measured.
+         * @return Time measured.
+         *         This is in milliseconds.
+         */
+        long toMillis();
+
+        /**
+         * Gets the time measured.
+         * @return Time measured.
          */
         Duration toDuration();
     }
