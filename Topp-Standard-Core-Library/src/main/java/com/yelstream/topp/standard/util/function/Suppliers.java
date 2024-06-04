@@ -2,6 +2,8 @@ package com.yelstream.topp.standard.util.function;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -63,5 +65,9 @@ public class Suppliers {
      */
     public static <T> Supplier<T> fixOnDemand(Supplier<T> supplier) {
         return supplier==null?null:MemoizedSupplier.Strategy.DoubleChecked.of(supplier);
+    }
+
+    public static <T> List<T> substantiate(List<Supplier<T>> suppliers) {
+        return suppliers==null?null:suppliers.stream().filter(Objects::nonNull).map(Supplier::get).toList();
     }
 }
