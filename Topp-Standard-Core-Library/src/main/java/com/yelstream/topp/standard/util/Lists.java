@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Spliterator;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -169,5 +171,14 @@ public class Lists {
      */
     public static <T> T removeLast(List<T> list) {
         return isEmpty(list)?null:list.removeLast();
+    }
+
+    public static <T> List<T> filter(List<T> list,
+                                     Predicate<T> predicate) {
+        return list==null?null:list.stream().filter(predicate).toList();
+    }
+
+    public static <T> List<T> nonNull(List<T> list) {
+        return filter(list,Objects::nonNull);
     }
 }
