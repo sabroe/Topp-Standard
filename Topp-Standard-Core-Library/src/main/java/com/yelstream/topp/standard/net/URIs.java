@@ -33,22 +33,27 @@ import java.net.URISyntaxException;
  */
 @UtilityClass
 public class URIs {
-
     /**
+     * Creates a URI.
+     * <p>
+     *     The creation is on the premises of the existing constructors of {@link URI} and Lombok.
+     * </p>
+     * <p>
+     *     For another example of a builder, with a different purpose, consider taking a look at
+     *     <a href="https://jakarta.ee/specifications/restful-ws/4.0/apidocs/jakarta.ws.rs/jakarta/ws/rs/core/uribuilder">JAX-RS UriBuilder</a>.
+     * </p>
      *
-     * https://jakarta.ee/specifications/restful-ws/4.0/apidocs/jakarta.ws.rs/jakarta/ws/rs/core/uribuilder
-     *
-     * @param scheme
-     * @param schemeSpecificPart
-     * @param authority
-     * @param userInfo
-     * @param host
-     * @param port
-     * @param path
-     * @param query
-     * @param fragment
-     * @return
-     * @throws URISyntaxException
+     * @param scheme Scheme.
+     * @param schemeSpecificPart Scheme specific part.
+     * @param authority Authority.
+     * @param userInfo User info.
+     * @param host Host.
+     * @param port Port.
+     * @param path Path.
+     * @param query Query.
+     * @param fragment Fragment.
+     * @return Created URI.
+     * @throws URISyntaxException Thrown in case of URI syntax error.
      */
     @lombok.Builder(builderClassName="Builder")  //TODO: Rename to 'URIBuilder'!
     @SuppressWarnings({"java:S2589","java:S1066","ConstantConditions","unused","java:S3776","java:S107"})
@@ -70,13 +75,13 @@ public class URIs {
         }
 
         if (uri==null) {
-            if (userInfo!=null || port!=-1) {
+            if (userInfo!=null || port!=-1 || (host!=null && (port!=-1 || query!=null))) {
                 uri=new URI(scheme,userInfo,host,port,path,query,fragment);
             }
         }
 
         if (uri==null) {
-            if ((host!=null || path!=null || fragment!=null) && (userInfo==null && port==-1 && query==null && authority==null)) {
+            if ((host!=null || path!=null || fragment!=null) && (userInfo==null && port==-1 && query==null/* && authority==null*/)) {
                 uri=new URI(scheme,host,path,fragment);
             }
         }
@@ -90,8 +95,12 @@ public class URIs {
         return uri;
     }
 
+    /**
+     * Builder of {@link URI} instances.
+     */
     @SuppressWarnings({"unused","java:S1450","FieldCanBeLocal","UnusedReturnValue","java:S1066"})
     public static class Builder {
+
          public Builder uri(URI uri) {
             scheme(uri.getScheme());
             schemeSpecificPart(uri.getSchemeSpecificPart());
@@ -102,7 +111,7 @@ public class URIs {
             path(uri.getPath());
             query(uri.getQuery());
             fragment(uri.getFragment());
-            if ("file".equals(scheme)) {
+            if ("file".equals(scheme) && schemeSpecificPart.startsWith("//")) {
                 if (host==null) {
                     host("");
                 }
@@ -122,87 +131,6 @@ public class URIs {
 
         public static Builder fromPath(String path) {
             return builder().path(path);
-        }
-    }
-
-}
-
-class Test {
-
-    /*
-     mailto:java-net@www.example.com
-     news:comp.lang.java
-     urn:isbn:096139210x
-
-     http://example.com/languages/java/
-     sample/a/index.html#28
-     ../../demo/b/index.html
-     file:///~/calendar
-     */
-    public static void main(String[] args) throws URISyntaxException {
-        {
-            URIs.Builder builder = URIs.builder();
-            URI uri1 = new URI("mailto:java-net@www.example.com");
-            builder.uri(uri1);
-            URI uri2 = builder.build();
-            System.out.println(uri1 + ", " + uri2);
-        }
-        {
-            URIs.Builder builder = URIs.builder();
-            URI uri1 = new URI("news:comp.lang.java");
-            builder.uri(uri1);
-            URI uri2 = builder.build();
-            System.out.println(uri1 + ", " + uri2);
-        }
-        {
-            URIs.Builder builder = URIs.builder();
-            URI uri1 = new URI("urn:isbn:096139210x");
-            builder.uri(uri1);
-            URI uri2 = builder.build();
-            System.out.println(uri1 + ", " + uri2);
-        }
-        {
-            URIs.Builder builder = URIs.builder();
-            URI uri1 = new URI("http://example.com/languages/java/");
-            builder.uri(uri1);
-            builder.host("xxx.com");
-            URI uri2 = builder.build();
-            System.out.println(uri1 + ", " + uri2);
-        }
-        {
-            URIs.Builder builder = URIs.builder();
-            URI uri1 = new URI("sample/a/index.html#28");
-            builder.uri(uri1);
-            URI uri2 = builder.build();
-            System.out.println(uri1 + ", " + uri2);
-        }
-        {
-            URIs.Builder builder = URIs.builder();
-            URI uri1 = new URI("../../demo/b/index.html");
-            builder.uri(uri1);
-            URI uri2 = builder.build();
-            System.out.println(uri1 + ", " + uri2);
-        }
-        {
-            URIs.Builder builder = URIs.builder();
-            URI uri1 = new URI("file:///~/calendar");
-            builder.uri(uri1);
-            URI uri2 = builder.build();
-            System.out.println(uri1 + ", " + uri2);
-        }
-        {
-            URIs.Builder builder = URIs.builder();
-            URI uri1 = new URI("file://server/~/calendar");
-            builder.uri(uri1);
-            URI uri2 = builder.build();
-            System.out.println(uri1 + ", " + uri2);
-        }
-        {
-            URIs.Builder builder = URIs.builder();
-            URI uri1 = new URI("file://server/~/calendar-dir/");
-            builder.uri(uri1);
-            URI uri2 = builder.build();
-            System.out.println(uri1 + ", " + uri2);
         }
     }
 
