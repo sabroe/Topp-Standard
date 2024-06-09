@@ -94,4 +94,63 @@ class URIsTest {
             Assertions.assertEquals(expectedUri.toString(),uri1.toString());
         }
     }
+
+    /**
+     * Tests the matching, parsing and rebuilding of URIs in some not used or not compatible formats.
+     * @throws URISyntaxException Thrown in case of URI syntax error.
+     */
+    @ParameterizedTest
+    @ValueSource(strings=
+        {
+            "docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.8.2",
+            "docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.8.3#some-fragment",
+        }
+    )
+    void rebuildURILikeAndNonStandard(String uri) throws URISyntaxException {
+        URI uri1=new URI(uri);
+        URIs.Builder builder=URIs.builder();
+        builder.uri(uri1);
+        URI uri2=builder.build();
+
+        Assertions.assertEquals(uri1,uri2);
+        Assertions.assertEquals(uri,uri2.toString());
+    }
+
+    /**
+     * Tests the matching, parsing and rebuilding of URIs with the non-standard scheme "docker".
+     * @throws URISyntaxException Thrown in case of URI syntax error.
+     */
+    @ParameterizedTest
+    @ValueSource(strings=
+        {
+            "docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0",
+            "docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0#some-fragment"
+        }
+    )
+    void schemaDocker(String uri) throws URISyntaxException {
+        URI uri1=new URI(uri);
+        URIs.Builder builder=URIs.builder();
+        builder.uri(uri1);
+        URI uri2=builder.build();
+
+        Assertions.assertEquals(uri1,uri2);
+        Assertions.assertEquals(uri,uri2.toString());
+
+        Assertions.assertEquals("docker",uri2.getScheme());
+        Assertions.assertEquals("nexus.yelstream.com",uri2.getHost());
+        Assertions.assertEquals(5000,uri2.getPort());
+        Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence:1.0.0",uri2.getPath());
+    }
+
+    @Test
+    void taggedPath() throws URISyntaxException {
+        String uriText="docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0";
+        URI uri=new URI(uriText);
+        URIs.Builder builder=URIs.Builder.fromURI(uri);
+
+        TaggedPath taggedPath=builder.taggedPath();
+
+        Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.getPath());
+        Assertions.assertEquals("1.0.0",taggedPath.getTag());
+    }
 }
