@@ -161,7 +161,7 @@ public class URIs {
         }
 
         public Builder tag(String tag) {
-            taggedPath(taggedPath().toBuilder().tag(tag).build());
+            taggedPath(taggedPath().tag(tag));
             return this;
         }
 
@@ -170,7 +170,16 @@ public class URIs {
         }
 
         public Builder untaggedPath(String path) {
-            taggedPath(taggedPath().toBuilder().path(path).build());
+            taggedPath(taggedPath().path(path));
+            return this;
+        }
+
+        public MappedQuery mappedQuery() {
+            return MappedQuery.of(query);
+        }
+
+        public Builder mappedQuery(MappedQuery mappedQuery) {
+            query(mappedQuery.formatAsString());
             return this;
         }
     }
