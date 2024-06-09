@@ -10,6 +10,9 @@ import lombok.Getter;
  *   {@code nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0}
  *   this associates ({@code /yelstream.com/topp/application/docker-intelligence},{@code 1.0.0}).
  * </p>
+ * <p>
+ *     This is immutable.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -34,6 +37,14 @@ public class TaggedPath {
      * </p>
      */
     private final String tag;
+
+    public TaggedPath path(String path) {
+        return toBuilder().path(path).build();
+    }
+
+    public TaggedPath tag(String tag) {
+        return toBuilder().tag(tag).build();
+    }
 
     /**
      * Creates the full path.
