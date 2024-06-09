@@ -2,6 +2,7 @@ package com.yelstream.topp.standard.net;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * Associates (path,tag) as present in a Docker name.
@@ -19,6 +20,7 @@ import lombok.Getter;
  * @since 2024-06-09
  */
 @Getter
+@Accessors(fluent=true)
 @lombok.Builder(builderClassName="Builder",toBuilder=true)
 @AllArgsConstructor(staticName="of")
 public class TaggedPath {

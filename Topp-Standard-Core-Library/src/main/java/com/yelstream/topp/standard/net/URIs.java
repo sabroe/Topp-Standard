@@ -157,7 +157,7 @@ public class URIs {
         }
 
         public String tag() {
-            return taggedPath().getTag();
+            return taggedPath().tag();
         }
 
         public Builder tag(String tag) {
@@ -166,7 +166,7 @@ public class URIs {
         }
 
         public String untaggedPath() {
-            return TaggedPath.ofFullPath(path).getPath();
+            return TaggedPath.ofFullPath(path).path();
         }
 
         public Builder untaggedPath(String path) {
