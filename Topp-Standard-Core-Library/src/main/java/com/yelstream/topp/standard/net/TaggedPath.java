@@ -83,4 +83,13 @@ public class TaggedPath {
             return TaggedPath.of(fullPath.substring(0,index),fullPath.substring(index+1));
         }
     }
+
+    public SegmentedPath segmentedPath() {
+        return null;  //TO-DO: Fix!
+    }
+
+    public TaggedPath segmentedPath(SegmentedPath segmentedPath) {
+        //TO-DO: Fix!
+        return this;
+    }
 }

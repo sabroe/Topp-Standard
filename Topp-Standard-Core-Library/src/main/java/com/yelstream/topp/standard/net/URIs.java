@@ -182,5 +182,14 @@ public class URIs {
             query(mappedQuery.formatAsString());
             return this;
         }
+
+        public SegmentedPath segmentedPath() {
+            return null;  //TO-DO: Fix!
+        }
+
+        public Builder segmentedPath(SegmentedPath segmentedPath) {
+            //TO-DO: Fix!
+            return this;
+        }
     }
 }
