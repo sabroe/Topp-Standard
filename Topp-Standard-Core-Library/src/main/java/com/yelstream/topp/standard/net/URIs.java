@@ -39,8 +39,8 @@ public class URIs {
      * The creation is on the premises of the existing constructors of {@link URI} and Lombok.
      * </p>
      * <p>
-     * For another example of a builder, with a different purpose, consider taking a look at
-     * <a href="https://jakarta.ee/specifications/restful-ws/4.0/apidocs/jakarta.ws.rs/jakarta/ws/rs/core/uribuilder">JAX-RS UriBuilder</a>.
+     * For another example of a builder, with a different purpose of supporting REST, consider taking a look at the
+     * <a href="https://jakarta.ee/specifications/restful-ws/4.0/apidocs/jakarta.ws.rs/jakarta/ws/rs/core/uribuilder">Jakarta JAX-RS UriBuilder</a>.
      * </p>
      *
      * @param scheme             Scheme.
