@@ -124,7 +124,8 @@ class URIsTest {
     @ValueSource(strings=
         {
             "docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0",
-            "docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0#some-fragment"
+            "docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0#some-fragment",
+            "docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0?x=1&y=2&z=3#some-fragment"
         }
     )
     void schemaDocker(String uri) throws URISyntaxException {
@@ -144,13 +145,25 @@ class URIsTest {
 
     @Test
     void taggedPath() throws URISyntaxException {
-        String uriText="docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0";
-        URI uri=new URI(uriText);
-        URIs.Builder builder=URIs.Builder.fromURI(uri);
+        {
+            String uriText="docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0";
+            URI uri=new URI(uriText);
+            URIs.Builder builder=URIs.Builder.fromURI(uri);
 
-        TaggedPath taggedPath=builder.taggedPath();
+            TaggedPath taggedPath=builder.taggedPath();
 
-        Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.getPath());
-        Assertions.assertEquals("1.0.0",taggedPath.getTag());
+            Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.getPath());
+            Assertions.assertEquals("1.0.0",taggedPath.getTag());
+        }
+        {
+            String uriText="docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence";
+            URI uri=new URI(uriText);
+            URIs.Builder builder=URIs.Builder.fromURI(uri);
+
+            TaggedPath taggedPath=builder.taggedPath();
+
+            Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.getPath());
+            Assertions.assertNull(taggedPath.getTag());
+        }
     }
 }
