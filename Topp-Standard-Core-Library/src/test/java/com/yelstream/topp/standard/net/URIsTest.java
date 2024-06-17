@@ -152,8 +152,8 @@ class URIsTest {
 
             TaggedPath taggedPath=builder.taggedPath();
 
-            Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.getPath());
-            Assertions.assertEquals("1.0.0",taggedPath.getTag());
+            Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.path());
+            Assertions.assertEquals("1.0.0",taggedPath.tag());
         }
         {
             String uriText="docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence";
@@ -162,8 +162,8 @@ class URIsTest {
 
             TaggedPath taggedPath=builder.taggedPath();
 
-            Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.getPath());
-            Assertions.assertNull(taggedPath.getTag());
+            Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.path());
+            Assertions.assertNull(taggedPath.tag());
         }
     }
 }
