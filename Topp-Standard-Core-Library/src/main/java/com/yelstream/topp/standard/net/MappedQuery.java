@@ -20,7 +20,7 @@ public class MappedQuery {
     }
 
     public String value(String key) {
-        return multiMap.get(key).getFirst();  //TO-DO: Check for presence of a first element, else exceptioN!
+        return multiMap.get(key).getFirst();  //TO-DO: Check for presence of a first element, else exception!
     }
 
     public List<String> values(String key) {
