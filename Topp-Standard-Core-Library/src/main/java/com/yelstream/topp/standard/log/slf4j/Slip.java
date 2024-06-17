@@ -129,7 +129,7 @@ public class Slip {
         Slip.of(log.atDebug()).nop().exec(leb->leb.setMessage("Logging!").log());
         Slip.of(log.atDebug()).nop().exec((c,leb)->leb.setMessage("Logging!").log());
 
-        Conditional.of(log.atDebug()).exec().log("Logging!");
+        //Conditional2.of(log.atDebug()).exec().log("Logging!");
 
         for (int i=0; i<10; i++) {
 //            Conditional2.of("3f35",b->b.limit(5)).exec(log.atInfo(),(c,leb)->leb.log("(1)Logging done; suppressed {}.",c.suppressed()));
