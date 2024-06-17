@@ -23,6 +23,8 @@
 module com.yelstream.topp.standard.core {
     requires static lombok;
     requires org.slf4j;
+    requires io.github.resilience4j.ratelimiter;
+    requires io.github.resilience4j.all;
     exports com.yelstream.topp.standard.lang;
     exports com.yelstream.topp.standard.lang.thread;
     exports com.yelstream.topp.standard.time;

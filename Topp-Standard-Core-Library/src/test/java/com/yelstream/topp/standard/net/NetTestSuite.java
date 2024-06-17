@@ -17,24 +17,19 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.standard.net;
 
-dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.32'
-    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-    api 'org.slf4j:slf4j-api:2.0.13'
-    api 'org.slf4j:slf4j-ext:2.0.13'
-
-api 'io.github.resilience4j:resilience4j-all:2.2.0'
-
-implementation 'org.slf4j:slf4j-simple:2.0.13'  //Note: Temporary! Remove again, binding specific for test!!
-
-    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+/**
+ * Test suite for {@code com.yelstream.topp.standard.net}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-06-07
+ */
+@Suite
+@SelectClasses({URIsTest.class})
+class NetTestSuite {
 }
