@@ -21,6 +21,7 @@ rootProject.name = 'Yelstream Topp Standard Project'
 
 include 'Topp-Standard-Core-Library'
 //include 'Topp-Standard-Inject-Library'
+//include 'module:Logging:Topp-Standard-Log-Assistance-For-SLF4J'  //ADD THIS!!
 
 //Manageability/Operability/Configuration
 //include 'Manageability:Operability:Configuration:MicroProfile:Topp-Standard-MicroProfile-Config-Library'
@@ -29,6 +30,7 @@ include 'Topp-Standard-Core-Library'
 include 'Configuration:MicroProfile:Topp-Standard-MicroProfile-Config-Library'
 include 'Configuration:SmallRye:Topp-Standard-SmallRye-Config-Library'
 include 'Configuration:Quarkus:Topp-Standard-Quarkus-Config-Library'
+
 
 //Manageability/Observability/Logging
 //include 'Manageability:Observability:Logging:Topp-Standard-XXX-XXX-Library'
