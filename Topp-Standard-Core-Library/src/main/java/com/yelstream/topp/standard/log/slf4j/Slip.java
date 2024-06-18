@@ -37,11 +37,16 @@ public class Slip {
             private final long acceptCount;
             private final long suppressedCount;
             private final long nextSuppressedCount;
+            //TO-DO: Add ... 'forced', 'forcedAccept', 'forcedReject'?
         }
 
         private final AtomicReference<State> stateRef = new AtomicReference<>(
             new State()
         );
+
+        public State state() {
+            return stateRef.get();
+        }
 
         private State onAccept() {
             while (true) {
@@ -129,13 +134,15 @@ public class Slip {
         Slip.of(log.atDebug()).nop().exec(leb->leb.setMessage("Logging!").log());
         Slip.of(log.atDebug()).nop().exec((c,leb)->leb.setMessage("Logging!").log());
 
-        //Conditional2.of(log.atDebug()).exec().log("Logging!");
-
-        for (int i=0; i<10; i++) {
-//            Conditional2.of("3f35",b->b.limit(5)).exec(log.atInfo(),(c,leb)->leb.log("(1)Logging done; suppressed {}.",c.suppressed()));
+        for (int i=0; i<11; i++) {
             int finalI=i;
-            Slip.of(log.atInfo()).id("3f35",b->b.limit(5)).exec((c,leb)->leb.log("(2)Logging done; index {}, suppressed {}, accepted {}, rejected {}.", finalI,c.suppressed(),c.accepted(),c.rejected()));
+            Slip.of(log.atInfo()).id("3f35",b->b.limit(5)).exec((c,leb)->leb.log("(1)Logging done; index {}, suppressed {}, accepted {}, rejected {}.", finalI,c.suppressed(),c.accepted(),c.rejected()));
+            Threads.sleep(Duration.ofMillis(100));
+        }
 
+        for (int i=0; i<11; i++) {
+            int finalI=i;
+            Slip.of(log.atInfo()).id("12ab",b->b.limit(5)).exec((c,leb)->leb.log("(2)Logging done; index{}, state {}.", finalI,c.state()));
             Threads.sleep(Duration.ofMillis(100));
         }
     }
