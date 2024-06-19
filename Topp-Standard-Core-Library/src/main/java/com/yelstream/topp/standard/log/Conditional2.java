@@ -1,4 +1,4 @@
-package com.yelstream.topp.standard.log.slf4j;
+package com.yelstream.topp.standard.log;
 
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;

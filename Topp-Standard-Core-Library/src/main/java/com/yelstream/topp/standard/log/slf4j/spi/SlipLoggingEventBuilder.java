@@ -1,16 +1,15 @@
-package com.yelstream.topp.standard.log.slf4j;
+package com.yelstream.topp.standard.log.slf4j.spi;
 
 import lombok.AllArgsConstructor;
 import org.slf4j.Marker;
 import org.slf4j.spi.LoggingEventBuilder;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
 @AllArgsConstructor
-public class SlipLoggingEventBuilder implements LoggingEventBuilder {
+public class SlipLoggingEventBuilder implements LoggingEventBuilder {  //TO-DO: Consider the existence of this!
     /**
      *
      */
