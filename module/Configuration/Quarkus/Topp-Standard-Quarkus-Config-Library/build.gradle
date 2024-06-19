@@ -32,7 +32,7 @@ dependencies {
     api 'org.slf4j:slf4j-api:2.0.13'
     api 'org.slf4j:slf4j-ext:2.0.13'
 
-    api project(':Configuration:SmallRye:Topp-Standard-SmallRye-Config-Library')
+    api project(':module:Configuration:SmallRye:Topp-Standard-SmallRye-Config-Library')
     api 'io.quarkus:quarkus-config-yaml:3.9.3'
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.13'

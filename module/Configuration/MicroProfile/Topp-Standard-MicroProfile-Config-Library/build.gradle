@@ -29,21 +29,15 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
-    api 'org.slf4j:slf4j-api:2.0.13'
-    api 'org.slf4j:slf4j-ext:2.0.13'
+    api project(':module:Topp-Standard-Core-Library')
 
-    api project(':Configuration:MicroProfile:Topp-Standard-MicroProfile-Config-Library')
-    api 'io.smallrye.config:smallrye-config:3.7.1'
-//?? https://foojay.io/today/microprofile-config-for-java-se/
-//    api 'io.smallrye.config:smallrye-config-core:3.7.1'
-//    api 'jakarta.annotation:jakarta.annotation-api:3.0.0'
-
-//https://smallrye.io/blog/smallrye-config-1-8/
+    api 'org.eclipse.microprofile.config:microprofile-config-api:3.1'
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.13'
 
     /*
      * Note:
-     *     https://javadoc.io/doc/io.smallrye/smallrye-config/latest/index.html
+     *     https://javadoc.io/doc/org.eclipse.microprofile.config/microprofile-config-api/latest/index.html
+     *     Note that MicroProfile Config is not CDI enabled!
      */
 }
