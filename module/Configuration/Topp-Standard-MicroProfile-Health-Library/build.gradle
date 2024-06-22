@@ -30,14 +30,13 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
     api project(':module:Topp-Standard-Core-Library')
-
-    api 'org.eclipse.microprofile.config:microprofile-config-api:3.1'
+    api 'org.eclipse.microprofile.health:microprofile-health-api:4.0.1'
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.13'
 
     /*
      * Note:
-     *     https://javadoc.io/doc/org.eclipse.microprofile.config/microprofile-config-api/latest/index.html
-     *     Note that MicroProfile Config is not CDI enabled!
+     *     https://javadoc.io/doc/org.eclipse.microprofile.health/microprofile-health-api/latest/index.html
+     *     Note that MicroProfile Health is not CDI enabled!
      */
 }
