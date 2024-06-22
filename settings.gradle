@@ -21,9 +21,9 @@ rootProject.name = 'Yelstream Topp Standard Project'
 
 include 'module:Topp-Standard-Core-Library'
 //include 'Topp-Standard-Inject-Library'
-include 'module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J'  //ADD THIS!! "LoggingEventBuilder"-content!
-include 'module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J'  //ADD THIS!! "Slip"-content!
+include 'module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library'
+include 'module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library'
 
-include 'module:Configuration:MicroProfile:Topp-Standard-MicroProfile-Config-Library'
-include 'module:Configuration:SmallRye:Topp-Standard-SmallRye-Config-Library'
-include 'module:Configuration:Quarkus:Topp-Standard-Quarkus-Config-Library'
+include 'module:Configuration:Topp-Standard-MicroProfile-Config-Library'
+include 'module:Configuration:Topp-Standard-SmallRye-Config-Library'
+include 'module:Configuration:Topp-Standard-Quarkus-Config-Library'

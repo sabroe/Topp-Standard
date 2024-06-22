@@ -32,7 +32,7 @@ dependencies {
     api 'org.slf4j:slf4j-api:2.0.13'
     api 'org.slf4j:slf4j-ext:2.0.13'
 
-    api project(':module:Configuration:MicroProfile:Topp-Standard-MicroProfile-Config-Library')
+    api project(':module:Configuration:Topp-Standard-MicroProfile-Config-Library')
     api 'io.smallrye.config:smallrye-config:3.7.1'
 //?? https://foojay.io/today/microprofile-config-for-java-se/
 //    api 'io.smallrye.config:smallrye-config-core:3.7.1'
