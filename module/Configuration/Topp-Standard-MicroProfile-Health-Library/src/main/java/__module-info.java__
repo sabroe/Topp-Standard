@@ -17,14 +17,13 @@
  * limitations under the License.
  */
 
-rootProject.name = 'Yelstream Topp Standard Project'
-
-include 'module:Topp-Standard-Core-Library'
-//include 'Topp-Standard-Inject-Library'
-include 'module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library'
-include 'module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library'
-
-include 'module:Configuration:Topp-Standard-MicroProfile-Health-Library'
-include 'module:Configuration:Topp-Standard-MicroProfile-Config-Library'
-include 'module:Configuration:Topp-Standard-SmallRye-Config-Library'
-include 'module:Configuration:Topp-Standard-Quarkus-Config-Library'
+/**
+ * Topp Standard MicroProfile Config addresses Eclipse Foundation MicroProfile Config.
+ */
+module com.yelstream.topp.standard.microprofile.config {
+    requires static lombok;
+    requires org.slf4j;
+    requires microprofile.config.api;
+    exports com.yelstream.topp.standard.microprofile.config.spi;
+    exports com.yelstream.topp.standard.microprofile.config;
+}

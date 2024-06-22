@@ -17,14 +17,27 @@
  * limitations under the License.
  */
 
-rootProject.name = 'Yelstream Topp Standard Project'
+plugins {
+    id 'java'
+    id 'java-library-distribution'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+}
 
-include 'module:Topp-Standard-Core-Library'
-//include 'Topp-Standard-Inject-Library'
-include 'module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library'
-include 'module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library'
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
-include 'module:Configuration:Topp-Standard-MicroProfile-Health-Library'
-include 'module:Configuration:Topp-Standard-MicroProfile-Config-Library'
-include 'module:Configuration:Topp-Standard-SmallRye-Config-Library'
-include 'module:Configuration:Topp-Standard-Quarkus-Config-Library'
+    api project(':module:Topp-Standard-Core-Library')
+
+    api 'org.eclipse.microprofile.config:microprofile-config-api:3.1'
+
+    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+
+    /*
+     * Note:
+     *     https://javadoc.io/doc/org.eclipse.microprofile.config/microprofile-config-api/latest/index.html
+     *     Note that MicroProfile Config is not CDI enabled!
+     */
+}
