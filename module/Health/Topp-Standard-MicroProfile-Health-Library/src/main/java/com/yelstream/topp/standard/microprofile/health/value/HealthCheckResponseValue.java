@@ -21,7 +21,8 @@ import java.util.Optional;
  *     This is immutable.
  * </p>
  * <p>
- *     If this needs to be changed, then use this to create a {@link HealthCheckResponses.Builder}.
+ *     If this needs to be changed,
+ *     then consider using this to create a {@link HealthCheckResponses.Builder}.
  *     build a new {@link HealthCheckResponse},
  *     and convert this into a new {@link HealthCheckResponseValue}.
  * </p>
