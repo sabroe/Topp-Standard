@@ -4,7 +4,6 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.health.HealthCheck;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -16,16 +15,19 @@ import java.util.concurrent.ExecutionException;
  */
 @Slf4j
 @UtilityClass
-public class HealthChecks {
-
-    public static AsyncHealthCheck toAsyncHealthCheck(HealthCheck healthCheck) {
-        return () -> CompletableFuture.supplyAsync(healthCheck::call);
-    }
-
-    public static HealthCheck toHealthCheck(AsyncHealthCheck asyncHealthCheck) {
+public class FutureHealthChecks {
+    /**
+     * Converts an asynchronous health-check to a synchronous health-check.
+     * <p>
+     *     Note that the created health-check does not carry any annotations indicating the probe type.
+     * </p>
+     * @param healthCheck Asynchronous health-check.
+     * @return Synchronous health-check.
+     */
+    public static HealthCheck toHealthCheck(FutureHealthCheck healthCheck) {
         return () -> {
             try {
-                return asyncHealthCheck.call().get();
+                return healthCheck.submitCall().get();
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
                 throw new IllegalStateException("Failure to convert health-check type!",ex);

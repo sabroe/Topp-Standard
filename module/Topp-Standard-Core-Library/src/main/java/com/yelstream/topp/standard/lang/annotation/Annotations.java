@@ -23,6 +23,7 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 /**
  * Utility addressing annotation handling.
@@ -37,22 +38,64 @@ public class Annotations {
     /**
      * Indicates, if an object has a specific annotation.
      * @param object Object.
-     * @param annotationClass Annotation.
+     * @param annotation Annotation.
      * @return Indicates, if object has annotation.
      */
     public static boolean hasAnnotation(Object object,
-                                        Class<? extends Annotation> annotationClass) {
-        return hasAnnotation(object.getClass(),annotationClass);
+                                        Class<? extends Annotation> annotation) {
+        return hasAnnotation(object.getClass(),annotation);
     }
 
     /**
      * Indicates, if a class has a specific annotation.
      * @param clazz Class.
-     * @param annotationClass Annotation.
+     * @param annotation Annotation.
      * @return Indicates, if class has annotation.
      */
     public static boolean hasAnnotation(Class<?> clazz,
-                                        Class<? extends Annotation> annotationClass) {
-        return clazz.isAnnotationPresent(annotationClass);
+                                        Class<? extends Annotation> annotation) {
+        return clazz.isAnnotationPresent(annotation);
+    }
+
+    /**
+     * Gets a list of simple, textual names for annotations present upon the class of an object.
+     * @param object Object.
+     * @param annotation Annotations.
+     * @return List of annotation names.
+     */
+    public static List<String> toSimpleNames(Object object,
+                                            List<Class<? extends Annotation>> annotation) {
+        return toSimpleNames(object.getClass(),annotation);
+    }
+
+    /**
+     * Gets a list of simple, textual names for annotations present upon a class.
+     * @param clazz Class.
+     * @param annotation Annotations.
+     * @return List of annotation names.
+     */
+    public static List<String> toSimpleNames(Class<?> clazz,
+                                             List<Class<? extends Annotation>> annotation) {
+        return toSimpleNames(filterByPresence(clazz,annotation));
+    }
+
+    /**
+     * Filters a list of annotations by presence upon a class.
+     * @param clazz Class.
+     * @param annotation Annotations.
+     * @return List of annotations present upon class.
+     */
+    public static List<Class<? extends Annotation>> filterByPresence(Class<?> clazz,
+                                                                     List<Class<? extends Annotation>> annotation) {
+        return annotation.stream().filter(x->hasAnnotation(clazz,x)).toList();
+    }
+
+    /**
+     * Gets a list of simple, textual names for annotations.
+     * @param annotation Annotations.
+     * @return List of annotation names.
+     */
+    public static List<String> toSimpleNames(List<Class<? extends Annotation>> annotation) {
+        return annotation.stream().map(Class::getSimpleName).toList();
     }
 }

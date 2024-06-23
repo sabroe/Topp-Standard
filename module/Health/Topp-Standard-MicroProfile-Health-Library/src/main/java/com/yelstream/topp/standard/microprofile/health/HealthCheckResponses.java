@@ -19,12 +19,16 @@
 
 package com.yelstream.topp.standard.microprofile.health;
 
+import com.yelstream.topp.standard.lang.annotation.Annotations;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,6 +42,17 @@ import java.util.Optional;
 @Slf4j
 @UtilityClass
 public class HealthCheckResponses {
+    /**
+     * Default annotations allowed to be used as decoration upon data of a health-check response.
+     */
+    @SuppressWarnings("java:S2386")
+    public static final List<Class<? extends Annotation>> DEFAULT_ALLOWED_ANNOTATIONS=HealthChecks.DEFAULT_PROBE_ANNOTATIONS;
+
+    /**
+     * Default name used to decorate data of a health-check response with annotations.
+     */
+    public static final String DEFAULT_ANNOTATION_DATA_NAME="check";
+
     /**
      * Converts a health-check response to a builder.
      * @param response Health-check response.
@@ -130,6 +145,79 @@ public class HealthCheckResponses {
         public Builder withData(String key,
                                 boolean value) {
             return data(key,value);
+        }
+
+        /**
+         * Adds simple annotation names to data.
+         * @param key Data key.
+         * @param annotations Annotations in data value as a textual list of simple names.
+         * @return Builder.
+         */
+        public Builder withAnnotations(String key,
+                                       List<Class<? extends Annotation>> annotations) {
+            return withData(key,Annotations.toSimpleNames(annotations).toString());  //Yes, keep value a simple string for possible serialization; respect the intentions with the #withData(...) methods!
+        }
+
+        /**
+         * Adds simple annotation names to data.
+         * @param clazz Class to cross-reference the existence of allowed annotations.
+         * @param key Data key.
+         * @param annotations Allowed annotations in data value as a list of simple names.
+         *                    Note that the annotations are filtered.
+         * @return Builder.
+         */
+        public Builder withAnnotations(String key,
+                                       Class<?> clazz,
+                                       List<Class<? extends Annotation>> annotations) {
+            return withAnnotations(key,Annotations.filterByPresence(clazz,annotations));
+        }
+
+        /**
+         * Adds simple health-check annotation names to data.
+         * @param annotations Annotations in data value as a list of simple names.
+         * @return Builder.
+         */
+        public Builder withCheckAnnotations(List<Class<? extends Annotation>> annotations) {
+            return withAnnotations(DEFAULT_ANNOTATION_DATA_NAME,annotations);
+        }
+
+        /**
+         * Adds simple health-check annotation names to data.
+         * @param clazz Class to cross-reference the existence of allowed annotations.
+         * @param annotations Allowed annotations in data value as a list of simple names.
+         *                    Note that the annotations are filtered.
+         * @return Builder.
+         */
+        public Builder withCheckAnnotations(Class<?> clazz,
+                                            List<Class<? extends Annotation>> annotations) {
+            return withAnnotations(DEFAULT_ANNOTATION_DATA_NAME,clazz,annotations);
+        }
+
+        /**
+         * Adds simple health-check annotation names to data.
+         * @param clazz Class to cross-reference the existence of default allowed annotations.
+         * @return Builder.
+         */
+        public Builder withCheckAnnotations(Class<?> clazz) {
+            return withAnnotations(DEFAULT_ANNOTATION_DATA_NAME,clazz,DEFAULT_ALLOWED_ANNOTATIONS);
+        }
+
+        /**
+         * Adds simple health-check annotation names to data.
+         * @param healthcheck Object to cross-reference the existence of default allowed annotations.
+         * @return Builder.
+         */
+        public Builder withCheckAnnotations(HealthCheck healthcheck) {
+            return withCheckAnnotations(healthcheck.getClass());
+        }
+
+        /**
+         * Adds simple health-check annotation names to data.
+         * @param healthcheck Object to cross-reference the existence of default allowed annotations.
+         * @return Builder.
+         */
+        public Builder withCheckAnnotations(FutureHealthCheck healthcheck) {
+            return withCheckAnnotations(healthcheck.getClass());
         }
 
         /**
