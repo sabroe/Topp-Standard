@@ -18,6 +18,6 @@
  */
 
 /**
- * Utilities addressing reflection.
+ * Utilities addressing annotations.
  */
-package com.yelstream.topp.standard.lang.reflect;
+package com.yelstream.topp.standard.lang.annotation;
