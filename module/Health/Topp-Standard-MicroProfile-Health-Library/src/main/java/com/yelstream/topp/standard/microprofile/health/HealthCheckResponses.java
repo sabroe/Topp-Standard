@@ -155,7 +155,7 @@ public class HealthCheckResponses {
          */
         public Builder withAnnotations(String key,
                                        List<Class<? extends Annotation>> annotations) {
-            return withData(key,Annotations.toSimpleNames(annotations).toString());  //Yes, keep value a simple string for possible serialization; respect the intentions with the #withData(...) methods!
+            return withData(key,Annotations.toSimpleNames(annotations).toString());  //Yes, keep value a simple string for possible serialization; respect the intentions with the '#withData(...)' methods!
         }
 
         /**
