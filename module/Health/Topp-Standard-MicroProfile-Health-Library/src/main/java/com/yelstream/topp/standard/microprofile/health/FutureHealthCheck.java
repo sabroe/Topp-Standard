@@ -12,11 +12,10 @@ import java.util.concurrent.CompletableFuture;
  * @since 2024-06-23
  */
 @FunctionalInterface
-public interface AsyncHealthCheck {
+public interface FutureHealthCheck {
     /**
      * Initiates the health check procedure.
-     *
      * @return Handle to the asynchronously delivered result.
      */
-    CompletableFuture<HealthCheckResponse> call();
+    CompletableFuture<HealthCheckResponse> submitCall();
 }
