@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConfigSources.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Topp-Standard-MicroProfile-Config-Library</a> &gt; <a href="index.source.html" class="el_package">com.yelstream.topp.standard.microprofile.config.source</a> &gt; <span class="el_source">ConfigSources.java</span></div><h1>ConfigSources.java</h1><pre class="source lang-java linenums">/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.yelstream.topp.standard.microprofile.config.source;
+
+import com.yelstream.topp.standard.util.function.Suppliers;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.microprofile.config.spi.ConfigSource;
+
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
+
+/**
+ * Utilities addressing instances of {@link ConfigSource}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-15
+ */
+<span class="fc" id="L40">@Slf4j</span>
+@UtilityClass
+public class ConfigSources {
+    /**
+     * Default factory of suppliers of the name of config sources.
+     * &lt;p&gt;
+     *     To create a new name supplier of the default kind, do {@code DEFAULT_NAME_SUPPLIER_FACTORY.get()}.
+     * &lt;/p&gt;
+     */
+<span class="fc" id="L49">    public static final Supplier&lt;Supplier&lt;String&gt;&gt; DEFAULT_NAME_SUPPLIER_FACTORY=()-&gt;Suppliers.fix(ConfigSources::createName);</span>
+
+    /**
+     * Creates a random name for a config source.
+     * Multiple invocations results in different names.
+     * @return Created name.
+     */
+    public static String createName() {
+<span class="fc" id="L57">        return createName(null);</span>
+    }
+
+    /**
+     * Creates a random name for a config source.
+     * Multiple invocations results in different names.
+     * @param namePrefix Fixed name prefix.
+     * @return Created name.
+     */
+    public static String createName(String namePrefix) {
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        namePrefix=namePrefix!=null?namePrefix:&quot;Config source&quot;;</span>
+<span class="fc" id="L68">        return String.format(&quot;%s // %s&quot;,namePrefix,UUID.randomUUID());</span>
+    }
+
+    /**
+     * Default property name for looking up a local property value specifying the ordinal value.
+     */
+    public static final String DEFAULT_CONFIG_ORDINAL=ConfigSource.CONFIG_ORDINAL;
+
+    /**
+     * Default supplier of the property name for looking up a local property value specifying the ordinal value.
+     */
+<span class="pc" id="L79">    public static final Supplier&lt;String&gt; DEFAULT_CONFIG_ORDINAL_SUPPLIER=()-&gt;DEFAULT_CONFIG_ORDINAL;</span>
+
+    /**
+     * Default ordinal value.
+     */
+    public static final int DEFAULT_ORDINAL=ConfigSource.DEFAULT_ORDINAL;
+
+    /**
+     * Default supplier of an ordinal value.
+     */
+<span class="fc" id="L89">    public static final IntSupplier DEFAULT_ORDINAL_SUPPLIER=()-&gt;DEFAULT_ORDINAL;</span>
+
+    public static int getOrdinal(ConfigSource configSource) {
+<span class="nc" id="L92">        return getOrdinal(configSource::getValue,null,null);</span>
+    }
+
+    public static int getOrdinal(ConfigSource configSource,
+                                 Supplier&lt;String&gt; configOrdinalSupplier,
+                                 IntSupplier ordinalSupplier) {
+<span class="nc" id="L98">        return getOrdinal(configSource::getValue,configOrdinalSupplier,ordinalSupplier);</span>
+    }
+
+    public static int getOrdinal(Map&lt;String,String&gt; properties) {
+<span class="nc" id="L102">        return getOrdinal(properties::get,null,null);</span>
+    }
+
+    public static int getOrdinal(Map&lt;String,String&gt; properties,
+                                 Supplier&lt;String&gt; configOrdinalSupplier,
+                                 IntSupplier ordinalSupplier) {
+<span class="nc" id="L108">        return getOrdinal(properties::get,configOrdinalSupplier,ordinalSupplier);</span>
+    }
+
+    public static int getOrdinal(UnaryOperator&lt;String&gt; propertyAccessor,
+                                 Supplier&lt;String&gt; configOrdinalSupplier,
+                                 IntSupplier ordinalSupplier) {
+
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (configOrdinalSupplier==null) {</span>
+<span class="nc" id="L116">            configOrdinalSupplier=DEFAULT_CONFIG_ORDINAL_SUPPLIER;</span>
+        }
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if (ordinalSupplier==null) {</span>
+<span class="nc" id="L119">            ordinalSupplier=DEFAULT_ORDINAL_SUPPLIER;</span>
+        }
+<span class="nc" id="L121">        String configOrdinal=propertyAccessor.apply(configOrdinalSupplier.get());</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        if (configOrdinal!=null) {</span>
+            try {
+<span class="nc" id="L124">                return Integer.parseInt(configOrdinal);</span>
+<span class="nc" id="L125">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L126">                log.error(&quot;Failure to get ordinal; property value {} is not a number!&quot;,configOrdinal);</span>
+            }
+        }
+<span class="nc" id="L129">        return ordinalSupplier.getAsInt();</span>
+    }
+
+    public static ConfigSource createEmptyConfigSource(String name,
+                                                       int ordinal) {
+<span class="nc" id="L134">        return FixedMapConfigSource.of(name,ordinal,null);</span>
+    }
+
+    public static ConfigSource createEmptyConfigSource() {
+<span class="fc" id="L138">        return FixedMapConfigSource.of(createName(),DEFAULT_ORDINAL,null);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,12 +1,12 @@
 package com.yelstream.topp.standard.microprofile.health.value;
 
-import com.yelstream.topp.standard.microprofile.health.HealthCheckResponses;
+//import com.yelstream.topp.standard.microprofile.health.HealthCheckResponses;
 import com.yelstream.topp.standard.util.Maps;
 import com.yelstream.topp.standard.util.Optionals;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
-import org.eclipse.microprofile.health.HealthCheckResponse;
+//import org.eclipse.microprofile.health.HealthCheckResponse;
 
 import java.util.Map;
 import java.util.Optional;
@@ -43,7 +43,8 @@ public class HealthCheckResponseValue {
     /**
      * Status of health-check response.
      */
-    private final HealthCheckResponse.Status status;
+//    private final HealthCheckResponse.Status status;
+    private final String status;  //TO-DO: Enum; UP, DOWN, possibly something more!
 
     /**
      * Data of health-check response.
@@ -54,15 +55,19 @@ public class HealthCheckResponseValue {
      * Converts this to a health-check response.
      * @return Created health-check response.
      */
+/*
     public HealthCheckResponse toHealthCheckResponse() {
         return new HealthCheckResponse(name,status,Optional.ofNullable(Maps.convertMapValueToObject(this.data)));
     }
+*/
 
     /**
      * Converts a health-check response to a health-check response value.
      * @return Created health-check response value.
      */
+/*
     public static HealthCheckResponseValue fromHealthCheckResponse(HealthCheckResponse response) {
         return new HealthCheckResponseValue(response.getName(),response.getStatus(),Maps.convertMapValueToString(Optionals.get(response.getData())));
     }
+*/
 }

@@ -27,7 +27,7 @@ include 'module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library
 
 include 'module:Health:Topp-Standard-Health-Serialization-Library'
 include 'module:Health:Topp-Standard-MicroProfile-Health-Library'
-include 'module:Health:Topp-Standard-Spring-Boot-Actuator-Library'
+include 'module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library'
 
 include 'module:Configuration:Topp-Standard-MicroProfile-Config-Library'
 include 'module:Configuration:Topp-Standard-SmallRye-Config-Library'
