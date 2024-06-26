@@ -23,5 +23,6 @@
 module com.yelstream.topp.standard.spring.boot.actuator {
     requires static lombok;
     requires org.slf4j;
+    requires com.yelstream.topp.standard.health.serialization;
     exports com.yelstream.topp.standard.spring.boot.actuate.health;
 }
