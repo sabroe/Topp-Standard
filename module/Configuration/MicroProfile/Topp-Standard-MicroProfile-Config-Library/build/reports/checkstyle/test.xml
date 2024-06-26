@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="10.6.0">
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\MicroProfile\Topp-Standard-MicroProfile-Config-Library\src\test\java\com\yelstream\topp\standard\microprofile\config\source\ChainedConfigSourceTest.java">
+</file>
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\MicroProfile\Topp-Standard-MicroProfile-Config-Library\src\test\java\com\yelstream\topp\standard\microprofile\config\source\ConcurrentMapConfigSourceTest.java">
+</file>
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\MicroProfile\Topp-Standard-MicroProfile-Config-Library\src\test\java\com\yelstream\topp\standard\microprofile\config\source\ConfigSourceTests.java">
+<error line="37" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="45" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="57" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="66" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\MicroProfile\Topp-Standard-MicroProfile-Config-Library\src\test\java\com\yelstream\topp\standard\microprofile\config\source\ConfigSourceTestSuite.java">
+</file>
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\MicroProfile\Topp-Standard-MicroProfile-Config-Library\src\test\java\com\yelstream\topp\standard\microprofile\config\source\DynamicMapConfigSourceTest.java">
+</file>
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\MicroProfile\Topp-Standard-MicroProfile-Config-Library\src\test\java\com\yelstream\topp\standard\microprofile\config\source\FixedMapConfigSourceTest.java">
+</file>
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\MicroProfile\Topp-Standard-MicroProfile-Config-Library\src\test\java\com\yelstream\topp\standard\microprofile\config\source\OverrideConfigSourceTest.java">
+</file>
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\MicroProfile\Topp-Standard-MicroProfile-Config-Library\src\test\java\com\yelstream\topp\standard\microprofile\config\source\ProxyConfigSourceTest.java">
+<error line="37" column="1" severity="warning" message="Block comment has incorrect indentation level 0, expected is 4, indentation should be the same level as line 43." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+</file>
+</checkstyle>

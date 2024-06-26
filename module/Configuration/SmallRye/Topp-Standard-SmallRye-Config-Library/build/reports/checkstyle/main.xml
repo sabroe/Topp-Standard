@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="10.6.0">
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\SmallRye\Topp-Standard-SmallRye-Config-Library\src\main\java\com\yelstream\topp\standard\smallrye\config\ConfigurationSpy.java">
+<error line="27" column="1" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="30" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\SmallRye\Topp-Standard-SmallRye-Config-Library\src\main\java\com\yelstream\topp\standard\smallrye\config\net\URIConfig.java">
+<error line="23" column="31" severity="warning" message="WhitespaceAround: &apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="39" column="1" severity="warning" message="Block comment has incorrect indentation level 0, expected is 8, indentation should be the same level as line 44." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+</file>
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\SmallRye\Topp-Standard-SmallRye-Config-Library\src\main\java\com\yelstream\topp\standard\smallrye\config\source\factory\instance\RuntimeConfigSourceFactory.java">
+<error line="29" column="1" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+</file>
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\SmallRye\Topp-Standard-SmallRye-Config-Library\src\main\java\com\yelstream\topp\standard\smallrye\config\source\factory\ListConfigSourceFactory.java">
+<error line="31" column="1" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+</file>
+<file name="D:\private\Topp-Work\Topp-Standard\module\Configuration\SmallRye\Topp-Standard-SmallRye-Config-Library\src\main\java\com\yelstream\topp\standard\smallrye\config\source\factory\ProxyConfigSourceFactory.java">
+</file>
+</checkstyle>
