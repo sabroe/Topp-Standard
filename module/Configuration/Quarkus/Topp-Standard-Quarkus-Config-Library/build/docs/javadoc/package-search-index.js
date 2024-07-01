@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.yelstream.topp.standard.quarkus.config.option"}];updateSearchResults();

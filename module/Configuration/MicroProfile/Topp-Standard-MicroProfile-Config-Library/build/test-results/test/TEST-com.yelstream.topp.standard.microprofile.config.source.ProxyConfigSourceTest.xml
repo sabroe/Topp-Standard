@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.yelstream.topp.standard.microprofile.config.source.ProxyConfigSourceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-06-20T08:20:54" hostname="LPCP2563" time="0.001">
-  <properties/>
-  <testcase name="create()" classname="com.yelstream.topp.standard.microprofile.config.source.ProxyConfigSourceTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
