@@ -20,8 +20,6 @@
 /*
  * Note:
  *     To publish, run the task 'publish'.
- *     To approve the publishing using the Nexus Repository Manager, access https://s01.oss.sonatype.org/#stagingRepositories.
- *     To verify the first stages of approval, access https://repo1.maven.org/maven2/io/github/sabroe/topp/.
  */
 
 plugins.withType(MavenPublishPlugin) {
@@ -70,6 +68,8 @@ plugins.withType(MavenPublishPlugin) {
                 /*
                  * Note:
                  *     Setup applicable for the global GitHub located on "github.com".
+                 *     To approve the publishing using the Nexus Repository Manager, access https://s01.oss.sonatype.org/#stagingRepositories.
+                 *     To verify the first stages of approval, access https://repo1.maven.org/maven2/io/github/sabroe/topp/.
                  */
                 name = 'OSSRH'
                 url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
