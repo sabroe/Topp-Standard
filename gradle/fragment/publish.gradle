@@ -67,11 +67,30 @@ plugins.withType(MavenPublishPlugin) {
 
         repositories {
             maven {
+                /*
+                 * Note:
+                 *     Setup applicable for the global GitHub located on "github.com".
+                 */
                 name = 'OSSRH'
                 url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
                 credentials {
                     username = project.properties['ossrhUsername']
                     password = project.properties['ossrhPassword']
+                }
+            }
+            maven {
+                /*
+                 * Note:
+                 *     Example set for a local, company-specific GitLab instance.
+                 *     This shows how to apply different URLs depending upon a special version suffix.
+                 */
+                name = 'BG'
+                def snapshotUrl = 'https://nexus.beumer.com/repository/maven-snapshots/'
+                def releaseUrl = 'https://nexus.beumer.com/repository/maven-releases/'
+                url = version.endsWith('SNAPSHOT') ? snapshotUrl : releaseUrl
+                credentials {
+                    username = project.properties['bgUsername']
+                    password = project.properties['bgPassword']
                 }
             }
         }
