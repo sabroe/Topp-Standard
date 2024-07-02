@@ -32,3 +32,5 @@ include 'module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library'
 include 'module:Configuration:Topp-Standard-MicroProfile-Config-Library'
 include 'module:Configuration:Topp-Standard-SmallRye-Config-Library'
 include 'module:Configuration:Topp-Standard-Quarkus-Config-Library'
+
+include 'module:Network:Topp-Standard-Network-Tooling-Library'
