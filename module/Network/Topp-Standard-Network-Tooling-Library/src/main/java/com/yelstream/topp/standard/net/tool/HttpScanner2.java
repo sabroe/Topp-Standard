@@ -10,9 +10,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
-import java.util.stream.Collectors;
+import java.util.concurrent.Executors;
 
 public class HttpScanner2 {
 
@@ -88,7 +87,7 @@ public class HttpScanner2 {
                                 return new HalResource(path, 500, "Request failed: " + e.getMessage());
                             });
                 })
-                .collect(Collectors.toList());
+                .toList();
 
         @SuppressWarnings({"unchecked","rawtypes"})
         CompletableFuture<Void> allFutures = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
@@ -96,7 +95,7 @@ public class HttpScanner2 {
         allFutures.thenRun(() -> {
             List<HalResource> results = futures.stream()
                     .map(CompletableFuture::join)
-                    .collect(Collectors.toList());
+                    .toList();
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
