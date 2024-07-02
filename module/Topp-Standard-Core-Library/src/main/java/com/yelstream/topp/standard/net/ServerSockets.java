@@ -9,7 +9,7 @@ public class ServerSockets {
 
 
     @FunctionalInterface
-    public interface BindOperation {
+    public interface BindOperation {  //ServerSocketOperation?
         void bind(ServerSocket serverSocket) throws IOException;
     }
 
