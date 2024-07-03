@@ -20,7 +20,9 @@
 package com.yelstream.topp.standard.net;
 
 import lombok.AllArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -28,7 +30,7 @@ import java.net.SocketAddress;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.function.Function;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 /**
@@ -38,6 +40,7 @@ import java.util.function.Supplier;
  * @version 1.0
  * @since 2024-07-02
  */
+@Slf4j
 @UtilityClass
 public class Sockets {
     /**
@@ -133,20 +136,68 @@ public class Sockets {
         }
     }
 
+    /**
+     * Utility handling instances of {@link ConnectProbe}.
+     */
+    @UtilityClass
+    public static class ConnectProbes {
+        /**
+         * Creates a default connect-probe.
+         */
+        public static ConnectProbe create() {
+            return Sockets::testConnect;
+        }
+    }
 
-    public static <R> CompletableFuture<R> testConnect(Supplier<R> resultSupplier,
-                                                       Executor executor) {
+    private static <R> CompletableFuture<R> testConnect(Supplier<R> resultSupplier,
+                                                        Executor executor) {
         return CompletableFuture.supplyAsync(resultSupplier,executor);
     }
 
-    public static <R> CompletableFuture<R> testConnect(Function<ConnectOperation,R> decoration,
+    private static <R> Supplier<R> resultSupplier(ConnectDecoration<R> decoration,
+                                                  ConnectProbe probe,
+                                                  ConnectOperation operation) {
+        return ()->decoration.apply(probe,operation);
+    }
+
+    public static <R> CompletableFuture<R> testConnect(ConnectDecoration<R> decoration,
+                                                       ConnectProbe probe,
                                                        ConnectOperation operation,
                                                        Executor executor) {
-        Supplier<R> resultSupplier=()->decoration.apply(operation);
+        Supplier<R> resultSupplier=resultSupplier(decoration,probe,operation);
         return testConnect(resultSupplier,executor);
     }
 
 
+    public static <R> CompletableFuture<R> testConnect(ConnectDecoration<R> decoration,
+                                                       ConnectOperation operation,
+                                                       Executor executor) {
+        ConnectProbe probe=ConnectProbes.create();
+        return testConnect(decoration,probe,operation,executor);
+    }
+
+
+
+
+    private static Boolean decorateWithBoolean(ConnectProbe probe,
+                                               ConnectOperation operation) {
+        AtomicReference<Boolean> connected=new AtomicReference<>(null);
+        try {
+            probe.test(socket->{
+                operation.connect(socket);
+                connected.set(Boolean.TRUE);
+            });
+        } catch (IOException ex) {
+            //TO-DO: Log!
+            connected.set(Boolean.FALSE);
+        }
+        return connected.get();
+    }
+
+
+
+
+    @ToString
     @lombok.Builder(builderClassName="Builder",toBuilder=true)
     @AllArgsConstructor
     public static class SocketConnectivity {
@@ -155,10 +206,11 @@ public class Sockets {
         private final Exception exception;
     }
 
-    public static SocketConnectivity testConnectMonitored(ConnectOperation operation) {
+    private static SocketConnectivity decorateWithSocketConnectivity(ConnectProbe probe,
+                                                                     ConnectOperation operation) {
         SocketConnectivity.Builder builder=SocketConnectivity.builder();
         try {
-            testConnect(socket->{
+            probe.test(socket->{
                 operation.connect(socket);
                 builder.remoteAddress(socket.getRemoteSocketAddress());
                 builder.localAddress(socket.getLocalSocketAddress());
@@ -169,16 +221,87 @@ public class Sockets {
         return builder.build();
     }
 
-    public static CompletableFuture<SocketConnectivity> testConnect(ConnectOperation operation,
-                                                                    Executor executor) {
-        Function<ConnectOperation,SocketConnectivity> decoration=Sockets::testConnectMonitored;
-        return testConnect(decoration,operation,executor);
+
+
+
+
+    @ToString
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    @AllArgsConstructor
+    public static class SocketConnectivity2 {
+        private final SocketAddress remoteAddress;
+        private final SocketAddress localAddress;
+        private final Exception exception;
     }
 
-    /*
-     * Note about this class -- for YOU to learn new things:
-     *     -- #testConnect(ConnectOperation) is reference from one place only.
-     *     -- CompletableFuture#supplyAsync(Supplier,Executor) is reference from one place only.
-     *     -- #testConnectMonitored(ConnectOperation) is reference from one place only.
+    private static SocketConnectivity2 decorateWithSocketConnectivity2(ConnectProbe probe,
+                                                                       ConnectOperation operation) {
+        SocketConnectivity2.Builder builder=SocketConnectivity2.builder();
+        try {
+            probe.test(socket->{
+                operation.connect(socket);
+                builder.remoteAddress(socket.getRemoteSocketAddress());
+                builder.localAddress(socket.getLocalSocketAddress());
+            });
+        } catch (IOException ex) {
+            builder.exception(ex);
+        }
+        return builder.build();
+    }
+
+
+
+
+
+    public interface ConnectDecoration<R> {
+        R apply(ConnectProbe probe,
+                ConnectOperation operation);
+    }
+
+    /**
+     *
      */
+    @UtilityClass
+    public static class ConnectDecorations {
+        /**
+         *
+         * @return
+         */
+        public static ConnectDecoration<Boolean> createWithBoolean() {
+            return Sockets::decorateWithBoolean;
+        }
+
+        /**
+         *
+         * @return
+         */
+        public static ConnectDecoration<SocketConnectivity> createWithSocketConnectivity() {
+            return Sockets::decorateWithSocketConnectivity;
+        }
+
+        /**
+         *
+         * @return
+         */
+        public static ConnectDecoration<SocketConnectivity2> createWithSocketConnectivity2() {
+            return Sockets::decorateWithSocketConnectivity2;
+        }
+    }
+
+
+
+    public static CompletableFuture<Boolean> testConnectWithBoolean(ConnectOperation operation,
+                                                                    Executor executor) {
+        return testConnect(ConnectDecorations.createWithBoolean(),operation,executor);
+    }
+
+    public static CompletableFuture<SocketConnectivity> testConnectWithSocketConnectivity(ConnectOperation operation,
+                                                                                          Executor executor) {
+        return testConnect(ConnectDecorations.createWithSocketConnectivity(),operation,executor);
+    }
+
+    public static CompletableFuture<SocketConnectivity2> testConnectWithSocketConnectivity2(ConnectOperation operation,
+                                                                                            Executor executor) {
+        return testConnect(ConnectDecorations.createWithSocketConnectivity2(),operation,executor);
+    }
 }
