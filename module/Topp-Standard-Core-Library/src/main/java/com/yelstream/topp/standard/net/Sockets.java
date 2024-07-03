@@ -72,6 +72,19 @@ public class Sockets {
     }
 
     /**
+     * Probe for connectivity of a socket.
+     */
+    @FunctionalInterface
+    public interface ConnectProbe {
+        /**
+         * Tests connectivity of a socket.
+         * @param operation Connect-operation.
+         * @throws IOException Thrown in case of I/O error.
+         */
+        void test(ConnectOperation operation) throws IOException;
+    }
+
+    /**
      * Tests if a socket can be connected.
      * <p>
      *     This is intended for probing an endpoint.
@@ -87,73 +100,85 @@ public class Sockets {
     }
 
     /**
-     * Tests if a socket can be connected.
-     * <p>
-     *     This is intended for probing an endpoint.
-     * </p>
-     * @param endpoint Endpoint to connect to.
-     * @param connectTimeout Connect timeout.
-     * @throws IOException Thrown in case of I/O error.
-     *                     This is thrown if the socket cannot be connected.
+     * Utility handling instances of {@link ConnectOperation}.
      */
-    public static void testConnect(SocketAddress endpoint,
-                                   Duration connectTimeout) throws IOException {
-        testConnect(socket -> socket.connect(endpoint,(int)connectTimeout.toMillis()));
+    @UtilityClass
+    public static class ConnectOperations {
+        /**
+         * Creates a socket connect operation.
+         * @param endpoint Endpoint to connect to.
+         * @param connectTimeout Connect timeout.
+         */
+        public static ConnectOperation create(SocketAddress endpoint,
+                                              Duration connectTimeout) {
+            return socket -> socket.connect(endpoint,(int)connectTimeout.toMillis());
+        }
+
+        /**
+         * Creates a socket connect operation.
+         * @param endpoint Endpoint to connect to.
+         * @param connectTimeout Connect timeout.
+         */
+        public static ConnectOperation testConnect(SocketAddress endpoint,
+                                                   Duration connectTimeout) {
+            return socket -> socket.connect(endpoint,(int)connectTimeout.toMillis());
+        }
+
+        /**
+         * Creates a socket connect operation.
+         * @param endpoint Endpoint to connect to.
+         */
+        public static ConnectOperation testConnect(SocketAddress endpoint) {
+            return socket -> socket.connect(endpoint);
+        }
     }
 
-    /**
-     * Tests if a socket can be connected.
-     * <p>
-     *     This is intended for probing an endpoint.
-     * </p>
-     * @param endpoint Endpoint to connect to.
-     * @throws IOException Thrown in case of I/O error.
-     *                     This is thrown if the socket cannot be connected.
-     */
-    public static void testConnect(SocketAddress endpoint) throws IOException {
-        testConnect(socket -> socket.connect(endpoint));
-    }
 
-
-
-    public static <R> CompletableFuture<R> testConnect(Supplier<R> operation,
+    public static <R> CompletableFuture<R> testConnect(Supplier<R> resultSupplier,
                                                        Executor executor) {
-        return CompletableFuture.supplyAsync(operation,executor);
+        return CompletableFuture.supplyAsync(resultSupplier,executor);
+    }
+
+    public static <R> CompletableFuture<R> testConnect(Function<ConnectOperation,R> decoration,
+                                                       ConnectOperation operation,
+                                                       Executor executor) {
+        Supplier<R> resultSupplier=()->decoration.apply(operation);
+        return testConnect(resultSupplier,executor);
     }
 
 
-
-
-
-/*
-    @lombok.Builder(builderClassName = "Builder")
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
     @AllArgsConstructor
     public static class SocketConnectivity {
-        private final SocketAddress socketAddress;
-        private final Duration connectTimeout;
+        private final SocketAddress remoteAddress;
+        private final SocketAddress localAddress;
         private final Exception exception;
     }
 
-    public static SocketConnectivity canConnectToSocket(ConnectOperation operation) {
+    public static SocketConnectivity testConnectMonitored(ConnectOperation operation) {
         SocketConnectivity.Builder builder=SocketConnectivity.builder();
-        builder.socketAddress(socketAddress);
-        builder.connectTimeout(connectTimeout);
         try {
-            operation.apply();
+            testConnect(socket->{
+                operation.connect(socket);
+                builder.remoteAddress(socket.getRemoteSocketAddress());
+                builder.localAddress(socket.getLocalSocketAddress());
+            });
         } catch (IOException ex) {
             builder.exception(ex);
         }
         return builder.build();
     }
 
-
-
-
     public static CompletableFuture<SocketConnectivity> testConnect(ConnectOperation operation,
-                                                       Executor executor) {
-        return CompletableFuture.supplyAsync(operation,executor);
+                                                                    Executor executor) {
+        Function<ConnectOperation,SocketConnectivity> decoration=Sockets::testConnectMonitored;
+        return testConnect(decoration,operation,executor);
     }
-*/
 
-
+    /*
+     * Note about this class -- for YOU to learn new things:
+     *     -- #testConnect(ConnectOperation) is reference from one place only.
+     *     -- CompletableFuture#supplyAsync(Supplier,Executor) is reference from one place only.
+     *     -- #testConnectMonitored(ConnectOperation) is reference from one place only.
+     */
 }
