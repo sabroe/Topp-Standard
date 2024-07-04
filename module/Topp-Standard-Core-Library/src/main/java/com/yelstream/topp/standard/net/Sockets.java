@@ -20,6 +20,7 @@
 package com.yelstream.topp.standard.net;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -120,16 +122,6 @@ public class Sockets {
         /**
          * Creates a socket connect operation.
          * @param endpoint Endpoint to connect to.
-         * @param connectTimeout Connect timeout.
-         */
-        public static ConnectOperation testConnect(SocketAddress endpoint,
-                                                   Duration connectTimeout) {
-            return socket -> socket.connect(endpoint,(int)connectTimeout.toMillis());
-        }
-
-        /**
-         * Creates a socket connect operation.
-         * @param endpoint Endpoint to connect to.
          */
         public static ConnectOperation testConnect(SocketAddress endpoint) {
             return socket -> socket.connect(endpoint);
@@ -148,6 +140,15 @@ public class Sockets {
             return Sockets::testConnect;
         }
     }
+
+
+
+
+
+
+
+
+
 
     private static <R> CompletableFuture<R> testConnect(Supplier<R> resultSupplier,
                                                         Executor executor) {
@@ -178,6 +179,18 @@ public class Sockets {
 
 
 
+    /**
+     *
+     */
+    @AllArgsConstructor
+    public static class ConnectParameter {
+        private final SocketAddress endpoint;
+
+        private final Duration connectTimeout;
+    }
+
+
+
 
     private static Boolean decorateWithBoolean(ConnectProbe probe,
                                                ConnectOperation operation) {
@@ -197,13 +210,25 @@ public class Sockets {
 
 
 
+    @Getter
     @ToString
     @lombok.Builder(builderClassName="Builder",toBuilder=true)
     @AllArgsConstructor
     public static class SocketConnectivity {
+
+        private final SocketAddress endpoint;
+
         private final SocketAddress remoteAddress;
         private final SocketAddress localAddress;
         private final Exception exception;
+
+        public boolean failure() {
+            return !success();
+        }
+
+        public boolean success() {
+            return exception==null;
+        }
     }
 
     private static SocketConnectivity decorateWithSocketConnectivity(ConnectProbe probe,
@@ -225,6 +250,7 @@ public class Sockets {
 
 
 
+    @Getter
     @ToString
     @lombok.Builder(builderClassName="Builder",toBuilder=true)
     @AllArgsConstructor
@@ -232,6 +258,14 @@ public class Sockets {
         private final SocketAddress remoteAddress;
         private final SocketAddress localAddress;
         private final Exception exception;
+
+        public boolean failure() {
+            return !success();
+        }
+
+        public boolean success() {
+            return exception==null;
+        }
     }
 
     private static SocketConnectivity2 decorateWithSocketConnectivity2(ConnectProbe probe,
