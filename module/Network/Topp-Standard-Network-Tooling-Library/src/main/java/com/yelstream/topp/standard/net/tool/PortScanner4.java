@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PortScanner4 {
 
@@ -27,23 +28,12 @@ public class PortScanner4 {
 
         System.out.println("Phase #1!");
 
-        for (int port = 1; port <= 65535; port++) {
+        for (int port = 0; port < 65536; port++) {
 //        for (int port = 3000; port < 3000+1; port++) {
             int finalPort = port;
 
             CompletableFuture<Sockets.SocketConnectivity2> future=
-                Sockets.testConnectWithSocketConnectivity2(Sockets.ConnectOperations.testConnect(new InetSocketAddress("localhost", finalPort), Duration.ofMillis(TIMEOUT_MS)),executor);
-/*
-                future.whenComplete((x,ex) -> {
-                    if (x.failure()) {
-//                        System.out.println("Failure! "+x);
-                    } else {
-//                        System.out.println("Success! "+x);
-                        String result = "Port " + finalPort + " is open";
-                        System.out.println(result);
-                    }
-                });
-*/
+                Sockets.TestConnects.withSocketConnectivity2(Sockets.ConnectParameter.of(new InetSocketAddress("localhost", finalPort), Duration.ofMillis(TIMEOUT_MS)),executor);
 
             futures.add(future);
         }
@@ -62,10 +52,10 @@ public class PortScanner4 {
                 try {
                     Sockets.SocketConnectivity2 result = future.get();
                     if (result != null) {
-                        if (result.failure()) {
+                        if (result.success()) {
                             results.add(result);
                         }
-                        //System.out.println("Received data: " + result); // Log when data is received
+//                        System.out.println("Received data: " + result); // Log when data is received
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
@@ -78,6 +68,11 @@ public class PortScanner4 {
         System.out.println("Port scanning completed in " + (endTime - startTime) + " milliseconds");
 
         System.out.println("Scan Results:");
-        results.forEach(x->x.getRemoteAddress());
+        AtomicInteger index=new AtomicInteger();
+        results.forEach(x->{
+            InetSocketAddress address=(InetSocketAddress)x.getConnectParameter().getEndpoint();
+            System.out.println(index.getAndIncrement()+": "+address.getPort()+" "+x.getConnectParameter());
+            ;
+        });
     }
 }

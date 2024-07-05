@@ -32,7 +32,6 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -105,6 +104,25 @@ public class Sockets {
     }
 
     /**
+     *
+     */
+    @Getter
+    @ToString
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    @AllArgsConstructor(staticName="of")
+    public static class ConnectParameter {
+        /**
+         *
+         */
+        private final SocketAddress endpoint;
+
+        /**
+         *
+         */
+        private final Duration connectTimeout;
+    }
+
+    /**
      * Utility handling instances of {@link ConnectOperation}.
      */
     @UtilityClass
@@ -123,8 +141,22 @@ public class Sockets {
          * Creates a socket connect operation.
          * @param endpoint Endpoint to connect to.
          */
-        public static ConnectOperation testConnect(SocketAddress endpoint) {
+        public static ConnectOperation create(SocketAddress endpoint) {
             return socket -> socket.connect(endpoint);
+        }
+
+        /**
+         * Creates a socket connect operation.
+         * @param parameter Connect parameters.
+         */
+        public static ConnectOperation create(ConnectParameter parameter) {
+            SocketAddress endpoint=parameter.endpoint;
+            Duration connectTimeout=parameter.connectTimeout;
+            if (connectTimeout==null) {
+                return create(endpoint);
+            } else {
+                return create(endpoint,connectTimeout);
+            }
         }
     }
 
@@ -157,43 +189,34 @@ public class Sockets {
 
     private static <R> Supplier<R> resultSupplier(ConnectDecoration<R> decoration,
                                                   ConnectProbe probe,
-                                                  ConnectOperation operation) {
-        return ()->decoration.apply(probe,operation);
+                                                  ConnectParameter parameter) {
+        return ()->decoration.apply(probe,parameter);
     }
 
     public static <R> CompletableFuture<R> testConnect(ConnectDecoration<R> decoration,
                                                        ConnectProbe probe,
-                                                       ConnectOperation operation,
+                                                       ConnectParameter parameter,
                                                        Executor executor) {
-        Supplier<R> resultSupplier=resultSupplier(decoration,probe,operation);
+        Supplier<R> resultSupplier=resultSupplier(decoration,probe,parameter);
         return testConnect(resultSupplier,executor);
     }
 
 
     public static <R> CompletableFuture<R> testConnect(ConnectDecoration<R> decoration,
-                                                       ConnectOperation operation,
+                                                       ConnectParameter parameter,
                                                        Executor executor) {
         ConnectProbe probe=ConnectProbes.create();
-        return testConnect(decoration,probe,operation,executor);
+        return testConnect(decoration,probe,parameter,executor);
     }
 
 
-
-    /**
-     *
-     */
-    @AllArgsConstructor
-    public static class ConnectParameter {
-        private final SocketAddress endpoint;
-
-        private final Duration connectTimeout;
-    }
 
 
 
 
     private static Boolean decorateWithBoolean(ConnectProbe probe,
-                                               ConnectOperation operation) {
+                                               ConnectParameter parameter) {
+        ConnectOperation operation=ConnectOperations.create(parameter);
         AtomicReference<Boolean> connected=new AtomicReference<>(null);
         try {
             probe.test(socket->{
@@ -216,7 +239,7 @@ public class Sockets {
     @AllArgsConstructor
     public static class SocketConnectivity {
 
-        private final SocketAddress endpoint;
+        private final ConnectParameter connectParameter;
 
         private final SocketAddress remoteAddress;
         private final SocketAddress localAddress;
@@ -232,8 +255,9 @@ public class Sockets {
     }
 
     private static SocketConnectivity decorateWithSocketConnectivity(ConnectProbe probe,
-                                                                     ConnectOperation operation) {
-        SocketConnectivity.Builder builder=SocketConnectivity.builder();
+                                                                     ConnectParameter parameter) {
+        ConnectOperation operation=ConnectOperations.create(parameter);
+        SocketConnectivity.Builder builder=SocketConnectivity.builder().connectParameter(parameter);
         try {
             probe.test(socket->{
                 operation.connect(socket);
@@ -255,6 +279,9 @@ public class Sockets {
     @lombok.Builder(builderClassName="Builder",toBuilder=true)
     @AllArgsConstructor
     public static class SocketConnectivity2 {
+
+        private final ConnectParameter connectParameter;
+
         private final SocketAddress remoteAddress;
         private final SocketAddress localAddress;
         private final Exception exception;
@@ -269,8 +296,9 @@ public class Sockets {
     }
 
     private static SocketConnectivity2 decorateWithSocketConnectivity2(ConnectProbe probe,
-                                                                       ConnectOperation operation) {
-        SocketConnectivity2.Builder builder=SocketConnectivity2.builder();
+                                                                       ConnectParameter parameter) {
+        ConnectOperation operation=ConnectOperations.create(parameter);
+        SocketConnectivity2.Builder builder=SocketConnectivity2.builder().connectParameter(parameter);
         try {
             probe.test(socket->{
                 operation.connect(socket);
@@ -289,7 +317,7 @@ public class Sockets {
 
     public interface ConnectDecoration<R> {
         R apply(ConnectProbe probe,
-                ConnectOperation operation);
+                ConnectParameter parameter);
     }
 
     /**
@@ -322,20 +350,21 @@ public class Sockets {
         }
     }
 
+    @UtilityClass
+    public static class TestConnects {
+        public static CompletableFuture<Boolean> withBoolean(ConnectParameter parameter,
+                                                             Executor executor) {
+            return testConnect(ConnectDecorations.createWithBoolean(),parameter,executor);
+        }
 
+        public static CompletableFuture<SocketConnectivity> withSocketConnectivity(ConnectParameter parameter,
+                                                                                   Executor executor) {
+            return testConnect(ConnectDecorations.createWithSocketConnectivity(),parameter,executor);
+        }
 
-    public static CompletableFuture<Boolean> testConnectWithBoolean(ConnectOperation operation,
-                                                                    Executor executor) {
-        return testConnect(ConnectDecorations.createWithBoolean(),operation,executor);
-    }
-
-    public static CompletableFuture<SocketConnectivity> testConnectWithSocketConnectivity(ConnectOperation operation,
-                                                                                          Executor executor) {
-        return testConnect(ConnectDecorations.createWithSocketConnectivity(),operation,executor);
-    }
-
-    public static CompletableFuture<SocketConnectivity2> testConnectWithSocketConnectivity2(ConnectOperation operation,
-                                                                                            Executor executor) {
-        return testConnect(ConnectDecorations.createWithSocketConnectivity2(),operation,executor);
+        public static CompletableFuture<SocketConnectivity2> withSocketConnectivity2(ConnectParameter parameter,
+                                                                                     Executor executor) {
+            return testConnect(ConnectDecorations.createWithSocketConnectivity2(),parameter,executor);
+        }
     }
 }
