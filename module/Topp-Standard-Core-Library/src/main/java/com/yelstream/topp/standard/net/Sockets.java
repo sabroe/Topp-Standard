@@ -21,6 +21,7 @@ package com.yelstream.topp.standard.net;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -97,29 +98,30 @@ public class Sockets {
      * @throws IOException Thrown in case of I/O error.
      *                     This is thrown if the socket cannot be connected.
      */
-    public static void testConnect(ConnectOperation operation) throws IOException {
+    public static void initiateTestConnect(ConnectOperation operation) throws IOException {
         try (Socket socket=new Socket()) {
             operation.connect(socket);
         }
     }
 
     /**
-     *
+     * Parameters to connect a socket.
      */
     @Getter
     @ToString
-    @lombok.Builder(builderClassName="Builder",toBuilder=true)
     @AllArgsConstructor(staticName="of")
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
     public static class ConnectParameter {
         /**
-         *
+         * Endpoint to connect to.
          */
         private final SocketAddress endpoint;
 
         /**
-         *
+         * Connect timeout.
          */
-        private final Duration connectTimeout;
+        @lombok.Builder.Default
+        private final Duration connectTimeout=null;
     }
 
     /**
@@ -169,51 +171,88 @@ public class Sockets {
          * Creates a default connect-probe.
          */
         public static ConnectProbe create() {
-            return Sockets::testConnect;
+            return Sockets::initiateTestConnect;
         }
     }
 
-
-
-
-
-
-
-
-
-
-    private static <R> CompletableFuture<R> testConnect(Supplier<R> resultSupplier,
-                                                        Executor executor) {
+    /**
+     * Initiates a test connect.
+     * @param resultSupplier Result supplier.
+     * @param executor Executor.
+     * @return Result.
+     * @param <R> Type of result.
+     */
+    private static <R> CompletableFuture<R> initiateTestConnect(Supplier<R> resultSupplier,
+                                                                Executor executor) {
         return CompletableFuture.supplyAsync(resultSupplier,executor);
     }
 
-    private static <R> Supplier<R> resultSupplier(ConnectDecoration<R> decoration,
-                                                  ConnectProbe probe,
-                                                  ConnectParameter parameter) {
+    /**
+     * Decoration of a test connect.
+     * @param <R> Type of result.
+     */
+    public interface ConnectDecoration<R> {
+        /**
+         * Performs a test connect.
+         * @param probe Connect probe.
+         * @param parameter Connect parameters.
+         * @return Result.
+         */
+        R apply(ConnectProbe probe,
+                ConnectParameter parameter);
+    }
+
+    /**
+     * Creates a result supplier for a connect test.
+     * @param decoration Connect decoration.
+     * @param probe Connect probe.
+     * @param parameter Connect parameters.
+     * @return Created supplier.
+     * @param <R> Type of result.
+     */
+    private static <R> Supplier<R> createResultSupplier(ConnectDecoration<R> decoration,
+                                                        ConnectProbe probe,
+                                                        ConnectParameter parameter) {
         return ()->decoration.apply(probe,parameter);
     }
 
-    public static <R> CompletableFuture<R> testConnect(ConnectDecoration<R> decoration,
-                                                       ConnectProbe probe,
-                                                       ConnectParameter parameter,
-                                                       Executor executor) {
-        Supplier<R> resultSupplier=resultSupplier(decoration,probe,parameter);
-        return testConnect(resultSupplier,executor);
+    /**
+     * Initiates a test connect.
+     * @param decoration Connect decoration.
+     * @param probe Connect probe.
+     * @param parameter Connect parameters.
+     * @param executor Executor.
+     * @param <R> Type of result.
+     */
+    public static <R> CompletableFuture<R> initiateTestConnect(ConnectDecoration<R> decoration,
+                                                               ConnectProbe probe,
+                                                               ConnectParameter parameter,
+                                                               Executor executor) {
+        Supplier<R> resultSupplier=createResultSupplier(decoration,probe,parameter);
+        return initiateTestConnect(resultSupplier,executor);
     }
 
-
-    public static <R> CompletableFuture<R> testConnect(ConnectDecoration<R> decoration,
-                                                       ConnectParameter parameter,
-                                                       Executor executor) {
+    /**
+     * Initiates a test connect.
+     * @param decoration Connect decoration.
+     * @param parameter Connect parameters.
+     * @param executor Executor.
+     * @param <R> Type of result.
+     */
+    public static <R> CompletableFuture<R> initiateTestConnect(ConnectDecoration<R> decoration,
+                                                               ConnectParameter parameter,
+                                                               Executor executor) {
         ConnectProbe probe=ConnectProbes.create();
-        return testConnect(decoration,probe,parameter,executor);
+        return initiateTestConnect(decoration,probe,parameter,executor);
     }
 
-
-
-
-
-
+    /**
+     * Decorates a connect probe to return an indication of success.
+     * @param probe Connect probe.
+     * @param parameter Connect parameter.
+     * @return Result.
+     *         Indicates, if socket was connected.
+     */
     private static Boolean decorateWithBoolean(ConnectProbe probe,
                                                ConnectParameter parameter) {
         ConnectOperation operation=ConnectOperations.create(parameter);
@@ -224,147 +263,202 @@ public class Sockets {
                 connected.set(Boolean.TRUE);
             });
         } catch (IOException ex) {
-            //TO-DO: Log!
+            log.atTrace().setMessage("Failure to connect socket; parameters are {}!").addArgument(parameter).setCause(ex).log();
             connected.set(Boolean.FALSE);
         }
         return connected.get();
     }
 
-
-
-
+    /**
+     * Result of executing a test connect with simple, plain information.
+     */
     @Getter
     @ToString
     @lombok.Builder(builderClassName="Builder",toBuilder=true)
     @AllArgsConstructor
-    public static class SocketConnectivity {
-
+    public static class SimpleConnectResult {
+        /**
+         * Connect parameters.
+         */
         private final ConnectParameter connectParameter;
 
-        private final SocketAddress remoteAddress;
-        private final SocketAddress localAddress;
-        private final Exception exception;
+        /**
+         * Indicates, if the test connect has succeeded.
+         */
+        private final Boolean connected;
 
+        /**
+         * Indicates, if the test connect has failed.
+         * @return Indicates, if connect has failed.
+         */
         public boolean failure() {
             return !success();
         }
 
+        /**
+         * Indicates, if the test connect has succeeded.
+         * @return Indicates, if connect has succeeded.
+         */
         public boolean success() {
-            return exception==null;
+            return connected==Boolean.TRUE;
         }
-    }
-
-    private static SocketConnectivity decorateWithSocketConnectivity(ConnectProbe probe,
-                                                                     ConnectParameter parameter) {
-        ConnectOperation operation=ConnectOperations.create(parameter);
-        SocketConnectivity.Builder builder=SocketConnectivity.builder().connectParameter(parameter);
-        try {
-            probe.test(socket->{
-                operation.connect(socket);
-                builder.remoteAddress(socket.getRemoteSocketAddress());
-                builder.localAddress(socket.getLocalSocketAddress());
-            });
-        } catch (IOException ex) {
-            builder.exception(ex);
-        }
-        return builder.build();
-    }
-
-
-
-
-
-    @Getter
-    @ToString
-    @lombok.Builder(builderClassName="Builder",toBuilder=true)
-    @AllArgsConstructor
-    public static class SocketConnectivity2 {
-
-        private final ConnectParameter connectParameter;
-
-        private final SocketAddress remoteAddress;
-        private final SocketAddress localAddress;
-        private final Exception exception;
-
-        public boolean failure() {
-            return !success();
-        }
-
-        public boolean success() {
-            return exception==null;
-        }
-    }
-
-    private static SocketConnectivity2 decorateWithSocketConnectivity2(ConnectProbe probe,
-                                                                       ConnectParameter parameter) {
-        ConnectOperation operation=ConnectOperations.create(parameter);
-        SocketConnectivity2.Builder builder=SocketConnectivity2.builder().connectParameter(parameter);
-        try {
-            probe.test(socket->{
-                operation.connect(socket);
-                builder.remoteAddress(socket.getRemoteSocketAddress());
-                builder.localAddress(socket.getLocalSocketAddress());
-            });
-        } catch (IOException ex) {
-            builder.exception(ex);
-        }
-        return builder.build();
-    }
-
-
-
-
-
-    public interface ConnectDecoration<R> {
-        R apply(ConnectProbe probe,
-                ConnectParameter parameter);
     }
 
     /**
-     *
+     * Decorates a connect probe to return an indication of success.
+     * @param probe Connect probe.
+     * @param parameter Connect parameter.
+     * @return Result.
+     */
+    private static SimpleConnectResult decorateWithSimpleConnectResult(ConnectProbe probe,
+                                                                       ConnectParameter parameter) {
+        ConnectOperation operation=ConnectOperations.create(parameter);
+        SimpleConnectResult.Builder builder=SimpleConnectResult.builder().connectParameter(parameter);
+        try {
+            probe.test(socket->{
+                operation.connect(socket);
+                builder.connected(Boolean.TRUE);
+            });
+        } catch (IOException ex) {
+            log.atTrace().setMessage("Failure to connect socket; parameters are {}!").addArgument(parameter).setCause(ex).log();
+            builder.connected(Boolean.FALSE);
+        }
+        return builder.build();
+    }
+
+    /**
+     * Result of executing a test connect with somewhat detailed information.
+     */
+    @Getter
+    @ToString
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    @AllArgsConstructor
+    public static class DetailedConnectResult {
+        /**
+         * Connect parameters.
+         */
+        private final ConnectParameter connectParameter;
+
+        /**
+         * Remote socket address connected to.
+         */
+        private final SocketAddress remoteAddress;
+
+        /**
+         * Local socket address connected to.
+         */
+        private final SocketAddress localAddress;
+
+        /**
+         * Indicates, that an exception has occurred.
+         */
+        private final Exception exception;
+
+        /**
+         * Indicates, if the test connect has failed.
+         * @return Indicates, if connect has failed.
+         */
+        public boolean failure() {
+            return !success();
+        }
+
+        /**
+         * Indicates, if the test connect has succeeded.
+         * @return Indicates, if connect has succeeded.
+         */
+        public boolean success() {
+            return exception==null;
+        }
+    }
+
+    /**
+     * Decorates a connect probe to return an indication of success.
+     * @param probe Connect probe.
+     * @param parameter Connect parameter.
+     * @return Result.
+     */
+    private static DetailedConnectResult decorateWithDetailedConnectResult(ConnectProbe probe,
+                                                                           ConnectParameter parameter) {
+        ConnectOperation operation=ConnectOperations.create(parameter);
+        DetailedConnectResult.Builder builder= DetailedConnectResult.builder().connectParameter(parameter);
+        try {
+            probe.test(socket->{
+                operation.connect(socket);
+                builder.remoteAddress(socket.getRemoteSocketAddress());
+                builder.localAddress(socket.getLocalSocketAddress());
+            });
+        } catch (IOException ex) {
+            builder.exception(ex);
+        }
+        return builder.build();
+    }
+
+    /**
+     * Utilities addressing instances of {@link ConnectDecoration}.
      */
     @UtilityClass
     public static class ConnectDecorations {
         /**
-         *
-         * @return
+         * Creates a decoration for a test connect with a basic result.
+         * @return Created decoration.
          */
         public static ConnectDecoration<Boolean> createWithBoolean() {
             return Sockets::decorateWithBoolean;
         }
 
         /**
-         *
-         * @return
+         * Creates a decoration for a test connect with a simple result.
+         * @return Created decoration.
          */
-        public static ConnectDecoration<SocketConnectivity> createWithSocketConnectivity() {
-            return Sockets::decorateWithSocketConnectivity;
+        public static ConnectDecoration<SimpleConnectResult> createWithSimpleConnectResult() {
+            return Sockets::decorateWithSimpleConnectResult;
         }
 
         /**
-         *
-         * @return
+         * Creates a decoration for a test connect with a detailed result.
+         * @return Created decoration.
          */
-        public static ConnectDecoration<SocketConnectivity2> createWithSocketConnectivity2() {
-            return Sockets::decorateWithSocketConnectivity2;
+        public static ConnectDecoration<DetailedConnectResult> createWithDetailedConnectResult() {
+            return Sockets::decorateWithDetailedConnectResult;
         }
     }
 
+    /**
+     * Utility addressing the initiation of test connects.
+     */
     @UtilityClass
     public static class TestConnects {
+        /**
+         * Initiates a test connect with a basic result.
+         * @param parameter Connect parameter.
+         * @param executor Executor.
+         * @return Result.
+         */
         public static CompletableFuture<Boolean> withBoolean(ConnectParameter parameter,
                                                              Executor executor) {
-            return testConnect(ConnectDecorations.createWithBoolean(),parameter,executor);
+            return initiateTestConnect(ConnectDecorations.createWithBoolean(),parameter,executor);
         }
 
-        public static CompletableFuture<SocketConnectivity> withSocketConnectivity(ConnectParameter parameter,
-                                                                                   Executor executor) {
-            return testConnect(ConnectDecorations.createWithSocketConnectivity(),parameter,executor);
+        /**
+         * Initiates a test connect with a simple result.
+         * @param parameter Connect parameter.
+         * @param executor Executor.
+         * @return Result.
+         */
+        public static CompletableFuture<SimpleConnectResult> withSocketConnectivity(ConnectParameter parameter,
+                                                                                    Executor executor) {
+            return initiateTestConnect(ConnectDecorations.createWithSimpleConnectResult(),parameter,executor);
         }
 
-        public static CompletableFuture<SocketConnectivity2> withSocketConnectivity2(ConnectParameter parameter,
-                                                                                     Executor executor) {
-            return testConnect(ConnectDecorations.createWithSocketConnectivity2(),parameter,executor);
+        /**
+         * Initiates a test connect with a detailed result.
+         * @param parameter Connect parameter.
+         * @param executor Executor.
+         * @return Result.
+         */
+        public static CompletableFuture<DetailedConnectResult> withSocketConnectivity2(ConnectParameter parameter,
+                                                                                       Executor executor) {
+            return initiateTestConnect(ConnectDecorations.createWithDetailedConnectResult(),parameter,executor);
         }
     }
 }
