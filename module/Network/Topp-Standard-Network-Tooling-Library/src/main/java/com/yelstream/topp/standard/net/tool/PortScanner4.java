@@ -3,13 +3,11 @@ package com.yelstream.topp.standard.net.tool;
 import com.yelstream.topp.standard.net.Sockets;
 
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,7 +22,7 @@ public class PortScanner4 {
         // Using virtual threads executor (adjust as needed)
         ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();  //TODO: Autoclosable!
 
-        List<CompletableFuture<Sockets.SocketConnectivity2>> futures = new ArrayList<>();
+        List<CompletableFuture<Sockets.DetailedConnectResult>> futures = new ArrayList<>();
 
         System.out.println("Phase #1!");
 
@@ -32,7 +30,7 @@ public class PortScanner4 {
 //        for (int port = 3000; port < 3000+1; port++) {
             int finalPort = port;
 
-            CompletableFuture<Sockets.SocketConnectivity2> future=
+            CompletableFuture<Sockets.DetailedConnectResult> future=
                 Sockets.TestConnects.withSocketConnectivity2(Sockets.ConnectParameter.of(new InetSocketAddress("localhost", finalPort), Duration.ofMillis(TIMEOUT_MS)),executor);
 
             futures.add(future);
@@ -40,7 +38,7 @@ public class PortScanner4 {
 
         System.out.println("Phase #2!");
 
-        List<Sockets.SocketConnectivity2> results = new ArrayList<>();
+        List<Sockets.DetailedConnectResult> results = new ArrayList<>();
 
         @SuppressWarnings({"unchecked","rawtypes"})
         CompletableFuture<Void> allFutures = CompletableFuture.allOf(
@@ -48,9 +46,9 @@ public class PortScanner4 {
         );
 
         allFutures.thenRun(() -> {
-            for (CompletableFuture<Sockets.SocketConnectivity2> future : futures) {
+            for (CompletableFuture<Sockets.DetailedConnectResult> future : futures) {
                 try {
-                    Sockets.SocketConnectivity2 result = future.get();
+                    Sockets.DetailedConnectResult result = future.get();
                     if (result != null) {
                         if (result.success()) {
                             results.add(result);
