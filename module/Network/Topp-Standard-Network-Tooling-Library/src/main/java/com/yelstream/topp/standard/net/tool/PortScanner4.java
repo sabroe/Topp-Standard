@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PortScanner4 {
 
-    private static final int TIMEOUT_MS = 2000; // Timeout for connection attempt in milliseconds
+    private static final int TIMEOUT_MS = 1000; // Timeout for connection attempt in milliseconds
 
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
@@ -31,7 +31,7 @@ public class PortScanner4 {
             int finalPort = port;
 
             CompletableFuture<Sockets.DetailedConnectResult> future=
-                Sockets.TestConnects.withSocketConnectivity2(Sockets.ConnectParameter.of(new InetSocketAddress("localhost", finalPort), Duration.ofMillis(TIMEOUT_MS)),executor);
+                Sockets.TestConnects.withDetailedConnectResult(Sockets.ConnectParameter.of(new InetSocketAddress("localhost", finalPort), Duration.ofMillis(TIMEOUT_MS)),executor);
 
             futures.add(future);
         }
