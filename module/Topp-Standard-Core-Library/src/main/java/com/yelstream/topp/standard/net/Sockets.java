@@ -21,7 +21,6 @@ package com.yelstream.topp.standard.net;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +43,7 @@ import java.util.function.Supplier;
  */
 @Slf4j
 @UtilityClass
+@SuppressWarnings("java:S1192")
 public class Sockets {
     /**
      * Abstract operation to be applied upon a socket.
@@ -98,7 +98,7 @@ public class Sockets {
      * @throws IOException Thrown in case of I/O error.
      *                     This is thrown if the socket cannot be connected.
      */
-    public static void initiateTestConnect(ConnectOperation operation) throws IOException {
+    public static void testConnect(ConnectOperation operation) throws IOException {
         try (Socket socket=new Socket()) {
             operation.connect(socket);
         }
@@ -130,7 +130,7 @@ public class Sockets {
     @UtilityClass
     public static class ConnectOperations {
         /**
-         * Creates a socket connect operation.
+         * Creates a socket connect-operation.
          * @param endpoint Endpoint to connect to.
          * @param connectTimeout Connect timeout.
          */
@@ -140,7 +140,7 @@ public class Sockets {
         }
 
         /**
-         * Creates a socket connect operation.
+         * Creates a socket connect-operation.
          * @param endpoint Endpoint to connect to.
          */
         public static ConnectOperation create(SocketAddress endpoint) {
@@ -148,7 +148,7 @@ public class Sockets {
         }
 
         /**
-         * Creates a socket connect operation.
+         * Creates a socket connect-operation.
          * @param parameter Connect parameters.
          */
         public static ConnectOperation create(ConnectParameter parameter) {
@@ -171,7 +171,7 @@ public class Sockets {
          * Creates a default connect-probe.
          */
         public static ConnectProbe create() {
-            return Sockets::initiateTestConnect;
+            return Sockets::testConnect;
         }
     }
 
@@ -388,6 +388,7 @@ public class Sockets {
                 builder.localAddress(socket.getLocalSocketAddress());
             });
         } catch (IOException ex) {
+            log.atTrace().setMessage("Failure to connect socket; parameters are {}!").addArgument(parameter).setCause(ex).log();
             builder.exception(ex);
         }
         return builder.build();
@@ -445,8 +446,8 @@ public class Sockets {
          * @param executor Executor.
          * @return Result.
          */
-        public static CompletableFuture<SimpleConnectResult> withSocketConnectivity(ConnectParameter parameter,
-                                                                                    Executor executor) {
+        public static CompletableFuture<SimpleConnectResult> withWithSimpleConnectResult(ConnectParameter parameter,
+                                                                                         Executor executor) {
             return initiateTestConnect(ConnectDecorations.createWithSimpleConnectResult(),parameter,executor);
         }
 
@@ -456,8 +457,8 @@ public class Sockets {
          * @param executor Executor.
          * @return Result.
          */
-        public static CompletableFuture<DetailedConnectResult> withSocketConnectivity2(ConnectParameter parameter,
-                                                                                       Executor executor) {
+        public static CompletableFuture<DetailedConnectResult> withDetailedConnectResult(ConnectParameter parameter,
+                                                                                         Executor executor) {
             return initiateTestConnect(ConnectDecorations.createWithDetailedConnectResult(),parameter,executor);
         }
     }
