@@ -54,7 +54,7 @@ public class SocketScanner {
     private final List<InetAddress> addresses=null;//=List.of(InetAddress.getByName("localhost"));
 
     @lombok.Builder.Default
-    private final Supplier<IntStream> portSupplier=()->IntStream.range(0,65536);
+    private final Supplier<IntStream> ports=()->IntStream.range(0,65536);
 
     @lombok.Builder.Default
     private final Duration timeout=Duration.ofMillis(2000);
@@ -83,7 +83,7 @@ public class SocketScanner {
 
             List<CompletableFuture<Sockets.DetailedConnectResult>> futures = new ArrayList<>();
 
-            portSupplier.get().forEach(port-> {
+            ports.get().forEach(port-> {
                 CompletableFuture<Sockets.DetailedConnectResult> future =
                         Sockets.TestConnects.withDetailedConnectResult(Sockets.ConnectParameter.of(new InetSocketAddress("localhost", port), timeout), executor);
 
@@ -114,7 +114,7 @@ public class SocketScanner {
 
     @SuppressWarnings({"java:S1068","java:S1450","FieldCanBeLocal"})
     public static class Builder {
-        private Supplier<IntStream> portRangeSupplier;
+        private Supplier<IntStream> ports;
 
         public Builder ports(Supplier<IntStream> portRangeSupplier) {
             this.portRangeSupplier=portRangeSupplier;
