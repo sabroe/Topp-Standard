@@ -18,19 +18,10 @@
  */
 
 /**
- * Topp Standard Core addressing basics of Java SE.
+ * Utilities addressing concurrency related functionalities.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-07-08
  */
-module com.yelstream.topp.standard.core {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.lang;
-    exports com.yelstream.topp.standard.lang.reflect;
-    exports com.yelstream.topp.standard.lang.thread;
-    exports com.yelstream.topp.standard.net;
-    exports com.yelstream.topp.standard.time;
-    exports com.yelstream.topp.standard.time.watch;
-    exports com.yelstream.topp.standard.util;
-    exports com.yelstream.topp.standard.util.function;
-    exports com.yelstream.topp.standard.util.stream;
-    exports com.yelstream.topp.standard.util.concurrent;
-}
+package com.yelstream.topp.standard.util.concurrent;
