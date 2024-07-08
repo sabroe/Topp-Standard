@@ -54,6 +54,12 @@ import java.util.function.Supplier;
  *     With this, it is possible to control the lifecycle from the outside of a usage,
  *     while inside consistently close the executor.
  * </p>
+ * <p>
+ *     While Java SE 19 has extended {@link ExecutorService} to become an {@link AutoCloseable},
+ *     it is a clumsy knot maintaining {@link Executor} without it too becoming an {@link AutoCloseable}
+ *     (by adding an empty {@code }#close()} operation to the simple executor,
+ *     it could still be maintained as the functional interface, it is supposed to be).
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
