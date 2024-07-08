@@ -19,6 +19,8 @@
 
 package com.yelstream.topp.standard.net;
 
+import com.yelstream.topp.standard.time.watch.DurationWatch;
+import com.yelstream.topp.standard.util.concurrent.DisposableExecutor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -31,8 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
@@ -60,10 +60,7 @@ public class SocketScanner {
     private final Duration timeout=Duration.ofMillis(2000);
 
     @lombok.Builder.Default
-    private final Executor executor=null;
-
-    @lombok.Builder.Default
-    private final Supplier<ExecutorService> executorSupplier=Executors::newVirtualThreadPerTaskExecutor;
+    private final Supplier<DisposableExecutor> executorSupplier=()->DisposableExecutor.of(Executors.newVirtualThreadPerTaskExecutor());
 
     @ToString
     @Getter
@@ -78,8 +75,7 @@ public class SocketScanner {
 
         List<Sockets.DetailedConnectResult> results = new ArrayList<>();
 
-        try (ExecutorService executorService=(this.executor!=null?null:executorSupplier.get())) {
-            Executor executor=this.executor!=null?this.executor:executorService;
+        try (DisposableExecutor executor=executorSupplier.get()) {
 
             List<CompletableFuture<Sockets.DetailedConnectResult>> futures = new ArrayList<>();
 
@@ -116,16 +112,13 @@ public class SocketScanner {
     public static class Builder {
         private Supplier<IntStream> ports;
 
-        public Builder ports(Supplier<IntStream> portRangeSupplier) {
-            this.portRangeSupplier=portRangeSupplier;
-            return this;
-        }
     }
 
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
+//        DurationWatches.
 
-        SocketScanner scanner=SocketScanner.builder().portSupplier(()->IntStream.range(0,65535)).timeout(Duration.ofSeconds(1)).build();
+        SocketScanner scanner=SocketScanner.builder().ports(()->IntStream.range(0,65535)).timeout(Duration.ofSeconds(1)).build();
         SocketScanner.Result result=scanner.scan();
 
         long endTime = System.currentTimeMillis();
