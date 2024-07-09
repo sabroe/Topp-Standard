@@ -19,8 +19,7 @@
 
 package com.yelstream.topp.standard.net;
 
-import com.yelstream.topp.standard.time.watch.DurationWatch;
-import com.yelstream.topp.standard.util.concurrent.DisposableExecutor;
+import com.yelstream.topp.standard.util.concurrent.ManagedExecutor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -60,7 +59,7 @@ public class SocketScanner {
     private final Duration timeout=Duration.ofMillis(2000);
 
     @lombok.Builder.Default
-    private final Supplier<DisposableExecutor> executorSupplier=()->DisposableExecutor.of(Executors.newVirtualThreadPerTaskExecutor());
+    private final Supplier<ManagedExecutor> executorSupplier=()-> ManagedExecutor.of(Executors.newVirtualThreadPerTaskExecutor());
 
     @ToString
     @Getter
@@ -75,7 +74,7 @@ public class SocketScanner {
 
         List<Sockets.DetailedConnectResult> results = new ArrayList<>();
 
-        try (DisposableExecutor executor=executorSupplier.get()) {
+        try (ManagedExecutor executor=executorSupplier.get()) {
 
             List<CompletableFuture<Sockets.DetailedConnectResult>> futures = new ArrayList<>();
 
