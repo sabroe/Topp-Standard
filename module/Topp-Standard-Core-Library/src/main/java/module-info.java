@@ -30,7 +30,7 @@ module com.yelstream.topp.standard.core {
     exports com.yelstream.topp.standard.time;
     exports com.yelstream.topp.standard.time.watch;
     exports com.yelstream.topp.standard.util;
+    exports com.yelstream.topp.standard.util.concurrent;
     exports com.yelstream.topp.standard.util.function;
     exports com.yelstream.topp.standard.util.stream;
-    exports com.yelstream.topp.standard.util.concurrent;
 }
