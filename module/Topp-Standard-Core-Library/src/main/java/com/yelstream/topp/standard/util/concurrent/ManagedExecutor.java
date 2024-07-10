@@ -33,8 +33,8 @@ import java.util.function.Supplier;
  * </p>
  * <ul>
  *     <li>
- *         From Java SE 19, {@link ExecutorService} implements {@link AutoCloseable},
- *         while {@link Executor} remains a basic interface without a close capability.
+ *         Although Java SE 19 extended {@link ExecutorService} to be {@link AutoCloseable},
+ *         managing a plain {@link Executor} without close functionality remains challenging.
  *     </li>
  *     <li>
  *         There are cases where an executor needs to be disposed, and cases where it must be retained.
@@ -46,10 +46,6 @@ import java.util.function.Supplier;
  * </ul>
  * <p>
  *     The executor's lifecycle is managed externally while ensuring consistent closure internally.
- * </p>
- * <p>
- *     Although Java SE 19 extended {@link ExecutorService} to be {@link AutoCloseable},
- *     managing a plain {@link Executor} without close functionality remains challenging.
  * </p>
  *
  * @author Morten Sabroe Mortensen

@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.net;
 
+import com.yelstream.topp.standard.util.concurrent.CompletableFutures;
 import com.yelstream.topp.standard.util.concurrent.ManagedExecutor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,10 +29,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
@@ -71,40 +70,23 @@ public class SocketScanner {
 
     @SuppressWarnings({"java:S2583","ConstantConditions","java:S1117"})
     public Result scan() {
-
-        List<Sockets.DetailedConnectResult> results = new ArrayList<>();
+        Result result=null;
 
         try (ManagedExecutor executor=executorSupplier.get()) {
+            List<CompletableFuture<Sockets.DetailedConnectResult>> futures=
+                ports.get().mapToObj(port ->
+                    Sockets.TestConnects.withDetailedConnectResult(Sockets.ConnectParameter.of(new InetSocketAddress("localhost",port),timeout),executor)
+                ).toList();
 
-            List<CompletableFuture<Sockets.DetailedConnectResult>> futures = new ArrayList<>();
+            CompletableFuture<List<Sockets.DetailedConnectResult>> allFutures=CompletableFutures.allOf(futures);
 
-            ports.get().forEach(port-> {
-                CompletableFuture<Sockets.DetailedConnectResult> future =
-                        Sockets.TestConnects.withDetailedConnectResult(Sockets.ConnectParameter.of(new InetSocketAddress("localhost", port), timeout), executor);
+            List<Sockets.DetailedConnectResult> results=
+                allFutures.thenApply(v -> v.stream().filter(r -> r!=null && r.success()).toList()).join();
 
-                futures.add(future);
-            });
-
-            @SuppressWarnings({"unchecked", "rawtypes"})
-            CompletableFuture<Void> allFutures=CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
-
-            allFutures.thenRun(() -> {
-                for (CompletableFuture<Sockets.DetailedConnectResult> future : futures) {
-                    try {
-                        Sockets.DetailedConnectResult result = future.get();
-                        if (result != null) {
-                            if (result.success()) {
-                                results.add(result);
-                            }
-                        }
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).join();
+            result=new Result(results);
         }
 
-        return new Result(results);
+        return result;
     }
 
     @SuppressWarnings({"java:S1068","java:S1450","FieldCanBeLocal"})
