@@ -21,20 +21,15 @@ package com.yelstream.topp.standard.util.function;
 
 import lombok.experimental.UtilityClass;
 
-import java.io.IOException;
-import java.net.InetAddress;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 @UtilityClass
 public class SupplierWithExceptions {
-
-
-
-    public static <T,E extends Exception> Stream<T> resolveAsStream(List<SupplierWithException<T,E>> elements,
-                                                                    Function<Exception,E> errorHandler) throws E {
-        return elements.stream()
+    public static <T,E extends Exception> Stream<T> resolve(Stream<SupplierWithException<T,E>> elementStream,
+                                                            Function<Exception,E> errorHandler) throws E {
+        return elementStream
             .flatMap(supplier -> {
                 try {
                     return Stream.of(supplier.get());
@@ -49,13 +44,26 @@ public class SupplierWithExceptions {
             });
     }
 
-    public static <T,E extends Exception> List<T> resolveAsList(List<SupplierWithException<T,E>> elements,
-                                                                Function<Exception,E> errorHandler) throws E {
-        return resolveAsStream(elements,errorHandler).toList();
+    public static <T,E extends Exception> List<T> resolve(List<SupplierWithException<T,E>> elements,
+                                                          Function<Exception,E> errorHandler) throws E {
+        return resolve(elements.stream(),errorHandler).toList();
     }
 
     public static <T,E extends Exception> List<T> resolveDistinct(List<SupplierWithException<T,E>> elements,
-                                                                        Function<Exception,E> errorHandler) throws E {
-        return resolveAsStream(elements,errorHandler).distinct().toList();
+                                                                  Function<Exception,E> errorHandler) throws E {
+        return resolve(elements.stream(),errorHandler).distinct().toList();
+    }
+
+    public static <T> List<T> distinct(List<T> elements) {
+        return elements.stream().distinct().toList();
+    }
+
+    public static <T,E extends Exception> List<SupplierWithException<T,E>> fromList(List<T> elements) {
+        return elements.stream().map(element->(SupplierWithException<T,E>)()->element).toList();
+    }
+
+    public static <T,E extends Exception> List<SupplierWithException<T,E>> distinct(List<SupplierWithException<T,E>> elements,
+                                                                                    Function<Exception,E> errorHandler) throws E {
+        return resolve(elements.stream(),errorHandler).distinct().map(element->(SupplierWithException<T,E>)()->element).toList();
     }
 }

@@ -61,7 +61,7 @@ public class SocketScanner {
 
 //    @lombok.Singular
     @lombok.Builder.Default
-    private final List<SupplierWithException<InetAddress,IOException>> addresses=List.of(()->InetAddress.getByName("localhost"));
+    private final List<SupplierWithException<InetAddress,IOException>> addressSuppliers=List.of(()->InetAddress.getByName("localhost"));
 
     @lombok.Builder.Default
     private final Supplier<IntStream> ports=()->IntStream.range(0,65536);
@@ -86,21 +86,26 @@ public class SocketScanner {
 
         try (ManagedExecutor executor=executorSupplier.get()) {
 
-            SupplierWithException<InetAddress,IOException> addressSupplier=Inet4Addresses.StandardAddress.LoopbackAddress.getAddressSupplier();
-            InetAddress address=addressSupplier.get();
+//            SupplierWithException<InetAddress,IOException> addressSupplier=Inet4Addresses.StandardAddress.LoopbackAddress.getAddressSupplier();
+//            InetAddress address=addressSupplier.get();
 
-            List<CompletableFuture<Sockets.DetailedConnectResult>> futures=
-                ports.get().mapToObj(port -> {
-                    return Sockets.TestConnects.withDetailedConnectResult(Sockets.ConnectParameter.of(new InetSocketAddress(address, port), timeout), executor);
-                }
-                ).toList();
+            for (var addressSupplier: addressSuppliers) {
+                InetAddress address=addressSupplier.get();
+System.out.println("Address: "+address);
 
-            CompletableFuture<List<Sockets.DetailedConnectResult>> allFutures=CompletableFutures.allOf(futures);
+                List<CompletableFuture<Sockets.DetailedConnectResult>> futures=
+                    ports.get().mapToObj(port -> {
+                        return Sockets.TestConnects.withDetailedConnectResult(Sockets.ConnectParameter.of(new InetSocketAddress(address, port), timeout), executor);
+                    }
+                    ).toList();
 
-            List<Sockets.DetailedConnectResult> results=
-                allFutures.thenApply(v -> v.stream().filter(r -> r!=null && r.success()).toList()).join();
+                CompletableFuture<List<Sockets.DetailedConnectResult>> allFutures=CompletableFutures.allOf(futures);
 
-            result=new Result(results);
+                List<Sockets.DetailedConnectResult> results=
+                    allFutures.thenApply(v -> v.stream().filter(r -> r!=null && r.success()).toList()).join();
+
+                result=new Result(results);
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -120,8 +125,12 @@ public class SocketScanner {
         long startTime = System.currentTimeMillis();
 //        DurationWatches.
 
+        System.out.println("#1: "+Inet4Addresses.StandardAddress.resolve());
+        System.out.println("#2: "+Inet4Addresses.StandardAddress.resolveDistinct());
+
+
         SocketScanner.Builder builder=SocketScanner.builder().ports(()->IntStream.range(0,65535)).timeout(Duration.ofSeconds(1));
-        builder.addresses(Arrays.stream(Inet4Addresses.StandardAddress.values()).map(Inet4Addresses.StandardAddress::getAddressSupplier).toList());
+        builder.addressSuppliers(InetAddresses.distinct(Inet4Addresses.Inet4Addresses.StandardAddress.valuesAsList()));
         SocketScanner scanner=builder.build();
 
         SocketScanner.Result result=scanner.scan();
