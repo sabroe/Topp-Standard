@@ -19,11 +19,10 @@
 
 package com.yelstream.topp.standard.net;
 
-import com.yelstream.topp.standard.io.IOExceptions;
 import com.yelstream.topp.standard.util.function.SupplierWithException;
-import com.yelstream.topp.standard.util.function.SupplierWithExceptions;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
@@ -31,20 +30,19 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 @UtilityClass
 public class Inet4Addresses {
-
     @Getter
     @SuppressWarnings("java:S115")
     @AllArgsConstructor
+    @ToString
     enum StandardAddress {
-        LocalhostByName(()->Inet4Address.getByName("localhost")),
-        LocalHost(Inet4Address::getLocalHost),
-        LoopbackAddress(Inet4Address::getLoopbackAddress),
         Zero(()->Inet4Address.getByName("0.0.0.0")),
-        One(()->Inet4Address.getByName("127.0.0.1"));
+        One(()->Inet4Address.getByName("127.0.0.1")),
+        LoopBackAddress(Inet4Address::getLoopbackAddress),
+        LocalHost(Inet4Address::getLocalHost),
+        LocalHostByName(()->Inet4Address.getByName("localhost"));
 
         private final SupplierWithException<InetAddress,IOException> addressSupplier;
 
@@ -52,13 +50,20 @@ public class Inet4Addresses {
             return addressSupplier.get();
         }
 
-        public static List<InetAddress> resolve(StandardAddress... addresses) throws IOException {
-            return resolve(Arrays.stream(addresses).toList());
+        public static List<StandardAddress> valuesAsList() {
+            return valuesAsList(values());
         }
 
-        public static List<InetAddress> resolve(List<StandardAddress> addresses) throws IOException {
-            List<SupplierWithException<InetAddress,IOException>> elements=addresses.stream().map(StandardAddress::getAddressSupplier).toList();
-            return SupplierWithExceptions.resolveAsList(elements,IOExceptions::create);
+        public static List<StandardAddress> valuesAsList(StandardAddress... addresses) {
+            return Arrays.stream(addresses).toList();
+        }
+
+        public static List<SupplierWithException<InetAddress,IOException>> valuesAsSupplierList(StandardAddress... addresses) {
+            return Arrays.stream(addresses).map(StandardAddress::getAddressSupplier).toList();
+        }
+
+        public static List<SupplierWithException<InetAddress,IOException>> valuesAsSupplierList(List<StandardAddress> addresses) {
+            return addresses.stream().map(StandardAddress::getAddressSupplier).toList();
         }
     }
 }
