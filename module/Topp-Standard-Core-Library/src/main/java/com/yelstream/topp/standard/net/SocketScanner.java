@@ -21,15 +21,26 @@ package com.yelstream.topp.standard.net;
 
 import com.yelstream.topp.standard.util.concurrent.CompletableFutures;
 import com.yelstream.topp.standard.util.concurrent.ManagedExecutor;
+import com.yelstream.topp.standard.util.function.SupplierWithException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -46,10 +57,11 @@ import java.util.stream.IntStream;
 @lombok.Builder(builderClassName="Builder",toBuilder=true)
 @AllArgsConstructor
 public class SocketScanner {
-    private final List<NetworkInterface> networkInterfaces;
+//    private final List<NetworkInterface> networkInterfaces;
 
+//    @lombok.Singular
     @lombok.Builder.Default
-    private final List<InetAddress> addresses=null;//=List.of(InetAddress.getByName("localhost"));
+    private final List<SupplierWithException<InetAddress,IOException>> addresses=List.of(()->InetAddress.getByName("localhost"));
 
     @lombok.Builder.Default
     private final Supplier<IntStream> ports=()->IntStream.range(0,65536);
@@ -73,9 +85,14 @@ public class SocketScanner {
         Result result=null;
 
         try (ManagedExecutor executor=executorSupplier.get()) {
+
+            SupplierWithException<InetAddress,IOException> addressSupplier=Inet4Addresses.StandardAddress.LoopbackAddress.getAddressSupplier();
+            InetAddress address=addressSupplier.get();
+
             List<CompletableFuture<Sockets.DetailedConnectResult>> futures=
-                ports.get().mapToObj(port ->
-                    Sockets.TestConnects.withDetailedConnectResult(Sockets.ConnectParameter.of(new InetSocketAddress("localhost",port),timeout),executor)
+                ports.get().mapToObj(port -> {
+                    return Sockets.TestConnects.withDetailedConnectResult(Sockets.ConnectParameter.of(new InetSocketAddress(address, port), timeout), executor);
+                }
                 ).toList();
 
             CompletableFuture<List<Sockets.DetailedConnectResult>> allFutures=CompletableFutures.allOf(futures);
@@ -84,6 +101,8 @@ public class SocketScanner {
                 allFutures.thenApply(v -> v.stream().filter(r -> r!=null && r.success()).toList()).join();
 
             result=new Result(results);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
 
         return result;
@@ -93,13 +112,18 @@ public class SocketScanner {
     public static class Builder {
         private Supplier<IntStream> ports;
 
+//        private List<SupplierWithException<InetAddress,IOException>> addresses=List.of(()->InetAddress.getByName("localhost"));
+
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         long startTime = System.currentTimeMillis();
 //        DurationWatches.
 
-        SocketScanner scanner=SocketScanner.builder().ports(()->IntStream.range(0,65535)).timeout(Duration.ofSeconds(1)).build();
+        SocketScanner.Builder builder=SocketScanner.builder().ports(()->IntStream.range(0,65535)).timeout(Duration.ofSeconds(1));
+        builder.addresses(Arrays.stream(Inet4Addresses.StandardAddress.values()).map(Inet4Addresses.StandardAddress::getAddressSupplier).toList());
+        SocketScanner scanner=builder.build();
+
         SocketScanner.Result result=scanner.scan();
 
         long endTime = System.currentTimeMillis();
@@ -112,5 +136,55 @@ public class SocketScanner {
             System.out.println(index.getAndIncrement()+": "+address.getPort()+" "+x.getConnectParameter());
         });
 
+    }
+}
+
+
+@Getter
+@ToString
+class Result {
+    private final Map<String, List<TestResult>> results = new HashMap<>();
+
+    public void addResult(String testType, NetworkInterface networkInterface, TestResult result) {
+        String key = testType + "@" + networkInterface.getName();
+        results.computeIfAbsent(key, k -> new ArrayList<>()).add(result);
+    }
+
+    public List<TestResult> getResults(String testType, NetworkInterface networkInterface) {
+        String key = testType + "@" + networkInterface.getName();
+        return results.getOrDefault(key, Collections.emptyList());
+    }
+
+    public Map<String, List<TestResult>> getResults() {
+        return Collections.unmodifiableMap(results);
+    }
+}
+
+interface TestResult {
+    boolean isSuccess();
+    String getDescription();
+}
+
+class TcpTestResult implements TestResult {
+    private final InetSocketAddress address;
+    private final boolean success;
+
+    public TcpTestResult(InetSocketAddress address, boolean success) {
+        this.address = address;
+        this.success = success;
+    }
+
+    @Override
+    public boolean isSuccess() {
+        return success;
+    }
+
+    @Override
+    public String getDescription() {
+        return "TCP test result for " + address.toString();
+    }
+
+    public InetSocketAddress getAddress() {
+        return address;
     }
 }

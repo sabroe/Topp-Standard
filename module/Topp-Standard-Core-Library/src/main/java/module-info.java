@@ -23,6 +23,8 @@
 module com.yelstream.topp.standard.core {
     requires static lombok;
     requires org.slf4j;
+//    requires jdk.net;
+//    requires jdk.sctp;
     exports com.yelstream.topp.standard.lang;
     exports com.yelstream.topp.standard.lang.reflect;
     exports com.yelstream.topp.standard.lang.thread;
