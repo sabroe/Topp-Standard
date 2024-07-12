@@ -28,6 +28,8 @@ import lombok.ToString;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +43,7 @@ import java.util.List;
  * @since 2024-07-11
  */
 @UtilityClass
-public class InetAddresses {
+public class InetAddresses {  //TO-DO: Let tests take care of this: System.setProperty("java.net.preferIPv6Addresses", "true");
     /**
      * Standard addresses in the sense that they are special or often referenced.
      */
@@ -58,7 +60,12 @@ public class InetAddresses {
         /**
          * The localhost address.
          */
-        LocalHost(InetAddress::getLocalHost);
+        LocalHost(InetAddress::getLocalHost),
+
+        /**
+         * The "unspecified" address by name.
+         */
+        Unspecified(getUnspecifiedAddress());
 
         /**
          * Address supplier.
@@ -116,6 +123,15 @@ public class InetAddresses {
         public static List<SupplierWithException<InetAddress,IOException>> toSupplierList(List<StandardAddress> addresses) {
             return addresses.stream().map(StandardAddress::getAddressSupplier).toList();
         }
+    }
+
+    private static SupplierWithException<InetAddress,IOException> getUnspecifiedAddress() {
+        InetAddress address=InetAddress.getLoopbackAddress();
+        return switch (address) {
+            case Inet4Address ignore -> Inet4Addresses.StandardAddress.Unspecified.getAddressSupplier();
+            case Inet6Address ignore -> Inet6Addresses.StandardAddress.Unspecified.getAddressSupplier();
+            default -> throw new IllegalStateException(String.format("Failure to get the unspecified address; source address used as type is %s!",address));
+        };
     }
 
     /**
