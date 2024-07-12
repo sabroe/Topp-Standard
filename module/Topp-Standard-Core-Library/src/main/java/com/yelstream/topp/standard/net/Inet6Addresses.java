@@ -40,7 +40,7 @@ import java.util.List;
  * @since 2024-07-11
  */
 @UtilityClass
-public class Inet6Addresses {
+public class Inet6Addresses {  //TO-DO: Let tests take care of this: System.setProperty("java.net.preferIPv6Addresses", "true");
     /**
      * The "unspecified" IP address.
      */
