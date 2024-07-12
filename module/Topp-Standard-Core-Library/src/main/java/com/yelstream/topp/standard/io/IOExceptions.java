@@ -23,11 +23,33 @@ import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
 
+/**
+ * Utility addressing intances of {@link IOException}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-07-11
+ */
 @UtilityClass
 public class IOExceptions {
 
-    public static IOException create(Exception ex) {
-        return new IOException(ex.getMessage(),ex.getCause());
+    /**
+     * Converts an exception by wrapping it into new I/O exception.
+     * @param cause Wrapped exception.
+     * @return Created exception.
+     */
+    public static IOException create(Exception cause) {
+        return new IOException(cause);
     }
 
+    /**
+     * Converts an exception by wrapping it into new I/O exception.
+     * @param message Message for created exception..
+     * @param cause Wrapped exception.
+     * @return Created exception.
+     */
+    public static IOException create(String message,
+                                     Exception cause) {
+        return new IOException(message,cause);
+    }
 }

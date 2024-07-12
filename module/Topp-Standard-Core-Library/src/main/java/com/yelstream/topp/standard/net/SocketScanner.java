@@ -125,12 +125,22 @@ System.out.println("Address: "+address);
         long startTime = System.currentTimeMillis();
 //        DurationWatches.
 
-        System.out.println("#1: "+Inet4Addresses.StandardAddress.resolve());
-        System.out.println("#2: "+Inet4Addresses.StandardAddress.resolveDistinct());
+//        System.setProperty("java.net.preferIPv6Addresses", "true");
 
+        System.out.println("IP #1: "+InetAddresses.resolve(InetAddresses.StandardAddress.getAllSuppliers()));
+        System.out.println("IP #2: "+InetAddresses.resolveDistinct(InetAddresses.StandardAddress.getAllSuppliers()));
+        System.out.println();
+
+        System.out.println("IPv4 #1: "+InetAddresses.resolve(Inet4Addresses.StandardAddress.getAllSuppliers()));
+        System.out.println("IPv4 #2: "+InetAddresses.resolveDistinct(Inet4Addresses.StandardAddress.getAllSuppliers()));
+        System.out.println();
+
+        System.out.println("IPv6 #1: "+InetAddresses.resolve(Inet6Addresses.StandardAddress.getAllSuppliers()));
+        System.out.println("IPv6 #2: "+InetAddresses.resolveDistinct(Inet6Addresses.StandardAddress.getAllSuppliers()));
+        System.out.println();
 
         SocketScanner.Builder builder=SocketScanner.builder().ports(()->IntStream.range(0,65535)).timeout(Duration.ofSeconds(1));
-        builder.addressSuppliers(InetAddresses.distinct(Inet4Addresses.Inet4Addresses.StandardAddress.valuesAsList()));
+        builder.addressSuppliers(InetAddresses.distinct(Inet4Addresses.StandardAddress.getAllSuppliers()));
         SocketScanner scanner=builder.build();
 
         SocketScanner.Result result=scanner.scan();

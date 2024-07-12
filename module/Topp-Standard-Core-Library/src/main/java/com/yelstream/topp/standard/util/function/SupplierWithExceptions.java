@@ -25,45 +25,101 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+/**
+ * Utility class for handling collections of {@link SupplierWithException} instances.
+ * Provides methods to resolve, distinct, and transform streams and lists of suppliers.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-07-11
+ */
 @UtilityClass
 public class SupplierWithExceptions {
-    public static <T,E extends Exception> Stream<T> resolve(Stream<SupplierWithException<T,E>> elementStream,
+    /**
+     * Resolves a stream of suppliers to a stream of results, handling exceptions with the provided error handler.
+     * @param elementSupplierStream Stream of suppliers of elements.
+     * @param errorHandler Function to convert exceptions.
+     * @param <T> Type of the element.
+     * @param <E> Type of the exception.
+     * @return Resolved results.
+     * @throws E Thrown in case an exception occurs.
+     */
+    public static <T,E extends Exception> Stream<T> resolve(Stream<SupplierWithException<T,E>> elementSupplierStream,
                                                             Function<Exception,E> errorHandler) throws E {
-        return elementStream
-            .flatMap(supplier -> {
+        return elementSupplierStream.flatMap(elementSupplier -> {
+            try {
+                return Stream.of(elementSupplier.get());
+            } catch (Exception ex) {
+                E exception=errorHandler.apply(ex);
                 try {
-                    return Stream.of(supplier.get());
-                } catch (Exception ex) {
-                    E exception=errorHandler.apply(ex);
-                    try {
-                        throw exception;
-                    } catch (Exception e) {
-                        throw new IllegalStateException(e);
-                    }
+                    throw exception;
+                } catch (Exception e) {
+                    throw new IllegalStateException(e);
                 }
-            });
+            }
+        });
     }
 
-    public static <T,E extends Exception> List<T> resolve(List<SupplierWithException<T,E>> elements,
+    /**
+     * Resolves a list of suppliers to a list of results, handling exceptions with the provided error handler.
+     * @param elementSuppliers Suppliers of elements.
+     * @param errorHandler Function to convert exceptions.
+     * @param <T> Type of the element.
+     * @param <E> Type of the exception.
+     * @return Resolved results.
+     * @throws E Thrown in case an exception occurs.
+     */
+    public static <T,E extends Exception> List<T> resolve(List<SupplierWithException<T,E>> elementSuppliers,
                                                           Function<Exception,E> errorHandler) throws E {
-        return resolve(elements.stream(),errorHandler).toList();
+        return resolve(elementSuppliers.stream(),errorHandler).toList();
     }
 
-    public static <T,E extends Exception> List<T> resolveDistinct(List<SupplierWithException<T,E>> elements,
+    /**
+     * Resolves a list of suppliers to a distinct list of results, handling exceptions with the provided error handler.
+     * @param elementSuppliers Suppliers of elements.
+     * @param errorHandler Function to convert exceptions.
+     * @param <T> Type of the element.
+     * @param <E> Type of exception.
+     * @return Resolved results.
+     * @throws E Thrown in case an exception occurs.
+     */
+    public static <T,E extends Exception> List<T> resolveDistinct(List<SupplierWithException<T,E>> elementSuppliers,
                                                                   Function<Exception,E> errorHandler) throws E {
-        return resolve(elements.stream(),errorHandler).distinct().toList();
+        return resolve(elementSuppliers.stream(),errorHandler).distinct().toList();
     }
 
+    /**
+     * Returns the distinct elements.
+     * @param elements Elements.
+     * @param <T> Type of the element.
+     * @return Distinct elements.
+     */
     public static <T> List<T> distinct(List<T> elements) {
         return elements.stream().distinct().toList();
     }
 
+    /**
+     * Converts a list of elements to a list of suppliers that return these elements.
+     * @param elements Elements.
+     * @param <T> Type of the element.
+     * @param <E> Type of exception.
+     * @return List of suppliers of elements.
+     */
     public static <T,E extends Exception> List<SupplierWithException<T,E>> fromList(List<T> elements) {
         return elements.stream().map(element->(SupplierWithException<T,E>)()->element).toList();
     }
 
-    public static <T,E extends Exception> List<SupplierWithException<T,E>> distinct(List<SupplierWithException<T,E>> elements,
+    /**
+     * Returns a distinct list of suppliers, handling exceptions with the provided error handler.
+     * @param elementSuppliers Suppliers of elements.
+     * @param errorHandler Function to convert exceptions.
+     * @param <T> Type of the element.
+     * @param <E> Type of exception.
+     * @return List of suppliers all providing distinct elements.
+     * @throws E Thrown in case an exception occurs.
+     */
+    public static <T,E extends Exception> List<SupplierWithException<T,E>> distinct(List<SupplierWithException<T,E>> elementSuppliers,
                                                                                     Function<Exception,E> errorHandler) throws E {
-        return resolve(elements.stream(),errorHandler).distinct().map(element->(SupplierWithException<T,E>)()->element).toList();
+        return resolve(elementSuppliers.stream(),errorHandler).distinct().map(element->(SupplierWithException<T,E>)()->element).toList();
     }
 }
