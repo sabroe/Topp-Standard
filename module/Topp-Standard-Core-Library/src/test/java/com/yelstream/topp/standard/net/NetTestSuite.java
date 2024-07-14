@@ -30,6 +30,14 @@ import org.junit.platform.suite.api.Suite;
  * @since 2024-06-07
  */
 @Suite
-@SelectClasses({URIsTest.class})
+@SelectClasses({
+    URIsTest.class,
+    SocketScannerTest.class,
+    SocketsTest.class,
+    ServerSocketsTest.class,
+    InetAddressesTest.class,
+    Inet4AddressesTest.class,
+    Inet6AddressesTest.class
+})
 class NetTestSuite {
 }
