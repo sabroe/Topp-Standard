@@ -37,13 +37,17 @@ import java.util.List;
 /**
  * Utility addressing instances of {@link InetAddresses}.
  * Provides methods to resolve, distinct, and transform lists of {@link SupplierWithException}.
+ * <p>
+ *     Note that this will adapt to common Java network setting and preferences e.g.
+ *     the system property {@code java.net.preferIPv6Addresses} being set to {@code true}/{@code false}.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-07-11
  */
 @UtilityClass
-public class InetAddresses {  //TO-DO: Let tests take care of this: System.setProperty("java.net.preferIPv6Addresses", "true");
+public class InetAddresses {
     /**
      * Standard addresses in the sense that they are special or often referenced.
      */
@@ -125,8 +129,12 @@ public class InetAddresses {  //TO-DO: Let tests take care of this: System.setPr
         }
     }
 
+    /**
+     * Gets the unspecified address.
+     * @return Unspecified address.
+     */
     private static SupplierWithException<InetAddress,IOException> getUnspecifiedAddress() {
-        InetAddress address=InetAddress.getLoopbackAddress();
+        InetAddress address=InetAddress.getLoopbackAddress();  //Address used to suggest the type IPv4 vs. IPv6!
         return switch (address) {
             case Inet4Address ignore -> Inet4Addresses.StandardAddress.Unspecified.getAddressSupplier();
             case Inet6Address ignore -> Inet6Addresses.StandardAddress.Unspecified.getAddressSupplier();
