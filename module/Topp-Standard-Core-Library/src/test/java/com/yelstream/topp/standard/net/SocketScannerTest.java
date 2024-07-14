@@ -54,7 +54,7 @@ class SocketScannerTest {
         Assertions.assertNotNull(result.getScans());
         Assertions.assertFalse(result.getScans().isEmpty());
 
-        String resultText=PrintBuffer.print(result::print);
+        String resultText=result.capture();
         System.out.print(resultText);  //TO-DO: Once done bragging, please use a proper logger!
     }
 }
