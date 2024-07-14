@@ -30,9 +30,11 @@ import java.util.function.Supplier;
 
 /**
  * Maintainer of a buffered {@link PrintStream}.
- * This class encapsulates a {@link ByteArrayOutputStream} and {@link PrintStream}
- * to provide a convenient way to capture printed output into a buffer.
- * The buffer can then be converted to a string using the specified charset.
+ * <p>
+ *     This class encapsulates a {@link ByteArrayOutputStream} and {@link PrintStream}
+ *     to provide a convenient way to capture printed output into a buffer.
+ *     The buffer can then be converted to a string using the specified charset.
+ * </p>
  * <p>
  *     It implements {@link AutoCloseable} to ensure proper resource management.
  * </p>
@@ -40,26 +42,26 @@ import java.util.function.Supplier;
  *     Example usage:
  * </p>
  * <pre>
- *     try (PrintStreamBuffer psb = PrintStreamBuffer.of()) {
- *         PrintStream ps = psb.getPrintStream();
- *         ps.println("Hello, World!");
- *         String result = psb.toString();
- *         System.out.println(result);
+ *     try (PrintBuffer buffer = PrintBuffer.of()) {
+ *         PrintStream out = buffer.getPrintStream();
+ *         out.println("Hello, World!");
+ *         String text = buffer.toString();
+ *         System.out.println(text);
  *     }
  * </pre>
  * <p>
  *     Example usage:
  * </p>
  * <pre>
- *     String result = PrintStreamBuffer.print(out -> out.print("Hello, World!);
- *     System.out.println(result);
+ *     String text = PrintBuffer.print(out -> out.print("Hello, World!);
+ *     System.out.println(text);
  * </pre>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-07-14
  */
-public class PrintStreamBuffer implements AutoCloseable {
+public class PrintBuffer implements AutoCloseable {
     /**
      * Character set.
      */
@@ -80,7 +82,7 @@ public class PrintStreamBuffer implements AutoCloseable {
      * Constructor.
      * @param charset Character set.
      */
-    private PrintStreamBuffer(Charset charset) {
+    private PrintBuffer(Charset charset) {
         this.charset=charset;
         this.buffer=new ByteArrayOutputStream();
         this.printStream=new PrintStream(buffer,true,charset);
@@ -100,14 +102,14 @@ public class PrintStreamBuffer implements AutoCloseable {
      * Creates a new instance.
      * @param charset Character set.
      */
-    public static PrintStreamBuffer of(Charset charset) {
-        return new PrintStreamBuffer(charset);
+    public static PrintBuffer of(Charset charset) {
+        return new PrintBuffer(charset);
     }
 
     /**
      * Creates a new instance.
      */
-    public static PrintStreamBuffer of() {
+    public static PrintBuffer of() {
         return of(StandardCharsets.UTF_8);
     }
 
@@ -117,7 +119,7 @@ public class PrintStreamBuffer implements AutoCloseable {
      * @param task Print task.
      * @return Resulting text.
      */
-    public static String print(Supplier<PrintStreamBuffer> bufferSupplier,
+    public static String print(Supplier<PrintBuffer> bufferSupplier,
                                Consumer<PrintStream> task) {
         String text;
         try (var buffer=bufferSupplier.get()) {
@@ -134,7 +136,7 @@ public class PrintStreamBuffer implements AutoCloseable {
      * @return Resulting text.
      */
     public static String print(Consumer<PrintStream> task) {
-        return print(PrintStreamBuffer::of,task);
+        return print(PrintBuffer::of,task);
     }
 
     /**
@@ -145,6 +147,6 @@ public class PrintStreamBuffer implements AutoCloseable {
      */
     public static String print(Charset charset,
                                Consumer<PrintStream> task) {
-        return print(()->PrintStreamBuffer.of(charset),task);
+        return print(()-> PrintBuffer.of(charset),task);
     }
 }
