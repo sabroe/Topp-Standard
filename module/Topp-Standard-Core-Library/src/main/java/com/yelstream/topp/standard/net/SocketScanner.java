@@ -19,6 +19,8 @@
 
 package com.yelstream.topp.standard.net;
 
+import com.yelstream.topp.standard.io.PrintBuffer;
+import com.yelstream.topp.standard.io.Printable;
 import com.yelstream.topp.standard.util.concurrent.CompletableFutures;
 import com.yelstream.topp.standard.util.concurrent.ManagedExecutor;
 import com.yelstream.topp.standard.util.function.SupplierWithException;
@@ -81,7 +83,7 @@ public class SocketScanner {
     @ToString
     @AllArgsConstructor(staticName="of")
     @lombok.Builder(builderClassName="Builder")
-    public static class Result {
+    public static class Result implements Printable {
 
         @lombok.Singular
         private final List<Scan> scans;
@@ -106,6 +108,7 @@ public class SocketScanner {
             }
         }
 
+        @Override
         public void print(PrintStream out) {
             int scanIndex=1;
             for (var scan: scans) {

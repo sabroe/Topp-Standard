@@ -19,13 +19,12 @@
 
 package com.yelstream.topp.standard.net;
 
-import com.yelstream.topp.standard.io.PrintStreamBuffer;
+import com.yelstream.topp.standard.io.PrintBuffer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.stream.IntStream;
 
 /**
@@ -55,7 +54,7 @@ class SocketScannerTest {
         Assertions.assertNotNull(result.getScans());
         Assertions.assertFalse(result.getScans().isEmpty());
 
-        String resultText=PrintStreamBuffer.print(result::print);
+        String resultText=PrintBuffer.print(result::print);
         System.out.print(resultText);  //TO-DO: Once done bragging, please use a proper logger!
     }
 }
