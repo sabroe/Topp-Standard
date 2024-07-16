@@ -43,7 +43,7 @@ public class IOExceptions {
 
     /**
      * Converts an exception by wrapping it into new I/O exception.
-     * @param message Message for created exception..
+     * @param message Message for created exception.
      * @param cause Wrapped exception.
      * @return Created exception.
      */

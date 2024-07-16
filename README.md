@@ -84,128 +84,61 @@ which may look something like this:
 
 ```
   1 Address /127.0.0.1:
-      1     22
-      2     53
-      3     80
-      4     135
-      5     442
-      6     445
-      7     623
-      8     1433
-      9     2179
-     10     2375
-     11     2701
-     12     2810
-     13     3000
-     14     3100
-     15     3215
-     16     3389
-     17     4369
-     18     5040
-     19     5672
-     20     5985
-     21     6443
-     22     7200
-     23     7201
-     24     7220
-     25     7231
-     26     7232
-     27     7285
-     28     7287
-     29     7288
-     30     7289
-     31     7291
-     32     8005
-     33     9100
-     34     16992
-     35     25672
-     36     32017
-     37     32018
-     38     47001
-     39     48825
-     40     49052
-     41     49664
-     42     49665
-     43     49666
-     44     49667
-     45     49668
-     46     49676
-     47     52103
-     48     57086
-     49     58599
-     50     62045
-     51     62069
-     52     62411
-     53     62522
-     54     62722
-     55     62861
-     56     63342
-     57     63421
-     58     63423
-     59     63424
-     60     64529
-  2 Address LPCP2563/10.64.141.6:
-      1     22
-      2     80
-      3     135
-      4     442
-      5     445
-      6     623
-      7     1433
-      8     2179
-      9     2701
-     10     3000
-     11     3100
-     12     3389
-     13     4369
-     14     5040
-     15     5672
-     16     5985
-     17     7200
-     18     7201
-     19     7220
-     20     7231
-     21     7232
-     22     7285
-     23     7287
-     24     7288
-     25     7289
-     26     7291
-     27     8005
-     28     9100
-     29     16992
-     30     25672
+      1     135
+      2     445
+      3     2179
+      4     2375
+      5     3375
+      6     5040
+      7     5357
+      8     6443
+      9     7680
+     10     8050
+     11     27036
+     12     27060
+     13     32017
+     14     32018
+     15     34154
+     16     49664
+     17     49665
+     18     49666
+     19     49667
+     20     49668
+     21     52592
+     22     53298
+     23     54382
+     24     54570
+     25     54679
+     26     55145
+     27     55657
+     28     55784
+     29     55787
+     30     55791
+     31     56565
+     32     57682
+     33     63342
+     34     64120
+     35     65001
+  2 Address DESKTOP-KI53BD9/172.24.144.1:
+      1     135
+      2     139
+      3     445
+      4     2179
+      5     3375
+      6     5040
+      7     5357
+      8     7680
+      9     8050
   3 Address /0.0.0.0:
-      1     22
-      2     80
-      3     135
-      4     442
-      5     445
-      6     623
-      7     1433
-      8     2179
-      9     2701
-     10     3000
-     11     3100
-     12     3389
-     13     4369
-     14     5040
-     15     5672
-     16     5985
-     17     7200
-     18     7201
-     19     7220
-     20     7231
-     21     7232
-     22     7285
-     23     7287
-     24     7288
-     25     7289
-     26     7291
-     27     8005
-     28     9100
-     29     16992
-     30     25672
+      1     135
+      2     139
+      3     445
+      4     2179
+      5     3375
+      6     5040
+      7     5357
+      8     7680
+      9     8050
 ```
 
 Unique for this is that it scans all 65535 TCP ports in just a few seconds.
@@ -220,3 +153,40 @@ Coming soon: An example demonstrating rate-limited logging to help manage log ve
 ```
 ```
 
+### Example 4: Managed Executor
+
+The `ManagedExecutor` abstracts away the lifecycle handling of the executor used, 
+whether it is a simple `Executor` -- which continues to be not closable or disposable --, 
+an old-style thread-pool `ExecutorService`, or a modern virtual thread based `ExecutorService` like here, 
+-- both of which since Java SE 19 have become `AutoClosable` objects.
+
+Using `ManagedExecutor` leaves the setup of an executor and its possible shutdown as a responsibility to 
+the calling context while leaving the actual usage uncluttered,
+here shown as a small piece of reactive programming:
+
+```
+@Builder
+@AllArgsConstructor
+public class SimpleScanner {
+
+    @Builder.Default
+    private final Supplier<IntStream> ports = () -> IntStream.range(0, 65536);
+
+    @Builder.Default
+    private final Supplier<ManagedExecutor> executorSupplier = () -> ManagedExecutor.of(Executors.newVirtualThreadPerTaskExecutor());
+
+    public List<Result> scan() {
+        try (ManagedExecutor executor = executorSupplier.get()) {
+
+            List<CompletableFuture<Result>> futures =
+                ports.get().mapToObj(port -> Sockets.scan(port, executor)).toList();
+
+            CompletableFuture<List<Result>> allFutures = CompletableFutures.allOf(futures);
+            return allFutures.thenApply(l -> l.stream().filter(r -> r != null && r.success()).toList()).join();
+        }
+    }
+```
+
+The utility `CompletableFutures` is also part of the libraries, 
+here `CompletableFutures#allOf(List<CompletableFuture)` essentially handles type safety.
+~~~~

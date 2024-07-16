@@ -62,7 +62,7 @@ public interface Printable {
     void print(PrintStream out);
 
     /**
-     * Prints the textual message normal system output.
+     * Prints the textual message to normal system output.
      */
     @SuppressWarnings("java:S106")
     default void print() {
