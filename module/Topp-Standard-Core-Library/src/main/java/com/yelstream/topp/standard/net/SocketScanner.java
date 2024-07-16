@@ -19,7 +19,6 @@
 
 package com.yelstream.topp.standard.net;
 
-import com.yelstream.topp.standard.io.PrintBuffer;
 import com.yelstream.topp.standard.io.Printable;
 import com.yelstream.topp.standard.util.concurrent.CompletableFutures;
 import com.yelstream.topp.standard.util.concurrent.ManagedExecutor;
@@ -148,7 +147,7 @@ public class SocketScanner {
 
                     CompletableFuture<List<Sockets.DetailedConnectResult>> allFutures=CompletableFutures.allOf(futures);
                     List<Sockets.DetailedConnectResult> results =
-                            allFutures.thenApply(v -> v.stream().filter(r -> r != null && r.success()).toList()).join();
+                        allFutures.thenApply(v -> v.stream().filter(r -> r != null && r.success()).toList()).join();
 
                     List<Result.Scan.PortStatus> portStatuses=
                         results.stream().map(result -> {
