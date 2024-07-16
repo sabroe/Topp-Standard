@@ -39,6 +39,9 @@ import java.net.URISyntaxException;
 class URIsTest {
     /**
      * Tests the matching, parsing and rebuilding of URIs in the most common formats.
+     * <p>
+     *     Note that the origin of these examples is the Java SE 21 JavaDoc!
+     * </p>
      * @throws URISyntaxException Thrown in case of URI syntax error.
      */
     @ParameterizedTest
@@ -165,5 +168,36 @@ class URIsTest {
             Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.path());
             Assertions.assertNull(taggedPath.tag());
         }
+    }
+
+    /**
+     * Tests the matching, parsing and rebuilding of URIs in the most common formats.
+     * <p>
+     *     Note that the origin of these examples is
+     *     <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier">Wikipedia</a>.
+     * </p>
+     * @throws URISyntaxException Thrown in case of URI syntax error.
+     */
+    @ParameterizedTest
+    @ValueSource(strings=
+        {
+            "https://john.doe@www.example.com:1234/forum/questions/?tag=networking&order=newest#top",
+            "https://john.doe@www.example.com:1234/forum/questions/?tag=networking&order=newest#:~:text=whatever",
+            "ldap://[2001:db8::7]/c=GB?objectClass?one",
+            "mailto:John.Doe@example.com",
+            "news:comp.infosystems.www.servers.unix",
+            "tel:+1-816-555-1212",
+            "telnet://192.0.2.16:80/",
+            "urn:oasis:names:specification:docbook:dtd:xml:4.1.2"
+        }
+    )
+    void rebuildURI2(String uri) throws URISyntaxException {
+        URI uri1=new URI(uri);
+        URIs.Builder builder=URIs.builder();
+        builder.uri(uri1);
+        URI uri2=builder.build();
+
+        Assertions.assertEquals(uri1,uri2);
+        Assertions.assertEquals(uri,uri2.toString());
     }
 }
