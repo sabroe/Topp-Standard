@@ -189,4 +189,3 @@ public class SimpleScanner {
 
 The utility `CompletableFutures` is also part of the libraries, 
 here `CompletableFutures#allOf(List<CompletableFuture)` essentially handles type safety.
-~~~~
