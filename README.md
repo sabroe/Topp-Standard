@@ -32,7 +32,7 @@ The naming _Standard_ is a reference to the Standard Edition of Java and the spe
 
 Maven Central Repository contains released artifacts:
 
-* https://central.sonatype.com/search?q=com.yelstream.topp.standard
+* https://central.sonatype.com/namespace/com.yelstream.topp.standard
 
 ## Examples
 
