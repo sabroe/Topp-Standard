@@ -16,7 +16,7 @@ public class Optionals {
     /**
      * Indicates, if an optional is empty.
      * <p>
-     *     Note that while this kind of testing is NOT the intention with a supposed-to-be fluen optional,
+     *     Note that while this kind of testing is NOT the intention with a supposed-to-be fluent optional,
      *     not all APIs are created with this in mind, are used appropriately,
      *     leading to most defensive coding being necessary!
      * </p>
@@ -36,7 +36,7 @@ public class Optionals {
     /**
      * Gets the value contained in an optional
      * <p>
-     *     Note that while this kind of testing is NOT the intention with a supposed-to-be fluen optional,
+     *     Note that while this kind of testing is NOT the intention with a supposed-to-be fluent optional,
      *     not all APIs are created with this in mind, are used appropriately,
      *     leading to most defensive coding being necessary!
      * </p>
