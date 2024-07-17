@@ -30,6 +30,10 @@ import org.junit.platform.suite.api.Suite;
  * @since 2024-04-21
  */
 @Suite
-@SelectClasses({MapCollectorsTest.class})
+@SelectClasses({
+    MapCollectorsTest.class,
+    IntRangeTest.class,
+    LongRangeTest.class
+})
 class StreamTestSuite {
 }
