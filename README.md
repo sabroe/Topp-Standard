@@ -148,10 +148,79 @@ There are different ways to scan ports locally and remote - the `SocketScanner` 
 
 ### Example 3: Rate-limited Logging
 
-Coming soon: An example demonstrating rate-limited logging to help manage log verbosity.
+Management of log verbosity beyond just the log level is possible.
+Here a demonstration of rate-limited logging in SLF4J:
+This builds upon the fluent API features introduced in SLF4J version 2.0.0. 
+
+Here some example one-liners introducing the filtering form building upon the fluent API object `LoggingEventBuilder`: 
 
 ```
+    Slip.of(log.atInfo()).nop().use().log("Logging!");
+    Slip.of(log.atInfo()).nop().use().setMessage("Logging!").log();
+    Slip.of(log.atInfo()).nop().apply(leb->leb.setMessage("Logging!").log());
+    Slip.of(log.atInfo()).nop().apply((c,leb)->leb.setMessage("Logging!").log());
 ```
+
+Here, the instance `log` is the actual `org.slf4j.Logger` instance, possibly introduced by Lombok `@Slf4j`.
+The call `#nop()` leads to a result unfiltered beyond what has been done by the log-level,
+and e.g., `#use()` returns a normal instance of `LoggingEventBuilder` to be used in the normal, fluent fashion -
+calling `#setMessage(String)`, `#addArgument(Supplier<?>)` ending in `#log()`.
+
+These lines are somewhat not too intrusive!
+
+It is possible to apply rate-limited logging like this:
+
+```
+    IntStream.range(0,11).forEach(index->{
+        Slip.of(log.atInfo()).id("3f35",b->b.limit(5)).apply((c,leb)->leb.log("Logging; index {}, suppressed {}, accepted {}, rejected {}.",index,c.suppressed(),c.accepted(),c.rejected()));
+        Threads.sleep(Duration.ofMillis(100));
+    });
+```
+
+Here is said, that no more than five log entries per second should be generated, so the output is this:
+
+```
+Logging; index 0, suppressed 0, accepted 1, rejected 0.
+Logging; index 1, suppressed 0, accepted 2, rejected 0.
+Logging; index 2, suppressed 0, accepted 3, rejected 0.
+Logging; index 3, suppressed 0, accepted 4, rejected 0.
+Logging; index 4, suppressed 0, accepted 5, rejected 0.
+Logging; index 10, suppressed 5, accepted 6, rejected 5.
+```
+
+The state information can be obtained in a simpler manner:
+
+```
+    IntStream.range(0,21).forEach(index->{
+        Slip.of(log.atInfo()).id("12ab",b->b.limit(5)).apply((c,leb)->leb.log("Logging; index {}, state {}.",index,c.state()));
+        Threads.sleep(Duration.ofMillis(100));
+    });
+```
+
+Leading to longer log lines, revealing the internal state of limiting output:
+
+```
+Logging; index 0, state Context.State(index=1, rejectCount=0, acceptCount=1, suppressedCount=0, nextSuppressedCount=0).
+Logging; index 1, state Context.State(index=2, rejectCount=0, acceptCount=2, suppressedCount=0, nextSuppressedCount=0).
+Logging; index 2, state Context.State(index=3, rejectCount=0, acceptCount=3, suppressedCount=0, nextSuppressedCount=0).
+Logging; index 3, state Context.State(index=4, rejectCount=0, acceptCount=4, suppressedCount=0, nextSuppressedCount=0).
+Logging; index 4, state Context.State(index=5, rejectCount=0, acceptCount=5, suppressedCount=0, nextSuppressedCount=0).
+Logging; index 10, state Context.State(index=11, rejectCount=5, acceptCount=6, suppressedCount=5, nextSuppressedCount=0).
+Logging; index 11, state Context.State(index=12, rejectCount=5, acceptCount=7, suppressedCount=0, nextSuppressedCount=0).
+Logging; index 12, state Context.State(index=13, rejectCount=5, acceptCount=8, suppressedCount=0, nextSuppressedCount=0).
+Logging; index 13, state Context.State(index=14, rejectCount=5, acceptCount=9, suppressedCount=0, nextSuppressedCount=0).
+Logging; index 14, state Context.State(index=15, rejectCount=5, acceptCount=10, suppressedCount=0, nextSuppressedCount=0).
+Logging; index 19, state Context.State(index=20, rejectCount=9, acceptCount=11, suppressedCount=4, nextSuppressedCount=0).
+Logging; index 20, state Context.State(index=21, rejectCount=9, acceptCount=12, suppressedCount=0, nextSuppressedCount=0).
+```
+
+Out of 21 log statements run, the 12 have been logged while the 9 have been left out.
+
+After statements at index 0, 1, 2, 3, 4 has been logged, the time limit of at most five per second applies,
+after which statements at index 5, 6, 7, 8, 9 have been left out and the `suppressCounter` of the statement at index 10 says
+"hey, left out was the previous 5 statements!".
+
+Hence, there is a context containing simple statistics about what has happened and what has been suppressed.
 
 ### Example 4: Managed Executor
 
