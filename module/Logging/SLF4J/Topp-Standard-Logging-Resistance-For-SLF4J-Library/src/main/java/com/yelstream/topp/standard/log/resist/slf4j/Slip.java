@@ -19,124 +19,89 @@
 
 package com.yelstream.topp.standard.log.resist.slf4j;
 
+import com.yelstream.topp.standard.log.resist.slf4j.filter.Conditional;
+import com.yelstream.topp.standard.log.resist.slf4j.filter.FilterResult;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.spi.LoggingEventBuilder;
 import org.slf4j.spi.NOPLoggingEventBuilder;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Main entry point for SLF4J log filtering.
+ * <p>
+ *     This builds upon the fluent API introduced by SLF4J version 2.0.0.
+ * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-06-22
+ */
 @Slf4j
 @AllArgsConstructor(staticName="of")
 public class Slip {
+    /**
+     * Logging event builder.
+     */
     private final LoggingEventBuilder source;
 
-    public static class Context {
-
-        @Getter
-        @NoArgsConstructor(force=true)
-        @AllArgsConstructor
-        @ToString
-        private static class State {
-            private final long index;
-            private final long rejectCount;
-            private final long acceptCount;
-            private final long suppressedCount;
-            private final long nextSuppressedCount;
-            //TO-DO: Add ... 'forced', 'forcedAccept', 'forcedReject'?
-        }
-
-        private final AtomicReference<State> stateRef = new AtomicReference<>(
-            new State()
-        );
-
-        public State state() {
-            return stateRef.get();
-        }
-
-        private State onAccept() {
-            while (true) {
-                State currentState = stateRef.get();
-                State newState = new State(
-                    currentState.index+1,
-                    currentState.rejectCount,
-                    currentState.acceptCount+1,
-                    currentState.nextSuppressedCount,
-                    0
-                );
-                if (stateRef.compareAndSet(currentState, newState)) {
-                    return newState;
-                }
-            }
-        }
-
-        private State onReject() {
-            while (true) {
-                State currentState = stateRef.get();
-                State newState = new State(
-                    currentState.index+1,
-                    currentState.rejectCount+1,
-                    currentState.acceptCount,
-                    currentState.nextSuppressedCount,
-                    currentState.nextSuppressedCount+1
-                );
-                if (stateRef.compareAndSet(currentState, newState)) {
-                    return newState;
-                }
-            }
-        }
-
-        public long accepted() {
-            return stateRef.get().acceptCount;
-        }
-
-        public long rejected() {
-            return stateRef.get().rejectCount;
-        }
-
-        public long suppressed() {
-            return stateRef.get().suppressedCount;
-        }
-    }
-
+    /**
+     * Transforms this entry point to a result ready for logging, performing no filtering.
+     * @return Log filtering result.
+     */
     public FilterResult<Context,LoggingEventBuilder> nop() {
-        Conditional2<Context,LoggingEventBuilder,LoggingEventBuilder> conditional=Conditional2.identity();
+        Conditional<Context,LoggingEventBuilder,LoggingEventBuilder> conditional=Conditional.identity();
         return conditional.evaluate(source);
     }
 
-    private static class ConditionalHolder {
-        private static final Map<String,Conditional2<Context,LoggingEventBuilder,LoggingEventBuilder>> registry=new ConcurrentHashMap<>();
+    /**
+     * Container of a registry of conditionals.
+     */
+    private static class ConditionalRegistryHolder {
+        /**
+         * Associates (identifier,conditional).
+         */
+        private static final Map<String,Conditional<Context,LoggingEventBuilder,LoggingEventBuilder>> registry=new ConcurrentHashMap<>();
     }
 
-    public FilterResult<Context,LoggingEventBuilder> id(String id, Consumer<Conditional2.Builder<Context,LoggingEventBuilder,LoggingEventBuilder>> builderConsumer) {
-//log.info("Registry: {}",ConditionalHolder.registry);
-        Conditional2<Context,LoggingEventBuilder,LoggingEventBuilder> conditional=ConditionalHolder.registry.get(id);
+    /**
+     * Transforms this entry point to a result ready for logging, performing active filtering.
+     * @param id Identification.
+     * @param builderConsumer Handler doing initialization of a conditional transformation.
+     *                        Initialization is done by addressing a conditional transformation builder with preset values.
+     *                        Note that the actual initialization is done only for the first invocation.
+     * @return Log filtering result.
+     */
+    @SuppressWarnings("java:S1854")
+    public FilterResult<Context,LoggingEventBuilder> id(String id,
+                                                        Consumer<Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder>> builderConsumer) {
+        Conditional<Context,LoggingEventBuilder,LoggingEventBuilder> conditional=ConditionalRegistryHolder.registry.get(id);
         if (conditional==null) {
-            Conditional2.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> builder=createPresetBuilder(id);
+            Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> builder=createPresetBuilder(id);
             builderConsumer.accept(builder);
             conditional=builder.build();
-            ConditionalHolder.registry.put(id,conditional);
+            ConditionalRegistryHolder.registry.put(id,conditional);
         }
-
         return conditional.evaluate(source);
     }
 
-    private static Conditional2.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> createPresetBuilder(String id) {
-        Conditional2.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> builder=Conditional2.builder();
+    /**
+     * Creates a conditional builder with the most common, neutral, default settings.
+     * @param id Identifier.
+     * @return Created conditional builder.
+     */
+    private static Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> createPresetBuilder(String id) {
+        Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> builder=Conditional.builder();
         builder.id(id);
-        Context context=new Context();
-        builder.contextSupplier(()->context);
-        builder.onAccept(Context::onAccept);
-        builder.onReject(Context::onReject);
+        builder.context(Context.of());
+        builder.onAccept(Context::updateStateByAccept);
+        builder.onReject(Context::updateStateByReject);
         builder.neutralSourceSupplier(NOPLoggingEventBuilder::singleton);
-        builder.transformation(Function.identity());
+        builder.sourceTransformation(Function.identity());
         return builder;
     }
 }
