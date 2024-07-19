@@ -34,6 +34,53 @@ import java.util.regex.Pattern;
 @UtilityClass
 public class Predicates {
     /**
+     * Tests a predicate.
+     * @param predicate Predicate.
+     *                  This may be {@code null}.
+     * @param value Tested value
+     * @return Result of test.
+     * @param <T> Type of predicate value.
+     */
+    public static <T> boolean test(Predicate<T> predicate,
+                                   T value) {
+        return predicate!=null && predicate.test(value);
+    }
+
+    /**
+     * Combines predicates using {@code and}.
+     * <p>
+     *     This may be used for chaining predicates, starting with {@code null}.
+     * </p>
+     * @param predicate1 First predicate.
+     *                  This may be {@code null}.
+     * @param predicate2 Second predicate.
+     *                  This must be non-{@code null}.
+     * @return Resulting predicate.
+     * @param <T> Type of predicate value.
+     */
+    public static <T> Predicate<T> and(Predicate<T> predicate1,
+                                       Predicate<T> predicate2) {
+        return predicate1==null?predicate2:predicate1.and(predicate2);
+    }
+
+    /**
+     * Combines predicates using {@code or}.
+     * <p>
+     *     This may be used for chaining predicates, starting with {@code null}.
+     * </p>
+     * @param predicate1 First predicate.
+     *                  This may be {@code null}.
+     * @param predicate2 Second predicate.
+     *                  This must be non-{@code null}.
+     * @return Resulting predicate.
+     * @param <T> Type of predicate value.
+     */
+    public static <T> Predicate<T> or(Predicate<T> predicate1,
+                                       Predicate<T> predicate2) {
+        return predicate1==null?predicate2:predicate1.or(predicate2);
+    }
+
+    /**
      * Creates a textual matcher by matching a specific value.
      * @param value Value to match.
      * @return Created matcher.

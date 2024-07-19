@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.resist.slf4j;
+package com.yelstream.topp.standard.log.resist.slf4j.filter;
 
+import com.yelstream.topp.standard.util.function.Predicates;
 import com.yelstream.topp.standard.util.function.Suppliers;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
@@ -27,8 +28,6 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
@@ -39,64 +38,81 @@ import java.util.function.Supplier;
 /**
  * Conditional transformation as part of logging.
  * <p>
- *     This may help implement e.g. rate-limiting.
+ *     This may help implement e.g. rate-limiting logging.
  * </p>
  * @param <C> Type of context.
- * @param <X> Source to transform.
- * @param <R> Result of transformation.
+ * @param <X> Type of source to transform.
+ * @param <R> Type of result of transformation.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-06-22
  */
 @lombok.Builder(builderClassName="Builder")
 @RequiredArgsConstructor(staticName="of")
 @AllArgsConstructor(staticName="of")
 @SuppressWarnings({"java:S1117","java:S1192"})
-public class Conditional2<C,X,R> {
+public class Conditional<C,X,R> {  //TO-DO: Consider placement and typing; this is not really specific for SLF4J!
     /**
      *  Identifier, used for tracking purposes.
      */
     private String id;
 
     /**
-     *
+     * Context maintained during evaluation.
+     * <p>
+     *     This may be {@code null}.
+     * </p>
      */
-    private final Supplier<C> contextSupplier;
+    private final C context;
 
     /**
-     *
+     * Transformation evaluating the overall condition.
      */
-    private final BiFunction<Supplier<C>,X,R> transformation;
+    private final BiFunction<C,X,R> transformation;
 
     /**
-     *
+     * Performs evaluation.
+     * @param source Source being evaluated.
+     * @return Result of evaluation.
      */
     public FilterResult<C,R> evaluate(X source) {
-        R result=transformation.apply(contextSupplier,source);
-        return FilterResult.of(contextSupplier,result);
+        R result=transformation.apply(context,source);
+        return FilterResult.of(context,result);
     }
 
-    public static <C,X> Conditional2<C,X,X> identity() {
-        return Conditional2.of(()->null,(c,x)->x);
+    /**
+     * Provides the identity condition.
+     * This is a neutral transformation.
+     * @return Identity condition.
+     * @param <C> Type of context.
+     * @param <X> Type of source to transform.
+     */
+    public static <C,X> Conditional<C,X,X> identity() {
+        return Conditional.of(null,(c,x)->x);
     }
 
-    public static <C,X> Conditional2<C,X,X> identity(Supplier<C> contextSupplier,
-                                                     Consumer<C> contextUpdate) {
-        return Conditional2.of(contextSupplier,(cs,x)->{
-            C context=Suppliers.get(contextSupplier);
-            if (context!=null) {
-                contextUpdate.accept(context);
-            }
-            return x;
-        });
-    }
-
-    private static <C,X,R> BiFunction<Supplier<C>,X,R> createTransformation(Function<X,R> transformation,
-                                                                            Predicate<X> predicate,
-                                                                            Consumer<C> onAccept,
-                                                                            Consumer<C> onReject,
-                                                                            Supplier<R> neutralSourceSupplier) {
-        return (cs,x)->{
+    /**
+     * Create a condition transformation.
+     * @param sourceTransformation Transformation of source.
+     * @param sourceEvaluation Evaluation of source.
+     * @param onAccept Accept handler.
+     * @param onReject Reject handler.
+     * @param neutralSourceSupplier Factory of a neutral source.
+     * @return Condition transformation.
+     * @param <C> Type of context.
+     * @param <X> Type of source to transform.
+     * @param <R> Type of result of transformation.
+     */
+    @SuppressWarnings({"java:S3776","java:S3398"})
+    private static <C,X,R> BiFunction<C,X,R> createTransformation(Function<X,R> sourceTransformation,
+                                                                  Predicate<X> sourceEvaluation,
+                                                                  Consumer<C> onAccept,
+                                                                  Consumer<C> onReject,
+                                                                  Supplier<R> neutralSourceSupplier) {
+        return (context,x)->{
             R result;
-            boolean pass=predicate!=null && predicate.test(x);
-            C context=cs==null?null:cs.get();
+            boolean pass=Predicates.test(sourceEvaluation,x);  //Indicates if source passes evaluation.
             if (context!=null) {
                 if (!pass) {
                     if (onReject!=null) {
@@ -109,9 +125,9 @@ public class Conditional2<C,X,R> {
                 }
             }
             if (!pass) {
-                result=neutralSourceSupplier==null?null:neutralSourceSupplier.get();
+                result=Suppliers.get(neutralSourceSupplier);
             } else {
-                result=transformation.apply(x);
+                result=sourceTransformation.apply(x);
             }
             return result;
         };
@@ -120,13 +136,11 @@ public class Conditional2<C,X,R> {
     public static class Builder<C,X,R> {
         private String id;
 
-        private Supplier<C> contextSupplier;
+        private C context;
 
-//        private BiFunction<Supplier<C>,X,R> transformation;
+        private Predicate<X> sourceEvaluation;
 
-        private Predicate<X> predicate;
-
-        private Function<X,R> transformation;
+        private Function<X,R> sourceTransformation;
 
         private Consumer<C> onAccept;
 
@@ -134,23 +148,18 @@ public class Conditional2<C,X,R> {
 
         private Supplier<R> neutralSourceSupplier;
 
-
-        public Conditional2<C,X,R> build() {
-            BiFunction<Supplier<C>,X,R> _transformation=
-                createTransformation(transformation,
-                                     predicate,
+        public Conditional<C,X,R> build() {
+            BiFunction<C,X,R> transformation=
+                createTransformation(sourceTransformation,
+                                     sourceEvaluation,
                                      onAccept,
                                      onReject,
                                      neutralSourceSupplier);
-            return Conditional2.of(id,contextSupplier,_transformation);
+            return Conditional.of(id,context,transformation);
         }
 
         public Builder<C,X,R> limit(Predicate<X> limit) {
-            if (predicate==null) {
-                predicate=limit;
-            } else {
-                predicate=predicate.and(limit);
-            }
+            sourceEvaluation=Predicates.and(sourceEvaluation,limit);
             return this;
         }
 
@@ -159,40 +168,35 @@ public class Conditional2<C,X,R> {
             return limit(p);
         }
 
-        private static class ContextHolder {
-            private static final Map<String,Object> contextRegistry=new ConcurrentHashMap<>();
-        }
-
         private static class RateLimiterHolder {
             private static final RateLimiterRegistry registry=RateLimiterRegistry.ofDefaults();
         }
 
-        private RateLimiterConfig defaultRateLimiterConfig(int perPeriod, Duration period) {
+        private RateLimiterConfig defaultRateLimiterConfig(int perPeriod,
+                                                           Duration period) {
             return RateLimiterConfig.custom()
-                    .timeoutDuration(Duration.ZERO)
-                    .limitRefreshPeriod(period)
-                    .limitForPeriod(perPeriod)
-                    .build();
+                .timeoutDuration(Duration.ZERO)
+                .limitRefreshPeriod(period)
+                .limitForPeriod(perPeriod)
+                .build();
         }
 
         public Builder<C,X,R> limit(int frequency) {
             return limit(id,frequency,Duration.ofSeconds(1));
         }
 
-        public Builder<C,X,R> limit(String rateLimiterName, int perPeriod, Duration period) {
+        public Builder<C,X,R> limit(String rateLimiterName,
+                                    int perPeriod,
+                                    Duration period) {
             Predicate<X> p=x->{
-
                 RateLimiter rateLimiter=Builder.RateLimiterHolder.registry.rateLimiter(rateLimiterName,()->defaultRateLimiterConfig(perPeriod,period));
-//                System.out.println("rateLimiter: "+rateLimiter);
-                boolean pass=rateLimiter.acquirePermission();
-
-                return pass;
+                return rateLimiter.acquirePermission();
             };
             return limit(p);
         }
 
-        public Builder<C,X,R> transformation(Function<X,R> transformation) {
-            this.transformation=transformation;
+        public Builder<C,X,R> sourceTransformation(Function<X,R> sourceTransformation) {
+            this.sourceTransformation=sourceTransformation;
             return this;
         }
 

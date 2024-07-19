@@ -17,13 +17,12 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.resist.slf4j;
+package com.yelstream.topp.standard.log.resist.slf4j.filter;
 
 import lombok.AllArgsConstructor;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /**
  * Provides access to the result of log filtering operations,
@@ -39,12 +38,17 @@ import java.util.function.Supplier;
  * @since 2024-06-22
  */
 @AllArgsConstructor(staticName="of")
-public class FilterResult<C,R> {
+public class FilterResult<C,R> {  //TO-DO: Consider placement and typing; this is not really specific for SLF4J!
     /**
-     * Accesses to the context maintained during log filtering.
-     * This may be simple statistics.
+     * Context maintained during log filtering.
+     * <p>
+     *     This may be simple statistics.
+     * </p>
+     * <p>
+     *     This may be {@code null}.
+     * </p>
      */
-    private final Supplier<C> contextSupplier;
+    private final C context;
 
     /**
      * Result of log filtering.
@@ -64,7 +68,6 @@ public class FilterResult<C,R> {
      * @param consumer Receiver of the context and the result.
      */
     public void apply(BiConsumer<C,R> consumer) {
-        C context=contextSupplier.get();
         consumer.accept(context,result);
     }
 
