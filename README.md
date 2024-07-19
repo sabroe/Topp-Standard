@@ -50,7 +50,9 @@ public class MyPrintable implements Printable {
 
     public static void main(String[] args) {
         MyPrintable printable = new MyPrintable();
-        String text = printable.print();
+        
+        String text = printable.print();            // <= Yes, this line triggers the secret sauce!
+        
         System.out.println(text);
     }
 }
@@ -164,7 +166,7 @@ Here some example one-liners introducing the filtering form building upon the fl
 Here, the instance `log` is the actual `org.slf4j.Logger` instance, possibly introduced by Lombok `@Slf4j`.
 The call `#nop()` leads to a result unfiltered beyond what has been done by the log-level,
 and e.g., `#use()` returns a normal instance of `LoggingEventBuilder` to be used in the normal, fluent fashion -
-calling `#setMessage(String)`, `#addArgument(Supplier<?>)` ending in `#log()`.
+calling `#setMessage(String)`, `#addArgument(Supplier<?>)`, `#setCause(Throwable)` ending in `#log()`.
 
 These lines are somewhat not too intrusive!
 
