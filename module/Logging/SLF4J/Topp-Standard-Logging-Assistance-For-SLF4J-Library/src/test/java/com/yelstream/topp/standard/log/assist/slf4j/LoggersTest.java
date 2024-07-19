@@ -17,26 +17,14 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.standard.log.assist.slf4j;
 
-dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-    api 'org.slf4j:slf4j-api:2.0.13'
-    api 'org.slf4j:slf4j-ext:2.0.13'
-
-    api project(':module:Topp-Standard-Core-Library')
-
-    api 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
-    api 'com.fasterxml.jackson.core:jackson-core:2.17.1'
-    api 'com.fasterxml.jackson.core:jackson-annotations:2.17.1'
-
-    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+class LoggersTest {
+    @Test
+    void dummy() {
+        Assertions.assertTrue(1+1==2);
+    }
 }

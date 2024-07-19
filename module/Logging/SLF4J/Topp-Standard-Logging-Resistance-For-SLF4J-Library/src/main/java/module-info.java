@@ -27,6 +27,5 @@ module com.yelstream.topp.standard.log.resistance.slf4j {
     requires com.yelstream.topp.standard.log.assistance.slf4j;
     requires io.github.resilience4j.ratelimiter;
     requires io.github.resilience4j.all;
-    exports com.yelstream.topp.standard.log.resist;
     exports com.yelstream.topp.standard.log.resist.slf4j;
 }

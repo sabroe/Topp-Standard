@@ -89,4 +89,8 @@ public class Suppliers {
     public static <T> List<T> substantiate(List<Supplier<T>> suppliers) {
         return suppliers==null?null:suppliers.stream().filter(Objects::nonNull).map(Supplier::get).toList();
     }
+
+    public static <T> T get(Supplier<T> supplier) {
+        return supplier==null?null:supplier.get();
+    }
 }

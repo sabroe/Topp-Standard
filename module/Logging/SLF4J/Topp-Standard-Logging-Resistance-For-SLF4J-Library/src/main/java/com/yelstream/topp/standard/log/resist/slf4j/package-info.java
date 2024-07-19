@@ -17,26 +17,7 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
-    api 'org.slf4j:slf4j-api:2.0.13'
-    api 'org.slf4j:slf4j-ext:2.0.13'
-
-    api project(':module:Topp-Standard-Core-Library')
-
-    api 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
-    api 'com.fasterxml.jackson.core:jackson-core:2.17.1'
-    api 'com.fasterxml.jackson.core:jackson-annotations:2.17.1'
-
-    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
-}
+/**
+ *
+ */
+package com.yelstream.topp.standard.log.resist.slf4j;

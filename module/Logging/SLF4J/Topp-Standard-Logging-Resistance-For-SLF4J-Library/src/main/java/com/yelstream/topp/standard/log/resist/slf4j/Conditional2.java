@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.resist;
+package com.yelstream.topp.standard.log.resist.slf4j;
 
+import com.yelstream.topp.standard.util.function.Suppliers;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
@@ -35,21 +36,41 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+/**
+ * Conditional transformation as part of logging.
+ * <p>
+ *     This may help implement e.g. rate-limiting.
+ * </p>
+ * @param <C> Type of context.
+ * @param <X> Source to transform.
+ * @param <R> Result of transformation.
+ */
 @lombok.Builder(builderClassName="Builder")
 @RequiredArgsConstructor(staticName="of")
 @AllArgsConstructor(staticName="of")
 @SuppressWarnings({"java:S1117","java:S1192"})
 public class Conditional2<C,X,R> {
-
+    /**
+     *  Identifier, used for tracking purposes.
+     */
     private String id;
 
+    /**
+     *
+     */
     private final Supplier<C> contextSupplier;
 
+    /**
+     *
+     */
     private final BiFunction<Supplier<C>,X,R> transformation;
 
-    public Exec<C,R> evaluate(X source) {
+    /**
+     *
+     */
+    public FilterResult<C,R> evaluate(X source) {
         R result=transformation.apply(contextSupplier,source);
-        return Exec.of(contextSupplier,result);
+        return FilterResult.of(contextSupplier,result);
     }
 
     public static <C,X> Conditional2<C,X,X> identity() {
@@ -59,14 +80,13 @@ public class Conditional2<C,X,R> {
     public static <C,X> Conditional2<C,X,X> identity(Supplier<C> contextSupplier,
                                                      Consumer<C> contextUpdate) {
         return Conditional2.of(contextSupplier,(cs,x)->{
-            C context=contextSupplier==null?null:contextSupplier.get();
+            C context=Suppliers.get(contextSupplier);
             if (context!=null) {
                 contextUpdate.accept(context);
             }
             return x;
         });
     }
-
 
     private static <C,X,R> BiFunction<Supplier<C>,X,R> createTransformation(Function<X,R> transformation,
                                                                             Predicate<X> predicate,

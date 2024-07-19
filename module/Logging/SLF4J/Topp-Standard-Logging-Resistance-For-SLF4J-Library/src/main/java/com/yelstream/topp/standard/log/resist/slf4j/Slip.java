@@ -19,9 +19,6 @@
 
 package com.yelstream.topp.standard.log.resist.slf4j;
 
-import com.yelstream.topp.standard.lang.thread.Threads;
-import com.yelstream.topp.standard.log.resist.Conditional2;
-import com.yelstream.topp.standard.log.resist.Exec;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.spi.LoggingEventBuilder;
 import org.slf4j.spi.NOPLoggingEventBuilder;
 
-import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
@@ -110,7 +106,7 @@ public class Slip {
         }
     }
 
-    public Exec<Context,LoggingEventBuilder> nop() {
+    public FilterResult<Context,LoggingEventBuilder> nop() {
         Conditional2<Context,LoggingEventBuilder,LoggingEventBuilder> conditional=Conditional2.identity();
         return conditional.evaluate(source);
     }
@@ -119,7 +115,7 @@ public class Slip {
         private static final Map<String,Conditional2<Context,LoggingEventBuilder,LoggingEventBuilder>> registry=new ConcurrentHashMap<>();
     }
 
-    public Exec<Context,LoggingEventBuilder> id(String id, Consumer<Conditional2.Builder<Context,LoggingEventBuilder,LoggingEventBuilder>> builderConsumer) {
+    public FilterResult<Context,LoggingEventBuilder> id(String id, Consumer<Conditional2.Builder<Context,LoggingEventBuilder,LoggingEventBuilder>> builderConsumer) {
 //log.info("Registry: {}",ConditionalHolder.registry);
         Conditional2<Context,LoggingEventBuilder,LoggingEventBuilder> conditional=ConditionalHolder.registry.get(id);
         if (conditional==null) {
@@ -142,25 +138,5 @@ public class Slip {
         builder.neutralSourceSupplier(NOPLoggingEventBuilder::singleton);
         builder.transformation(Function.identity());
         return builder;
-    }
-
-    public static void main(String[] args) {
-
-        Slip.of(log.atDebug()).nop().exec().log("Logging!");
-        Slip.of(log.atDebug()).nop().exec().setMessage("Logging!").log();
-        Slip.of(log.atDebug()).nop().exec(leb->leb.setMessage("Logging!").log());
-        Slip.of(log.atDebug()).nop().exec((c,leb)->leb.setMessage("Logging!").log());
-
-        for (int i=0; i<11; i++) {
-            int finalI=i;
-            Slip.of(log.atInfo()).id("3f35",b->b.limit(5)).exec((c,leb)->leb.log("(1)Logging done; index {}, suppressed {}, accepted {}, rejected {}.", finalI,c.suppressed(),c.accepted(),c.rejected()));
-            Threads.sleep(Duration.ofMillis(100));
-        }
-
-        for (int i=0; i<11; i++) {
-            int finalI=i;
-            Slip.of(log.atInfo()).id("12ab",b->b.limit(5)).exec((c,leb)->leb.log("(2)Logging done; index{}, state {}.", finalI,c.state()));
-            Threads.sleep(Duration.ofMillis(100));
-        }
     }
 }

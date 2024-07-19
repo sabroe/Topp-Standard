@@ -17,29 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.resist;
+package com.yelstream.topp.standard.log.assist.slf4j;
 
-import lombok.AllArgsConstructor;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
-@AllArgsConstructor(staticName="of")
-public class Exec<C,R> {
-    private final Supplier<C> contextSupplier;
-    private final R result;
-
-    public R exec() {
-        return result;
-    }
-
-    public void exec(BiConsumer<C,R> consumer) {
-        C context=contextSupplier.get();
-        consumer.accept(context,result);
-    }
-
-    public void exec(Consumer<R> consumer) {
-        consumer.accept(result);
-    }
+/**
+ * Test suite for {@code com.yelstream.topp.standard.log.assist.slf4j}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-27
+ */
+@Suite
+@SelectClasses({LoggersTest.class})
+public class SLF4JTestSuite {
 }
