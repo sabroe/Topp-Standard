@@ -20,7 +20,7 @@ leading to the creation of coherent libraries that can be easily integrated into
 
 Addressed is selected functionalities of Java SE 21 and Jakarta EE 11.
 
-As a foundation of most elements, I use Lombok, SLF4J and Java SE 9 modules.
+As a foundation of most elements, I use Lombok, SLF4J, Java SE 9 modules and Java SE 21.
 
 Started March 2024.
 
