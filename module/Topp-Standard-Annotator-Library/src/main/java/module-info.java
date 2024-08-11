@@ -24,5 +24,6 @@ module com.yelstream.topp.standard.annotator {
     requires static lombok;
     requires org.slf4j;
     requires jdk.compiler;
+    exports com.yelstream.topp.standard.annotator.annotation.meta;
     exports com.yelstream.topp.standard.annotator.annotation.util;
 }
