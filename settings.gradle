@@ -34,3 +34,5 @@ include 'module:Configuration:Topp-Standard-SmallRye-Config-Library'
 include 'module:Configuration:Topp-Standard-Quarkus-Config-Library'
 
 include 'module:Network:Topp-Standard-Network-Tooling-Library'
+
+include 'module:Topp-Standard-Annotator-Library'
