@@ -24,7 +24,7 @@ import lombok.experimental.UtilityClass;
 import java.io.IOException;
 
 /**
- * Utility addressing intances of {@link IOException}.
+ * Utility addressing instances of {@link IOException}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
