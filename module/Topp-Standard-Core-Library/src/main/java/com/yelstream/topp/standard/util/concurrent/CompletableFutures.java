@@ -21,8 +21,10 @@ package com.yelstream.topp.standard.util.concurrent;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 /**
  * Utility addressing instances of {@link CompletableFuture}.
@@ -42,7 +44,7 @@ public class CompletableFutures {  //TO-DO: Consider moving to 'Furnace' project
      * <p>
      *     Otherwise, the created future provides a list of the individual results.
      * </p>
-     * @param futures the CompletableFutures
+     * @param futures Given futures.
      * @return Created future completing when all argument futures complete.
      * @param <T> Type of result.
      */
@@ -61,7 +63,7 @@ public class CompletableFutures {  //TO-DO: Consider moving to 'Furnace' project
      * <p>
      *     Otherwise, the created future provides a result from one of the given futures.
      * </p>
-     * @param futures the CompletableFutures
+     * @param futures Given futures.
      * @return Created future completing when all argument futures complete.
      * @param <T> Type of result.
      */
@@ -74,5 +76,30 @@ public class CompletableFutures {  //TO-DO: Consider moving to 'Furnace' project
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Failure to find any completed future!"))
                 .join());
+    }
+
+    /**
+     * Creates a future that completes when all the given futures have been created and completed in sequence.
+     * <p>
+     *     If any of the given futures complete exceptionally,
+     *     then the created future completes exceptionally.
+     * </p>
+     * <p>
+     *     Otherwise, the created future provides a list of the individual results.
+     * </p>
+     * @param futureSuppliers Given factories to futures.
+     * @return Created future completing when all argument futures complete.
+     * @param <T> Type of result.
+     */
+    public static <T> CompletableFuture<List<T>> allOfSequentially(List<Supplier<CompletableFuture<T>>> futureSuppliers) {
+        CompletableFuture<Void> future=CompletableFuture.completedFuture(null);
+        List<T> results=new ArrayList<>();
+        for (Supplier<CompletableFuture<T>> futureSupplier: futureSuppliers) {
+            future=future.thenCompose(v->futureSupplier.get().thenApply(result -> {
+                results.add(result);
+                return null;
+            }));
+        }
+        return future.thenApply(v->results);
     }
 }
