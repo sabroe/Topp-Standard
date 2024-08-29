@@ -19,11 +19,15 @@
 
 package com.yelstream.topp.standard.util.concurrent;
 
+import com.yelstream.topp.standard.util.function.SupplierWithException;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.Executor;
 import java.util.function.Supplier;
 
 /**
@@ -101,5 +105,55 @@ public class CompletableFutures {  //TO-DO: Consider moving to 'Furnace' project
             }));
         }
         return future.thenApply(v->results);
+    }
+
+    public static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier) {
+        return CompletableFuture.supplyAsync(supplier);  //Yes, functionality as normal!
+    }
+
+    public static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier,
+                                                       Executor executor) {
+        return CompletableFuture.supplyAsync(supplier,executor);  //Yes, functionality as normal!
+    }
+
+    public static CompletableFuture<Void> runAsync(Runnable runnable) {
+        return CompletableFuture.runAsync(runnable);  //Yes, functionality as normal!
+    }
+
+    public static CompletableFuture<Void> runAsync(Runnable runnable,
+                                                   Executor executor) {
+        return CompletableFuture.runAsync(runnable,executor);  //Yes, functionality as normal!
+    }
+
+    public static <U,E extends Exception> CompletableFuture<U> supplyAsync(SupplierWithException<U,E> supplier) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return supplier.get();
+            } catch (Exception ex) {
+                throw new CompletionException(ex);  //TO-DO: Add message!
+            }
+        });
+    }
+
+    public static <U,E extends Exception> CompletableFuture<U> supplyAsync(SupplierWithException<U,E> supplier,
+                                                                           Executor executor) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return supplier.get();
+            } catch (Exception ex) {
+                throw new CompletionException(ex);  //TO-DO: Add message!
+            }
+        },executor);
+    }
+
+    public static <U> CompletableFuture<U> runAsync(Callable<U> callable) {
+        SupplierWithException<U,Exception> supplier=callable::call;
+        return supplyAsync(supplier);
+    }
+
+    public static <U> CompletableFuture<U> runAsync(Callable<U> callable,
+                                                    Executor executor) {
+        SupplierWithException<U,Exception> supplier=callable::call;
+        return supplyAsync(supplier,executor);
     }
 }
