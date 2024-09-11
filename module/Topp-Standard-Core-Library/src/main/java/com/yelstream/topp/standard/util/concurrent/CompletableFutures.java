@@ -28,6 +28,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -155,5 +157,47 @@ public class CompletableFutures {  //TO-DO: Consider moving to 'Furnace' project
                                                     Executor executor) {
         SupplierWithException<U,Exception> supplier=callable::call;
         return supplyAsync(supplier,executor);
+    }
+
+    public static <S,T> BiFunction<? super S, Throwable, ? extends T> toFullTransformation(Function<? super S,? extends T> valueTransformation) {
+        return (value,ex) -> {
+            if (ex!=null) {
+                throw new CompletionException(ex);  //Yes, explicitly wrap the exception!
+            } else {
+                return valueTransformation.apply(value);
+            }
+        };
+    }
+
+    public static <S,T> CompletableFuture<T> thenApply(CompletableFuture<S> future,
+                                                       Function<? super S,? extends T> transformation) {
+        return future.thenApply(transformation);
+    }
+
+    public static <S,T> CompletableFuture<T> thenApplyAsync(CompletableFuture<S> future,
+                                                            Function<? super S,? extends T> transformation) {
+        return future.thenApplyAsync(transformation);
+    }
+
+    public static <S,T> CompletableFuture<T> thenApplyAsync(CompletableFuture<S> future,
+                                                            Function<? super S,? extends T> transformation,
+                                                            Executor executor) {
+        return future.thenApplyAsync(transformation,executor);
+    }
+
+    public static <S,T> CompletableFuture<T> handle(CompletableFuture<S> future,
+                                                    Function<? super S,? extends T> transformation) {
+        return future.handle(toFullTransformation(transformation));
+    }
+
+    public static <S,T> CompletableFuture<T> handleAsync(CompletableFuture<S> future,
+                                                         Function<? super S,? extends T> transformation) {
+        return future.handleAsync(toFullTransformation(transformation));
+    }
+
+    public static <S,T> CompletableFuture<T> handleAsync(CompletableFuture<S> future,
+                                                         Function<? super S,? extends T> transformation,
+                                                         Executor executor) {
+        return future.handleAsync(toFullTransformation(transformation),executor);
     }
 }
