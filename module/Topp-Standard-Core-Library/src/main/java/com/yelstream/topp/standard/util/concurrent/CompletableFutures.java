@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.util.concurrent;
 
-import com.yelstream.topp.standard.util.function.SupplierWithException;
+import com.yelstream.topp.standard.util.function.ex.SupplierWithException;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;

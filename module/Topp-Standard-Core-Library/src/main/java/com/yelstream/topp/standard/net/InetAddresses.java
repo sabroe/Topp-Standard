@@ -20,8 +20,8 @@
 package com.yelstream.topp.standard.net;
 
 import com.yelstream.topp.standard.io.IOExceptions;
-import com.yelstream.topp.standard.util.function.SupplierWithException;
-import com.yelstream.topp.standard.util.function.SupplierWithExceptions;
+import com.yelstream.topp.standard.util.function.ex.SupplierWithException;
+import com.yelstream.topp.standard.util.function.ex.SupplierWithExceptions;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

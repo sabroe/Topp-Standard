@@ -36,6 +36,7 @@ module com.yelstream.topp.standard.core {
     exports com.yelstream.topp.standard.util.concurrent;
     exports com.yelstream.topp.standard.util.concurrent.atomic;
     exports com.yelstream.topp.standard.util.function;
+    exports com.yelstream.topp.standard.util.function.ex;
     exports com.yelstream.topp.standard.util.regex;
     exports com.yelstream.topp.standard.util.stream;
 }

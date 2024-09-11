@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.net;
 
-import com.yelstream.topp.standard.util.function.SupplierWithException;
+import com.yelstream.topp.standard.util.function.ex.SupplierWithException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
