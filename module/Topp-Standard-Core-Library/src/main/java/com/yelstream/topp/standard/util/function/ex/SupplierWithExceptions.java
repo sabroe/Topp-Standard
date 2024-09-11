@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.util.function;
+package com.yelstream.topp.standard.util.function.ex;
 
 import lombok.experimental.UtilityClass;
 

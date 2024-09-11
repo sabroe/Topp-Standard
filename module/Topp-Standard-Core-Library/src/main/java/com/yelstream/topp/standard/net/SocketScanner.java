@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.net;
 import com.yelstream.topp.standard.io.Printable;
 import com.yelstream.topp.standard.util.concurrent.CompletableFutures;
 import com.yelstream.topp.standard.util.concurrent.ManagedExecutor;
-import com.yelstream.topp.standard.util.function.SupplierWithException;
+import com.yelstream.topp.standard.util.function.ex.SupplierWithException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

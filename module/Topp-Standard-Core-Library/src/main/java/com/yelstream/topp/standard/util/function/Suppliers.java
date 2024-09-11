@@ -90,6 +90,13 @@ public class Suppliers {
         return suppliers==null?null:suppliers.stream().filter(Objects::nonNull).map(Supplier::get).toList();
     }
 
+    /**
+     * Gets the value of a supplier, if set.
+     * @param supplier Supplier.
+     * @param <T> Type of supplier value.
+     * @return Value of supplier, if set.
+     *         If supplier is {@code null} then this is {@code null}.
+     */
     public static <T> T get(Supplier<T> supplier) {
         return supplier==null?null:supplier.get();
     }
