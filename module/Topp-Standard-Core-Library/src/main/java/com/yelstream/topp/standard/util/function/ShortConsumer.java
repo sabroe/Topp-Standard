@@ -34,7 +34,7 @@ public interface ShortConsumer {
      * Performs this operation on the given argument.
      * @param value Argument.
      */
-    void accept(boolean value);
+    void accept(short value);
 
     /**
      * Return a composed consumer.
@@ -43,6 +43,6 @@ public interface ShortConsumer {
      */
     default ShortConsumer andThen(ShortConsumer after) {
         Objects.requireNonNull(after);
-        return (boolean t) -> { accept(t); after.accept(t); };
+        return (short t) -> { accept(t); after.accept(t); };
     }
 }

@@ -34,7 +34,7 @@ public interface FloatConsumer {
      * Performs this operation on the given argument.
      * @param value Argument.
      */
-    void accept(boolean value);
+    void accept(float value);
 
     /**
      * Return a composed consumer.
@@ -43,6 +43,6 @@ public interface FloatConsumer {
      */
     default FloatConsumer andThen(FloatConsumer after) {
         Objects.requireNonNull(after);
-        return (boolean t) -> { accept(t); after.accept(t); };
+        return (float t) -> { accept(t); after.accept(t); };
     }
 }

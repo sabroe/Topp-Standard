@@ -34,7 +34,7 @@ public interface ByteConsumer {
      * Performs this operation on the given argument.
      * @param value Argument.
      */
-    void accept(boolean value);
+    void accept(byte value);
 
     /**
      * Return a composed consumer.
@@ -43,6 +43,6 @@ public interface ByteConsumer {
      */
     default ByteConsumer andThen(ByteConsumer after) {
         Objects.requireNonNull(after);
-        return (boolean t) -> { accept(t); after.accept(t); };
+        return (byte t) -> { accept(t); after.accept(t); };
     }
 }
