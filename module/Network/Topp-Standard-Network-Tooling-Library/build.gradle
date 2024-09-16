@@ -29,8 +29,8 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
-    api 'org.slf4j:slf4j-api:2.0.13'
-    api 'org.slf4j:slf4j-ext:2.0.13'
+    api 'org.slf4j:slf4j-api:2.0.16'
+    api 'org.slf4j:slf4j-ext:2.0.16'
 
     api project(':module:Topp-Standard-Core-Library')
 
@@ -38,5 +38,5 @@ dependencies {
     api 'com.fasterxml.jackson.core:jackson-core:2.17.1'
     api 'com.fasterxml.jackson.core:jackson-annotations:2.17.1'
 
-    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.16'
 }
