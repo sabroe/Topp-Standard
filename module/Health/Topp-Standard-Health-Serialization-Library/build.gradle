@@ -32,5 +32,5 @@ dependencies {
     api project(':module:Topp-Standard-Core-Library')
     api 'org.eclipse.microprofile.health:microprofile-health-api:4.0.1'  //TO-DO: To be removed! Remodel source code!
 
-    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.16'
 }
