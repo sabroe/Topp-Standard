@@ -29,11 +29,11 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
-    api 'org.slf4j:slf4j-api:2.0.13'
-    api 'org.slf4j:slf4j-ext:2.0.13'
+    api 'org.slf4j:slf4j-api:2.0.16'
+    api 'org.slf4j:slf4j-ext:2.0.16'
     api project(':module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library')
 
     api 'io.github.resilience4j:resilience4j-all:2.2.0'
 
-    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.16'
 }
