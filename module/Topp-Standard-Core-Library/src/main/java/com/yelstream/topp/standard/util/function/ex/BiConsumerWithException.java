@@ -65,7 +65,6 @@ public interface BiConsumerWithException<T, U, E extends Exception> {  //TO-DO: 
      */
     default BiConsumerWithException<T, U, E> andThen(BiConsumerWithException<? super T, ? super U, ? extends E> after) {
         Objects.requireNonNull(after);
-
         return (l, r) -> {
             accept(l, r);
             after.accept(l, r);
