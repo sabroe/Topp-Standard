@@ -18,14 +18,6 @@
  */
 
 /**
- * Topp Standard Logging Assistance For SLF4J provides utilities specific for SLF4J.
+ *
  */
-module com.yelstream.topp.standard.log.assistance.slf4j {
-    requires static lombok;
-    requires org.slf4j;
-    requires com.yelstream.topp.standard.core;
-    exports com.yelstream.topp.standard.log.assist.slf4j;
-    exports com.yelstream.topp.standard.log.assist.slf4j.event;
-    exports com.yelstream.topp.standard.log.assist.slf4j.spi;
-    exports com.yelstream.topp.standard.log.assist.slf4j.ex;
-}
+package com.yelstream.topp.standard.log.assist.slf4j.ex;

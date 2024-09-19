@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  * @since 2024-09-17
  */
 @AllArgsConstructor(access=AccessLevel.PROTECTED)
-public abstract class AbstractAnvil<A extends Anvil<A,C,R>,C,R> implements Anvil<A,C,R> {
+public abstract class AbstractAnvil<A extends Anvil<A,C,R>,C,R> implements Anvil<A,C,R> {  //TO-DO: Consider placement and typing; this is not really specific for SLF4J!
     /**
      *
      */

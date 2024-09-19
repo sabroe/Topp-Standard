@@ -17,15 +17,17 @@
  * limitations under the License.
  */
 
-/**
- * Topp Standard Logging Assistance For SLF4J provides utilities specific for SLF4J.
- */
-module com.yelstream.topp.standard.log.assistance.slf4j {
-    requires static lombok;
-    requires org.slf4j;
-    requires com.yelstream.topp.standard.core;
-    exports com.yelstream.topp.standard.log.assist.slf4j;
-    exports com.yelstream.topp.standard.log.assist.slf4j.event;
-    exports com.yelstream.topp.standard.log.assist.slf4j.spi;
-    exports com.yelstream.topp.standard.log.assist.slf4j.ex;
+package com.yelstream.topp.standard.log.assist.slf4j.ex;
+
+import org.slf4j.spi.LoggingEventBuilder;
+
+public final class DefaultLoggingEventBuilderEx<B extends LoggingEventBuilder> extends AbstractLoggingEventBuilderEx<DefaultLoggingEventBuilderEx<B>,B> {
+    public DefaultLoggingEventBuilderEx(B loggingEventBuilder) {
+        super(loggingEventBuilder);
+    }
+
+    @Override
+    protected DefaultLoggingEventBuilderEx<B> self() {
+        return this;
+    }
 }
