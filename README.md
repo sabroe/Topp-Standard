@@ -156,11 +156,41 @@ This builds upon the fluent API features introduced in SLF4J version 2.0.0.
 
 Here some example one-liners introducing the filtering form building upon the fluent API object `LoggingEventBuilder`: 
 
+OLD:
 ```
     Slip.of(log.atInfo()).nop().use().log("Logging!");
     Slip.of(log.atInfo()).nop().use().setMessage("Logging!").log();
     Slip.of(log.atInfo()).nop().apply(leb->leb.setMessage("Logging!").log());
     Slip.of(log.atInfo()).nop().apply((c,leb)->leb.setMessage("Logging!").log());
+```
+
+NEW:
+```
+    Log.of(log.atInfo()).use().log("Logging!");
+    Log.of(log.atInfo()).use().setMessage("Logging!").log();
+    Log.of(log.atInfo()).apply(leb->leb.setMessage("Logging!").log());
+    Log.of(log.atInfo()).apply((c,leb)->leb.setMessage("Logging!").log());
+    
+    Log.of(log).at().info().use().log("Logging!");
+    Log.of(log).at().info().use().setMessage("Logging!").log();
+    Log.of(log).at().info().apply(leb->leb.setMessage("Logging!").log());
+    Log.of(log).at().info().apply((c,leb)->leb.setMessage("Logging!").log());
+    
+    Log.info(log).use().log("Logging!");
+    Log.info(log).use().setMessage("Logging!").log();
+    Log.info(log).apply(e->e.setMessage("Logging!").log());
+    Log.info(log).apply((c,e)->e.setMessage("Logging!").log());
+    
+    Log.info(log).use().log("Logging!");
+    Log.info(log).use().message("Logging!").log();
+    Log.info(log).apply(b->b.message("Logging!").log());
+    Log.info(log).apply((c,b)->b.message("Logging!").log());
+    
+    
+    Log.info(log).use().log("Logging!");
+    Log.info(log).use().message("Logging!").log();
+    Log.info(log).log(b->b.message("Logging!"));
+    Log.info(log).log((c,b)->b.message("Logging!"));
 ```
 
 Here, the instance `log` is the actual `org.slf4j.Logger` instance, possibly introduced by Lombok `@Slf4j`.

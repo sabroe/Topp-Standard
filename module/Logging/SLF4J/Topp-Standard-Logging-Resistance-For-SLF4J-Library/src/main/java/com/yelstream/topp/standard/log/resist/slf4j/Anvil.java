@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  * @version 1.0
  * @since 2024-09-17
  */
-public interface Anvil<A extends Anvil<A,C,R>,C,R> {
+public interface Anvil<A extends Anvil<A,C,R>,C,R> {  //TO-DO: Consider placement and typing; this is not really specific for SLF4J!
     /**
      *
      */

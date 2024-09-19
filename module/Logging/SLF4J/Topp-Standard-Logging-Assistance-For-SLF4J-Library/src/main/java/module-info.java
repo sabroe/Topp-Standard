@@ -27,4 +27,5 @@ module com.yelstream.topp.standard.log.assistance.slf4j {
     exports com.yelstream.topp.standard.log.assist.slf4j;
     exports com.yelstream.topp.standard.log.assist.slf4j.event;
     exports com.yelstream.topp.standard.log.assist.slf4j.spi;
+    exports com.yelstream.topp.standard.log.assist.slf4j.ex;
 }
