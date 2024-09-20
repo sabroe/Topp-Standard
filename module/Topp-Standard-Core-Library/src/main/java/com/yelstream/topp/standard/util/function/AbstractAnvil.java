@@ -17,41 +17,52 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.resist.slf4j;
+package com.yelstream.topp.standard.util.function;
 
-import java.util.function.BiConsumer;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+
 import java.util.function.Consumer;
 
 /**
+ * Abstract implementation of {@link Anvil}.
  *
  * @param <A> Type of self object.
- * @param <C> Type of context.
- * @param <R> Type of resulting item.
+ *            This is the key to apply the Self-Referential Generics pattern.
+ * @param <I> Type of item hold.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-09-17
  */
-public interface Anvil<A extends Anvil<A,C,R>,C,R> {  //TO-DO: Consider placement and typing; this is not really specific for SLF4J!
+@AllArgsConstructor(access=AccessLevel.PROTECTED)
+public abstract class AbstractAnvil<A extends Anvil<A,I>,I> implements Anvil<A,I> {
     /**
      *
      */
-    R use();
-
-    /**
-     * Accesses the result of log filtering by handing it to a consumer.
-     * @param consumer Receiver of the result.
-     */
-    A apply(Consumer<R> consumer);
-
-    /**
-     * Accesses the result of log filtering together with the context by handing these objects to a consumer.
-     * @param consumer Receiver of the context and the result.
-     */
-    A apply(BiConsumer<C,R> consumer);
+    protected final I item;
 
     /**
      *
      */
-    void end();
+    protected abstract A self();
+
+    @Override
+    public I use() {
+        return item;
+    }
+
+    @Override
+    public A apply(Consumer<I> consumer) {
+        consumer.accept(item);
+        return self();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void end() {
+        //Empty!
+    }
 }
