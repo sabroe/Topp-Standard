@@ -1,7 +1,25 @@
+/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.yelstream.topp.standard.log.resist.slf4j;
 
-import com.yelstream.topp.standard.log.assist.slf4j.ex.DefaultLoggingEventBuilderEx;
-import com.yelstream.topp.standard.log.assist.slf4j.ex.LoggingEventBuilderEx;
+import com.yelstream.topp.standard.log.assist.slf4j.ex.Scriber;
 import org.slf4j.spi.LoggingEventBuilder;
 
 import java.util.function.BiConsumer;
@@ -14,19 +32,17 @@ import java.util.function.Consumer;
  * @version 1.0
  * @since 2024-09-17
  */
-//@AllArgsConstructor(access= AccessLevel.PROTECTED)
-//public interface LogAnvil<A extends LogAnvil<A,C,B,R>,C,B extends LoggingEventBuilder,R extends LoggingEventBuilderEx<R>> extends Anvil<A,C,R> {
-
-public interface LogAnvil<C,B extends LoggingEventBuilder,R extends DefaultLoggingEventBuilderEx<B>> extends Anvil<LogAnvil<C,B,R>,C,R> {
+public interface LogAnvil<B extends LoggingEventBuilder> extends Anvil<LogAnvil<B>,Context,Scriber<B>> {
 
 
     //XXX filter();
 
     //XXX tag();
+    //LogAnvil<B> tag(Consumer<Tag> consumer);
 
-    Journal journal();
+    LogAnvil<B> journal(Consumer<Journal> consumer);
 
-    void log(Consumer<R> consumer);
+    void log(Consumer<Scriber<B>> consumer);
 
-    void log(BiConsumer<C,R> consumer);
+    void log(BiConsumer<Context,Scriber<B>> consumer);
 }
