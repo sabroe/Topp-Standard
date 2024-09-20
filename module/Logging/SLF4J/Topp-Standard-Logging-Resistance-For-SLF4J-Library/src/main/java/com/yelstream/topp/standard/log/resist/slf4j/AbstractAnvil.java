@@ -28,6 +28,9 @@ public abstract class AbstractAnvil<A extends Anvil<A,C,R>,C,R> implements Anvil
      */
     protected final R result;
 
+    /**
+     *
+     */
     protected abstract A self();
 
     @Override
@@ -51,7 +54,7 @@ public abstract class AbstractAnvil<A extends Anvil<A,C,R>,C,R> implements Anvil
      *
      */
     @Override
-    public A end() {
-        return self();
+    public void end() {
+        //Empty!
     }
 }

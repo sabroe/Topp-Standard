@@ -30,7 +30,7 @@ import java.util.function.Supplier;
  * @version 1.0
  * @since 2024-09-19
  */
-public interface AliasLoggingEventBuilderEx<S extends AliasLoggingEventBuilderEx<S>> extends LoggingEventBuilderEx<S> {
+public interface LoggingEventBuilderExAlias<S extends LoggingEventBuilderExAlias<S>> extends LoggingEventBuilderEx<S>{
     default S cause(Throwable throwable) {
         return setCause(throwable);
     }

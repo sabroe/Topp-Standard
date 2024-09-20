@@ -19,15 +19,38 @@
 
 package com.yelstream.topp.standard.log.assist.slf4j.ex;
 
+import com.yelstream.topp.standard.util.function.BooleanConsumer;
 import org.slf4j.spi.LoggingEventBuilder;
 
-public final class DefaultLoggingEventBuilderEx<B extends LoggingEventBuilder> extends AbstractLoggingEventBuilderEx<DefaultLoggingEventBuilderEx<B>,B> {
-    public DefaultLoggingEventBuilderEx(B loggingEventBuilder) {
-        super(loggingEventBuilder);
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-09-19
+ */
+public interface Scriber<B extends LoggingEventBuilder> extends LoggingEventBuilderEx<Scriber<B>>, LoggingEventBuilderExAlias<Scriber<B>> {
+    /**
+     *
+     */
+    boolean isEnabled();
+
+    default Scriber<B> enabled(BooleanConsumer consumer) {
+        consumer.accept(isEnabled());
+        return this;
     }
 
-    @Override
-    protected DefaultLoggingEventBuilderEx<B> self() {
+    default Scriber<B> onEnabled(Runnable runnable) {
+        if (isEnabled()) {
+            runnable.run();
+        }
+        return this;
+    }
+
+    default Scriber<B> onDisabled(Runnable runnable) {
+        if (!isEnabled()) {
+            runnable.run();
+        }
         return this;
     }
 }

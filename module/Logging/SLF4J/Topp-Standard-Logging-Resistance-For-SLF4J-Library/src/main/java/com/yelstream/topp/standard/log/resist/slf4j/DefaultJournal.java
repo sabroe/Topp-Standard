@@ -20,29 +20,33 @@
 package com.yelstream.topp.standard.log.resist.slf4j;
 
 import com.yelstream.topp.standard.log.assist.slf4j.ex.Scriber;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import org.slf4j.spi.LoggingEventBuilder;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
+@AllArgsConstructor(staticName="of",access=AccessLevel.PACKAGE)
+public final class DefaultJournal<B extends LoggingEventBuilder> implements Journal {
+    /**
+     *
+     */
+    private final Scriber<B> scriber;
 
-/**
- *
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-09-17
- */
-public interface LogAnvil<B extends LoggingEventBuilder> extends Anvil<LogAnvil<B>,Context,Scriber<B>> {
+    @Override
+    public Journal value(String key, Object value) {
+        scriber.addKeyValue(key,value);
+        return this;
+    }
 
-
-    //XXX filter();
-
-    //XXX tag();
-    //LogAnvil<B> tag(Consumer<Tag> consumer);
-
-    LogAnvil<B> journal(Consumer<Journal> consumer);
-
-    void log(Consumer<Scriber<B>> consumer);
-
-    void log(BiConsumer<Context,Scriber<B>> consumer);
+    @Override
+    public Journal value(String key,
+                         String name,
+                         String type,
+                         String encoding,
+                         Object value) {
+        scriber.addKeyValue(key+".name",name);
+        scriber.addKeyValue(key+".type",type);
+        scriber.addKeyValue(key+".encoding",encoding);
+        scriber.addKeyValue(key+".data",encoding);
+        return this;
+    }
 }
