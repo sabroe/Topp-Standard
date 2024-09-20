@@ -20,11 +20,13 @@
 package com.yelstream.topp.standard.log.resist.slf4j;
 
 import lombok.experimental.UtilityClass;
+import org.slf4j.Logger;
+import org.slf4j.event.Level;
 import org.slf4j.spi.LoggingEventBuilder;
 import org.slf4j.spi.NOPLoggingEventBuilder;
 
 /**
- *
+ * Origin of log entry builders.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -34,17 +36,36 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
 public final class Log {
 
 
-    public static <B extends LoggingEventBuilder> LogAnvil<B> of(B loggingEventBuilder) {
-        return DefaultLogAnvil.of(loggingEventBuilder);
+    public static <B extends LoggingEventBuilder> Entry<B> of(B loggingEventBuilder) {
+        return DefaultEntry.of(loggingEventBuilder);
     }
 
-    public static LogAnvil<LoggingEventBuilder> nop() {
+    public static Entry<LoggingEventBuilder> nop() {
         return of(NOPLoggingEventBuilder.singleton());
     }
 
-/*
-    public static LogAnvil<LoggingEventBuilder> nop(BooleanSupplier predicate) {
-        return predicate.getAsBoolean()?nop():of(NOPLoggingEventBuilder.singleton());
+    public static Entry<LoggingEventBuilder> error(Logger logger) {
+        return of(logger.atError());
     }
-*/
+
+    public static Entry<LoggingEventBuilder> warn(Logger logger) {
+        return of(logger.atWarn());
+    }
+
+    public static Entry<LoggingEventBuilder> info(Logger logger) {
+        return of(logger.atInfo());
+    }
+
+    public static Entry<LoggingEventBuilder> debug(Logger logger) {
+        return of(logger.atDebug());
+    }
+
+    public static Entry<LoggingEventBuilder> trace(Logger logger) {
+        return of(logger.atTrace());
+    }
+
+    public static Entry<LoggingEventBuilder> of(Logger logger,
+                                                Level level) {
+        return of(logger.atLevel(level));
+    }
 }

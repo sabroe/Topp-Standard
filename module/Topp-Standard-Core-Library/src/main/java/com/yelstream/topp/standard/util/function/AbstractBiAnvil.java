@@ -17,32 +17,38 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.resist.slf4j;
-
-import com.yelstream.topp.standard.log.assist.slf4j.ex.Scriber;
-import org.slf4j.spi.LoggingEventBuilder;
+package com.yelstream.topp.standard.util.function;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
+ * Abstract implementation of {@link BiAnvil}.
  *
+ * @param <A> Type of self object.
+ *            This is the key to apply the Self-Referential Generics pattern.
+ * @param <C> Type of context.
+ *            The context is intended to be informational only.
+ * @param <I> Type of item hold.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-09-17
  */
-public interface LogAnvil<B extends LoggingEventBuilder> extends Anvil<LogAnvil<B>,Context,Scriber<B>> {
+public abstract class AbstractBiAnvil<A extends BiAnvil<A,C,I>,C,I> extends AbstractAnvil<A,I> implements BiAnvil<A,C,I> {
+    /**
+     *
+     */
+    protected final C context;
 
+    protected AbstractBiAnvil(C context,
+                              I item) {
+        super(item);
+        this.context=context;
+    }
 
-    //XXX filter();
-
-    //XXX tag();
-    //LogAnvil<B> tag(Consumer<Tag> consumer);
-
-    LogAnvil<B> journal(Consumer<Journal> consumer);
-
-    void log(Consumer<Scriber<B>> consumer);
-
-    void log(BiConsumer<Context,Scriber<B>> consumer);
+    @Override
+    public A apply(BiConsumer<C,I> consumer) {
+        consumer.accept(context,item);
+        return self();
+    }
 }

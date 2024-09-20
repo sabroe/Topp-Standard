@@ -21,33 +21,33 @@ package com.yelstream.topp.standard.log.resist.slf4j;
 
 import com.yelstream.topp.standard.log.assist.slf4j.ex.DefaultScriber;
 import com.yelstream.topp.standard.log.assist.slf4j.ex.Scriber;
+import com.yelstream.topp.standard.util.function.AbstractBiAnvil;
 import org.slf4j.spi.LoggingEventBuilder;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
- *
+ * Default implementation of {@link Entry}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-09-17
  */
-//@AllArgsConstructor(access= AccessLevel.PROTECTED)
-public final class DefaultLogAnvil<B extends LoggingEventBuilder> extends AbstractAnvil<LogAnvil<B>,Context,Scriber<B>> implements LogAnvil<B> {
+public final class DefaultEntry<B extends LoggingEventBuilder> extends AbstractBiAnvil<Entry<B>,Context,Scriber<B>> implements Entry<B> {
 
-    protected LogAnvil<B> self() {
+    protected Entry<B> self() {
         return this;
     }
 
-    private DefaultLogAnvil(Context context,
-                            Scriber<B> scriber) {
+    private DefaultEntry(Context context,
+                         Scriber<B> scriber) {
         super(context,scriber);
     }
 
     @Override
-    public LogAnvil<B> journal(Consumer<Journal> consumer) {
-        Journal journal=DefaultJournal.of(result);
+    public Entry<B> journal(Consumer<Journal> consumer) {
+        Journal journal=DefaultJournal.of(item);
         consumer.accept(journal);
         return self();
     }
@@ -69,14 +69,14 @@ public final class DefaultLogAnvil<B extends LoggingEventBuilder> extends Abstra
         use().log();
     }
 
-    public static <B extends LoggingEventBuilder> DefaultLogAnvil<B> of(Context context,
-                                                                        Scriber<B> scriber) {
-        return new DefaultLogAnvil<>(context,scriber);
+    public static <B extends LoggingEventBuilder> Entry<B> of(Context context,
+                                                              Scriber<B> scriber) {
+        return new DefaultEntry<>(context,scriber);
     }
 
-    public static <B extends LoggingEventBuilder> DefaultLogAnvil<B> of(B loggingEventBuilder) {
+    public static <B extends LoggingEventBuilder> Entry<B> of(B loggingEventBuilder) {
         Context context=Context.of();
         Scriber<B> scriber=DefaultScriber.of(loggingEventBuilder);
-        return new DefaultLogAnvil<>(context,scriber);
+        return new DefaultEntry<>(context,scriber);
     }
 }
