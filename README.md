@@ -183,14 +183,14 @@ NEW:
     
     Log.info(log).use().log("Logging!");
     Log.info(log).use().message("Logging!").log();
-    Log.info(log).apply(b->b.message("Logging!").log());
-    Log.info(log).apply((c,b)->b.message("Logging!").log());
+    Log.info(log).apply(e->e.message("Logging!").log());
+    Log.info(log).apply((c,e)->e.message("Logging!").log());
     
     
     Log.info(log).use().log("Logging!");
     Log.info(log).use().message("Logging!").log();
-    Log.info(log).log(b->b.message("Logging!"));
-    Log.info(log).log((c,b)->b.message("Logging!"));
+    Log.info(log).log(e->e.message("Logging!"));
+    Log.info(log).log((c,e)->e.message("Logging!"));
 ```
 
 Here, the instance `log` is the actual `org.slf4j.Logger` instance, possibly introduced by Lombok `@Slf4j`.
