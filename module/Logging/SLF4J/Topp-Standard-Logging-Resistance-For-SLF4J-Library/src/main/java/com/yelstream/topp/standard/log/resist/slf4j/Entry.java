@@ -36,7 +36,7 @@ import java.util.function.Consumer;
 public interface Entry<B extends LoggingEventBuilder> extends BiAnvil<Entry<B>,Context,Scriber<B>> {
 
 
-    //XXX filter();
+    Entry<B> filter(Consumer<Filter> consumer);
 
     //XXX tag();
     //LogAnvil<B> tag(Consumer<Tag> consumer);

@@ -46,6 +46,13 @@ public final class DefaultEntry<B extends LoggingEventBuilder> extends AbstractB
     }
 
     @Override
+    public Entry<B> filter(Consumer<Filter> consumer) {
+        Filter filter=DefaultFilter.of(this);
+        consumer.accept(filter);
+        return self();
+    }
+
+    @Override
     public Entry<B> journal(Consumer<Journal> consumer) {
         Journal journal=DefaultJournal.of(item);
         consumer.accept(journal);
