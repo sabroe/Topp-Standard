@@ -38,9 +38,10 @@ import java.util.function.Consumer;
 @AllArgsConstructor(access=AccessLevel.PROTECTED)
 public abstract class AbstractAnvil<A extends Anvil<A,I>,I> implements Anvil<A,I> {
     /**
-     *
+     * Work item.
+     * Note that this can be replaced completely.
      */
-    protected final I item;
+    protected I item;
 
     /**
      *

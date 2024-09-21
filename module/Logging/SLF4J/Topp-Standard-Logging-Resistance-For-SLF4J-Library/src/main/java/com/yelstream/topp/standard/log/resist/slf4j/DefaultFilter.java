@@ -19,31 +19,22 @@
 
 package com.yelstream.topp.standard.log.resist.slf4j;
 
-import com.yelstream.topp.standard.log.assist.slf4j.ex.Scriber;
-import com.yelstream.topp.standard.util.function.BiAnvil;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import org.slf4j.spi.LoggingEventBuilder;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
+@AllArgsConstructor(staticName="of",access= AccessLevel.PACKAGE)
+public final class DefaultFilter<B extends LoggingEventBuilder> implements Filter {
 
-/**
- * Log entry builder.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-09-17
- */
-public interface Entry<B extends LoggingEventBuilder> extends BiAnvil<Entry<B>,Context,Scriber<B>> {
+    /**
+     *
+     */
+    private final DefaultEntry<B> entry;  //TO-DO: Consider exposing LESS and in non-circular fashion DefaultFilter<->DefaultEntry -- the fixed context and the item being replaceable!
 
+    @Override
+    public Filter doSomething() {
+        //TO-DO: Do something e.g. replace the item, add to the context.
+        return this;
+    }
 
-    Entry<B> filter(Consumer<Filter> consumer);
-
-    //XXX tag();
-    //LogAnvil<B> tag(Consumer<Tag> consumer);
-
-    Entry<B> journal(Consumer<Journal> consumer);
-
-    void log(Consumer<Scriber<B>> consumer);
-
-    void log(BiConsumer<Context,Scriber<B>> consumer);
 }

@@ -19,31 +19,9 @@
 
 package com.yelstream.topp.standard.log.resist.slf4j;
 
-import com.yelstream.topp.standard.log.assist.slf4j.ex.Scriber;
-import com.yelstream.topp.standard.util.function.BiAnvil;
-import org.slf4j.spi.LoggingEventBuilder;
-
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-
-/**
- * Log entry builder.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-09-17
- */
-public interface Entry<B extends LoggingEventBuilder> extends BiAnvil<Entry<B>,Context,Scriber<B>> {
+public interface Filter {
 
 
-    Entry<B> filter(Consumer<Filter> consumer);
+    Filter doSomething();
 
-    //XXX tag();
-    //LogAnvil<B> tag(Consumer<Tag> consumer);
-
-    Entry<B> journal(Consumer<Journal> consumer);
-
-    void log(Consumer<Scriber<B>> consumer);
-
-    void log(BiConsumer<Context,Scriber<B>> consumer);
 }

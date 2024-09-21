@@ -36,7 +36,9 @@ import java.util.function.BiConsumer;
  */
 public abstract class AbstractBiAnvil<A extends BiAnvil<A,C,I>,C,I> extends AbstractAnvil<A,I> implements BiAnvil<A,C,I> {
     /**
-     *
+     * Context.
+     * Essentially intended as a work log or statistics about what has been done to the held work item.
+     * This is not intended for replacement.
      */
     protected final C context;
 
