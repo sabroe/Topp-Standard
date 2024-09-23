@@ -40,7 +40,7 @@ public final class DefaultFilter<C extends Context,B extends LoggingEventBuilder
     private final DefaultEntry<C,B> entry;  //TO-DO: Consider exposing LESS and in non-circular fashion DefaultFilter<->DefaultEntry -- the fixed context and the item being replaceable!
 
     @Override
-    public Filter doSomething() {
+    public Filter<C,B> doSomething() {
         //TO-DO: Do something e.g. replace the item, add to the context.
         return this;
     }
@@ -57,22 +57,13 @@ public final class DefaultFilter<C extends Context,B extends LoggingEventBuilder
     private final LoggingEventBuilder source;
 
     /**
-     * Transforms this entry point to a result ready for logging, performing no filtering.
-     * @return Log filtering result.
-     */
-    public FilterResult<Context,LoggingEventBuilder> nop() {
-        Conditional<Context,LoggingEventBuilder,LoggingEventBuilder> conditional=Conditional.identity();
-        return conditional.evaluate(source);
-    }
-
-    /**
      * Container of a registry of conditionals.
      */
     private static class ConditionalRegistryHolder {
         /**
          * Associates (identifier,conditional).
          */
-        private static final Map<String,Conditional<Context,LoggingEventBuilder,LoggingEventBuilder>> registry=new ConcurrentHashMap<>();
+        private static final Map<String,Conditional2<Context,LoggingEventBuilder,LoggingEventBuilder>> registry=new ConcurrentHashMap<>();
     }
 
     /**
@@ -84,16 +75,16 @@ public final class DefaultFilter<C extends Context,B extends LoggingEventBuilder
      * @return Log filtering result.
      */
     @SuppressWarnings("java:S1854")
-    public FilterResult<Context,LoggingEventBuilder> id(String id,
-                                                        Consumer<Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder>> builderConsumer) {
-        Conditional<Context,LoggingEventBuilder,LoggingEventBuilder> conditional= Slip.ConditionalRegistryHolder.registry.get(id);
+    public Entry<Context,LoggingEventBuilder> id(String id,
+                                                 Consumer<Conditional2.Builder<Context,LoggingEventBuilder,LoggingEventBuilder>> builderConsumer) {
+        Conditional2<Context,LoggingEventBuilder,LoggingEventBuilder> conditional=ConditionalRegistryHolder.registry.get(id);
         if (conditional==null) {
-            Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> builder=createPresetBuilder(id);
+            Conditional2.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> builder=createPresetBuilder(id);
             builderConsumer.accept(builder);
             conditional=builder.build();
-            Slip.ConditionalRegistryHolder.registry.put(id,conditional);
+            ConditionalRegistryHolder.registry.put(id,conditional);
         }
-        return conditional.evaluate(source);
+        return conditional.evaluate(source,DefaultEntry::of);
     }
 
     /**
@@ -101,8 +92,8 @@ public final class DefaultFilter<C extends Context,B extends LoggingEventBuilder
      * @param id Identifier.
      * @return Created conditional builder.
      */
-    private static Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> createPresetBuilder(String id) {
-        Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> builder=Conditional.builder();
+    private static Conditional2.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> createPresetBuilder(String id) {
+        Conditional2.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> builder=Conditional2.builder();
         builder.id(id);
         builder.context(Context.of());
         builder.onAccept(Context::updateStateByAccept);

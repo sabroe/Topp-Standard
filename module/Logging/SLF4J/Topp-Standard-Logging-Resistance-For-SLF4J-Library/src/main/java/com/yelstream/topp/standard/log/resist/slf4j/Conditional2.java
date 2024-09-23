@@ -76,9 +76,24 @@ public class Conditional2<C,X,R> {  //TO-DO: Consider placement and typing; this
      * @param source Source being evaluated.
      * @return Result of evaluation.
      */
+/*
     public Entry<C,R> evaluate(X source) {
         R result=transformation.apply(context,source);
         return DefaultEntry.of(context,result);
+    }
+*/
+/*
+    public R evaluate(X source) {
+        R result=transformation.apply(context,source);
+        return result;//DefaultEntry.of(context,result);
+    }
+*/
+
+    public <Z> Z evaluate(X source,
+                          BiFunction<C,R,Z> function) {
+        R result=transformation.apply(context,source);
+        //return DefaultEntry.of(context,result);
+        return function.apply(context,result);
     }
 
     /**
