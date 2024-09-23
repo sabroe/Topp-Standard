@@ -171,26 +171,20 @@ NEW:
     Log.of(log.atInfo()).apply(leb->leb.setMessage("Logging!").log());
     Log.of(log.atInfo()).apply((c,leb)->leb.setMessage("Logging!").log());
     
-    Log.of(log).at().info().use().log("Logging!");
-    Log.of(log).at().info().use().setMessage("Logging!").log();
-    Log.of(log).at().info().apply(leb->leb.setMessage("Logging!").log());
-    Log.of(log).at().info().apply((c,leb)->leb.setMessage("Logging!").log());
+    Log.of(log).atInfo().use().log("Logging!");
+    Log.of(log).atInfo().use().setMessage("Logging!").log();
+    Log.of(log).atInfo().apply(e->e.setMessage("Logging!").log());
+    Log.of(log).atInfo().apply((c,leb)->leb.setMessage("Logging!").log());
     
-    Log.info(log).use().log("Logging!");
-    Log.info(log).use().setMessage("Logging!").log();
-    Log.info(log).apply(e->e.setMessage("Logging!").log());
-    Log.info(log).apply((c,e)->e.setMessage("Logging!").log());
+    Log.atInfo(log).use().log("Logging!");
+    Log.atInfo(log).use().setMessage("Logging!").log();
+    Log.atInfo(log).apply(e->e.setMessage("Logging!").log());
+    Log.atInfo(log).apply((c,e)->e.setMessage("Logging!").log());
     
-    Log.info(log).use().log("Logging!");
-    Log.info(log).use().message("Logging!").log();
-    Log.info(log).apply(e->e.message("Logging!").log());
-    Log.info(log).apply((c,e)->e.message("Logging!").log());
-    
-    
-    Log.info(log).use().log("Logging!");
-    Log.info(log).use().message("Logging!").log();
-    Log.info(log).log(e->e.message("Logging!"));
-    Log.info(log).log((c,e)->e.message("Logging!"));
+    Log.atInfo(log).use().log("Logging!");
+    Log.atInfo(log).use().message("Logging!").log();
+    Log.atInfo(log).log(e->e.message("Logging!"));
+    Log.atInfo(log).log((c,e)->e.message("Logging!"));
 ```
 
 Here, the instance `log` is the actual `org.slf4j.Logger` instance, possibly introduced by Lombok `@Slf4j`.

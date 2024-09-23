@@ -34,38 +34,40 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
  */
 @UtilityClass
 public final class Log {
-
-
-    public static <B extends LoggingEventBuilder> Entry<B> of(B loggingEventBuilder) {
+    public static <B extends LoggingEventBuilder> Entry<Context,B> of(B loggingEventBuilder) {
         return DefaultEntry.of(loggingEventBuilder);
     }
 
-    public static Entry<LoggingEventBuilder> nop() {
+    public static Entry<Context,LoggingEventBuilder> nop() {
         return of(NOPLoggingEventBuilder.singleton());
     }
 
-    public static Entry<LoggingEventBuilder> error(Logger logger) {
+    public static AtLevelCreator<Context> of(Logger logger) {  //Note: Convenience only!
+        return AtLevelCreator.of(logger,Log::of);
+    }
+
+    public static Entry<Context,LoggingEventBuilder> atError(Logger logger) {  //Note: Convenience only!
         return of(logger.atError());
     }
 
-    public static Entry<LoggingEventBuilder> warn(Logger logger) {
+    public static Entry<Context,LoggingEventBuilder> atWarn(Logger logger) {  //Note: Convenience only!
         return of(logger.atWarn());
     }
 
-    public static Entry<LoggingEventBuilder> info(Logger logger) {
+    public static Entry<Context,LoggingEventBuilder> atInfo(Logger logger) {  //Note: Convenience only!
         return of(logger.atInfo());
     }
 
-    public static Entry<LoggingEventBuilder> debug(Logger logger) {
+    public static Entry<Context,LoggingEventBuilder> atDebug(Logger logger) {  //Note: Convenience only!
         return of(logger.atDebug());
     }
 
-    public static Entry<LoggingEventBuilder> trace(Logger logger) {
+    public static Entry<Context,LoggingEventBuilder> atTrace(Logger logger) {  //Note: Convenience only!
         return of(logger.atTrace());
     }
 
-    public static Entry<LoggingEventBuilder> of(Logger logger,
-                                                Level level) {
+    public static Entry<Context,LoggingEventBuilder> atLevel(Logger logger,
+                                                             Level level) {  //Note: Convenience only!
         return of(logger.atLevel(level));
     }
 }
