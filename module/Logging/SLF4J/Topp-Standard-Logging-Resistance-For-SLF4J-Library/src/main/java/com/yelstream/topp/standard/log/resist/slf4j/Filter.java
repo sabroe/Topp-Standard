@@ -24,6 +24,6 @@ import org.slf4j.spi.LoggingEventBuilder;
 public interface Filter<C extends Context,B extends LoggingEventBuilder> {
 
 
-    Filter doSomething();
+    Filter<C,B> doSomething();
 
 }

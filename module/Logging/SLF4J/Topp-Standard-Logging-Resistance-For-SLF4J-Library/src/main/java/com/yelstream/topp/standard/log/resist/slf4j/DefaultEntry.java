@@ -45,13 +45,15 @@ public final class DefaultEntry<C extends Context,B extends LoggingEventBuilder>
         super(context,scriber);
     }
 
-    @Override
 //    public <C2 extends Context,B2 extends LoggingEventBuilder> Entry<C2,B2> filter(Consumer<Filter> consumer) {
+/*
+    @Override
     public Entry<C,B> filter(Consumer<Filter> consumer) {
         Filter filter=DefaultFilter.of(this);
         consumer.accept(filter);
         return self();
     }
+*/
 
     @Override
     public Entry<C,B> journal(Consumer<Journal> consumer) {
@@ -87,4 +89,12 @@ public final class DefaultEntry<C extends Context,B extends LoggingEventBuilder>
         Scriber<B> scriber=DefaultScriber.of(loggingEventBuilder);
         return new DefaultEntry<>(context,scriber);
     }
+
+
+    public static <C extends Context,B extends LoggingEventBuilder> Entry<Context,B> of(C context,
+                                                                                        B loggingEventBuilder) {
+        Scriber<B> scriber=DefaultScriber.of(loggingEventBuilder);
+        return new DefaultEntry<>(context,scriber);
+    }
+
 }
