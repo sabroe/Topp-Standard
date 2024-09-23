@@ -34,26 +34,27 @@ import java.util.function.Consumer;
  * @version 1.0
  * @since 2024-09-17
  */
-public final class DefaultEntry<B extends LoggingEventBuilder> extends AbstractBiAnvil<Entry<B>,Context,Scriber<B>> implements Entry<B> {
+public final class DefaultEntry<C extends Context,B extends LoggingEventBuilder> extends AbstractBiAnvil<Entry<C,B>,C,Scriber<B>> implements Entry<C,B> {
 
-    protected Entry<B> self() {
+    protected Entry<C,B> self() {
         return this;
     }
 
-    private DefaultEntry(Context context,
+    private DefaultEntry(C context,
                          Scriber<B> scriber) {
         super(context,scriber);
     }
 
     @Override
-    public Entry<B> filter(Consumer<Filter> consumer) {
+//    public <C2 extends Context,B2 extends LoggingEventBuilder> Entry<C2,B2> filter(Consumer<Filter> consumer) {
+    public Entry<C,B> filter(Consumer<Filter> consumer) {
         Filter filter=DefaultFilter.of(this);
         consumer.accept(filter);
         return self();
     }
 
     @Override
-    public Entry<B> journal(Consumer<Journal> consumer) {
+    public Entry<C,B> journal(Consumer<Journal> consumer) {
         Journal journal=DefaultJournal.of(item);
         consumer.accept(journal);
         return self();
@@ -66,7 +67,7 @@ public final class DefaultEntry<B extends LoggingEventBuilder> extends AbstractB
     }
 
     @Override
-    public void log(BiConsumer<Context, Scriber<B>> consumer) {
+    public void log(BiConsumer<C,Scriber<B>> consumer) {
         apply(consumer);
         end();
     }
@@ -76,12 +77,12 @@ public final class DefaultEntry<B extends LoggingEventBuilder> extends AbstractB
         use().log();
     }
 
-    public static <B extends LoggingEventBuilder> Entry<B> of(Context context,
-                                                              Scriber<B> scriber) {
+    public static <C extends Context,B extends LoggingEventBuilder> Entry<C,B> of(C context,
+                                                                                  Scriber<B> scriber) {
         return new DefaultEntry<>(context,scriber);
     }
 
-    public static <B extends LoggingEventBuilder> Entry<B> of(B loggingEventBuilder) {
+    public static <B extends LoggingEventBuilder> Entry<Context,B> of(B loggingEventBuilder) {
         Context context=Context.of();
         Scriber<B> scriber=DefaultScriber.of(loggingEventBuilder);
         return new DefaultEntry<>(context,scriber);

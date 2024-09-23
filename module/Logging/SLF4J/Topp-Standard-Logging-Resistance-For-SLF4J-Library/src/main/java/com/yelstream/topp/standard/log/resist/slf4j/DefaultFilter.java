@@ -24,12 +24,12 @@ import lombok.AllArgsConstructor;
 import org.slf4j.spi.LoggingEventBuilder;
 
 @AllArgsConstructor(staticName="of",access= AccessLevel.PACKAGE)
-public final class DefaultFilter<B extends LoggingEventBuilder> implements Filter {
+public final class DefaultFilter<C extends Context,B extends LoggingEventBuilder> implements Filter {
 
     /**
      *
      */
-    private final DefaultEntry<B> entry;  //TO-DO: Consider exposing LESS and in non-circular fashion DefaultFilter<->DefaultEntry -- the fixed context and the item being replaceable!
+    private final DefaultEntry<C,B> entry;  //TO-DO: Consider exposing LESS and in non-circular fashion DefaultFilter<->DefaultEntry -- the fixed context and the item being replaceable!
 
     @Override
     public Filter doSomething() {
