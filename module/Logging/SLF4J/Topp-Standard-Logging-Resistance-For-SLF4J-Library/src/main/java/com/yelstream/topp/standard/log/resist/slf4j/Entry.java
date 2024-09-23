@@ -33,17 +33,19 @@ import java.util.function.Consumer;
  * @version 1.0
  * @since 2024-09-17
  */
-public interface Entry<B extends LoggingEventBuilder> extends BiAnvil<Entry<B>,Context,Scriber<B>> {
+public interface Entry<C extends Context,B extends LoggingEventBuilder> extends BiAnvil<Entry<C,B>,C,Scriber<B>> {
 
 
-    Entry<B> filter(Consumer<Filter> consumer);
+//    @SuppressWarnings("java:S4977")
+    //<C2 extends Context,B2 extends LoggingEventBuilder> Entry<C2,B2> filter(Consumer<Filter> consumer);
+    Entry<C,B> filter(Consumer<Filter> consumer);
 
     //XXX tag();
     //LogAnvil<B> tag(Consumer<Tag> consumer);
 
-    Entry<B> journal(Consumer<Journal> consumer);
+    Entry<C,B> journal(Consumer<Journal> consumer);
 
     void log(Consumer<Scriber<B>> consumer);
 
-    void log(BiConsumer<Context,Scriber<B>> consumer);
+    void log(BiConsumer<C,Scriber<B>> consumer);
 }
