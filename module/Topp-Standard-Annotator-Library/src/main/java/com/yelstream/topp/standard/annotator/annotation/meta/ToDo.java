@@ -25,11 +25,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks a loose screw hence something being experimental.
+ * Indicates that the existence of an element is a convenience and hence redundant, strictly speaking.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-08-11
+ * @since 2024-09-23
  */
 @Target({
     ElementType.TYPE,
@@ -46,8 +46,10 @@ import java.lang.annotation.Target;
     ElementType.RECORD_COMPONENT
 })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Screw {
-    String value();
+public @interface ToDo {
+    String value() default "";
 
-    String since();
+    String version() default "";
+
+    String description() default "";
 }

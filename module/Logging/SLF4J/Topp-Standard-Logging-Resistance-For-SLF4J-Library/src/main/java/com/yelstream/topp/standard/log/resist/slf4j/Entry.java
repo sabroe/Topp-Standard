@@ -25,6 +25,7 @@ import org.slf4j.spi.LoggingEventBuilder;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Log entry builder.
@@ -38,7 +39,8 @@ public interface Entry<C extends Context,B extends LoggingEventBuilder> extends 
 
 //    @SuppressWarnings("java:S4977")
     //<C2 extends Context,B2 extends LoggingEventBuilder> Entry<C2,B2> filter(Consumer<Filter> consumer);
-    Entry<C,B> filter(Consumer<Filter> consumer);
+//     <D extends C,B2 extends LoggingEventBuilder> Entry<D,B2> transform(Consumer<Filter<C,B>> consumer);  //TO-DO: Transformer?
+//    Entry<C,B> transform(Function<Filter<C,B>,Entry<C,B>> consumer);  //TO-DO: Transformer?
 
     //XXX tag();
     //LogAnvil<B> tag(Consumer<Tag> consumer);

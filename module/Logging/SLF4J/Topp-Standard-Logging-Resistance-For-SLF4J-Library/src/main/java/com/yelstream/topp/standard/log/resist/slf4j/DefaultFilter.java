@@ -19,12 +19,20 @@
 
 package com.yelstream.topp.standard.log.resist.slf4j;
 
+import com.yelstream.topp.standard.log.resist.slf4j.filter.Conditional;
+import com.yelstream.topp.standard.log.resist.slf4j.filter.FilterResult;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.slf4j.spi.LoggingEventBuilder;
+import org.slf4j.spi.NOPLoggingEventBuilder;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 @AllArgsConstructor(staticName="of",access= AccessLevel.PACKAGE)
-public final class DefaultFilter<C extends Context,B extends LoggingEventBuilder> implements Filter {
+public final class DefaultFilter<C extends Context,B extends LoggingEventBuilder> implements Filter<C,B> {
 
     /**
      *
@@ -36,5 +44,76 @@ public final class DefaultFilter<C extends Context,B extends LoggingEventBuilder
         //TO-DO: Do something e.g. replace the item, add to the context.
         return this;
     }
+
+
+
+
+
+
+
+    /**
+     * Logging event builder.
+     */
+    private final LoggingEventBuilder source;
+
+    /**
+     * Transforms this entry point to a result ready for logging, performing no filtering.
+     * @return Log filtering result.
+     */
+    public FilterResult<Context,LoggingEventBuilder> nop() {
+        Conditional<Context,LoggingEventBuilder,LoggingEventBuilder> conditional=Conditional.identity();
+        return conditional.evaluate(source);
+    }
+
+    /**
+     * Container of a registry of conditionals.
+     */
+    private static class ConditionalRegistryHolder {
+        /**
+         * Associates (identifier,conditional).
+         */
+        private static final Map<String,Conditional<Context,LoggingEventBuilder,LoggingEventBuilder>> registry=new ConcurrentHashMap<>();
+    }
+
+    /**
+     * Transforms this entry point to a result ready for logging, performing active filtering.
+     * @param id Identification.
+     * @param builderConsumer Handler doing initialization of a conditional transformation.
+     *                        Initialization is done by addressing a conditional transformation builder with preset values.
+     *                        Note that the actual initialization is done only for the first invocation.
+     * @return Log filtering result.
+     */
+    @SuppressWarnings("java:S1854")
+    public FilterResult<Context,LoggingEventBuilder> id(String id,
+                                                        Consumer<Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder>> builderConsumer) {
+        Conditional<Context,LoggingEventBuilder,LoggingEventBuilder> conditional= Slip.ConditionalRegistryHolder.registry.get(id);
+        if (conditional==null) {
+            Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> builder=createPresetBuilder(id);
+            builderConsumer.accept(builder);
+            conditional=builder.build();
+            Slip.ConditionalRegistryHolder.registry.put(id,conditional);
+        }
+        return conditional.evaluate(source);
+    }
+
+    /**
+     * Creates a conditional builder with the most common, neutral, default settings.
+     * @param id Identifier.
+     * @return Created conditional builder.
+     */
+    private static Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> createPresetBuilder(String id) {
+        Conditional.Builder<Context,LoggingEventBuilder,LoggingEventBuilder> builder=Conditional.builder();
+        builder.id(id);
+        builder.context(Context.of());
+        builder.onAccept(Context::updateStateByAccept);
+        builder.onReject(Context::updateStateByReject);
+        builder.neutralSourceSupplier(NOPLoggingEventBuilder::singleton);
+        builder.sourceTransformation(Function.identity());
+        return builder;
+    }
+
+
+
+
 
 }
