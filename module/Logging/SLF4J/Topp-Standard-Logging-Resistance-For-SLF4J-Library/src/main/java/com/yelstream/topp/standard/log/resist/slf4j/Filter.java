@@ -19,7 +19,9 @@
 
 package com.yelstream.topp.standard.log.resist.slf4j;
 
-public interface Filter {
+import org.slf4j.spi.LoggingEventBuilder;
+
+public interface Filter<C extends Context,B extends LoggingEventBuilder> {
 
 
     Filter doSomething();

@@ -19,7 +19,10 @@
 
 package com.yelstream.topp.standard.util.function;
 
+import com.yelstream.topp.standard.annotator.annotation.meta.Consideration;
+
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Holder of an item being worked on.
@@ -61,6 +64,11 @@ public interface Anvil<A extends Anvil<A,I>,I> {
      * @return Self.
      */
     A apply(Consumer<I> consumer);
+
+    @Consideration
+    default <A2 extends Anvil<A2,I2>,I2> A2 transform(Function<I,A2> operation) {
+        return null;
+    }
 
     /**
      * Performs any final operation need to complete all operations and frees all resources.
