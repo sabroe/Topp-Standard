@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.log.resist.slf4j;
 
-import com.yelstream.topp.standard.log.assist.slf4j.ex.DefaultScriber;
 import com.yelstream.topp.standard.log.assist.slf4j.ex.Scriber;
+import com.yelstream.topp.standard.log.assist.slf4j.ex.Scribers;
 import com.yelstream.topp.standard.util.function.AbstractBiAnvil;
 import org.slf4j.spi.LoggingEventBuilder;
 
@@ -86,15 +86,14 @@ public final class DefaultEntry<C extends Context,B extends LoggingEventBuilder>
 
     public static <B extends LoggingEventBuilder> Entry<Context,B> of(B loggingEventBuilder) {
         Context context=Context.of();
-        Scriber<B> scriber=DefaultScriber.of(loggingEventBuilder);
+        Scriber<B> scriber=Scribers.of(loggingEventBuilder);
         return new DefaultEntry<>(context,scriber);
     }
 
 
     public static <C extends Context,B extends LoggingEventBuilder> Entry<Context,B> of(C context,
                                                                                         B loggingEventBuilder) {
-        Scriber<B> scriber=DefaultScriber.of(loggingEventBuilder);
+        Scriber<B> scriber=Scribers.of(loggingEventBuilder);
         return new DefaultEntry<>(context,scriber);
     }
-
 }
