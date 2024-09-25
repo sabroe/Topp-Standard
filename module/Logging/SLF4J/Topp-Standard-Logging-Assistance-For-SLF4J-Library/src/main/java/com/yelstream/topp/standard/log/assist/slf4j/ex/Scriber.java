@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.log.assist.slf4j.ex;
 
+import com.yelstream.topp.standard.annotator.annotation.meta.Consideration;
 import com.yelstream.topp.standard.util.function.BooleanConsumer;
 import org.slf4j.spi.LoggingEventBuilder;
 
@@ -29,17 +30,19 @@ import org.slf4j.spi.LoggingEventBuilder;
  * @version 1.0
  * @since 2024-09-19
  */
-public interface Scriber<B extends LoggingEventBuilder> extends LoggingEventBuilderEx<Scriber<B>>, LoggingEventBuilderExAlias<Scriber<B>> {
+public interface Scriber<B extends LoggingEventBuilder> extends LoggingEventBuilderEx<Scriber<B>>,LoggingEventBuilderExAlias<Scriber<B>> {
     /**
      *
      */
     boolean isEnabled();
 
+    @Consideration
     default Scriber<B> enabled(BooleanConsumer consumer) {
         consumer.accept(isEnabled());
         return this;
     }
 
+    @Consideration
     default Scriber<B> onEnabled(Runnable runnable) {
         if (isEnabled()) {
             runnable.run();
@@ -47,6 +50,7 @@ public interface Scriber<B extends LoggingEventBuilder> extends LoggingEventBuil
         return this;
     }
 
+    @Consideration
     default Scriber<B> onDisabled(Runnable runnable) {
         if (!isEnabled()) {
             runnable.run();
