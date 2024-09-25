@@ -33,7 +33,7 @@ import java.util.function.Supplier;
  * @version 1.0
  * @since 2024-09-20
  */
-public final class DefaultScriber<B extends LoggingEventBuilder> implements Scriber<B> {
+final class DefaultScriber<B extends LoggingEventBuilder> implements Scriber<B> {
     /**
      * Original SLF4J builder.
      * <p>
