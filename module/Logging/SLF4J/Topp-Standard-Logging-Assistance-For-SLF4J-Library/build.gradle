@@ -32,6 +32,7 @@ dependencies {
     api 'org.slf4j:slf4j-api:2.0.16'
     api 'org.slf4j:slf4j-ext:2.0.16'
     api project(':module:Topp-Standard-Core-Library')
+    api project(':module:Topp-Standard-Annotator-Library')
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.16'
 }
