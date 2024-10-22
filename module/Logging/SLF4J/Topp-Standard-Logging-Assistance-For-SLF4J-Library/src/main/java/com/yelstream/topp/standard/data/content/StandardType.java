@@ -23,17 +23,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- *
+ * Standard types.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-09-27
  */
 @AllArgsConstructor
+@SuppressWarnings("java:S115")
 public enum StandardType {
-
-    Base64(Type.of("base64")),
-    BackspaceEscape(Type.of("backspace-escape"));
+    Text(Type.of("application/text")),
+    XML(Type.of("application/xml")),
+    JSON(Type.of("application/json")),
+    YAML(Type.of("application/x-yaml"));
 
     @Getter
     private Type type;

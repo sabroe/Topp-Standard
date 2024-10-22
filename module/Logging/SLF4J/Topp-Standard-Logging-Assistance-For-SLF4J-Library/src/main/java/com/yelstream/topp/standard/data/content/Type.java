@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- *
+ * Type of data.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -32,7 +32,8 @@ import lombok.Getter;
 @AllArgsConstructor(staticName="of")
 public final class Type {
     /**
-     *
+     * MIME-type.
+     * This is textual like {@code application/xml}.
      */
     @Getter
     private String name;
