@@ -22,11 +22,8 @@ package com.yelstream.topp.standard.data.content;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- *
+ * Carrier of encoded content.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

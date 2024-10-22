@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- *
+ * Content.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

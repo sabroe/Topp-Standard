@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- *
+ * Encoding of data.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

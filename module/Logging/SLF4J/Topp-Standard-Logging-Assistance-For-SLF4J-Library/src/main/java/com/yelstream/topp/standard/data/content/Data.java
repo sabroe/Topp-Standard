@@ -26,7 +26,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- *
+ * Data in either binary or textual form.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
