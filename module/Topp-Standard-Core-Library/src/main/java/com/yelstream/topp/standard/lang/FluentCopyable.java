@@ -19,15 +19,16 @@
 
 package com.yelstream.topp.standard.lang;
 
+import java.util.function.Consumer;
+
 /**
  *
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-10-23
+ * @since 2024-10-21
  */
-@FunctionalInterface
-public interface Copyable<T> {
-
-    T copy();
+//@FunctionalInterface
+public interface FluentCopyable<S, T> extends Copyable<T> {
+    S copy(Consumer<T> consumer);
 }
