@@ -19,23 +19,15 @@
 
 package com.yelstream.topp.standard.lang;
 
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
-
 /**
  *
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-10-21
+ * @since 2024-10-23
  */
-//@FunctionalInterface
-public interface Copyable<S,T extends Copyable<S,T>> {
-    S copy(Consumer<T> consumer);
+@FunctionalInterface
+public interface Copyable<T> {
 
-    default T copy() {
-        AtomicReference<T> res=new AtomicReference<>();
-        copy(res::set);
-        return res.get();
-    }
+    T copy();
 }
