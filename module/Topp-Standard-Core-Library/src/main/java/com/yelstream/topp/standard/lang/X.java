@@ -7,7 +7,7 @@ public class X {
 
         String x="qwerty";
 
-        Copyable<String> c="";
+        //Copyable<String> c="";
 
     }
 
