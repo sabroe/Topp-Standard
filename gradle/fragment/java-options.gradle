@@ -30,7 +30,7 @@ plugins.withType(JavaPlugin) {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(custom['java.language-version']?:'21')
+            languageVersion = JavaLanguageVersion.of((custom['java.language-version'] as String)?:'21')
         }
     }
 
