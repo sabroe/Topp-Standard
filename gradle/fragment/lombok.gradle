@@ -17,12 +17,18 @@
  * limitations under the License.
  */
 
-plugins.withType(JavaLibraryPlugin) {
-    dependencies {
-        compileOnly 'org.projectlombok:lombok:1.18.34'
-        annotationProcessor 'org.projectlombok:lombok:1.18.34'
+plugins.withType(JavaPlugin) {  //Note: 'JavaPlugin' includes 'JavaLibraryPlugin'; both intermediate libraries and end-applications are included!
+    def enableFeatureText = custom['feature.lombok.enable']?.toString()?.trim()
+    def enableFeature = enableFeatureText ? enableFeatureText.toBoolean() : true
+    if (!enableFeature) {
+        logger.debug("Feature 'Lombok' is disabled.")
+    } else {
+        dependencies {
+            compileOnly 'org.projectlombok:lombok:1.18.34'
+            annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
-        testCompileOnly 'org.projectlombok:lombok:1.18.34'
-        testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+            testCompileOnly 'org.projectlombok:lombok:1.18.34'
+            testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+        }
     }
 }
