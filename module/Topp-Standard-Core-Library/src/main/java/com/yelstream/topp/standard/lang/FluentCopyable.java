@@ -28,7 +28,6 @@ import java.util.function.Consumer;
  * @version 1.0
  * @since 2024-10-21
  */
-//@FunctionalInterface
 public interface FluentCopyable<S, T> extends Copyable<T> {
     S copy(Consumer<T> consumer);
 }
