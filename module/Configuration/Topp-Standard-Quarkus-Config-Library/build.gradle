@@ -26,16 +26,8 @@ plugins {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
-    api 'org.slf4j:slf4j-api:2.0.16'
-    api 'org.slf4j:slf4j-ext:2.0.16'
-
     api project(':module:Configuration:Topp-Standard-SmallRye-Config-Library')
     api 'io.quarkus:quarkus-config-yaml:3.9.3'
-
-    testImplementation 'org.slf4j:slf4j-simple:2.0.16'
 
     /*
      * Note:
