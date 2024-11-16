@@ -54,6 +54,7 @@ subprojects {
     apply from: "${fragmentDir}/publish.gradle"
     apply from: "${fragmentDir}/sonarqube.gradle"
     apply from: "${fragmentDir}/lombok.gradle"
+    apply from: "${fragmentDir}/slf4j.gradle"
     apply from: "${fragmentDir}/junit.gradle"
     apply from: "${fragmentDir}/decycle.gradle"
     apply from: "${fragmentDir}/cyclonedx.gradle"

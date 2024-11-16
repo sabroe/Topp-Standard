@@ -26,12 +26,6 @@ plugins {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
-    api 'org.slf4j:slf4j-api:2.0.16'
-    api 'org.slf4j:slf4j-ext:2.0.16'
-
     api project(':module:Configuration:Topp-Standard-MicroProfile-Config-Library')
     api 'io.smallrye.config:smallrye-config:3.7.1'
 //?? https://foojay.io/today/microprofile-config-for-java-se/
@@ -39,8 +33,6 @@ dependencies {
 //    api 'jakarta.annotation:jakarta.annotation-api:3.0.0'
 
 //https://smallrye.io/blog/smallrye-config-1-8/
-
-    testImplementation 'org.slf4j:slf4j-simple:2.0.16'
 
     /*
      * Note:
