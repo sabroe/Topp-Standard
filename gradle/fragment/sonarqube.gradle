@@ -27,11 +27,11 @@ tasks.withType(JavaCompile) {
 //        isSkipProject = false
         properties {
             property "sonar.token", System.getenv("SONARQUBE_TOKEN") ?: ""
-            property "sonar.host.url", System.getenv("SONARQUBE_HOST") ?: "http://XXX-localhost:9000"
+            property "sonar.host.url", System.getenv("SONARQUBE_HOST") ?: "http://localhost:9000"
 
             def rootKey = "${rootProject.group}:${rootProject.name}"
             def moduleKey = "${project.path}"
-            def projectKey = project == rootProject ? rootKey : "${rootKey}:${moduleKey}"  //SonarQube "project key" as defined by the documentation!
+            def projectKey = project == rootProject ? rootKey : "${rootKey}${moduleKey}"  //SonarQube "project key" as defined by the documentation!
             def sanitizedProjectKey = projectKey.replaceAll("\\s+", "-")
 
             property "sonar.projectKey", sanitizedProjectKey
