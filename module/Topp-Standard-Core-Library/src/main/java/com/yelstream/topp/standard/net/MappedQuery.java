@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MappedQuery {
 
@@ -78,7 +79,7 @@ public class MappedQuery {
         StringBuilder result = new StringBuilder();
         for (Map.Entry<String, List<String>> entry : map.entrySet()) {
             for (String value : entry.getValue()) {
-                if (result.length() > 0) {
+                if (!result.isEmpty()) {
                     result.append("&");
                 }
                 result.append(entry.getKey())
@@ -90,7 +91,13 @@ public class MappedQuery {
     }
 
     public String formatAsString() {
-        return null;
+        String queryString=null;
+        if (!multiMap.isEmpty()) {
+            queryString = multiMap.entrySet().stream()
+                .flatMap(entry -> entry.getValue().stream().map(value -> entry.getKey() + "=" + value))
+                .collect(Collectors.joining("&"));
+        }
+        return queryString;
     }
 
     public static MappedQuery of(String query) {
