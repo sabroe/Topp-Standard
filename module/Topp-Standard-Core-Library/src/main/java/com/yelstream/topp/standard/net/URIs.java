@@ -21,8 +21,10 @@ package com.yelstream.topp.standard.net;
 
 import lombok.experimental.UtilityClass;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * Utility addressing instances of {@link URI}.
@@ -141,6 +143,10 @@ public class URIs {
 
         public static Builder fromURI(String uri) throws URISyntaxException {
             return fromURI(new URI(uri));
+        }
+
+        public static Builder fromURL(URL url) throws URISyntaxException {
+            return fromURI(url.toURI());
         }
 
         public static Builder fromPath(String path) {
