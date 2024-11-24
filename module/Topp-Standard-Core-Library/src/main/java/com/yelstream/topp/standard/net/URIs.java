@@ -25,6 +25,9 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
+import java.util.function.IntPredicate;
 
 /**
  * Utility addressing instances of {@link URI}.
@@ -57,7 +60,7 @@ public class URIs {
      * @return Created URI.
      * @throws URISyntaxException Thrown in case of URI syntax error.
      */
-    @lombok.Builder(builderClassName = "Builder")  //TO-DO: Rename to 'URIBuilder'!
+    @lombok.Builder(builderClassName="Builder")  //TO-DO: Rename to 'URIBuilder'!
     @SuppressWarnings({"java:S2589", "java:S1066", "ConstantConditions", "unused", "java:S3776", "java:S107"})
     private static URI create(String scheme,
                               String schemeSpecificPart,
@@ -197,5 +200,65 @@ public class URIs {
             //TO-DO: Fix!
             return this;
         }
+
+        private static void onNotEmpty(String value, Consumer<String> consumer) {  //TO-DO: Consider location!
+            if (value!=null && !value.isEmpty()) {
+                consumer.accept(value);
+            }
+        }
+
+        private static void onCondition(int value,
+                                        IntPredicate condition,
+                                        IntConsumer consumer) {  //TO-DO: Consider location!
+            if (condition.test(value)) {
+                consumer.accept(value);
+            }
+        }
+
+        private static <E> void onNotNull(E value, Consumer<E> consumer) {  //TO-DO: Consider location!
+            if (value!=null) {
+                consumer.accept(value);
+            }
+        }
+
+        private static void onEmpty(String value, Runnable runnable) {  //TO-DO: Consider location!
+            if (value==null || value.isEmpty()) {
+                runnable.run();
+            }
+        }
+
+        private static <E> void onNull(E value, Runnable runnable) {  //TO-DO: Consider location!
+            if (value==null) {
+                runnable.run();
+            }
+        }
+
+        public Builder overrideURI(URI uri) {
+            onNotEmpty(uri.getScheme(),this::scheme);
+            onNotEmpty(uri.getSchemeSpecificPart(),this::schemeSpecificPart);
+            onNotEmpty(uri.getAuthority(),this::authority);
+            onNotEmpty(uri.getUserInfo(),this::userInfo);
+            onNotEmpty(uri.getHost(),this::host);
+            onCondition(uri.getPort(),port->port!=0,this::port);
+            onNotEmpty(uri.getPath(),this::path);
+            onNotEmpty(uri.getQuery(),this::query);
+            onNotEmpty(uri.getFragment(),this::fragment);
+            return this;
+        }
+
+/* TO-DO: Consider this! --This is another way to resolve one URI against another URI!
+        public Builder overrideBaseURI(URI uri) {
+            onNotEmpty(uri.getScheme(),this::scheme);
+            onNotEmpty(uri.getSchemeSpecificPart(),this::schemeSpecificPart);
+            onNotEmpty(uri.getAuthority(),this::authority);
+            onNotEmpty(uri.getUserInfo(),this::userInfo);
+            onNotEmpty(uri.getHost(),this::host);
+            onCondition(uri.getPort(),port->port!=0,this::port);
+            onNotEmpty(uri.getPath(),this::path);                 //TO-DO: Prefix to existing path! Resolve one path to another path!
+            onNotEmpty(uri.getQuery(),this::query);               //TO-DO: Add queries by joining them!
+            onNotEmpty(uri.getFragment(),this::fragment);
+            return this;
+        }
+ */
     }
 }

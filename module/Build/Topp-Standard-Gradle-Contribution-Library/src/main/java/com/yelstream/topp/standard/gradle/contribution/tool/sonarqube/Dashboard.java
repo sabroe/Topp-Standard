@@ -22,13 +22,10 @@ package com.yelstream.topp.standard.gradle.contribution.tool.sonarqube;
 import com.yelstream.topp.standard.net.MappedQuery;
 import com.yelstream.topp.standard.net.URIs;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.experimental.UtilityClass;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 /**
  * Utilities addressing the access to Sonarqube dashboards.
@@ -45,20 +42,13 @@ public class Dashboard {
     @lombok.Builder(builderClassName="Builder",toBuilder=true)
     @AllArgsConstructor
     public static class Project {
-        @lombok.Builder.Default
-        private final URI uri=null;
+        /**
+         *
+         */
+        public static final URI DEFAULT_URI=URI.create("https://localhost:9000/dashboard");
 
         @lombok.Builder.Default
-        private final String scheme="https";
-
-        @lombok.Builder.Default
-        private final String host="sonarqube.com";
-
-        @lombok.Builder.Default
-        private final int port=-1;
-
-        @lombok.Builder.Default
-        private final String path="/dashboard";
+        private final URI uri=DEFAULT_URI;
 
         private final String projectKey;
 
@@ -66,7 +56,25 @@ public class Dashboard {
 
         private final String pullRequestNumber;
 
-        private URI getURI() throws URISyntaxException {
+        public static Builder fromURI(URI uri) throws URISyntaxException {
+            return builder().uri(uri);
+        }
+
+        public static class Builder {
+            private URI uri=DEFAULT_URI;
+
+            public Builder overrideURI(URI overrideUri) throws URISyntaxException {
+                return uri(URIs.builder().uri(uri).overrideURI(overrideUri).build());
+            }
+
+/*
+            public Builder overrideBaseURI(URI overrideBaseUri) throws URISyntaxException {
+                return uri(URIs.builder().uri(uri).overrideBaseURI(overrideBaseUri).build());
+            }
+*/
+        }
+
+        public URI getURI() throws URISyntaxException {
             MappedQuery query=new MappedQuery();
             if (projectKey!=null) {
                 query.add("id",projectKey);
@@ -77,22 +85,8 @@ public class Dashboard {
             if (pullRequestNumber!=null) {
                 query.add("pullRequest",pullRequestNumber);
             }
-            return URIs.builder().scheme(scheme).host(host).port(port).path(path).mappedQuery(query).build();
+            URIs.Builder builder=URIs.builder().uri(uri).mappedQuery(query);
+            return builder.build();
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        {
-            Project project=Project.builder().projectKey("XXX-yyy-zzz").branchName("special").build();
-            URI uri=project.getURI();
-            System.out.println("Dashboard project URI: "+project.getURI());
-        }
-
-        URI uri2=URIs.Builder.fromURI(uri).host("sonarqube-enterprise.beumer.com").build();
-        System.out.println("Dashboard project URI: "+uri2);
-
-        URI base=URI.create("http://sonarqube-enterprise.beumer.com:500");
-        URI uri3=URIs.Builder.fromURI(uri).host("sonarqube-enterprise.beumer.com").build();
-        System.out.println("Dashboard project URI: "+uri3);
     }
 }
