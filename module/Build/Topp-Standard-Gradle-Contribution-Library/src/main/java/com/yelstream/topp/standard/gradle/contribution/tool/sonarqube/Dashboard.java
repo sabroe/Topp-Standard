@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.gradle.contribution.tool.sonarqube;
 
+import com.yelstream.topp.standard.lang.Strings;
 import com.yelstream.topp.standard.net.MappedQuery;
 import com.yelstream.topp.standard.net.URIs;
 import lombok.AllArgsConstructor;
@@ -47,8 +48,7 @@ public class Dashboard {
          */
         public static final URI DEFAULT_URI=URI.create("https://localhost:9000/dashboard");
 
-        @lombok.Builder.Default
-        private final URI uri=DEFAULT_URI;
+        private final URI baseURI;
 
         private final String projectKey;
 
@@ -56,36 +56,49 @@ public class Dashboard {
 
         private final String pullRequestNumber;
 
-        public static Builder fromURI(URI uri) throws URISyntaxException {
-            return builder().uri(uri);
+        public static Builder fromURI(URI uri) {
+            return builder().baseURI(uri);
         }
 
+        @SuppressWarnings("FieldMayBeFinal")
         public static class Builder {
-            private URI uri=DEFAULT_URI;
+            private URI baseURI=DEFAULT_URI;
 
-            public Builder overrideURI(URI overrideUri) throws URISyntaxException {
-                return uri(URIs.builder().uri(uri).overrideURI(overrideUri).build());
+            public Builder resolve(URI uri) {
+                baseURI=baseURI.resolve(uri);
+                return this;
             }
 
-/*
-            public Builder overrideBaseURI(URI overrideBaseUri) throws URISyntaxException {
-                return uri(URIs.builder().uri(uri).overrideBaseURI(overrideBaseUri).build());
+            public Builder resolveFromConfiguration(URI uri) throws URISyntaxException {
+                String path=uri.getPath();
+                if (Strings.isEmpty(path)) {
+                    uri=URIs.builder().uri(uri).path(baseURI.getPath()).build();
+                } else {
+                    if (path.equals("/")) {
+                        uri=URIs.builder().uri(uri).path("").build();
+                    }
+                }
+                baseURI=baseURI.resolve(uri);
+                String query=uri.getQuery();
+                if (!Strings.isEmpty(query)) {
+                    baseURI=URIs.Builder.fromURI(baseURI).query(query).build(); //TO-DO: Add to existing query, if any, not replace all query params!
+                }
+                return this;
             }
-*/
         }
 
         public URI getURI() throws URISyntaxException {
-            MappedQuery query=new MappedQuery();
+            MappedQuery mappedQuery=MappedQuery.of(baseURI.getQuery());
             if (projectKey!=null) {
-                query.add("id",projectKey);
+                mappedQuery.add("id",projectKey);
             }
             if (branchName!=null) {
-                query.add("branch",branchName);
+                mappedQuery.add("branch",branchName);
             }
             if (pullRequestNumber!=null) {
-                query.add("pullRequest",pullRequestNumber);
+                mappedQuery.add("pullRequest",pullRequestNumber);
             }
-            URIs.Builder builder=URIs.builder().uri(uri).mappedQuery(query);
+            URIs.Builder builder=URIs.builder().uri(baseURI).mappedQuery(mappedQuery);
             return builder.build();
         }
     }

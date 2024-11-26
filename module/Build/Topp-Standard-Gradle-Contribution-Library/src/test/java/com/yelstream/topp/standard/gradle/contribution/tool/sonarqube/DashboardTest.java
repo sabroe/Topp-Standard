@@ -34,108 +34,125 @@ import java.net.URISyntaxException;
  */
 class DashboardTest {
     /**
-     * Tests creating a URL with parameters for project-key and branch-name set.
+     * Tests the creation of URL with project-key and branch-name.
      */
     @Test
     void projectKeyAndBranchName() throws URISyntaxException {
         Dashboard.Project.Builder builder=Dashboard.Project.builder();
 
-        builder=builder.projectKey("xxx-yyy").branchName("special");
+        builder=builder.projectKey("x-y-z").branchName("special");
 
         Dashboard.Project project=builder.build();
         URI projectUri=project.getURI();
 
-        Assertions.assertEquals(URI.create("https://localhost:9000/dashboard?id=xxx-yyy&branch=special"),projectUri);
+        Assertions.assertEquals(URI.create("https://localhost:9000/dashboard?id=x-y-z&branch=special"),projectUri);
     }
 
     /**
-     * Tests creating a URL with a preset base URL different from the default.
+     * Tests the creation of URL with project-key and branch-name with different host and existing path.
      */
     @Test
-    void overrideURI() throws URISyntaxException {
+    void projectKeyWithOtherHostAndExistingPath() throws URISyntaxException {
         Dashboard.Project.Builder builder=Dashboard.Project.builder();
 
-        URI overrideURI=URI.create("http://sonarqube.com");
-        builder=builder.overrideURI(overrideURI);
+        URI configURI=URI.create("//sonarqube.com");
+        builder=builder.resolveFromConfiguration(configURI);
 
-        builder=builder.projectKey("xxx-yyy");
+        builder=builder.projectKey("x-y-z");
 
         Dashboard.Project project=builder.build();
         URI projectUri=project.getURI();
 
-        Assertions.assertEquals(URI.create("http://sonarqube.com/dashboard?id=xxx-yyy"),projectUri);
+        Assertions.assertEquals(URI.create("https://sonarqube.com/dashboard?id=x-y-z"),projectUri);
     }
 
     /**
-     * Tests creating a URL with a preset base URL with a specific port.
+     * Tests the creation of URL with project-key and branch-name with different host and existing path and additional custom query-parameter.
      */
     @Test
-    void overrideURIWithPort() throws URISyntaxException {
+    void projectKeyWithOtherHostAndExistingPathAndExistingParam() throws URISyntaxException {
         Dashboard.Project.Builder builder=Dashboard.Project.builder();
 
-        URI overrideURI=URI.create("http://sonarqube.com:9999");
-        builder=builder.overrideURI(overrideURI);
+        URI configURI=URI.create("//sonarqube.com?custom=yes");
+        builder=builder.resolveFromConfiguration(configURI);
 
-        builder=builder.projectKey("xxx-yyy");
+        builder=builder.projectKey("x-y-z");
 
         Dashboard.Project project=builder.build();
         URI projectUri=project.getURI();
 
-        Assertions.assertEquals(URI.create("http://sonarqube.com:9999/dashboard?id=xxx-yyy"),projectUri);
+        Assertions.assertEquals(URI.create("https://sonarqube.com/dashboard?custom=yes&id=x-y-z"),projectUri);
     }
 
     /**
-     * Tests creating a URL with a preset base URL but keeping the default port.
+     * Tests the creation of URL with project-key and branch-name with different host and rest path.
      */
     @Test
-    void overrideURIButKeepingDefaultPort() throws URISyntaxException {
+    void projectKeyWithOtherHostAndResetPath() throws URISyntaxException {
         Dashboard.Project.Builder builder=Dashboard.Project.builder();
 
-        URI overrideURI=URI.create("http://sonarqube.com:0");
-        builder=builder.overrideURI(overrideURI);
+        URI configURI=URI.create("//sonarqube.com/");
+        builder=builder.resolveFromConfiguration(configURI);
 
-        builder=builder.projectKey("xxx-yyy");
+        builder=builder.projectKey("x-y-z");
 
         Dashboard.Project project=builder.build();
         URI projectUri=project.getURI();
 
-        Assertions.assertEquals(URI.create("http://sonarqube.com:9000/dashboard?id=xxx-yyy"),projectUri);
+        Assertions.assertEquals(URI.create("https://sonarqube.com?id=x-y-z"),projectUri);
     }
 
     /**
-     * Tests creating a URL with a preset base URL with an offset path.
-     */
-    //@Test
-    //TO-DO: Consider this against possible, viable URL-resolution schemes!
-    void overrideURIWithOffsetPath() throws URISyntaxException {
-        Dashboard.Project.Builder builder=Dashboard.Project.builder();
-
-        URI overrideURI=URI.create("http://sonarqube.com/aaa/bbb/ccc");
-        builder=builder.overrideURI(overrideURI);
-
-        builder=builder.projectKey("xxx-yyy");
-
-        Dashboard.Project project=builder.build();
-        URI projectUri=project.getURI();
-
-        Assertions.assertEquals(URI.create("http://sonarqube.com/aaa/bbb/ccc/dashboard?id=xxx-yyy"),projectUri);
-    }
-
-    /**
-     * Tests creating a URL with a preset base URL with an explicit path.
+     * Tests the creation of URL with project-key and branch-name with different host and port and existing path.
      */
     @Test
-    void overrideBaseURIWithOffsetPath() throws URISyntaxException {
+    void projectKeyWithOtherHostAndPort() throws URISyntaxException {
         Dashboard.Project.Builder builder=Dashboard.Project.builder();
 
-        URI overrideURI=URI.create("http://sonarqube.com/aaa/bbb/ccc/xxx");
-        builder=builder.overrideURI(overrideURI);
+        URI configURI=URI.create("//sonarqube.com:4444");
+        builder=builder.resolveFromConfiguration(configURI);
 
-        builder=builder.projectKey("xxx-yyy");
+        builder=builder.projectKey("x-y-z");
 
         Dashboard.Project project=builder.build();
         URI projectUri=project.getURI();
 
-        Assertions.assertEquals(URI.create("http://sonarqube.com/aaa/bbb/ccc/xxx?id=xxx-yyy"),projectUri);
+        Assertions.assertEquals(URI.create("https://sonarqube.com:4444/dashboard?id=x-y-z"),projectUri);
+    }
+
+    /**
+     * Tests the creation of URL with project-key and branch-name with different host and path.
+     */
+    @Test
+    void projectKeyWithOtherHostAndPath() throws URISyntaxException {
+        Dashboard.Project.Builder builder=Dashboard.Project.builder();
+
+        URI configURI=URI.create("//sonarqube.com/aaa/bbb/dashboard");
+        builder=builder.resolveFromConfiguration(configURI);
+
+        builder=builder.projectKey("x-y-z");
+
+        Dashboard.Project project=builder.build();
+        URI projectUri=project.getURI();
+
+        Assertions.assertEquals(URI.create("https://sonarqube.com/aaa/bbb/dashboard?id=x-y-z"),projectUri);
+    }
+
+    /**
+     * Tests the creation of URL with project-key and branch-name with different host and port and path.
+     */
+    @Test
+    void projectKeyWithOtherHostAndPortAndPath() throws URISyntaxException {
+        Dashboard.Project.Builder builder=Dashboard.Project.builder();
+
+        URI configURI=URI.create("//sonarqube.com:4444/aaa/bbb/dashboard");
+        builder=builder.resolveFromConfiguration(configURI);
+
+        builder=builder.projectKey("x-y-z");
+
+        Dashboard.Project project=builder.build();
+        URI projectUri=project.getURI();
+
+        Assertions.assertEquals(URI.create("https://sonarqube.com:4444/aaa/bbb/dashboard?id=x-y-z"),projectUri);
     }
 }

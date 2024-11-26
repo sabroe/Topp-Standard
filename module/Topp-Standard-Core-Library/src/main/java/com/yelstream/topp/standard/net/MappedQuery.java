@@ -19,15 +19,33 @@
 
 package com.yelstream.topp.standard.net;
 
+import com.yelstream.topp.standard.lang.Strings;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MappedQuery {
+    /**
+     * Map of query parameters.
+     * <p>
+     *     Note that this keeps the insertion order!
+     * </p>
+     */
+    private final Map<String,List<String>> multiMap=new LinkedHashMap<>();
 
-    private final Map<String,List<String>> multiMap=new HashMap<>();
+    private MappedQuery() {
+    }
+
+    private MappedQuery(String query) {
+        if (Strings.isNonEmpty(query)) {
+            Map<String,List<String>> multiMap=parseToMultiMap(query);
+            this.multiMap.putAll(multiMap);
+        }
+    }
 
     public void add(String key,
                     String value) {
@@ -60,8 +78,6 @@ public class MappedQuery {
                        List<String> values) {
         //TO-DO: Fix!
     }
-
-
 
     public static Map<String, List<String>> parseToMultiMap(String query) {
         Map<String, List<String>> map = new HashMap<>();
@@ -101,16 +117,6 @@ public class MappedQuery {
     }
 
     public static MappedQuery of(String query) {
-        return null;
-    }
-}
-
-
-class Main {
-    public static void main(String[] args) {
-        String query = "x=1&y=2&z=3&x=4";
-
-        MappedQuery mappedQuery=MappedQuery.of(query);
-        System.out.println(mappedQuery.formatAsString());
+        return new MappedQuery(query);
     }
 }
