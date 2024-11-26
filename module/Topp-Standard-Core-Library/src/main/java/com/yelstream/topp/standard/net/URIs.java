@@ -21,7 +21,6 @@ package com.yelstream.topp.standard.net;
 
 import lombok.experimental.UtilityClass;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -233,6 +232,7 @@ public class URIs {
             }
         }
 
+/* TO-DO: Consider this! --This is another way to resolve one URI against another URI!
         public Builder overrideURI(URI uri) {
             onNotEmpty(uri.getScheme(),this::scheme);
             onNotEmpty(uri.getSchemeSpecificPart(),this::schemeSpecificPart);
@@ -245,6 +245,7 @@ public class URIs {
             onNotEmpty(uri.getFragment(),this::fragment);
             return this;
         }
+*/
 
 /* TO-DO: Consider this! --This is another way to resolve one URI against another URI!
         public Builder overrideBaseURI(URI uri) {
