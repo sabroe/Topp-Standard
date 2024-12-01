@@ -1,8 +1,11 @@
 package com.yelstream.topp.standard.gradle.contribution.tool.util;
 
+import lombok.AllArgsConstructor;
 import lombok.experimental.UtilityClass;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 /**
@@ -17,279 +20,105 @@ import java.util.function.Supplier;
  */
 @UtilityClass
 public class Configuration {
-    /**
-     * Resolves the first non-null boolean value from the provided suppliers.
-     * The suppliers are evaluated in the order they are provided,
-     * and the first non-null value is returned.
-     * If all suppliers return null, the default value of {@code false} is returned.
-     * @param sources An array of boolean suppliers, evaluated in order.
-     * @return The first non-null boolean value, or {@code false} if no value is found.
-     */
-    public static boolean resolveBoolean(Supplier<Boolean>... sources) {
-        for (Supplier<Boolean> source : sources) {
-            Boolean value = safeGet(source);
-            if (value != null) {
+
+    @AllArgsConstructor
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    public static class Definition<T> {
+        @lombok.Singular
+        public final List<Supplier<T>> sources;
+
+    }
+
+    @AllArgsConstructor
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    public static class Feature {
+        @lombok.Singular
+        private final List<Supplier<Boolean>> sources;
+
+        private final boolean defaultValue;
+
+        @SuppressWarnings("java:S4276")
+        public Boolean resolve() {
+            Boolean resolved=null;
+            for (var source: sources) {
+                Boolean value=source.get();
+                if (value!=null) {
+                    resolved=value;
+                    break;
+                }
+            }
+            return resolved;
+        }
+
+        public boolean isEnabled() {
+            Boolean resolved=resolve();
+            return resolved!=null?resolved:defaultValue;
+        }
+
+        public boolean isEnabled(boolean defaultValue) {
+            Boolean resolved=resolve();
+            return resolved!=null?resolved:defaultValue;
+        }
+
+        public static class Builder {
+            private Builder append(Supplier<Boolean> enableSupplier) {
+                this.source(enableSupplier);
+                return this;
+            }
+
+            private static Boolean valueOf(String text) {
+                Boolean value=null;
+                if (text!=null) {
+                    String trimmedText=text.trim();
+                    if (!trimmedText.isEmpty()) {
+                        value=Boolean.valueOf(trimmedText);
+                    }
+                }
                 return value;
             }
-        }
-        return false;
-    }
 
-    /**
-     * Resolves the first non-null boolean value from the provided array.
-     * The array is evaluated in the order the elements are provided,
-     * and the first non-null value is returned.
-     * If all elements are null, the default value of {@code false} is returned.
-     * @param sources An array of boolean values, evaluated in order.
-     * @return The first non-null boolean value, or {@code false} if no value is found.
-     */
-    public static boolean resolveBoolean(Boolean... sources) {
-        for (Boolean source : sources) {
-            if (source != null) {
-                return source;
+            public boolean isEnabled() {
+                return build().isEnabled();
+            }
+
+            public boolean isEnabled(boolean defaultValue) {
+                return build().isEnabled(defaultValue);
+            }
+
+            public Builder enable(BooleanSupplier enableSupplier) {
+                return append(enableSupplier::getAsBoolean);
+            }
+
+            public Builder enable(Boolean enable) {
+                return append(()->enable);
+            }
+
+            public Builder enable(boolean enable) {
+                return append(()->enable);
+            }
+
+            public Builder enable(String enable) {
+                return append(()->valueOf(enable));
+            }
+
+            public Builder enable(Object enable) {
+                return append(()->valueOf(enable==null?null:enable.toString()));
+            }
+
+            public Builder enable(Supplier<Object> enableSupplier) {
+                return append(()->{
+                    Object enable=enableSupplier.get();
+                    return valueOf(enable==null?null:enable.toString());
+                });
             }
         }
-        return false;
     }
 
-    /**
-     * Resolves the first non-null boolean value from a list of suppliers.
-     * The suppliers in the list are evaluated in order, and the first non-null value is returned.
-     * If all suppliers return null, the default value of {@code false} is returned.
-     * @param sources A list of boolean suppliers, evaluated in order.
-     * @return The first non-null boolean value, or {@code false} if no value is found.
-     */
-    public static boolean resolveBoolean(List<Supplier<Boolean>> sources) {
-        for (Supplier<Boolean> source : sources) {
-            Boolean value = safeGet(source);
-            if (value != null) {
-                return value;
-            }
-        }
-        return false;
+    public static Feature.Builder feature() {
+        return Feature.builder();
     }
 
-    /**
-     * Resolves the first non-null boolean value from a list of booleans.
-     * The list is evaluated in order, and the first non-null value is returned.
-     * If all values are null, the default value of {@code false} is returned.
-     * @param sources A list of boolean values, evaluated in order.
-     * @return The first non-null boolean value, or {@code false} if no value is found.
-     */
-/*
-    public static boolean resolveBoolean(List<Boolean> sources) {
-        for (Boolean source : sources) {
-            if (source != null) {
-                return source;
-            }
-        }
-        return false;
-    }
-*/
-
-    /**
-     * Resolves the first non-null, non-empty string value from the provided suppliers.
-     * The suppliers are evaluated in the order they are provided,
-     * and the first non-null, non-empty string value is returned (after trimming).
-     * If all suppliers return null or empty strings, {@code null} is returned.
-     * @param sources An array of string suppliers, evaluated in order.
-     * @return The first non-null, non-empty string value, or {@code null} if no value is found.
-     */
-    public static String resolveString(Supplier<String>... sources) {
-        for (Supplier<String> source : sources) {
-            String value = safeGet(source);
-            if (isNonEmpty(value)) {
-                return value.trim();
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Resolves the first non-null, non-empty string value from the provided array.
-     * The array is evaluated in the order the elements are provided,
-     * and the first non-null, non-empty string value is returned (after trimming).
-     * If all elements are null or empty strings, {@code null} is returned.
-     * @param sources An array of string values, evaluated in order.
-     * @return The first non-null, non-empty string value, or {@code null} if no value is found.
-     */
-    public static String resolveString(String... sources) {
-        for (String source : sources) {
-            if (isNonEmpty(source)) {
-                return source.trim();
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Resolves the first non-null, non-empty string value from a list of suppliers.
-     * The suppliers in the list are evaluated in order,
-     * and the first non-null, non-empty string value is returned (after trimming).
-     * If all suppliers return null or empty strings, {@code null} is returned.
-     * @param sources A list of string suppliers, evaluated in order.
-     * @return The first non-null, non-empty string value, or {@code null} if no value is found.
-     */
-    public static String resolveString(List<Supplier<String>> sources) {
-        for (Supplier<String> source : sources) {
-            String value = safeGet(source);
-            if (isNonEmpty(value)) {
-                return value.trim();
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Resolves the first non-null, non-empty string value from a list of strings.
-     * The list is evaluated in order, and the first non-null, non-empty string value is returned (after trimming).
-     * If all values are null or empty strings, {@code null} is returned.
-     * @param sources A list of string values, evaluated in order.
-     * @return The first non-null, non-empty string value, or {@code null} if no value is found.
-     */
-/*
-    public static String resolveString(List<String> sources) {
-        for (String source : sources) {
-            if (isNonEmpty(source)) {
-                return source.trim();
-            }
-        }
-        return null;
-    }
-*/
-
-    /**
-     * Safely retrieves the value from a supplier.
-     * @param supplier The supplier to evaluate.
-     * @param <T> The type of the value.
-     * @return The value, or null if the supplier is null or throws an exception.
-     */
-    private static <T> T safeGet(Supplier<T> supplier) {
-        try {
-            return supplier != null ? supplier.get() : null;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    /**
-     * Checks if a string is non-null, trimmed, and has a length greater than zero.
-     * @param value The string to check.
-     * @return True if the string is non-empty, false otherwise.
-     */
-    private static boolean isNonEmpty(String value) {
-        return value != null && !value.trim().isEmpty();
-    }
-
-
-    /**
-     * Determines whether any of the provided sources resolves to a truthy value.
-     * A truthy value is a non-null boolean true or a non-null,
-     * non-empty string that evaluates to true when parsed as a boolean.
-     * @param sources An array of sources, evaluated in order.
-     *                Sources may be direct values or suppliers.
-     * @return True if any source resolves to a truthy value, false otherwise.
-     */
-    public static boolean isEnabled(Object... sources) {
-        for (Object source : sources) {
-            Boolean resolved = resolveBooleanFromObject(source);
-            if (Boolean.TRUE.equals(resolved)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Determines whether any of the provided sources resolves to a truthy value.
-     * A truthy value is a non-null boolean true or a non-null,
-     * non-empty string that evaluates to true when parsed as a boolean.
-     * @param sources A list of sources, evaluated in order.
-     *                Sources may be direct values or suppliers.
-     * @return True if any source resolves to a truthy value, false otherwise.
-     */
-    public static boolean isEnabled(List<Object> sources) {
-        for (Object source : sources) {
-            Boolean resolved = resolveBooleanFromObject(source);
-            if (Boolean.TRUE.equals(resolved)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Retrieves the first valid definition from the provided sources.
-     * A valid definition is a non-null, non-empty string or a number
-     * that is convertible to a string.
-     * @param sources An array of sources, evaluated in order.
-     *                Sources may be direct values or suppliers.
-     * @return The first valid definition as a string, or null if no definition is found.
-     */
-    public static String getDefinition(Object... sources) {
-        for (Object source : sources) {
-            String resolved = resolveStringFromObject(source);
-            if (resolved != null) {
-                return resolved;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Retrieves the first valid definition from the provided sources.
-     * A valid definition is a non-null, non-empty string or a number
-     * that is convertible to a string.
-     * @param sources A list of sources, evaluated in order.
-     *                Sources may be direct values or suppliers.
-     * @return The first valid definition as a string, or null if no definition is found.
-     */
-    public static String getDefinition(List<Object> sources) {
-        for (Object source : sources) {
-            String resolved = resolveStringFromObject(source);
-            if (resolved != null) {
-                return resolved;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Resolves a boolean value from an object.
-     * Accepts booleans, strings (parsed as booleans), and suppliers of these types.
-     * @param source The source object to resolve.
-     * @return The resolved boolean value, or null if not resolvable.
-     */
-    private static Boolean resolveBooleanFromObject(Object source) {
-        if (source instanceof Boolean) {
-            return (Boolean) source;
-        }
-        if (source instanceof Supplier) {
-            return resolveBooleanFromObject(safeGet((Supplier<?>) source));
-        }
-        if (source instanceof String) {
-            return Boolean.parseBoolean(((String) source).trim());
-        }
-        return null;
-    }
-
-    /**
-     * Resolves a string value from an object.
-     * Accepts strings, numbers, and suppliers of these types.
-     * @param source The source object to resolve.
-     * @return The resolved string value, or null if not resolvable.
-     */
-    private static String resolveStringFromObject(Object source) {
-        if (source instanceof String) {
-            String value = ((String) source).trim();
-            return isNonEmpty(value) ? value : null;
-        }
-        if (source instanceof Number) {
-            return source.toString();
-        }
-        if (source instanceof Supplier) {
-            return resolveStringFromObject(safeGet((Supplier<?>) source));
-        }
-        return null;
+    public static Feature.Builder feature(boolean defaultValue) {
+        return Feature.builder().defaultValue(defaultValue);
     }
 }
