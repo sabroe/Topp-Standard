@@ -19,12 +19,44 @@
 
 package com.yelstream.topp.standard.gradle.contribution.tool.util;
 
+import org.junit.jupiter.api.Assertions;
+
+import java.util.Map;
+
 /**
- * Tests {@link Configuration.Feature}.
+ * Tests {@link Configuration.Definition}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-11-24
  */
-public class ValueTest {
+public class ValueTest {  //TO-DO: --> 'DefinitionTest' ?
+
+    void usage() {
+//        Map<String,Object> properties=Map.of("java.encoding","UTF-8");
+        Map<String,String> properties=
+            Map.of("java.encoding","UTF-8",
+                   "java.encoding.compile","UTF-8",
+                   "java.encoding.compile-test","UTF-8");
+
+        Configuration.Definition<String> definition=
+            Configuration.Definition.<String>builder().value(properties.get("java.encoding")).value("UTF-8").build();
+        String value=definition.getValue();
+
+        Assertions.assertEquals("UTF-8",value);
+    }
+
+    void usage2() {
+//        Map<String,Object> properties=Map.of("java.encoding","UTF-8");
+        Map<String,String> properties=
+            Map.of("java.encoding","UTF-8",
+                    "java.encoding.compile","UTF-8",
+                    "java.encoding.compile-test","UTF-8");
+
+        String value=Configuration.text().value(properties.get("java.encoding")).getValue("UTF-8");
+        Assertions.assertEquals("UTF-8",value);
+
+        String value2=Configuration.text().value(properties.get("java.encoding.compile")).getValue("UTF-8");
+        Assertions.assertEquals("UTF-8",value2);
+    }
 }

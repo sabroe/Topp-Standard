@@ -34,7 +34,7 @@ import java.util.Map;
 class FeatureTest {
 
     @Test
-    void usageWithBuilderAnd() {
+    void usageWithBuilder() {
         Map<String,Object> properties=Map.of("feature.slf4j.enable","");
 
         Configuration.Feature feature=
