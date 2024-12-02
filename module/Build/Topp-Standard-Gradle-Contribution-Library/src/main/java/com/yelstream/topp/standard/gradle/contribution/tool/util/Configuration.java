@@ -3,7 +3,6 @@ package com.yelstream.topp.standard.gradle.contribution.tool.util;
 import lombok.AllArgsConstructor;
 import lombok.experimental.UtilityClass;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
@@ -27,6 +26,53 @@ public class Configuration {
         @lombok.Singular
         public final List<Supplier<T>> sources;
 
+        private final T defaultValue;
+
+        @SuppressWarnings("java:S4276")
+        public T resolve() {
+            T resolved=null;
+            for (var source: sources) {
+                T value=source.get();
+                if (value!=null) {
+                    resolved=value;
+                    break;
+                }
+            }
+            return resolved;
+        }
+
+        public T getValue() {
+            T resolved=resolve();
+            return resolved!=null?resolved:defaultValue;
+        }
+
+        public T getValue(T defaultValue) {
+            T resolved=resolve();
+            return resolved!=null?resolved:defaultValue;
+        }
+
+        public static class Builder<T> {
+            private Builder<T> append(Supplier<T> enableSupplier) {
+                this.source(enableSupplier);
+                return this;
+            }
+
+            public T getValue() {
+                return build().getValue();
+            }
+
+            public T getValue(T defaultValue) {
+                return build().getValue(defaultValue);
+            }
+
+            public Builder<T> value(Supplier<T> enableSupplier) {
+                return append(enableSupplier);
+            }
+
+            public Builder<T> value(T enable) {
+                return append(()->enable);
+            }
+       }
     }
 
     @AllArgsConstructor
@@ -66,7 +112,7 @@ public class Configuration {
                 return this;
             }
 
-            private static Boolean valueOf(String text) {
+            private static Boolean valueOf(String text) {  //TO-DO: Consider relocating this to a 'Booleans' utility object!
                 Boolean value=null;
                 if (text!=null) {
                     String trimmedText=text.trim();
@@ -112,6 +158,14 @@ public class Configuration {
                 });
             }
         }
+    }
+
+    public static Definition.Builder<String> text() {
+        return Definition.builder();
+    }
+
+    public static Definition.Builder<String> text(String defaultValue) {
+        return Definition.<String>builder().defaultValue(defaultValue);
     }
 
     public static Feature.Builder feature() {
