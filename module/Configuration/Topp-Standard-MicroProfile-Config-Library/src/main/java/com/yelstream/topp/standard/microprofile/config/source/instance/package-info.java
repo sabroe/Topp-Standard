@@ -23,5 +23,9 @@
  *   All {@link org.eclipse.microprofile.config.spi.ConfigSource} are intended for simple,
  *   direct instantiation by a {@link java.util.ServiceLoader}.
  * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-15
  */
 package com.yelstream.topp.standard.microprofile.config.source.instance;

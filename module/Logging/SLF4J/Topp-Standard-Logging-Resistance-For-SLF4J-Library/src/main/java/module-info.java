@@ -19,6 +19,9 @@
 
 /**
  * Topp Standard Logging Resistance For SLF4J provides conditional logging for SLF4J.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2024-06-22
  */
 module com.yelstream.topp.standard.log.resistance.slf4j {
     requires static lombok;
