@@ -19,6 +19,9 @@
 
 /**
  * Topp Standard Core addressing basics of Java SE.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2023-12-17
  */
 module com.yelstream.topp.standard.core {
     requires static lombok;

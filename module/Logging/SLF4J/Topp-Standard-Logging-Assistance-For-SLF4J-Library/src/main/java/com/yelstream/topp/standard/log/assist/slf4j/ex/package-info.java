@@ -19,5 +19,8 @@
 
 /**
  *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-09-19
  */
 package com.yelstream.topp.standard.log.assist.slf4j.ex;

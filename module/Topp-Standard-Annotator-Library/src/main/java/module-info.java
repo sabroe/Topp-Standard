@@ -19,6 +19,9 @@
 
 /**
  * Topp Standard Annotator providing annotation helpers.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2024-08-11
  */
 module com.yelstream.topp.standard.annotator {
     requires static lombok;

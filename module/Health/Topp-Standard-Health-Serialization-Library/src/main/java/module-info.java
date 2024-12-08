@@ -19,6 +19,9 @@
 
 /**
  * Topp Standard Health Serialization addresses the serialization of basic health-check status information.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2024-06-23
  */
 module com.yelstream.topp.standard.health.serialization {
     requires static lombok;

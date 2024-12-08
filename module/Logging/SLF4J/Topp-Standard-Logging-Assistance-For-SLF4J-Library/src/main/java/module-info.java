@@ -19,6 +19,9 @@
 
 /**
  * Topp Standard Logging Assistance For SLF4J provides utilities specific for SLF4J.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2024-06-18
  */
 module com.yelstream.topp.standard.log.assistance.slf4j {
     requires static lombok;

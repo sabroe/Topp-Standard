@@ -19,6 +19,9 @@
 
 /**
  * Topp Standard Network tooling offers incubating tools for test upon networks.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2024-07-02
  */
 module com.yelstream.topp.standard.net.tool {
     requires static lombok;

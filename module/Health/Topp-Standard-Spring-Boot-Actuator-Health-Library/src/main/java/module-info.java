@@ -19,6 +19,9 @@
 
 /**
  * Topp Standard Spring Boot Actuator Health addresses Spring Boot Actuator and its health indicators.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2024-06-26
  */
 module com.yelstream.topp.standard.spring.boot.actuator {
     requires static lombok;

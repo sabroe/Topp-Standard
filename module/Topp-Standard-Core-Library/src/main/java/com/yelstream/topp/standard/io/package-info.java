@@ -19,5 +19,9 @@
 
 /**
  *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-07-11
  */
 package com.yelstream.topp.standard.io;

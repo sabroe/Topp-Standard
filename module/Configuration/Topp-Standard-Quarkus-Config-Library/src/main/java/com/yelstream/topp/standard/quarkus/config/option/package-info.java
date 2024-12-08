@@ -19,5 +19,8 @@
 
 /**
  *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-04-18
  */
 package com.yelstream.topp.standard.quarkus.config.option;

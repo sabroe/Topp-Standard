@@ -19,6 +19,9 @@
 
 /**
  * Topp Standard Gradle Contribution provides utilities with application in the context of Gradle.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2024-11-23
  */
 module com.yelstream.topp.standard.build.gradle.contribution {
     requires static lombok;
