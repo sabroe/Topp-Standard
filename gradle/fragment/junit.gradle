@@ -2,7 +2,7 @@
  * Project: Topp Grasp
  * GitHub: https://github.com/sabroe/Topp-Grasp
  *
- * Copyright 2022-2024 Morten Sabroe Mortensen
+ * Copyright 2022-2025 Morten Sabroe Mortensen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,15 @@
  */
 
 plugins.withType(JavaPlugin) {  //Note: 'JavaPlugin' includes 'JavaLibraryPlugin'; both intermediate libraries and end-applications are included!
+    logger.debug("[${buildscript.sourceFile.name}]:> Plugins applied: ${plugins*.class.simpleName}")
     def enableFeatureText = custom['feature.junit.enable']?.toString()?.trim()
     def enableFeature = enableFeatureText ? enableFeatureText.toBoolean() : true
     if (!enableFeature) {
         logger.debug("Feature 'JUnit' is disabled.")
     } else {
         dependencies {
-            testImplementation(platform('org.junit:junit-bom:5.11.3'))
+            logger.debug("[${buildscript.sourceFile.name}]:> Applying 'testImplementation' dependencies.")
+            testImplementation(platform('org.junit:junit-bom:5.11.4'))
             testImplementation 'org.junit.jupiter:junit-jupiter'
             testImplementation 'org.junit.jupiter:junit-jupiter-engine'
             testImplementation 'org.junit.jupiter:junit-jupiter-api'
