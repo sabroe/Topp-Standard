@@ -24,6 +24,10 @@ import org.slf4j.Marker;
 import java.util.function.Supplier;
 
 /**
+ * Extended version of {@link org.slf4j.spi.LoggingEventBuilder}.
+ * The main structure is the identical to the original SLF4J {@code LoggingEventBuilder} (currently version 2.0.X)
+ * implying that the same set of operations are represented but that the return types are modified.
+ *
  *
  *
  * @author Morten Sabroe Mortensen

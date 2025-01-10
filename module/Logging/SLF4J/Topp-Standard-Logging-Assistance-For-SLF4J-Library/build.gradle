@@ -18,7 +18,6 @@
  */
 
 plugins {
-    id 'java'
     id 'java-library-distribution'
     id 'jacoco'
     id 'maven-publish'
