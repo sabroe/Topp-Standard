@@ -2,7 +2,7 @@
  * Project: Topp Grasp
  * GitHub: https://github.com/sabroe/Topp-Grasp
  *
- * Copyright 2022-2024 Morten Sabroe Mortensen
+ * Copyright 2022-2025 Morten Sabroe Mortensen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,11 @@ plugins.withType(JavaPlugin) {  //Note: 'JavaPlugin' includes 'JavaLibraryPlugin
         logger.debug("Feature 'Lombok' is disabled.")
     } else {
         dependencies {
-            compileOnly 'org.projectlombok:lombok:1.18.34'
-            annotationProcessor 'org.projectlombok:lombok:1.18.34'
+            compileOnly 'org.projectlombok:lombok:1.18.36'
+            annotationProcessor 'org.projectlombok:lombok:1.18.36'
 
-            testCompileOnly 'org.projectlombok:lombok:1.18.34'
-            testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+            testCompileOnly 'org.projectlombok:lombok:1.18.36'
+            testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
         }
     }
 }
