@@ -18,13 +18,13 @@
  */
 
 plugins.withType(JavaLibraryPlugin) {  //Note: 'JavaPlugin' includes 'JavaLibraryPlugin'; both intermediate libraries and end-applications are included!
+    logger.debug("[${buildscript.sourceFile.name}]:> Plugins applied: ${plugins*.class.simpleName}")
     def enableFeatureText = custom['feature.slf4j.enable']?.toString()?.trim()
     def enableFeature = enableFeatureText ? enableFeatureText.toBoolean() : true
     if (!enableFeature) {
         logger.debug("Feature 'SLF4J' is disabled.")
     } else {
         dependencies {
-            logger.debug("[${buildscript.sourceFile.name}]:> Plugins applied: ${plugins*.class.simpleName}")
             logger.debug("[${buildscript.sourceFile.name}]:> Available configurations: ${configurations.names}")
             if (configurations.findByName('api')) {
                 //Use 'api' if available (implies java-library plugin is applied)
