@@ -18,7 +18,6 @@
  */
 
 plugins {
-    id 'java'
     id 'java-library-distribution'
     id 'jacoco'
     id 'maven-publish'
@@ -26,7 +25,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(path: ':module:Topp-Standard-Annotator-Library')
+    api project(path: ':module:Topp-Standard-Annotator-Library')
     api project(':module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library')
 
     api 'io.github.resilience4j:resilience4j-all:2.2.0'
