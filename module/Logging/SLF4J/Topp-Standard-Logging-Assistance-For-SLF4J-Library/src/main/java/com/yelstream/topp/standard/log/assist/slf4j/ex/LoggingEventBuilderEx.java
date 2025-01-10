@@ -25,14 +25,22 @@ import java.util.function.Supplier;
 
 /**
  * Extended version of {@link org.slf4j.spi.LoggingEventBuilder}.
- * The main structure is the identical to the original SLF4J {@code LoggingEventBuilder} (currently version 2.0.X)
- * implying that the same set of operations are represented but that the return types are modified.
- *
- *
+ * <p>
+ *   The set of operations is mapped one-to-one against the signature of original SLF4J {@code LoggingEventBuilder} (currently version 2.0.X).
+ *   However, applied is a usage of the "self-referential generics pattern",
+ *   sometimes referred to as the "Curiously Recurring Template Pattern" (CRTP),
+ *   for the return types.
+ * </p>
+ * <p>
+ *   In this way, the extended version of the original interface is open to refer to its own type in a type-safe way,
+ *   enabling fluent method chaining and other similar constructs.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-09-19
+ *
+ * @param <S> Self-referential type.
  */
 public interface LoggingEventBuilderEx<S extends LoggingEventBuilderEx<S>> {
     S setCause(Throwable throwable);
