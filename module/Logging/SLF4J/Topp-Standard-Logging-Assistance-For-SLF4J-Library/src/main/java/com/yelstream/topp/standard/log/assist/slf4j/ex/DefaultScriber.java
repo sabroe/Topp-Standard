@@ -33,6 +33,7 @@ import java.util.function.Supplier;
  * @version 1.0
  * @since 2024-09-20
  */
+@SuppressWarnings({"LombokGetterMayBeUsed"})
 final class DefaultScriber<B extends LoggingEventBuilder> implements Scriber<B> {
     /**
      * Original SLF4J builder.

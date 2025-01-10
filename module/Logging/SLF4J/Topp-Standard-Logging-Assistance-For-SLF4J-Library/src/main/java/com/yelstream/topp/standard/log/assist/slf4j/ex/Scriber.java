@@ -30,7 +30,7 @@ import org.slf4j.spi.LoggingEventBuilder;
  * @version 1.0
  * @since 2024-09-19
  */
-public interface Scriber<B extends LoggingEventBuilder> extends LoggingEventBuilderEx<Scriber<B>>,LoggingEventBuilderExAlias<Scriber<B>> {
+public interface Scriber<B extends LoggingEventBuilder> extends LoggingEventBuilderEx<Scriber<B>>,LoggingEventBuilderExAlias<Scriber<B>>,LoggingEventBuilderExAliasAggressive<Scriber<B>> {
     /**
      *
      */
