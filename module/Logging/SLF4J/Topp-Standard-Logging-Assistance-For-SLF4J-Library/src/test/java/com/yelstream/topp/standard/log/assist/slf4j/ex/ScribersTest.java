@@ -69,7 +69,7 @@ class ScribersTest {
      * Tests the creation of {@link Scriber} instances using {@link Scribers#at(Logger)}.
      */
     @Test
-    void creationFromLogger() {
+    void creationFromLoggerAndLevel() {
         CaptureLogger log=CaptureLogger.of();
 
         Scribers.at(log).info().setMessage("Hello, {}!").addArgument("World #1").log();
@@ -84,7 +84,7 @@ class ScribersTest {
      * Tests the creation of {@link Scriber} instances using {@link Scribers#info(Logger)}.
      */
     @Test
-    void fluentLoggingAtLevelDebug4() {
+    void creationFromLevelAndLogger() {
         CaptureLogger log=CaptureLogger.of();
 
         Scribers.info(log).setMessage("Hello, {}!").addArgument("World #1").log();

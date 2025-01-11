@@ -48,7 +48,9 @@ public class Levels {
      * Gets all levels in sorted order.
      * @return Levels in sorted order.
      *         From {@link Level#TRACE} to {@link Level#ERROR}.
-     *         This is immutable.
+     *         <p>
+     *             This is immutable.
+     *         </p>
      */
     public static List<Level> getLevelsSorted() {
         return SORTED_LEVELS;
