@@ -27,7 +27,7 @@ import org.slf4j.spi.LoggingEventBuilder;
 import java.util.function.Supplier;
 
 /**
- *
+ * Default implementation of {@link Scriber}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

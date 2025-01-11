@@ -27,7 +27,7 @@ import org.slf4j.event.Level;
 import org.slf4j.spi.LoggingEventBuilder;
 
 /**
- *
+ * Utility addressing instances of {@link Scriber}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -71,5 +71,30 @@ public class Scribers {
         public Scriber<LoggingEventBuilder> level(Level level) {
             return Scribers.of(logger.atLevel(level));
         }
+    }
+
+    public static Scriber<LoggingEventBuilder> error(Logger logger) {
+        return Scribers.of(logger.atError());
+    }
+
+    public static Scriber<LoggingEventBuilder> warn(Logger logger) {
+        return Scribers.of(logger.atWarn());
+    }
+
+    public static Scriber<LoggingEventBuilder> info(Logger logger) {
+        return Scribers.of(logger.atInfo());
+    }
+
+    public static Scriber<LoggingEventBuilder> debug(Logger logger) {
+        return Scribers.of(logger.atDebug());
+    }
+
+    public static Scriber<LoggingEventBuilder> trace(Logger logger) {
+        return Scribers.of(logger.atTrace());
+    }
+
+    public static Scriber<LoggingEventBuilder> level(Logger logger,
+                                                     Level level) {
+        return Scribers.of(logger.atLevel(level));
     }
 }

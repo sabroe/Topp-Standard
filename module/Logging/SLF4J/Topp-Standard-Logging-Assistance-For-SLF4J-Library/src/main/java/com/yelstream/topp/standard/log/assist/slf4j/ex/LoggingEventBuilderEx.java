@@ -26,13 +26,11 @@ import java.util.function.Supplier;
 /**
  * Extended version of {@link org.slf4j.spi.LoggingEventBuilder}.
  * <p>
- *   The set of operations is mapped one-to-one against the signature of original SLF4J {@code LoggingEventBuilder} (currently version 2.0.X).
- *   However, applied is a usage of the "self-referential generics pattern",
- *   sometimes referred to as the "Curiously Recurring Template Pattern" (CRTP),
- *   for the return types.
+ *   The operations are mapped one-to-one against the signature of native SLF4J {@code LoggingEventBuilder} (currently version 2.0.X).
+ *   Applied is a usage of the "self-referential generics pattern" for the return types.
  * </p>
  * <p>
- *   In this way, the extended version of the original interface is open to refer to its own type in a type-safe way,
+ *   The extended version of the native interface is open to refer to its own type in a type-safe way,
  *   enabling fluent method chaining and other similar constructs.
  * </p>
  *

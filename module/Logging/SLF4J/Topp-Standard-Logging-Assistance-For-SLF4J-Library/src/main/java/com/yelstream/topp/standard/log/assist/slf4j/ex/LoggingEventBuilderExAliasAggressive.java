@@ -24,11 +24,17 @@ import org.slf4j.Marker;
 import java.util.function.Supplier;
 
 /**
- *
+ * Logging event creation using aliases with an aggressively shorter naming schema.
+ * <p>
+ *     All additional methods address syntax only.
+ *     The applied style of method naming is most aggressive by using single character names only.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-01-10
+ *
+ * @param <S> Self-referential type.
  */
 public interface LoggingEventBuilderExAliasAggressive<S extends LoggingEventBuilderExAliasAggressive<S>> extends LoggingEventBuilderEx<S>{
     default S c(Throwable throwable) {

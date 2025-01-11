@@ -18,6 +18,7 @@
  */
 
 /**
+ * Event and level handling.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
