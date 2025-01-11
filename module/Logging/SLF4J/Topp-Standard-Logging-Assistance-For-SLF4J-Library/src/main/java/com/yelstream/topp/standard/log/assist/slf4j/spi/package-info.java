@@ -18,6 +18,7 @@
  */
 
 /**
+ * Utilities addressing native service providers and logging event creation.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

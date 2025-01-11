@@ -53,4 +53,23 @@ public class Levels {
     public static List<Level> getLevelsSorted() {
         return SORTED_LEVELS;
     }
+
+    @FunctionalInterface
+    public interface Enabler {
+        void apply(boolean traceEnabled,
+                   boolean debugEnabled,
+                   boolean infoEnabled,
+                   boolean warnEnabled,
+                   boolean errorEnabled);
+    }
+
+    public static void enable(Level level,
+                              Enabler enabler) {
+        int v=level.toInt();
+        enabler.apply(v<=Level.TRACE.toInt(),
+                     v<=Level.DEBUG.toInt(),
+                     v<=Level.INFO.toInt(),
+                     v<=Level.WARN.toInt(),
+                     v<=Level.ERROR.toInt());
+    }
 }

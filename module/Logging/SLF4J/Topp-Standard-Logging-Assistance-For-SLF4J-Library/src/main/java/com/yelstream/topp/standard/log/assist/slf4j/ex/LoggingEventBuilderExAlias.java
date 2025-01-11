@@ -24,11 +24,18 @@ import org.slf4j.Marker;
 import java.util.function.Supplier;
 
 /**
- *
+ * Logging event creation using aliases with a moderately more fluent naming schema.
+ * <p>
+ *     All additional methods address syntax only.
+ *     The applied style of method naming is slightly shorter and more fluent by leaving out
+ *     the {@code set} and {@code get} prefixes.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-09-19
+ *
+ * @param <S> Self-referential type.
  */
 public interface LoggingEventBuilderExAlias<S extends LoggingEventBuilderExAlias<S>> extends LoggingEventBuilderEx<S>{
     default S cause(Throwable throwable) {

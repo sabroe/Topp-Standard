@@ -21,10 +21,54 @@ package com.yelstream.topp.standard.log.assist.slf4j;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.event.Level;
 
+import java.util.List;
+
+/**
+ * Tests {@link Loggers}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-01-10
+ */
 class LoggersTest {
+    /**
+     * Tests {@link Loggers#getLogger(String)}.
+     */
     @Test
-    void dummy() {
-        Assertions.assertTrue(1+1==2);
+    void obtainLoggerByName() {
+        String loggerName=Logger.ROOT_LOGGER_NAME;
+        Logger logger=Loggers.getLogger(loggerName);
+
+        Assertions.assertNotNull(logger);
+        Assertions.assertEquals(loggerName,logger.getName());
+    }
+
+    /**
+     * Tests {@link Loggers#getLevels(Logger)}.
+     */
+    @Test
+    void obtainsLevelsFromLogger() {
+        Logger logger=Loggers.getLogger(Logger.ROOT_LOGGER_NAME);
+
+        List<Level> levels=Loggers.getLevels(logger);
+
+        Assertions.assertNotNull(levels);
+        Assertions.assertEquals(List.of(Level.INFO,Level.WARN,Level.ERROR),levels);
+    }
+
+    /**
+     * Tests {@link Loggers#getLevel(Logger)}.
+     */
+    @Test
+    void obtainLevelFromLogger() {
+        Logger logger=Loggers.getLogger(Logger.ROOT_LOGGER_NAME);
+
+        Level level=Loggers.getLevel(logger);
+
+        Assertions.assertNotNull(level);
+        Assertions.assertEquals(Level.INFO,level);
     }
 }
