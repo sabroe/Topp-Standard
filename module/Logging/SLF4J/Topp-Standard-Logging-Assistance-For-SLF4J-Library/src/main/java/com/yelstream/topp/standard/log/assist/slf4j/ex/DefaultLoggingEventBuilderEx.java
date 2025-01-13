@@ -31,14 +31,24 @@ import org.slf4j.spi.LoggingEventBuilder;
  * @param <B> Native SLF4J logging-event builder type.
  */
 public final class DefaultLoggingEventBuilderEx<B extends LoggingEventBuilder> extends AbstractLoggingEventBuilderEx<B,DefaultLoggingEventBuilderEx<B>> {
-    public DefaultLoggingEventBuilderEx(B loggingEventBuilder) {
+    /**
+     * Constructor.
+     * @param loggingEventBuilder Native SLF4J logging-event builder.
+     */
+    private DefaultLoggingEventBuilderEx(B loggingEventBuilder) {
         super(loggingEventBuilder);
     }
 
+    @Override
     protected DefaultLoggingEventBuilderEx<B> self() {
         return this;
     }
 
+    /**
+     * Creates a new instance.
+     * @param loggingEventBuilder Native SLF4J logging-event builder.
+     * @return Created instance.
+     */
     public static <B extends LoggingEventBuilder> DefaultLoggingEventBuilderEx<B> of(B loggingEventBuilder) {
         return new DefaultLoggingEventBuilderEx<>(loggingEventBuilder);
     }
