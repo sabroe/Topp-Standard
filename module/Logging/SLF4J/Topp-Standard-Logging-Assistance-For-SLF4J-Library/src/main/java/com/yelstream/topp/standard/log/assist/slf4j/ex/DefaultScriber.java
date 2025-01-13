@@ -31,12 +31,16 @@ import org.slf4j.spi.LoggingEventBuilder;
  *
  * @param <B> Native SLF4J logging-event builder type.
  */
-final class DefaultScriber<B extends LoggingEventBuilder> extends AbstractLoggingEventBuilderEx<B,Scriber<B>> implements Scriber<B> {
-
+public final class DefaultScriber<B extends LoggingEventBuilder> extends AbstractLoggingEventBuilderEx<B,Scriber<B>> implements Scriber<B> {
+    /**
+     * Constructor.
+     * @param loggingEventBuilder Native SLF4J logging-event builder.
+     */
     public DefaultScriber(B loggingEventBuilder) {
         super(loggingEventBuilder);
     }
 
+    @Override
     protected DefaultScriber<B> self() {
         return this;
     }
@@ -46,6 +50,11 @@ final class DefaultScriber<B extends LoggingEventBuilder> extends AbstractLoggin
         return LoggingEventBuilders.isLoggingEnabled(delegate);
     }
 
+    /**
+     * Creates a new instance.
+     * @param loggingEventBuilder Native SLF4J logging-event builder.
+     * @return Created instance.
+     */
     public static <B extends LoggingEventBuilder> DefaultScriber<B> of(B loggingEventBuilder) {
         return new DefaultScriber<>(loggingEventBuilder);
     }
