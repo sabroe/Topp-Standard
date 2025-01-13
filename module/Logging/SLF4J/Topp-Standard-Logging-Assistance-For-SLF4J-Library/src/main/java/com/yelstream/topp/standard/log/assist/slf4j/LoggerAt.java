@@ -1,5 +1,6 @@
 package com.yelstream.topp.standard.log.assist.slf4j;
 
+import com.yelstream.topp.standard.log.assist.slf4j.event.ActionableAt;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -9,35 +10,82 @@ import org.slf4j.spi.LoggingEventBuilder;
 import java.util.function.Function;
 
 /**
+ * Creates actionable objects from an existing logger and the log level chosen.
  *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-01-13
  *
+ * @param <R> Type of actionable objects.
  */
-@AllArgsConstructor(staticName="of",access= AccessLevel.PRIVATE)
-public class LoggerAt<L extends Logger,R> {  //TO-DO: Fix this, replace the other 2x 'LoggerAt' implementations!
-    private final L logger;
+@AllArgsConstructor(access=AccessLevel.PRIVATE)
+public class LoggerAt<R> implements ActionableAt<R> {
+    /**
+     * SLF4J logger.
+     */
+    private final Logger logger;
+
+    /**
+     * Resolves SLF4J logging-event builders to actionable objects.
+     */
     private final Function<LoggingEventBuilder,R> resolver;
 
-    public R error() {
-        return resolver.apply(logger.atError());
+    /**
+     * Resolves a SLF4J logging-event builder.
+     * @param loggingEventBuilder Logging-event builder.
+     * @return Resolved, actionable object.
+     */
+    protected R resolve(LoggingEventBuilder loggingEventBuilder) {
+        return resolver.apply(loggingEventBuilder);
     }
 
-    public R warn() {
-        return resolver.apply(logger.atWarn());
+    @Override
+    public R atError() {
+        return resolve(logger.atError());
     }
 
-    public R info() {
-        return resolver.apply(logger.atInfo());
+    @Override
+    public R atWarn() {
+        return resolve(logger.atWarn());
     }
 
-    public R debug() {
-        return resolver.apply(logger.atDebug());
+    @Override
+    public R atInfo() {
+        return resolve(logger.atInfo());
     }
 
-    public R trace() {
-        return resolver.apply(logger.atTrace());
+    @Override
+    public R atDebug() {
+        return resolve(logger.atDebug());
     }
 
-    public R level(Level level) {
-        return resolver.apply(logger.atLevel(level));
+    @Override
+    public R atTrace() {
+        return resolve(logger.atTrace());
+    }
+
+    @Override
+    public R atLevel(Level level) {
+        return resolve(logger.atLevel(level));
+    }
+
+    /**
+     * Create a new instance.
+     * @param logger Logger.
+     * @return Created instane.
+     */
+    public static LoggerAt<LoggingEventBuilder> of(Logger logger) {
+        return new LoggerAt<>(logger,Function.identity());
+    }
+
+    /**
+     * Create a new instance.
+     * @param logger Logger.
+     * @param resolver Resolver of logging-event builders to actionable objects.
+     * @return Created instane.
+     */
+    public static <R> LoggerAt<R> of(Logger logger,
+                                     Function<LoggingEventBuilder,R> resolver) {
+        return new LoggerAt<>(logger,resolver);
     }
 }

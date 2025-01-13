@@ -19,9 +19,8 @@
 
 package com.yelstream.topp.standard.log.assist.slf4j.spi;
 
+import com.yelstream.topp.standard.log.assist.slf4j.LoggerAt;
 import com.yelstream.topp.standard.log.assist.slf4j.Loggers;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
@@ -137,36 +136,7 @@ public class LoggingEventBuilders {
             };
     }
 
-    public static <L extends Logger> LoggerAt<L> at(L logger) {
+    public static LoggerAt<LoggingEventBuilder> at(Logger logger) {
         return LoggerAt.of(logger);
-    }
-
-    @AllArgsConstructor(staticName="of",access=AccessLevel.PRIVATE)
-    public static class LoggerAt<L extends Logger> {  //TO-DO: Consider the relevance of the generic; may be future-proof, may not!
-        private final L logger;
-
-        public LoggingEventBuilder error() {
-            return logger.atError();
-        }
-
-        public LoggingEventBuilder warn() {
-            return logger.atWarn();
-        }
-
-        public LoggingEventBuilder info() {
-            return logger.atInfo();
-        }
-
-        public LoggingEventBuilder debug() {
-            return logger.atDebug();
-        }
-
-        public LoggingEventBuilder trace() {
-            return logger.atTrace();
-        }
-
-        public LoggingEventBuilder level(Level level) {
-            return logger.atLevel(level);
-        }
     }
 }
