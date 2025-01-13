@@ -19,11 +19,9 @@
 
 package com.yelstream.topp.standard.log.assist.slf4j.ex;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import com.yelstream.topp.standard.log.assist.slf4j.LoggerAt;
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
-import org.slf4j.event.Level;
 import org.slf4j.spi.LoggingEventBuilder;
 
 /**
@@ -40,61 +38,7 @@ public class Scribers {
         return DefaultScriber.of(loggingEventBuilder);
     }
 
-    public static <L extends Logger> LoggerAt<L> at(L logger) {
-        return LoggerAt.of(logger);
-    }
-
-    @AllArgsConstructor(staticName="of",access=AccessLevel.PRIVATE)
-    public static class LoggerAt<L extends Logger> {  //TO-DO: Consider the relevance of the generic; may be future-proof, may not!
-        private final L logger;
-
-        public Scriber<LoggingEventBuilder> error() {
-            return Scribers.of(logger.atError());
-        }
-
-        public Scriber<LoggingEventBuilder> warn() {
-            return Scribers.of(logger.atWarn());
-        }
-
-        public Scriber<LoggingEventBuilder> info() {
-            return Scribers.of(logger.atInfo());
-        }
-
-        public Scriber<LoggingEventBuilder> debug() {
-            return Scribers.of(logger.atDebug());
-        }
-
-        public Scriber<LoggingEventBuilder> trace() {
-            return Scribers.of(logger.atTrace());
-        }
-
-        public Scriber<LoggingEventBuilder> level(Level level) {
-            return Scribers.of(logger.atLevel(level));
-        }
-    }
-
-    public static Scriber<LoggingEventBuilder> error(Logger logger) {
-        return Scribers.of(logger.atError());
-    }
-
-    public static Scriber<LoggingEventBuilder> warn(Logger logger) {
-        return Scribers.of(logger.atWarn());
-    }
-
-    public static Scriber<LoggingEventBuilder> info(Logger logger) {
-        return Scribers.of(logger.atInfo());
-    }
-
-    public static Scriber<LoggingEventBuilder> debug(Logger logger) {
-        return Scribers.of(logger.atDebug());
-    }
-
-    public static Scriber<LoggingEventBuilder> trace(Logger logger) {
-        return Scribers.of(logger.atTrace());
-    }
-
-    public static Scriber<LoggingEventBuilder> level(Logger logger,
-                                                     Level level) {
-        return Scribers.of(logger.atLevel(level));
+    public static LoggerAt<Scriber<LoggingEventBuilder>> of(Logger logger) {
+        return LoggerAt.of(logger,Scribers::of);
     }
 }
