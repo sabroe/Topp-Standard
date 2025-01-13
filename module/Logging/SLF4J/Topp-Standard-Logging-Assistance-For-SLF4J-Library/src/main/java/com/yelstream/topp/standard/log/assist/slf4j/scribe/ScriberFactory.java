@@ -17,11 +17,20 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.log.assist.slf4j.scribe;
+
+import lombok.experimental.UtilityClass;
+
 /**
- * Utilities addressing native service providers and logging-event creation.
+ * Factory of {@link com.yelstream.topp.standard.log.assist.slf4j.ex.Scriber} instances.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-06-18
+ * @since 2025-01-12
  */
-package com.yelstream.topp.standard.log.assist.slf4j.spi;
+@UtilityClass
+public class ScriberFactory {
+
+    //TO-DO: To be fixed!
+
+}

@@ -24,7 +24,7 @@ import com.yelstream.topp.standard.util.function.BooleanConsumer;
 import org.slf4j.spi.LoggingEventBuilder;
 
 /**
- * Enhanced logging event builder improving upon the native SLF4J {@link LoggingEventBuilder}.
+ * Enhanced logging-event builder improving upon the native SLF4J {@link LoggingEventBuilder}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

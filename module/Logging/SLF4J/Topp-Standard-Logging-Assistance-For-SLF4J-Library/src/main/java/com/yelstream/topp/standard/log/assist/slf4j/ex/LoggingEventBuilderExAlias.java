@@ -38,35 +38,101 @@ import java.util.function.Supplier;
  * @param <S> Self-referential type.
  */
 public interface LoggingEventBuilderExAlias<S extends LoggingEventBuilderExAlias<S>> extends LoggingEventBuilderEx<S>{
-    default S cause(Throwable throwable) {
-        return setCause(throwable);
+    /**
+     * Sets a cause.
+     * <p>
+     *   See {@link LoggingEventBuilderEx#setCause(Throwable)}.
+     * </p>
+     * @param cause Cause.
+     * @return Self.
+     */
+    default S cause(Throwable cause) {
+        return setCause(cause);
     }
 
+    /**
+     * Adds a marker.
+     * <p>
+     *   See {@link LoggingEventBuilderEx#addMarker(Marker)}.
+     * </p>
+     * @param marker Marker.
+     * @return Self.
+     */
     default S mark(Marker marker) {
         return addMarker(marker);
     }
 
-    default S arg(Object o) {
-        return addArgument(o);
+    /**
+     * Adds an argument.
+     * <p>
+     *   See {@link LoggingEventBuilderEx#addArgument(Object)}.
+     * </p>
+     * @param argument Argument.
+     * @return Self.
+     */
+    default S arg(Object argument) {
+        return addArgument(argument);
     }
 
-    default S arg(Supplier<?> supplier) {
-        return addArgument(supplier);
+    /**
+     * Adds an argument.
+     * <p>
+     *   See {@link LoggingEventBuilderEx#addArgument(Supplier)}.
+     * </p>
+     * @param argumentSupplier Supplier of argument
+     * @return Self.
+     */
+    default S arg(Supplier<?> argumentSupplier) {
+        return addArgument(argumentSupplier);
     }
 
-    default S key(String s, Object o) {
-        return addKeyValue(s,o);
+    /**
+     * Adds a (key,value) pair.
+     * <p>
+     *   See {@link LoggingEventBuilderEx#addKeyValue(String, Object)}.
+     * </p>
+     * @param key Key.
+     * @param value Value.
+     * @return Self.
+     */
+    default S key(String key, Object value) {
+        return addKeyValue(key,value);
     }
 
-    default S key(String s, Supplier<Object> supplier) {
-        return addKeyValue(s,supplier);
+    /**
+     * Adds a (key,value) pair.
+     * <p>
+     *   See {@link LoggingEventBuilderEx#addKeyValue(String, Supplier)}.
+     * </p>
+     * @param key Key.
+     * @param valueSupplier Supplier of value.
+     * @return Self.
+     */
+    default S key(String key, Supplier<Object> valueSupplier) {
+        return addKeyValue(key,valueSupplier);
     }
 
-    default S message(String s) {
-        return setMessage(s);
+    /**
+     * Sets the message.
+     * <p>
+     *   See {@link LoggingEventBuilderEx#setMessage(String)}.
+     * </p>
+     * @param message Message.
+     * @return Self.
+     */
+    default S message(String message) {
+        return setMessage(message);
     }
 
-    default S message(Supplier<String> supplier) {
-        return setMessage(supplier);
+    /**
+     * Sets the message.
+     * <p>
+     *   See {@link LoggingEventBuilderEx#setMessage(Supplier)}.
+     * </p>
+     * @param messageSupplier Supplier of message.
+     * @return Self.
+     */
+    default S message(Supplier<String> messageSupplier) {
+        return setMessage(messageSupplier);
     }
 }

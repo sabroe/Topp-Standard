@@ -20,6 +20,7 @@
 package com.yelstream.topp.standard.log.assist.slf4j.ex;
 
 import org.slf4j.Marker;
+import org.slf4j.spi.LoggingEventBuilder;
 
 import java.util.function.Supplier;
 
@@ -41,31 +42,142 @@ import java.util.function.Supplier;
  * @param <S> Self-referential type.
  */
 public interface LoggingEventBuilderEx<S extends LoggingEventBuilderEx<S>> {
-    S setCause(Throwable throwable);
+    /**
+     * Sets a cause.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#setCause(Throwable)}.
+     * </p>
+     * @param cause Cause.
+     * @return Self.
+     */
+    S setCause(Throwable cause);
 
+    /**
+     * Adds a marker.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#addMarker(Marker)}.
+     * </p>
+     * @param marker Marker.
+     * @return Self.
+     */
     S addMarker(Marker marker);
 
-    S addArgument(Object o);
+    /**
+     * Adds an argument.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#addArgument(Object)}.
+     * </p>
+     * @param argument Argument.
+     * @return Self.
+     */
+    S addArgument(Object argument);
 
-    S addArgument(Supplier<?> supplier);
+    /**
+     * Adds an argument.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#addArgument(Supplier)}.
+     * </p>
+     * @param argumentSupplier Supplier of argument
+     * @return Self.
+     */
+    S addArgument(Supplier<?> argumentSupplier);
 
-    S addKeyValue(String s, Object o);
+    /**
+     * Adds a (key,value) pair.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#addKeyValue(String, Object)}.
+     * </p>
+     * @param key Key.
+     * @param value Value.
+     * @return Self.
+     */
+    S addKeyValue(String key, Object value);
 
-    S addKeyValue(String s, Supplier<Object> supplier);
+    /**
+     * Adds a (key,value) pair.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#addKeyValue(String, Supplier)}.
+     * </p>
+     * @param key Key.
+     * @param valueSupplier Supplier of value.
+     * @return Self.
+     */
+    S addKeyValue(String key, Supplier<Object> valueSupplier);
 
-    S setMessage(String s);
+    /**
+     * Sets the message.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#setMessage(String)}.
+     * </p>
+     * @param message Message.
+     * @return Self.
+     */
+    S setMessage(String message);
 
-    S setMessage(Supplier<String> supplier);
+    /**
+     * Sets the message.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#setMessage(Supplier)}.
+     * </p>
+     * @param messageSupplier Supplier of message.
+     * @return Self.
+     */
+    S setMessage(Supplier<String> messageSupplier);
 
+    /**
+     * Finalizes the logging.
+     * <p>
+     *   See {@link LoggingEventBuilder#log()}.
+     * </p>
+     */
     void log();
 
-    void log(String s);
+    /**
+     * Finalizes the logging.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#log(String)}.
+     * </p>
+     * @param message Message.
+     */
+    void log(String message);
 
-    void log(String s, Object o);
+    /**
+     * Finalizes the logging.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#log(String, Object)}.
+     * </p>
+     * @param message Message.
+     * @param argument Argument.
+     */
+    void log(String message, Object argument);
 
-    void log(String s, Object o, Object o1);
+    /**
+     * Finalizes the logging.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#log(String,Object,Object)}.
+     * </p>
+     * @param message Message.
+     * @param argument1 First argument.
+     * @param argument2 Second argument.
+     */
+    void log(String message, Object argument1, Object argument2);
 
-    void log(String s, Object... objects);
+    /**
+     * Finalizes the logging.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#log(String,Object...)}.
+     * </p>
+     * @param message Message.
+     * @param arguments Arguments.
+     */
+    void log(String message, Object... arguments);
 
-    void log(Supplier<String> supplier);
+    /**
+     * Finalizes the logging.
+     * <p>
+     *   See {@link org.slf4j.spi.LoggingEventBuilder#log(Supplier)}.
+     * </p>
+     * @param messageSupplier Supplier of message.
+     */
+    void log(Supplier<String> messageSupplier);
 }

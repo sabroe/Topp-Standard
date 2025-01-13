@@ -18,7 +18,7 @@
  */
 
 /**
- * Capture of logging events.
+ * Capture of logging-events.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

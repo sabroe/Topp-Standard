@@ -34,6 +34,8 @@ import java.util.function.Supplier;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-06-18
+ *
+ * @param <B> Native SLF4J logging-event builder type.
  */
 @SuppressWarnings({"LombokGetterMayBeUsed","ClassCanBeRecord"})
 @AllArgsConstructor

@@ -18,10 +18,10 @@
  */
 
 /**
- * Utilities addressing native service providers and logging-event creation.
+ *
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-06-18
+ * @since 2025-01-12
  */
-package com.yelstream.topp.standard.log.assist.slf4j.spi;
+package com.yelstream.topp.standard.log.assist.slf4j.scribe;

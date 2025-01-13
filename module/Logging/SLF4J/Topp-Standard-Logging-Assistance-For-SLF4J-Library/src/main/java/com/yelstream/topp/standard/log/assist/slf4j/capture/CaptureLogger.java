@@ -47,6 +47,9 @@ import java.util.function.Supplier;
 @AllArgsConstructor
 @SuppressWarnings({"LombokGetterMayBeUsed","ClassCanBeRecord"})
 public class CaptureLogger extends LegacyAbstractLogger {
+    /**
+     * Logged event.
+     */
     @lombok.Builder(builderClassName="Builder",toBuilder=true)
     @AllArgsConstructor
     @Getter
@@ -57,6 +60,10 @@ public class CaptureLogger extends LegacyAbstractLogger {
         private final Object[] arguments;
         private final Throwable throwable;
 
+        /**
+         * Gets a formatted message combining ({@link #message},{@link #arguments}).
+         * @return Formatted message.
+         */
         public String getFormattedMessage() {
             return MessageFormatter.arrayFormat(message,arguments).getMessage();
         }
@@ -67,10 +74,17 @@ public class CaptureLogger extends LegacyAbstractLogger {
         }
     }
 
+    /**
+     * Logged events.
+     */
     @Getter
     @lombok.Builder.Default
     private final Queue<Entry> entryQueue=new ConcurrentLinkedQueue<>();
 
+    /**
+     * Gets all log-statement entries as formatted text messages.
+     * @return Formatted messages.
+     */
     public List<String> getFormattedMessages() {
         return entryQueue.stream().map(Entry::getFormattedMessage).toList();
     }
@@ -104,7 +118,15 @@ public class CaptureLogger extends LegacyAbstractLogger {
     @lombok.Builder.Default
     private final transient Supplier<String> callerNameResolver=()->"";
 
+    /**
+     * Builder of capture logger instances.
+     */
     public static class Builder {
+        /**
+         * Enables log levels individually.
+         * @param level Log level.
+         * @return This builder.
+         */
         @SuppressWarnings("java:S1117")  //Another s*** rule made up by an imbecile thinking that all are dumber hence destroying the joy of Java
         public Builder levelEnable(Level level) {
             Levels.enable(level,(traceEnabled,debugEnabled,infoEnabled,warnEnabled,errorEnabled)->{
@@ -135,6 +157,10 @@ public class CaptureLogger extends LegacyAbstractLogger {
         entryQueue.add(entry);
     }
 
+    /**
+     * Creates a new instance.
+     * @return Created instance.
+     */
     public static CaptureLogger of() {
         return builder().build();
     }
