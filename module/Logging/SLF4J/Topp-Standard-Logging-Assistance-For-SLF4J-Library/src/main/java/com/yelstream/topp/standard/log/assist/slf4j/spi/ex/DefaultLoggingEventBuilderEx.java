@@ -17,45 +17,40 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j.ex;
+package com.yelstream.topp.standard.log.assist.slf4j.spi.ex;
 
-import com.yelstream.topp.standard.log.assist.slf4j.spi.LoggingEventBuilders;
 import org.slf4j.spi.LoggingEventBuilder;
 
 /**
- * Default implementation of {@link Scriber}.
+ * Default implementation of {@link LoggingEventBuilderEx}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-09-20
+ * @since 2025-01-12
  *
  * @param <B> Native SLF4J logging-event builder type.
  */
-public final class DefaultScriber<B extends LoggingEventBuilder> extends AbstractLoggingEventBuilderEx<B,Scriber<B>> implements Scriber<B> {
+public final class DefaultLoggingEventBuilderEx<B extends LoggingEventBuilder> extends AbstractLoggingEventBuilderEx<B,DefaultLoggingEventBuilderEx<B>> {
     /**
      * Constructor.
      * @param loggingEventBuilder Native SLF4J logging-event builder.
      */
-    public DefaultScriber(B loggingEventBuilder) {
+    private DefaultLoggingEventBuilderEx(B loggingEventBuilder) {
         super(loggingEventBuilder);
     }
 
     @Override
-    protected DefaultScriber<B> self() {
+    protected DefaultLoggingEventBuilderEx<B> self() {
         return this;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return LoggingEventBuilders.isLoggingEnabled(delegate);
     }
 
     /**
      * Creates a new instance.
      * @param loggingEventBuilder Native SLF4J logging-event builder.
      * @return Created instance.
+     * @param <B> Native SLF4J logging-event builder type.
      */
-    public static <B extends LoggingEventBuilder> DefaultScriber<B> of(B loggingEventBuilder) {
-        return new DefaultScriber<>(loggingEventBuilder);
+    public static <B extends LoggingEventBuilder> DefaultLoggingEventBuilderEx<B> of(B loggingEventBuilder) {
+        return new DefaultLoggingEventBuilderEx<>(loggingEventBuilder);
     }
 }

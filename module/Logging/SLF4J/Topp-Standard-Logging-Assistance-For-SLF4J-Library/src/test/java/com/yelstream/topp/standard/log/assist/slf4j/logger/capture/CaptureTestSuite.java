@@ -17,19 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j;
+package com.yelstream.topp.standard.log.assist.slf4j.logger.capture;
 
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 /**
- * Test suite for {@code com.yelstream.topp.standard.log.assist.slf4j}.
+ * Test suite for {@code com.yelstream.topp.standard.log.assist.slf4j.logger.capture}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-04-27
+ * @since 2025-01-11
  */
 @Suite
-@SelectClasses({LoggersTest.class})
-public class SLF4JTestSuite {
+@SelectClasses({CaptureLoggerTest.class,OpenEventRecordingLoggerTest.class})
+class CaptureTestSuite {
 }

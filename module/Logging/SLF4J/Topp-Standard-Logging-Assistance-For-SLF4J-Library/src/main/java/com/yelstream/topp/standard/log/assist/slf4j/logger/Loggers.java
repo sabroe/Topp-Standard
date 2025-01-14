@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j;
+package com.yelstream.topp.standard.log.assist.slf4j.logger;
 
 import com.yelstream.topp.standard.log.assist.slf4j.event.Levels;
 import lombok.experimental.UtilityClass;

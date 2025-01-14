@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j.ex;
+package com.yelstream.topp.standard.log.assist.slf4j.spi.ex;
 
 import org.slf4j.Marker;
 
@@ -37,7 +37,7 @@ import java.util.function.Supplier;
  *
  * @param <S> Self-referential type.
  */
-public interface LoggingEventBuilderExAlias<S extends LoggingEventBuilderExAlias<S>> extends LoggingEventBuilderEx<S>{
+public interface LoggingEventBuilderExAlias<S extends LoggingEventBuilderExAlias<S>> extends LoggingEventBuilderEx<S> {
     /**
      * Sets a cause.
      * <p>
