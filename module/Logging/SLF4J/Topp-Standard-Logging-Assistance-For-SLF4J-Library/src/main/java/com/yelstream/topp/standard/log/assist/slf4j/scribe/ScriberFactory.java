@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.log.assist.slf4j.scribe;
 import lombok.experimental.UtilityClass;
 
 /**
- * Factory of {@link com.yelstream.topp.standard.log.assist.slf4j.ex.Scriber} instances.
+ * Factory of {@link Scriber} instances.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

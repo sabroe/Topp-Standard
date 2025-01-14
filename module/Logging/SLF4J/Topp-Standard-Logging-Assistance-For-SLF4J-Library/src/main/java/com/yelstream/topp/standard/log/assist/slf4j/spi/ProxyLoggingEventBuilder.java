@@ -57,8 +57,8 @@ public class ProxyLoggingEventBuilder<B extends LoggingEventBuilder> implements 
     }
 
     @Override
-    public LoggingEventBuilder setCause(Throwable throwable) {
-        return delegate.setCause(throwable);
+    public LoggingEventBuilder setCause(Throwable cause) {
+        return delegate.setCause(cause);
     }
 
     @Override
@@ -67,33 +67,33 @@ public class ProxyLoggingEventBuilder<B extends LoggingEventBuilder> implements 
     }
 
     @Override
-    public LoggingEventBuilder addArgument(Object o) {
-        return delegate.addArgument(o);
+    public LoggingEventBuilder addArgument(Object argument) {
+        return delegate.addArgument(argument);
     }
 
     @Override
-    public LoggingEventBuilder addArgument(Supplier<?> supplier) {
-        return delegate.addArgument(supplier);
+    public LoggingEventBuilder addArgument(Supplier<?> argumentSupplier) {
+        return delegate.addArgument(argumentSupplier);
     }
 
     @Override
-    public LoggingEventBuilder addKeyValue(String s, Object o) {
-        return delegate.addKeyValue(s,o);
+    public LoggingEventBuilder addKeyValue(String key, Object value) {
+        return delegate.addKeyValue(key,value);
     }
 
     @Override
-    public LoggingEventBuilder addKeyValue(String s, Supplier<Object> supplier) {
-        return delegate.addKeyValue(s,supplier);
+    public LoggingEventBuilder addKeyValue(String key, Supplier<Object> valueSupplier) {
+        return delegate.addKeyValue(key,valueSupplier);
     }
 
     @Override
-    public LoggingEventBuilder setMessage(String s) {
-        return delegate.setMessage(s);
+    public LoggingEventBuilder setMessage(String message) {
+        return delegate.setMessage(message);
     }
 
     @Override
-    public LoggingEventBuilder setMessage(Supplier<String> supplier) {
-        return delegate.setMessage(supplier);
+    public LoggingEventBuilder setMessage(Supplier<String> messageSupplier) {
+        return delegate.setMessage(messageSupplier);
     }
 
     @Override
@@ -102,27 +102,27 @@ public class ProxyLoggingEventBuilder<B extends LoggingEventBuilder> implements 
     }
 
     @Override
-    public void log(String s) {
-        delegate.log(s);
+    public void log(String message) {
+        delegate.log(message);
     }
 
     @Override
-    public void log(String s, Object o) {
-        delegate.log(s,o);
+    public void log(String message, Object argument) {
+        delegate.log(message,argument);
     }
 
     @Override
-    public void log(String s, Object o, Object o1) {
-        delegate.log(s,o,o1);
+    public void log(String message, Object argument1, Object argument2) {
+        delegate.log(message,argument1,argument2);
     }
 
     @Override
-    public void log(String s, Object... objects) {
-        delegate.log(s,objects);
+    public void log(String message, Object... arguments) {
+        delegate.log(message,arguments);
     }
 
     @Override
-    public void log(Supplier<String> supplier) {
-        delegate.log(supplier);
+    public void log(Supplier<String> messageSupplier) {
+        delegate.log(messageSupplier);
     }
 }

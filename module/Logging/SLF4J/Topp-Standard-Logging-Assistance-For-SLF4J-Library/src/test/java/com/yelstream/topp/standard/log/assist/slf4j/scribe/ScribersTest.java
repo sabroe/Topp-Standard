@@ -17,9 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j.ex;
+package com.yelstream.topp.standard.log.assist.slf4j.scribe;
 
-import com.yelstream.topp.standard.log.assist.slf4j.capture.CaptureLogger;
+import com.yelstream.topp.standard.log.assist.slf4j.logger.capture.CaptureLogger;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

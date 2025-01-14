@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j.ex;
+package com.yelstream.topp.standard.log.assist.slf4j.spi.ex;
 
+import com.yelstream.topp.standard.log.assist.slf4j.spi.ex.LoggingEventBuilderEx;
 import lombok.Getter;
 import org.slf4j.Marker;
 import org.slf4j.spi.LoggingEventBuilder;

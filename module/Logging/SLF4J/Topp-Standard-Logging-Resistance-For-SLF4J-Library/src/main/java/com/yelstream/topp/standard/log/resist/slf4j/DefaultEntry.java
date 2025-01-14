@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.log.resist.slf4j;
 
-import com.yelstream.topp.standard.log.assist.slf4j.ex.Scriber;
-import com.yelstream.topp.standard.log.assist.slf4j.ex.Scribers;
+import com.yelstream.topp.standard.log.assist.slf4j.scribe.Scriber;
+import com.yelstream.topp.standard.log.assist.slf4j.scribe.Scribers;
 import com.yelstream.topp.standard.util.function.AbstractBiAnvil;
 import org.slf4j.spi.LoggingEventBuilder;
 

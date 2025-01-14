@@ -17,14 +17,17 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j.ex;
+package com.yelstream.topp.standard.log.assist.slf4j.scribe;
 
 import com.yelstream.topp.standard.annotator.annotation.meta.Consideration;
+import com.yelstream.topp.standard.log.assist.slf4j.spi.ex.LoggingEventBuilderEx;
+import com.yelstream.topp.standard.log.assist.slf4j.spi.ex.LoggingEventBuilderExAlias;
+import com.yelstream.topp.standard.log.assist.slf4j.spi.ex.LoggingEventBuilderExAliasAggressive;
 import com.yelstream.topp.standard.util.function.BooleanConsumer;
 import org.slf4j.spi.LoggingEventBuilder;
 
 /**
- * Enhanced logging-event builder improving upon the native SLF4J {@link LoggingEventBuilder}.
+ * Enhanced logging-event builder.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -32,31 +35,46 @@ import org.slf4j.spi.LoggingEventBuilder;
  *
  * @param <B> Type of native SLF4J logging-event builder.
  */
-public interface Scriber<B extends LoggingEventBuilder> extends LoggingEventBuilderEx<Scriber<B>>,LoggingEventBuilderExAlias<Scriber<B>>,LoggingEventBuilderExAliasAggressive<Scriber<B>> {
+public interface Scriber<B extends LoggingEventBuilder> extends LoggingEventBuilderEx<Scriber<B>>, LoggingEventBuilderExAlias<Scriber<B>>, LoggingEventBuilderExAliasAggressive<Scriber<B>> {
     /**
      * Gets the enabling of logging.
      * @return Indicates, if logging is enabled.
      */
     boolean isEnabled();
 
+    /**
+     * Passes the enabled state on to a consumer.
+     * @param consumer Consumer of enabled state.
+     * @return This.
+     */
     @Consideration
     default Scriber<B> enabled(BooleanConsumer consumer) {
         consumer.accept(isEnabled());
         return this;
     }
 
+    /**
+     * Runs a task, if this is enabled.
+     * @param task Task.
+     * @return This.
+     */
     @Consideration
-    default Scriber<B> onEnabled(Runnable runnable) {
+    default Scriber<B> onEnabled(Runnable task) {
         if (isEnabled()) {
-            runnable.run();
+            task.run();
         }
         return this;
     }
 
+    /**
+     * Runs a task, if this is disabled.
+     * @param task Task.
+     * @return This.
+     */
     @Consideration
-    default Scriber<B> onDisabled(Runnable runnable) {
+    default Scriber<B> onDisabled(Runnable task) {
         if (!isEnabled()) {
-            runnable.run();
+            task.run();
         }
         return this;
     }

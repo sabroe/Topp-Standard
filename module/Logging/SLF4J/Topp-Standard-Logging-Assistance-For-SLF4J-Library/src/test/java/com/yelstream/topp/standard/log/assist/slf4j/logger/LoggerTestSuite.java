@@ -17,11 +17,19 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.log.assist.slf4j.logger;
+
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+
 /**
- * Enhanced log event creation.
+ * Test suite for {@code com.yelstream.topp.standard.log.assist.slf4j.logger}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-09-19
+ * @since 2024-04-27
  */
-package com.yelstream.topp.standard.log.assist.slf4j.ex;
+@Suite
+@SelectClasses({LoggersTest.class})
+public class LoggerTestSuite {
+}

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j.ex;
+package com.yelstream.topp.standard.log.assist.slf4j.spi.ex;
 
 import org.slf4j.Marker;
 import org.slf4j.spi.LoggingEventBuilder;
@@ -91,7 +91,8 @@ public interface LoggingEventBuilderEx<S extends LoggingEventBuilderEx<S>> {
      * @param value Value.
      * @return Self.
      */
-    S addKeyValue(String key, Object value);
+    S addKeyValue(String key,
+                  Object value);
 
     /**
      * Adds a (key,value) pair.
@@ -102,7 +103,8 @@ public interface LoggingEventBuilderEx<S extends LoggingEventBuilderEx<S>> {
      * @param valueSupplier Supplier of value.
      * @return Self.
      */
-    S addKeyValue(String key, Supplier<Object> valueSupplier);
+    S addKeyValue(String key,
+                  Supplier<Object> valueSupplier);
 
     /**
      * Sets the message.
@@ -149,7 +151,8 @@ public interface LoggingEventBuilderEx<S extends LoggingEventBuilderEx<S>> {
      * @param message Message.
      * @param argument Argument.
      */
-    void log(String message, Object argument);
+    void log(String message,
+             Object argument);
 
     /**
      * Finalizes the logging.
@@ -160,7 +163,9 @@ public interface LoggingEventBuilderEx<S extends LoggingEventBuilderEx<S>> {
      * @param argument1 First argument.
      * @param argument2 Second argument.
      */
-    void log(String message, Object argument1, Object argument2);
+    void log(String message,
+             Object argument1,
+             Object argument2);
 
     /**
      * Finalizes the logging.
@@ -170,7 +175,8 @@ public interface LoggingEventBuilderEx<S extends LoggingEventBuilderEx<S>> {
      * @param message Message.
      * @param arguments Arguments.
      */
-    void log(String message, Object... arguments);
+    void log(String message,
+             Object... arguments);
 
     /**
      * Finalizes the logging.
