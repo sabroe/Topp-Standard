@@ -37,7 +37,7 @@ class ScriberFactoryTest {
     }
 
     /**
-     * Tests the creation of {@link Scriber} instances using {@link Scribers#of(Logger)}.
+     * Tests the creation of {@link Scriber} instances using {@link ScriberFactory#from(Logger)}.
      */
     @Test
     void creationFromLoggerAndLevel() {
