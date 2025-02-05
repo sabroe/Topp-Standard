@@ -17,20 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j.scribe;
+package com.yelstream.topp.standard.log.assist.slf4j.scribe.factory;
 
-import lombok.experimental.UtilityClass;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
- * Factory of {@link Scriber} instances.
+ * Test suite for {@code com.yelstream.topp.standard.log.assist.slf4j.scribe.factory}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-01-12
+ * @since 2025-02-05
  */
-@UtilityClass
-public class ScriberFactory {
-
-    //TO-DO: To be fixed!
-
+@Suite
+@SelectClasses({ScriberFactoryTest.class})
+class ScriberFactoryTestSuite {
 }

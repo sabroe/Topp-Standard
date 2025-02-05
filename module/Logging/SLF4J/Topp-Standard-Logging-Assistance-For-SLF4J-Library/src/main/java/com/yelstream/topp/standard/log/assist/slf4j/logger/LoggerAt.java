@@ -59,32 +59,32 @@ public class LoggerAt<R> implements ActionableAt<R> {
     }
 
     @Override
-    public R atError() {
+    public R error() {
         return resolve(logger.atError());
     }
 
     @Override
-    public R atWarn() {
+    public R warn() {
         return resolve(logger.atWarn());
     }
 
     @Override
-    public R atInfo() {
+    public R info() {
         return resolve(logger.atInfo());
     }
 
     @Override
-    public R atDebug() {
+    public R debug() {
         return resolve(logger.atDebug());
     }
 
     @Override
-    public R atTrace() {
+    public R trace() {
         return resolve(logger.atTrace());
     }
 
     @Override
-    public R atLevel(Level level) {
+    public R level(Level level) {
         return resolve(logger.atLevel(level));
     }
 
