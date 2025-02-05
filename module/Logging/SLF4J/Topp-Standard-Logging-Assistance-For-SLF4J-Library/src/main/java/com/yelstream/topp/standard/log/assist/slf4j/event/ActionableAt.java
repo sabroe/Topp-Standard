@@ -44,8 +44,8 @@ public interface ActionableAt<R> {
      *             Guaranteed to be non-{@code null}.
      *         </p>
      */
-    default R atError() {
-        return atLevel(Level.ERROR);
+    default R error() {
+        return level(Level.ERROR);
     }
 
     /**
@@ -55,8 +55,8 @@ public interface ActionableAt<R> {
      *             Guaranteed to be non-{@code null}.
      *         </p>
      */
-    default R atWarn() {
-        return atLevel(Level.WARN);
+    default R warn() {
+        return level(Level.WARN);
     }
 
     /**
@@ -66,8 +66,8 @@ public interface ActionableAt<R> {
      *             Guaranteed to be non-{@code null}.
      *         </p>
      */
-    default R atInfo() {
-        return atLevel(Level.INFO);
+    default R info() {
+        return level(Level.INFO);
     }
 
     /**
@@ -77,8 +77,8 @@ public interface ActionableAt<R> {
      *             Guaranteed to be non-{@code null}.
      *         </p>
      */
-    default R atDebug() {
-        return atLevel(Level.DEBUG);
+    default R debug() {
+        return level(Level.DEBUG);
     }
 
     /**
@@ -88,9 +88,10 @@ public interface ActionableAt<R> {
      *             Guaranteed to be non-{@code null}.
      *         </p>
      */
-    default R atTrace() {
-        return atLevel(Level.TRACE);
+    default R trace() {
+        return level(Level.TRACE);
     }
+
     /**
      * Gets the actionable associated with the log level specified.
      * @param level Log level.
@@ -99,5 +100,5 @@ public interface ActionableAt<R> {
      *             Guaranteed to be non-{@code null}.
      *         </p>
      */
-    R atLevel(Level level);
+    R level(Level level);
 }

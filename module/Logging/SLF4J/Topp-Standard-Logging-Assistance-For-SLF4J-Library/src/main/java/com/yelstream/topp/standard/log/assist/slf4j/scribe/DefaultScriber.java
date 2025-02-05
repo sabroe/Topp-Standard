@@ -32,7 +32,7 @@ import org.slf4j.spi.LoggingEventBuilder;
  *
  * @param <B> Native SLF4J logging-event builder type.
  */
-public final class DefaultScriber<B extends LoggingEventBuilder> extends AbstractLoggingEventBuilderEx<B,Scriber<B>> implements Scriber<B> {
+final class DefaultScriber<B extends LoggingEventBuilder> extends AbstractLoggingEventBuilderEx<B,Scriber<B>> implements Scriber<B> {
     /**
      * Constructor.
      * @param loggingEventBuilder Native SLF4J logging-event builder.

@@ -66,15 +66,15 @@ class ScribersTest {
     }
 
     /**
-     * Tests the creation of {@link Scriber} instances using {@link Scribers#at(Logger)}.
+     * Tests the creation of {@link Scriber} instances using {@link Scribers#of(Logger)}.
      */
     @Test
     void creationFromLoggerAndLevel() {
         CaptureLogger log=CaptureLogger.of();
 
-        Scribers.of(log).atInfo().setMessage("Hello, {}!").addArgument("World #1").log();
-        Scribers.of(log).atInfo().message("Hello, {}!").arg("World #2").log();
-        Scribers.of(log).atInfo().m("Hello, {}!").a("World #3").l();
+        Scribers.of(log).info().setMessage("Hello, {}!").addArgument("World #1").log();
+        Scribers.of(log).info().message("Hello, {}!").arg("World #2").log();
+        Scribers.of(log).info().m("Hello, {}!").a("World #3").l();
 
         List<String> messages=log.getFormattedMessages();
         Assertions.assertEquals(messages,List.of("Hello, World #1!","Hello, World #2!","Hello, World #3!"));

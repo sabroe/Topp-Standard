@@ -18,20 +18,10 @@
  */
 
 /**
- * Topp Standard Logging Assistance For SLF4J provides utilities specific for SLF4J.
+ * Creation of {@link com.yelstream.topp.standard.log.assist.slf4j.scribe.Scriber} instances.
  *
  * @author Morten Sabroe Mortensen
- * @since 2024-06-18
+ * @version 1.0
+ * @since 2025-02-05
  */
-module com.yelstream.topp.standard.log.assistance.slf4j {
-    requires static lombok;
-    requires org.slf4j;
-    requires com.yelstream.topp.standard.core;
-    requires com.yelstream.topp.standard.annotator;
-    exports com.yelstream.topp.standard.log.assist.slf4j.event;
-    exports com.yelstream.topp.standard.log.assist.slf4j.logger;
-    exports com.yelstream.topp.standard.log.assist.slf4j.scribe;
-    exports com.yelstream.topp.standard.log.assist.slf4j.scribe.factory;
-    exports com.yelstream.topp.standard.log.assist.slf4j.spi;
-    exports com.yelstream.topp.standard.log.assist.slf4j.spi.ex;
-}
+package com.yelstream.topp.standard.log.assist.slf4j.scribe.factory;
