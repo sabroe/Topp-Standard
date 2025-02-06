@@ -19,13 +19,12 @@
 
 package com.yelstream.topp.standard.log.resist.slf4j;
 
-import com.yelstream.topp.standard.log.assist.slf4j.ex.Scriber;
+import com.yelstream.topp.standard.log.assist.slf4j.scribe.Scriber;
 import com.yelstream.topp.standard.util.function.BiAnvil;
 import org.slf4j.spi.LoggingEventBuilder;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Log entry builder.
