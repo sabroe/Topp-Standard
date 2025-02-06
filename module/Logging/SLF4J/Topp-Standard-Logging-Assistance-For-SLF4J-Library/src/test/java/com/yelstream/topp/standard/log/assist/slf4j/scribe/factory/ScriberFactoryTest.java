@@ -3,7 +3,6 @@ package com.yelstream.topp.standard.log.assist.slf4j.scribe.factory;
 import com.yelstream.topp.standard.log.assist.slf4j.logger.LoggerAt;
 import com.yelstream.topp.standard.log.assist.slf4j.logger.capture.CaptureLogger;
 import com.yelstream.topp.standard.log.assist.slf4j.scribe.Scriber;
-import com.yelstream.topp.standard.log.assist.slf4j.scribe.Scribers;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
