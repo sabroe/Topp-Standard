@@ -17,11 +17,14 @@
  * limitations under the License.
  */
 
-/**
- * Enhanced logging-event creation.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2025-01-12
- */
-package com.yelstream.topp.standard.log.assist.slf4j.scribe;
+plugins {
+    id 'java'
+    id 'java-library-distribution'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+}
+
+dependencies {
+//    implementation project(path: ':module:Topp-Standard-Annotator-Library')
+}

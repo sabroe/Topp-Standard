@@ -17,11 +17,28 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.log.assist.slf4j.scribe;
+
+import com.yelstream.topp.standard.log.assist.slf4j.logger.LoggerAt;
+import lombok.experimental.UtilityClass;
+import org.slf4j.Logger;
+import org.slf4j.spi.LoggingEventBuilder;
+
 /**
- * Enhanced logging-event creation.
+ * Utility addressing instances of {@link Scriber}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-01-12
+ * @since 2024-09-26
  */
-package com.yelstream.topp.standard.log.assist.slf4j.scribe;
+@UtilityClass
+public class Scribers {
+
+    public static <B extends LoggingEventBuilder> Scriber<B> of(B loggingEventBuilder) {
+        return DefaultScriber.of(loggingEventBuilder);
+    }
+
+    public static LoggerAt<Scriber<LoggingEventBuilder>> of(Logger logger) {
+        return LoggerAt.of(logger,Scribers::of);
+    }
+}

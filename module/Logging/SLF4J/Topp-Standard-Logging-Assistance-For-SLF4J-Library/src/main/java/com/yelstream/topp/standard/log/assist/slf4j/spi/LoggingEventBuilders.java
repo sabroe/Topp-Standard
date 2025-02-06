@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.log.assist.slf4j.spi;
 
-import com.yelstream.topp.standard.log.assist.slf4j.LoggerAt;
-import com.yelstream.topp.standard.log.assist.slf4j.Loggers;
+import com.yelstream.topp.standard.log.assist.slf4j.logger.LoggerAt;
+import com.yelstream.topp.standard.log.assist.slf4j.logger.Loggers;
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;

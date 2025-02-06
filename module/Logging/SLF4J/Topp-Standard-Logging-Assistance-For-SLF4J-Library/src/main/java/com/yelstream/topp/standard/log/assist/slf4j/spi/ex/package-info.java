@@ -18,10 +18,10 @@
  */
 
 /**
- * Enhanced logging-event creation.
+ * Enhanced logging-event builders.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-01-12
+ * @since 2024-09-19
  */
-package com.yelstream.topp.standard.log.assist.slf4j.scribe;
+package com.yelstream.topp.standard.log.assist.slf4j.spi.ex;
