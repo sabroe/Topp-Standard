@@ -24,7 +24,6 @@ import lombok.experimental.UtilityClass;
 
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Objects;
@@ -45,17 +44,26 @@ public class ObjectNames {
     }
 
     /**
-     * Joins two object names symmetrically, ensuring the result is the same regardless of argument order.
-     *
-     * @param a The first ObjectName (must not be null).
-     * @param b The second ObjectName (must not be null).
+     * Find the most specific subset of key-value pairs common to two maps.
+     * Keep entries where both maps have the same key and value, ignoring pattern values.
+     * <p>
+     * Strict and symmetric.
+     * </p>
+     * @param a First name.
+     *          <p>
+     *              Must not be {@code null}.
+     *          </p>
+     * @param b Second name.
+     *          <p>
+     *              Must not be {@code null}.
+     *          </p>
      * @return A new ObjectName containing merged properties.
      * @throws MalformedObjectNameException If the resulting ObjectName is invalid.
      * @throws IllegalArgumentException     If the ObjectNames cannot be joined due to conflicting rules.
      */
-    public ObjectName join(ObjectName a, ObjectName b) throws MalformedObjectNameException {
-        Objects.requireNonNull(a, String.format("Failure to join; first object name must be set."));
-        Objects.requireNonNull(b, String.format("Failure to join; second object name must be set."));
+    public static ObjectName intersect(ObjectName a, ObjectName b) throws MalformedObjectNameException {
+        Objects.requireNonNull(a,"Failure to join; first name must be set.");
+        Objects.requireNonNull(b,"Failure to join; second name must be set.");
 
         String domain = chooseDomain(a.getDomain(), b.getDomain());
 
@@ -69,7 +77,6 @@ public class ObjectNames {
             String bValue = bProps.get(key);
 
             if (bValue == null) {
-                // Add key if b is a property-list-pattern
                 if (b.isPropertyListPattern()) {
                     properties.put(key, aValue);
                 } else {
@@ -87,9 +94,17 @@ public class ObjectNames {
             }
         }
 
+/*
         for (String key : bProps.keySet()) {
             if (!properties.containsKey(key)) {
-                // Add key if a is a property-list-pattern
+                if (a.isPropertyListPattern()) {
+                    properties.put(key, bProps.get(key));
+                }
+            }
+        }
+*/
+        for (String key : bProps.keySet()) {
+            if (!aProps.containsKey(key)) {
                 if (a.isPropertyListPattern()) {
                     properties.put(key, bProps.get(key));
                 }
@@ -134,56 +149,78 @@ public class ObjectNames {
     }
 
 
-    /**
-     * Joins two object names symmetrically, ensuring the result is the same regardless of argument order.
-     *
-     * @param a The first ObjectName (must not be null).
-     * @param b The second ObjectName (must not be null).
-     * @return A new ObjectName containing merged properties.
-     * @throws MalformedObjectNameException If the resulting ObjectName is invalid.
-     * @throws IllegalArgumentException     If the ObjectNames cannot be joined due to conflicting rules.
-     */
-    private static Map<String,String> joinProperties(ObjectName a, ObjectName b) throws MalformedObjectNameException {
-        Objects.requireNonNull(a,String.format("Failure to join; first object name must be set."));
-        Objects.requireNonNull(b,String.format("Failure to join; second object name must be set."));
 
-        Map<String,String> properties=new HashMap<>();
 
-        Map<String,String> aProps=a.getKeyPropertyList();
-        Map<String,String> bProps=b.getKeyPropertyList();
 
-        for (String key: aProps.keySet()) {
-            String aValue=aProps.get(key);
-            String bValue=bProps.get(key);
+/* Types of "Join-ish" Operations
+Intersection (Strict Join, Symmetric)
+	"org.apache.activemq:type=Broker,*" + "org.apache.activemq:type=Broker,destinationType=Queue" → "org.apache.activemq:type=Broker,destinationType=Queue"
+		Produces the most specific non-pattern possible from both names. Strict and symmetric.
 
-            if (bValue==null) {
-                // Add key if b is a property-list-pattern
-                if (b.isPropertyListPattern()) {
-                    properties.put(key, aValue);
-                } else {
-                    properties.put(key, aValue);
-                }
-            } else if (aValue.equals("*")) {
-                properties.put(key, bValue);
-            } else if (bValue.equals("*")) {
-                properties.put(key, aValue);
-            } else if (aValue.equals(bValue)) {
-                properties.put(key, aValue);
-            } else {
-                throw new IllegalArgumentException("Conflicting values for key '" + key + "': "
-                        + aValue + " vs " + bValue);
-            }
-        }
 
-        for (String key : bProps.keySet()) {
-            if (!properties.containsKey(key)) {
-                // Add key if a is a property-list-pattern
-                if (a.isPropertyListPattern()) {
-                    properties.put(key, bProps.get(key));
-                }
-            }
-        }
+Generalized Composition (Non-Symmetric Expansion)
+	"org.apache.activemq:type=Broker,*" + "org.apache.activemq:type=Broker,destinationType=Queue" → "org.apache.activemq:type=Broker,destinationType=Queue,*"
+		Expands an existing pattern to accommodate a more specific name while keeping it a pattern.
 
-        return properties;
-    }
+
+Cumulative Composition (Pattern Accumulation)
+	"org.apache.activemq:type=Broker,*" → "org.apache.activemq:type=Broker,destinationType=Queue,*" → "org.apache.activemq:type=Broker,destinationType=Queue,destinationName=XXX,*"
+		A series of compositions where each new key-value pair gets added while preserving wildcard expandability.
+
+
+Finalization (Closing the Pattern)
+	"org.apache.activemq:type=Broker,destinationType=Queue,destinationName=XXX,*" → "org.apache.activemq:type=Broker,destinationType=Queue,destinationName=XXX"
+		Removes all pattern symbols (*), finalizing a fully specific name.
+
+
+Subsetting (Partial Projection)
+	"org.apache.activemq:type=Broker,destinationType=Queue,destinationName=XXX" → "org.apache.activemq:type=Broker,destinationType=Queue"
+		Removes some keys to get a less specific but still valid name.
+
+
+Generalization (Pattern Relaxation)
+	"org.apache.activemq:type=Broker,destinationType=Queue,destinationName=XXX" → "org.apache.activemq:type=Broker,destinationType=Queue,*"
+		Expands an existing specific name back into a pattern by reintroducing *.
+
+
+Merging (Union-like Combination)
+	"org.apache.activemq:type=Broker,destinationType=Queue" + "org.apache.activemq:type=Broker,destinationName=XXX" → "org.apache.activemq:type=Broker,destinationType=Queue,destinationName=XXX"
+		Combines non-overlapping key-value pairs, creating a merged form.
+
+
+ */
+
+
+/* Defining the Operations on Map<K, V>
+
+Intersection (Strict Join)
+	Find the most specific subset of key-value pairs common to two maps.
+		Keep entries where both maps have the same key and value, ignoring pattern values.
+
+Generalized Composition
+	Expand an existing pattern to include a new specific key-value pair.
+	If Predicate<K> or Predicate<V> matches a wildcard, extend it with the new entry.
+
+Sequential Composition
+	Apply multiple expansions step by step.
+		Process a list of maps iteratively, merging only valid expansions.
+
+Finalization (Closing the Pattern)
+	Remove all wildcards and turn the map into a concrete key-value set.
+		Strip out * entries and replace them with fixed values.
+
+Subsetting (Projection)
+	Remove some keys or values based on a condition.
+		Filter the map using a Predicate<K> or Predicate<V>.
+
+Generalization (Pattern Relaxation)
+	Convert a fixed name back into a pattern.
+		Replace certain values with * based on a Predicate<V>.
+
+Merging (Union-like Combination)
+	Merge maps without overriding existing values.
+		Combine key-values while allowing patterns to absorb new values.
+
+ */
+
 }

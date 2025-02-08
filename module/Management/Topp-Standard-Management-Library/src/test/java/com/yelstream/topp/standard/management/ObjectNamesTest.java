@@ -34,46 +34,56 @@ import javax.management.ObjectName;
  */
 class ObjectNamesTest {
     /**
-     * Verifies that a property-value pattern and a compatible non-pattern can be joined.
+     * Tests {@link ObjectNames#intersect(ObjectName, ObjectName)};
+     * verifies that a property-value pattern and a compatible non-pattern can be joined.
+     * Verifies symmetry.
      */
     @Test
-    void joinPropertyValuePatternWithCompatibleNonPattern() throws MalformedObjectNameException {
+    void intersectPropertyValuePatternWithCompatibleNonPattern() throws MalformedObjectNameException {
         ObjectName a=new ObjectName("org.apache.activemq:type=Broker,brokerName=*");
         ObjectName b=new ObjectName("org.apache.activemq:type=Broker,brokerName=myBroker");
 
         Assertions.assertTrue(a.isPropertyValuePattern());
         Assertions.assertFalse(b.isPattern());
 
-        ObjectName c1=ObjectNames.join(a,b);
+        ObjectName c1=ObjectNames.intersect(a,b);
         Assertions.assertEquals(ObjectName.getInstance("org.apache.activemq:type=Broker,brokerName=myBroker"),c1);
+        Assertions.assertFalse(c1.isPattern());
 
-        ObjectName c2=ObjectNames.join(b,a);
+        ObjectName c2=ObjectNames.intersect(b,a);
         Assertions.assertEquals(c1,c2);
+        Assertions.assertFalse(c2.isPattern());
     }
 
     /**
-     * Verifies that a property-list pattern and a compatible non-pattern can be joined.
+     * Tests {@link ObjectNames#intersect(ObjectName, ObjectName)};
+     * verifies that a property-list pattern and a compatible non-pattern can be joined.
+     * Verifies symmetry.
      */
     @Test
-    void joinPropertyListPatternWithCompatibleNonPattern() throws MalformedObjectNameException {
+    void intersectPropertyListPatternWithCompatibleNonPattern() throws MalformedObjectNameException {
         ObjectName a=new ObjectName("org.apache.activemq:type=Broker,*");
         ObjectName b=new ObjectName("org.apache.activemq:type=Broker,destinationType=Queue");
 
         Assertions.assertTrue(a.isPropertyListPattern());
         Assertions.assertFalse(b.isPattern());
-
-        ObjectName c1=ObjectNames.join(a,b);
+        
+        ObjectName c1=ObjectNames.intersect(a,b);
         Assertions.assertEquals(ObjectName.getInstance("org.apache.activemq:type=Broker,destinationType=Queue"),c1);
+        Assertions.assertFalse(c1.isPattern());
 
-        ObjectName c2=ObjectNames.join(b,a);
+        ObjectName c2=ObjectNames.intersect(b,a);
         Assertions.assertEquals(c1,c2);
+        Assertions.assertFalse(c2.isPattern());
     }
 
     /**
-     * Verifies that a property-list pattern and an incompatible non-pattern can be joined.
+     * Tests {@link ObjectNames#intersect(ObjectName, ObjectName)};
+     * verifies that a property-list pattern and an incompatible non-pattern can be joined.
+     * Verifies symmetry.
      */
     @Test
-    void joinPropertyListPatternWithIncompatibleNonPattern() throws MalformedObjectNameException {
+    void intersectPropertyListPatternWithIncompatibleNonPattern() throws MalformedObjectNameException {
         ObjectName a=new ObjectName("org.apache.activemq:type=Broker,*");
         ObjectName b=new ObjectName("org.apache.activemq:type=NonBroker,destinationType=Queue");
 
@@ -81,19 +91,21 @@ class ObjectNamesTest {
         Assertions.assertFalse(b.isPattern());
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            ObjectNames.join(a,b);
+            ObjectNames.intersect(a,b);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            ObjectNames.join(b,a);
+            ObjectNames.intersect(b,a);
         });
     }
 
     /**
-     * Verifies that a non-pattern and a non-pattern cannot be joined.
+     * Tests {@link ObjectNames#intersect(ObjectName, ObjectName)};
+     * verifies that two non-patterns with different key-value values cannot be joined.
+     * Verifies symmetry.
      */
     @Test
-    void joinNonPatternWithNonPattern() throws MalformedObjectNameException {
+    void intersectNonPatternsWithDifferentValues() throws MalformedObjectNameException {
         ObjectName a=new ObjectName("org.apache.activemq:type=Broker,brokerName=anotherBroker");
         ObjectName b=new ObjectName("org.apache.activemq:type=Broker,brokerName=myBroker");
 
@@ -101,11 +113,34 @@ class ObjectNamesTest {
         Assertions.assertFalse(b.isPattern());
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            ObjectNames.join(a,b);
+            ObjectNames.intersect(a,b);
         });
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            ObjectNames.join(b,a);
+            ObjectNames.intersect(b,a);
         });
+    }
+
+    /**
+     * Tests {@link ObjectNames#intersect(ObjectName, ObjectName)};
+     * verifies that two non-patterns with different key-value keys cannot be joined.
+     * Verifies symmetry.
+     */
+    @Test
+    void intersectNonPatternsWithDifferentKeys() throws MalformedObjectNameException {
+        ObjectName a=new ObjectName("org.apache.activemq:type=Broker,destinationType=Queue");
+        ObjectName b=new ObjectName("org.apache.activemq:type=Broker,destinationName=XXX");
+
+        Assertions.assertFalse(a.isPattern());
+        Assertions.assertFalse(b.isPattern());
+
+
+        ObjectName c1=ObjectNames.intersect(a,b);
+        Assertions.assertEquals(ObjectName.getInstance("org.apache.activemq:type=Broker"),c1);
+        Assertions.assertFalse(c1.isPattern());
+
+        ObjectName c2=ObjectNames.intersect(b,a);
+        Assertions.assertEquals(c1,c2);
+        Assertions.assertFalse(c2.isPattern());
     }
 }
