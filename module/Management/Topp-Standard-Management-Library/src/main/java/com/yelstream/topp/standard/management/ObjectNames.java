@@ -30,6 +30,9 @@ import java.util.Objects;
 
 /**
  * Utilities for object names for MBeans.
+ * <p>
+ *     Note: Beware that functionalities beyond basic creation and builder is WIP!
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -37,10 +40,106 @@ import java.util.Objects;
  */
 @UtilityClass
 public class ObjectNames {
+    /**
+     * Creates a new object name as a property-list pattern.
+     * @param domain Domain.
+     *               <p>
+     *                   Must not be {@code null}.
+     *               </p>
+     * @return Created object name.
+     * @throws MalformedObjectNameException Thrown in case of a malformed object name.
+     */
+    public static ObjectName createObjectNameByDomain(String domain) throws MalformedObjectNameException {
+        Objects.requireNonNull(domain,"Failure to create object name; domain must be set!");
+        return new ObjectName(domain+":*");
+    }
+
+    /**
+     * Creates a new object name.
+     * @param domain Domain.
+     *               <p>
+     *                   Must not be {@code null}.
+     *               </p>
+     * @param properties Properties.
+     *                   <p>
+     *                     This may be {@code null}.
+     *                   </p>
+     * @return Created object name.
+     * @throws MalformedObjectNameException Thrown in case of a malformed object name.
+     */
+    public static ObjectName createObjectName(String domain,
+                                              Map<String,String> properties) throws MalformedObjectNameException {
+        Objects.requireNonNull(domain,"Failure to create object name; domain must be set!");
+        ObjectName name;
+        if (properties==null || properties.isEmpty()) {
+            name=createObjectNameByDomain(domain);
+        } else {
+            name=new ObjectName(domain,new Hashtable<>(properties));
+        }
+        return name;
+    }
+
+    /**
+     * Creates a new object name.
+     * @param domain Domain.
+     *               <p>
+     *                   Must not be {@code null}.
+     *               </p>
+     * @param properties Properties.
+     *                   <p>
+     *                     This may be {@code null}.
+     *                   </p>
+     * @param propertyListPattern Indicates, if created object name should be a property list pattern.
+     * @return Created object name.
+     * @throws MalformedObjectNameException Thrown in case of a malformed object name.
+     */
     @lombok.Builder(builderClassName="Builder")
-    private ObjectName createObjectName(String domain,
-                                        @Singular Map<String,String> properties) throws MalformedObjectNameException {
-        return new ObjectName(domain,new Hashtable<>(properties));
+    public static ObjectName createObjectName(String domain,
+                                              @Singular Map<String,String> properties,
+                                              boolean propertyListPattern) throws MalformedObjectNameException {
+        ObjectName name=createObjectName(domain,properties);
+        if (propertyListPattern) {
+            name=ensurePropertyListPattern(name);
+        }
+        return name;
+    }
+
+    /**
+     * Ensures that an object name is a property-list pattern.
+     * @param name Object name.
+     *             This may or may not be a property-list pattern.
+     * @return Object name as a property-list pattern.
+     * @throws MalformedObjectNameException Thrown in case of a malformed object name.
+     */
+    public static ObjectName ensurePropertyListPattern(ObjectName name) throws MalformedObjectNameException {
+        if (!name.isPropertyListPattern()) {
+            StringBuilder sb=new StringBuilder();
+            sb.append(name.getKeyPropertyListString());
+            if (!sb.isEmpty()) {
+                sb.append(",");
+            }
+            sb.append("*");
+            name=new ObjectName(name.getDomain()+":"+sb);
+        }
+        return name;
+    }
+
+    public static class Builder {
+        public Builder domainPattern() {
+            return domain("*");
+        }
+
+        public Builder keyPattern(String propertyKey) {
+            return property(propertyKey,"*");
+        }
+
+        public Builder valuePattern(String propertyKey) {
+            return property(propertyKey,"*");
+        }
+
+        public Builder propertyPattern() {
+            return propertyListPattern(true);
+        }
     }
 
     /**
@@ -62,8 +161,8 @@ public class ObjectNames {
      * @throws IllegalArgumentException     If the ObjectNames cannot be joined due to conflicting rules.
      */
     public static ObjectName intersect(ObjectName a, ObjectName b) throws MalformedObjectNameException {
-        Objects.requireNonNull(a,"Failure to join; first name must be set.");
-        Objects.requireNonNull(b,"Failure to join; second name must be set.");
+        Objects.requireNonNull(a,"Failure to join; first name must be set!");
+        Objects.requireNonNull(b,"Failure to join; second name must be set!");
 
         String domain = chooseDomain(a.getDomain(), b.getDomain());
 
@@ -222,5 +321,84 @@ Merging (Union-like Combination)
 		Combine key-values while allowing patterns to absorb new values.
 
  */
+
+
+
+
+
+
+
+    /*private*/ static void contract(ObjectName a,
+                                 ObjectName b,
+                                 Map<String,String> map,
+                                 String key) {
+        String aValue = a.getKeyProperty(key);
+        String bValue = b.getKeyProperty(key);
+
+        if (aValue == null && bValue == null) {
+            map.remove(key);
+            return;
+        }
+
+        if ("*".equals(aValue) && bValue != null) {
+            map.put(key, bValue);
+        } else if ("*".equals(bValue) && aValue != null) {
+            map.put(key, aValue);
+        } else if (aValue != null && aValue.equals(bValue)) {
+            map.put(key, aValue);
+        } else {
+            map.remove(key);
+        }
+    }
+
+    /*private*/ static void expand(ObjectName a,
+                               ObjectName b,
+                               Map<String,String> map,
+                               String key) {
+        String aValue = a.getKeyProperty(key);
+        String bValue = b.getKeyProperty(key);
+
+        if ("*".equals(aValue) || "*".equals(bValue) || (aValue != null && bValue != null && !aValue.equals(bValue))) {
+            map.put(key, "*");
+        } else if (aValue != null) {
+            map.put(key, aValue);
+        } else if (bValue != null) {
+            map.put(key, bValue);
+        }
+    }
+
+
+
+
+    /*private*/ static void expand1(ObjectName a,
+                                    ObjectName b,
+                                    Map<String,String> map,
+                                    String key) {
+        String aValue = a.getKeyProperty(key);
+        String bValue = b.getKeyProperty(key);
+
+        boolean aPattern = a.isPropertyListPattern();
+        boolean bPattern = b.isPropertyListPattern();
+
+        if (aValue == null && bValue == null) {
+            return;
+        }
+
+        if ("*".equals(aValue) || "*".equals(bValue) ||
+                (aValue != null && bValue != null && !aValue.equals(bValue))) {
+            map.put(key, "*");
+        }
+        else if (aValue != null && bValue == null && bPattern) {
+            map.put(key, aValue);
+        }
+        else if (bValue != null && aValue == null && aPattern) {
+            map.put(key, bValue);
+        }
+        else if (aValue != null) {
+            map.put(key, aValue);
+        }
+    }
+
+
 
 }
