@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
  * Provides operations on maps with pattern-based merging and filtering.
  * Patterns are identified using key and value predicates.
  */
-public class PatternAwareMap<K, V> {
+/*public*/ class PatternAwareMap<K, V> {  //TODO: For inspiration to object-name operations! Not to keep! MSM, 2025-02-09!
 
     private final Predicate<K> keyPatternPredicate;
     private final Predicate<V> valuePatternPredicate;
