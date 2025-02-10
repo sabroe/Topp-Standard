@@ -43,4 +43,6 @@ module com.yelstream.topp.standard.core {
     exports com.yelstream.topp.standard.util.function.ex;
     exports com.yelstream.topp.standard.util.regex;
     exports com.yelstream.topp.standard.util.stream;
+    exports com.yelstream.topp.standard.lang.process;
+    exports com.yelstream.topp.standard.lang.process.builder;
 }
