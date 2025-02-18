@@ -19,5 +19,6 @@
 
 package com.yelstream.topp.standard.text;
 
-public class Indentation {
+public class Frame {
+
 }

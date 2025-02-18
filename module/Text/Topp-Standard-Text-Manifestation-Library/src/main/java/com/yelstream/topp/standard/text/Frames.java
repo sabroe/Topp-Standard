@@ -19,5 +19,25 @@
 
 package com.yelstream.topp.standard.text;
 
-public class Indentation {
+import lombok.experimental.UtilityClass;
+
+import java.util.List;
+
+@UtilityClass
+public class Frames {
+
+
+    public static String toDecoratedMessage(List<String> lines) {  //TODO: Fix this! Method kept for inspiration!
+        StringBuilder sb=new StringBuilder();
+        sb.append("-----BEGIN IATA RP1745 MESSAGE -----");
+        sb.append("\n");
+        for (String line: lines) {
+            sb.append(line);
+            sb.append("\n");
+        }
+        sb.append("-----END IATA RP1745 MESSAGE -----");
+        return sb.toString();
+    }
+
+
 }
