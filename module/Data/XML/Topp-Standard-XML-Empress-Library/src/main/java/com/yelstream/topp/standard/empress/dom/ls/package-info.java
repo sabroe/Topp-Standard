@@ -18,6 +18,7 @@
  */
 
 /**
+ * Functionalities for input sources for data.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
