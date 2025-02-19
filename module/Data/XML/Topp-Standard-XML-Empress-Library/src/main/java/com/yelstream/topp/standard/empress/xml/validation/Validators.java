@@ -17,7 +17,18 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.text;
+package com.yelstream.topp.standard.empress.xml.validation;
 
-public class RegularExpressions {
+import lombok.experimental.UtilityClass;
+
+import javax.xml.validation.Validator;
+
+/**
+ * Utility addressing instances of {@link Validator}.
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-02-19
+ */
+@UtilityClass
+public class Validators {
 }

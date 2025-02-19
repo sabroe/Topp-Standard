@@ -30,7 +30,7 @@ import java.io.InputStream;
 import java.io.Reader;
 
 /**
- *
+ * Basic, simple input source for data.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -41,35 +41,59 @@ import java.io.Reader;
 @lombok.Builder(builderClassName="Builder",toBuilder=true)
 @SuppressWarnings("LombokSetterMayBeUsed")
 @ToString
-public final class SimpleLSInput implements LSInput {
+public final class BasicLSInput implements LSInput {
+    /**
+     * Provides access to the source as text.
+     */
     @Getter
     @Setter
     private Reader characterStream;
 
+    /**
+     * Provides access to the source as binary data.
+     */
     @Getter
     @Setter
     private InputStream byteStream;
 
+    /**
+     * The source as explicit text.
+     */
     @Getter
     @Setter
     private String stringData;
 
+    /**
+     * System id.
+     */
     @Getter
     @Setter
     private String systemId;
 
+    /**
+     * Public id.
+     */
     @Getter
     @Setter
     private String publicId;
 
+    /**
+     * Base URI.
+     */
     @Getter
     @Setter
     private String baseURI;
 
+    /**
+     * Character encoding used to interpret the binary data.
+     */
     @Getter
     @Setter
     private String encoding;
 
+    /**
+     * Indicates, if the input from the source is certified.
+     */
     @Setter
     private boolean certifiedText;
 

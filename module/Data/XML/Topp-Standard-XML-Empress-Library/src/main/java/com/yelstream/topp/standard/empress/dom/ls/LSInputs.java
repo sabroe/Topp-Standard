@@ -20,11 +20,49 @@
 package com.yelstream.topp.standard.empress.dom.ls;
 
 import lombok.experimental.UtilityClass;
+import org.w3c.dom.ls.LSInput;
 
+import java.io.InputStream;
+import java.io.Reader;
+
+/**
+ * Utilities addressing input sources for data.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-02-13
+ */
 @UtilityClass
 public class LSInputs {
+    public static LSInput createLSInput(Reader characterStream,
+                                        InputStream byteStream,
+                                        String stringData,
+                                        String systemId,
+                                        String publicId,
+                                        String baseURI,
+                                        String encoding,
+                                        boolean certifiedText) {
+        return null; //TO-DO: Fix!§
+    }
 
-    //simple create!
+    public static LSInput createImmutableLSInput(Reader characterStream,
+                                                 InputStream byteStream,
+                                                 String stringData,
+                                                 String systemId,
+                                                 String publicId,
+                                                 String baseURI,
+                                                 String encoding,
+                                                 boolean certifiedText) {
+        return null; //TO-DO: Fix!§
+    }
 
-    //immutable version!
+
+    public static LSInput createImmutableLSInput(LSInput input) {
+        return null; //TO-DO: Fix!§
+    }
+
+
+    public static LSInput immutable() {
+        return null; //TO-DO: Fix!§
+    }
 }

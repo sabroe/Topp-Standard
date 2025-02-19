@@ -17,7 +17,20 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.text;
+package com.yelstream.topp.standard.empress.dom.ls;
 
-public class RegularExpressions {
+import lombok.experimental.UtilityClass;
+
+/**
+ * Utilities addressing resolvers of input sources for data
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-02-13
+ */
+@UtilityClass
+public class LSResourceResolvers {
+
+    //TO-DO: Fix!
+
 }
