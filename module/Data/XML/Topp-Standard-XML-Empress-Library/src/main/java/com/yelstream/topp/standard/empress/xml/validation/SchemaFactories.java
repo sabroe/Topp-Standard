@@ -20,9 +20,11 @@
 package com.yelstream.topp.standard.empress.xml.validation;
 
 import lombok.experimental.UtilityClass;
+import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.validation.SchemaFactory;
+import java.util.Objects;
 
 /**
  * Utility addressing instances of {@link SchemaFactory}.
@@ -37,6 +39,36 @@ public class SchemaFactories {
      * @return Schema factory.
      */
     public static SchemaFactory createSchemaFactory() {
-        return SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        SchemaFactory factory=SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        disableExternalAccess(factory);
+        return factory;
+    }
+
+    /**
+     * Creates a schema factory.
+     * @param enableExternalAccess Indicates, if external access is to be enabled.
+     * @return Schema factory.
+     */
+    @SuppressWarnings("java:S2755")
+    public static SchemaFactory createSchemaFactory(boolean enableExternalAccess) {
+        SchemaFactory factory=SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        if (!enableExternalAccess) {
+            disableExternalAccess(factory);
+        }
+        return factory;
+    }
+
+    /**
+     * Disables access to external entities and schemas.
+     * @param factory Schema factory.
+     */
+    public static void disableExternalAccess(SchemaFactory factory) {
+        Objects.requireNonNull(factory);
+        try {
+            factory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            factory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        } catch (SAXException ex) {
+            throw new IllegalStateException("Failure to create schema-factory!",ex);
+        }
     }
 }
