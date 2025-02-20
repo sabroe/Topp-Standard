@@ -23,8 +23,29 @@ import lombok.experimental.UtilityClass;
 
 import java.util.List;
 
+/**
+ * Utility addressing {@link Frame} instances.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-02-20
+ */
 @UtilityClass
 public class Frames {
+
+
+/*
+——-BEGIN CERTIFICATE——-
+——-END CERTIFICATE——-
+——-BEGIN CERTIFICATE——-
+——-END CERTIFICATE——-
+——-BEGIN CERTIFICATE——-
+——-END CERTIFICATE——-
+
+-----BEGIN RSA PRIVATE KEY-----
+-----END RSA PRIVATE KEY-----
+*/
+
 
 
     public static String toDecoratedMessage(List<String> lines) {  //TODO: Fix this! Method kept for inspiration!

@@ -19,5 +19,51 @@
 
 package com.yelstream.topp.standard.text;
 
-public class LineBreak {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.List;
+
+/**
+ * Textual line break.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-02-13
+ */
+@AllArgsConstructor
+@Getter
+public enum LineBreak {  //TO-DO: Consider splitting into enum 'StandardLineBreak' and class 'LineBreak'; does it have any value?
+    /**
+     * Line Feed (Unix, Linux, macOS).
+     */
+    LF("\n"),
+
+    /**
+     * Carriage Return + Line Feed (Windows).
+     */
+    CRLF("\r\n"),
+
+    /**
+     * Carriage Return (Older Mac).
+     */
+    CR("\r");
+
+    private final String pattern;
+
+    public boolean matches(String line) {  //TO-DO: Consider the sanity of this! Naming 'matches' -> 'ends'? Useful?
+        return line.endsWith(pattern);
+    }
+
+    public String normalize(String text) {
+        return text.replaceAll("\\R",pattern);
+    }
+
+    public List<String> split(String text) {
+        return List.of(text.split(pattern));
+    }
+
+    public String join(List<String> lines) {
+        return String.join(pattern,lines);
+    }
 }
