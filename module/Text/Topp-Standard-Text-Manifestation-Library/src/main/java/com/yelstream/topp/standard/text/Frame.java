@@ -19,6 +19,46 @@
 
 package com.yelstream.topp.standard.text;
 
-public class Frame {
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
+import java.util.function.UnaryOperator;
+
+/**
+ * Textual frame to decorate a section of multi-line text with a start line and an end line.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-02-20
+ */
+@AllArgsConstructor
+public class Frame {
+    /**
+     *
+     */
+    private final Section section;
+
+    /**
+     * Text transformation.
+     */
+    private final UnaryOperator<String> transform;
+
+    @Getter
+    @ToString
+    @AllArgsConstructor
+    public static class Section {
+        private final String begin;
+        private final String end;
+    }
+
+    public String format(String text) {
+        StringBuilder sb=new StringBuilder();
+        sb.append(section.begin);
+        sb.append("\n");
+        sb.append(transform.apply(text));
+        sb.append("\n");
+        return sb.toString();
+    }
 }

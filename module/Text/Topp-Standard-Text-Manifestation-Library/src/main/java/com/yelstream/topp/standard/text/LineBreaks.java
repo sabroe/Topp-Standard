@@ -19,5 +19,25 @@
 
 package com.yelstream.topp.standard.text;
 
+import lombok.experimental.UtilityClass;
+
+/**
+ * Textual line break.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-02-13
+ */
+@UtilityClass
 public class LineBreaks {
+
+    public static final LineBreak DEFAULT_LINE_BREAK=LineBreak.LF;
+
+    public static boolean matches(String line) {
+        return DEFAULT_LINE_BREAK.matches(line);
+    }
+
+    public static String normalize(String text) {
+        return DEFAULT_LINE_BREAK.normalize(text);
+    }
 }

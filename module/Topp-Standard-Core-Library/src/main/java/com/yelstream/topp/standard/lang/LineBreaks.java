@@ -29,7 +29,7 @@ import lombok.experimental.UtilityClass;
  * @since 2025-02-13
  */
 @UtilityClass
-public class LineBreaks {
+public class LineBreaks { //TO-DO: Remove this from 'com.yelstream.topp.standard.lang', please! Duplicate. MSM, 2025-02-20.
 
     public static LineBreak DEFAULT_LINE_BREAK=LineBreak.LF;
 

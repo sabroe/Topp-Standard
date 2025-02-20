@@ -31,7 +31,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public enum LineBreak {
+public enum LineBreak { //TO-DO: Remove this from 'com.yelstream.topp.standard.lang', please! Duplicate. MSM, 2025-02-20.
     /**
      * Line Feed (Unix, Linux, macOS).
      */
