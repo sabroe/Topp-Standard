@@ -117,6 +117,10 @@ public final class Text {
         public Builder prependText(Text text) {
             return prependLines(text.lines);  //Yes, ignore 'text.getLineBreak()', pick the lines only!
         }
+
+        public Text build() {
+            return new Text(List.copyOf(lines),this.lineBreak$value);
+        }
     }
 
     public static Text of(String text,
