@@ -1,3 +1,22 @@
+/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024-2025 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.yelstream.topp.standard.text;
 
 import lombok.AllArgsConstructor;
@@ -7,6 +26,9 @@ import lombok.Singular;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.UnaryOperator;
+import java.util.stream.IntStream;
 
 /**
  * Multiline text block.
@@ -62,6 +84,40 @@ public final class Text {
 
     public Text replace(LineBreak lineBreak) {
         return toBuilder().lineBreak(lineBreak).build();
+    }
+
+    /**
+     * Transform each line individually.
+     * This creates a new text block.
+     * @param operator Transforms a single line.
+     * @return Created text block.
+     */
+    public Text map(UnaryOperator<String> operator) {
+        List<String> newLines=lines.stream().map(operator).toList();
+        return toBuilder().lines(List.copyOf(newLines)).build();
+    }
+
+    /**
+     * Transform each indexed line individually.
+     * This creates a new text block.
+     * @param operator Transforms a single line.
+     *                 Index starts at zero.
+     * @return Created text block.
+     */
+    public Text map(BiFunction<Integer,String,String> operator) {
+        List<String> newLines=IntStream.range(0,lines.size()).mapToObj(i->operator.apply(i,lines.get(i))).toList();
+        return toBuilder().lines(List.copyOf(newLines)).build();
+    }
+
+    /**
+     * Transforms the entire list of lines at once.
+     * This creates a new text block.
+     * @param operator Transforms the entire list of lines.
+     * @return Created text block.
+     */
+    public Text adjust(UnaryOperator<List<String>> operator) {
+        List<String> newLines=List.copyOf(operator.apply(lines));
+        return toBuilder().lines(newLines).build();
     }
 
     public Text append(Text text) {

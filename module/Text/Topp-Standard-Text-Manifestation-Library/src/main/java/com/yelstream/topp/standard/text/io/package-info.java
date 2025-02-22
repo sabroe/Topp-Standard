@@ -24,4 +24,4 @@
  * @version 1.0
  * @since 2025-02-21
  */
-package com.yelstream.topp.standard.text;
+package com.yelstream.topp.standard.text.io;

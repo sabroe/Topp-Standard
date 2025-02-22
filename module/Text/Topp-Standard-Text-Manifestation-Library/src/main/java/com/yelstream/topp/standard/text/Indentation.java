@@ -19,5 +19,51 @@
 
 package com.yelstream.topp.standard.text;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+/**
+ * Indentation of a single line of text.
+ * <p>
+ *     This is immutable.
+ * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-02-21
+ */
+@AllArgsConstructor
+@SuppressWarnings("LombokGetterMayBeUsed")
 public class Indentation {
+    /**
+     *
+     */
+    @Getter
+    private final BiFunction<Integer,String,String> operator;  //TO-DO: Change this to a label-generator!
+
+    /**
+     *
+     */
+/*
+    @Getter
+    private final BiFunction<Integer,String,String> operator;  //TO-DO: Change this to a label-generator!
+*/
+
+/*
+    @Override
+    public String apply(Integer index,
+                        String line) {
+        return operator.apply(index,line);  //TO-DO: Change this to an operation prepending a new label to a line.
+    }
+*/
+
+/*
+    @Override
+    public String apply(Integer integer) {
+        return null;
+    }
+*/
 }

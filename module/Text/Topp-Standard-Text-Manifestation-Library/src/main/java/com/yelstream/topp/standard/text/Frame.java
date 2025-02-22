@@ -19,11 +19,11 @@
 
 package com.yelstream.topp.standard.text;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.function.UnaryOperator;
 
 /**
@@ -34,7 +34,7 @@ import java.util.function.UnaryOperator;
  * @since 2025-02-20
  */
 @AllArgsConstructor
-public class Frame {
+public class Frame implements UnaryOperator<List<String>> {
     /**
      *
      */
@@ -44,6 +44,11 @@ public class Frame {
      * Text transformation.
      */
     private final UnaryOperator<String> transform;
+
+    @Override
+    public List<String> apply(List<String> strings) {
+        return null;
+    }
 
     @Getter
     @ToString
