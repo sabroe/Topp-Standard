@@ -21,9 +21,9 @@ package com.yelstream.topp.standard.text.io;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.io.Writer;
 
 /**
@@ -53,6 +53,7 @@ public class ImprintPrintWriter extends PrintWriter {
     @Getter
     @AllArgsConstructor
     @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    @ToString
     public static class Position {
         /**
          * Indicates weather a new line is starting.
@@ -79,8 +80,18 @@ public class ImprintPrintWriter extends PrintWriter {
     @Getter
     @AllArgsConstructor
     @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    @ToString
     public static class Semantics {
         private final PrefixSemantics prefixSemantics;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    @ToString
+    public static class Statistics {
+        private int writtenCharacterCount;
+        private int interpretedCharacterCount;
     }
 
     private final Imprint imprint;
@@ -88,6 +99,9 @@ public class ImprintPrintWriter extends PrintWriter {
     private final Position position;
 
     private final Semantics semantics;
+
+    @Getter  //Temporary?
+    private final Statistics statistics;
 
     @Getter
     @AllArgsConstructor
@@ -105,12 +119,14 @@ public class ImprintPrintWriter extends PrintWriter {
     private ImprintPrintWriter(Writer writer,
                                Imprint imprint,
                                Position position,
-                               Semantics semantics) {
+                               Semantics semantics,
+                               Statistics statistics) {
         super(writer);
         this.writer = writer;
         this.imprint = imprint;
         this.position = position;
         this.semantics = semantics;
+        this.statistics=statistics;
     }
 
     public static class Builder {
@@ -124,17 +140,34 @@ public class ImprintPrintWriter extends PrintWriter {
             if (semantics==null) {
                 semantics=Semantics.builder().build();
             }
-            ImprintPrintWriter instance = new ImprintPrintWriter(writer, imprint, position, semantics);
+            if (statistics==null) {
+                statistics=Statistics.builder().build();
+            }
+            ImprintPrintWriter instance = new ImprintPrintWriter(writer, imprint, position, semantics, statistics);
             instance.write("");
             return instance;
         }
     }
 
     @Override
-    public void write(String s, int off, int len) {
-        String text = s.substring(off, off + len);
+    public final void write(String text, int offset, int length) {
+        writeInterpreted(text,offset,length);
+    }
+
+    protected void writeInterpreted(String s, int offset, int length) {
+        String text = s.substring(offset, offset+length);
         text = processText(text);
-        super.write(text, 0, text.length());
+        writeDirect(text);
+        statistics.writtenCharacterCount+=length;
+    }
+
+    protected void writeDirect(String text, int offset, int length) {
+        super.write(text,offset,length);
+        statistics.interpretedCharacterCount+=length;
+    }
+
+    protected void writeDirect(String text) {
+        writeDirect(text,0,text.length());
     }
 
     @Override
@@ -148,7 +181,7 @@ public class ImprintPrintWriter extends PrintWriter {
             if (!position.imprintedLineStart) {
                 String prefix = imprint.prefix;
                 if (prefix!=null) {
-                    super.write(prefix,0,prefix.length());
+                    write(prefix);
                 }
                 position.imprintedLineStart = true;
             }

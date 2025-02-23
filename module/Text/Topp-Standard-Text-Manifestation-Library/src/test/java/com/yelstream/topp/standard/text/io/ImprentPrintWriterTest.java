@@ -80,6 +80,8 @@ class ImprentPrintWriterTest {
             writer.println("This is a test.");
             writer.print("Partial line... ");
             writer.println("continued.");
+
+            System.out.println("Statistics: "+writer.getStatistics());
         }
 
         String actualOutput=sw.toString();
