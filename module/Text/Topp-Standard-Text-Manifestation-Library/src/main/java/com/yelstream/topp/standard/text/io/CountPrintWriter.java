@@ -46,9 +46,9 @@ public class CountPrintWriter extends PrintWriter {
     private final LongConsumer countConsumer;
 
     @lombok.Builder(builderClassName="Builder")
-    private CountPrintWriter(Writer out,
-                             boolean autoFlush,
-                             LongConsumer countConsumer) {
+    protected CountPrintWriter(Writer out,
+                               boolean autoFlush,
+                               LongConsumer countConsumer) {
         super(out,autoFlush);
         this.countConsumer=countConsumer;
     }
@@ -66,13 +66,13 @@ public class CountPrintWriter extends PrintWriter {
 
     @Override
     public void write(char @NonNull [] buf, int off, int len) {
-        super.write(buf, off, len);
+        super.write(buf,off,len);
         count(len);
     }
 
     @Override
     public void write(@NonNull String s, int off, int len) {
-        super.write(s, off, len);
+        super.write(s,off,len);
         count(len);
     }
 

@@ -18,7 +18,11 @@
  */
 
 /**
- *
+ * Utilities addressing basic I/O.
+ * <p>
+ *     Note that most of this functionality can be found in many other forms in numerous other libraries.
+ *     This is not made out of ignorance but out of a want to control separate implementations.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

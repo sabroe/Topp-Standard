@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 
-
 /**
  * Topp Standard Text Manifestation addressing basics of text presentation.
  *
@@ -28,4 +27,8 @@ module com.yelstream.topp.standard.text.manifestation {
     requires static lombok;
     requires org.slf4j;
     exports com.yelstream.topp.standard.text;
+//    exports com.yelstream.topp.standard.text.format;
+    exports com.yelstream.topp.standard.text.io;
+//    exports com.yelstream.topp.standard.text.name;
+    exports com.yelstream.topp.standard.text.regex;
 }
