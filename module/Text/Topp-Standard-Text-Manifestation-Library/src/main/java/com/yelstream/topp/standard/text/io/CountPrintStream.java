@@ -48,10 +48,10 @@ public class CountPrintStream extends PrintStream {
     private final LongConsumer countConsumer;
 
     @lombok.Builder(builderClassName="Builder")
-    private CountPrintStream(OutputStream out,
-                             boolean autoFlush,
-                             Charset charset,
-                             LongConsumer countConsumer) {
+    protected CountPrintStream(OutputStream out,
+                               boolean autoFlush,
+                               Charset charset,
+                               LongConsumer countConsumer) {
         super(out,autoFlush,charset);
         this.countConsumer=countConsumer;
     }
@@ -70,7 +70,7 @@ public class CountPrintStream extends PrintStream {
 
     @Override
     public void write(byte @NonNull [] buf, int off, int len) {
-        super.write(buf, off, len);
+        super.write(buf,off,len);
         count(len);
     }
 
