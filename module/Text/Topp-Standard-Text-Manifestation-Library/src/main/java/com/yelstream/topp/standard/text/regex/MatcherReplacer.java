@@ -19,44 +19,25 @@
 
 package com.yelstream.topp.standard.text.regex;
 
-import lombok.AllArgsConstructor;
-import lombok.experimental.UtilityClass;
-
 import java.util.function.Function;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 
 /**
- *
+ * Transformation to matched groups within a regular expression.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-02-20
  */
-@UtilityClass
-public class Matchers {
-
-    @FunctionalInterface
-    public interface MatcherReplacer {
-        Function<Function<MatchResult,String>,String> replace(Matcher matcher);
-
-        static MatcherReplacer replaceFirst() {
-            return matcher-> matcher::replaceFirst;
-        }
-
-        static MatcherReplacer replaceAll() {
-            return matcher-> matcher::replaceAll;
-        }
-    }
-
-
-    @AllArgsConstructor
-    @SuppressWarnings("java:S115")
-    public enum StandardMatcherReplacer {
-        ReplaceFirst(MatcherReplacer.replaceFirst()),
-        ReplaceAll(MatcherReplacer.replaceAll());
-
-        private final MatcherReplacer replacer;
-    }
-
+@FunctionalInterface
+public interface MatcherReplacer {
+    /**
+     * Replaces selected occurrences of matched groups using a transformation from {@link MatchResult} to a value.
+     * @param matcher The matcher containing matched groups.
+     * @param map A function transforming {@link MatchResult} to a replacement string.
+     * @return The resulting string after replacements.
+     */
+    String replace(Matcher matcher,
+                   Function<MatchResult,String> map);
 }

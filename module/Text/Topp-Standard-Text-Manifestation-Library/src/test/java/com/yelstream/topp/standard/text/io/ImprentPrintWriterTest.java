@@ -26,6 +26,10 @@ import java.io.StringWriter;
 
 /**
  * Tests {@link ImprintPrintWriter}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-03-01
  */
 class ImprentPrintWriterTest {
 
