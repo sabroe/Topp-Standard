@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Tests suite for {@code Text}.
@@ -43,58 +43,58 @@ class TextTest {
     @Test
     void testLength() {
         Text text = Text.of("Line 1\nLine 2\nLine 3", LF);
-        assertEquals(3, text.length(), "Length of text should be 3");
+        Assertions.assertEquals(3, text.length(), "Length of text should be 3");
     }
 
     @Test
     void testToLines() {
         Text text = Text.of("Line 1\nLine 2\nLine 3", LF);
         List<String> lines = text.toLines();
-        assertEquals(3, lines.size(), "Lines size should be 3");
-        assertEquals("Line 1", lines.getFirst(), "First line should be 'Line 1'");
+        Assertions.assertEquals(3, lines.size(), "Lines size should be 3");
+        Assertions.assertEquals("Line 1", lines.getFirst(), "First line should be 'Line 1'");
     }
 
     @Test
     void testToString() {
         Text text = Text.of("Line 1\nLine 2\nLine 3", LF);
-        assertEquals("Line 1\nLine 2\nLine 3", text.toString(), "String representation should match");
+        Assertions.assertEquals("Line 1\nLine 2\nLine 3", text.toString(), "String representation should match");
     }
 
     @Test
     void testHead() {
         Text text = Text.of("Line 1\nLine 2\nLine 3", LF);
         Text headText = text.head(2);
-        assertEquals(2, headText.length(), "Head should have 2 lines");
-        assertEquals("Line 1", headText.toLines().getFirst(), "First line of head should be 'Line 1'");
+        Assertions.assertEquals(2, headText.length(), "Head should have 2 lines");
+        Assertions.assertEquals("Line 1", headText.toLines().getFirst(), "First line of head should be 'Line 1'");
     }
 
     @Test
     void testTail() {
         Text text = Text.of("Line 1\nLine 2\nLine 3", LF);
         Text tailText = text.tail(2);
-        assertEquals(2, tailText.length(), "Tail should have 2 lines");
-        assertEquals("Line 2", tailText.toLines().getFirst(), "First line of tail should be 'Line 2'");
+        Assertions.assertEquals(2, tailText.length(), "Tail should have 2 lines");
+        Assertions.assertEquals("Line 2", tailText.toLines().getFirst(), "First line of tail should be 'Line 2'");
     }
 
     @Test
     void testReplaceSeparator() {
         Text text = Text.of("Line 1\nLine 2\nLine 3", LF);
         Text replacedText = text.replace(CRLF);
-        assertEquals(CRLF.join(List.of("Line 1", "Line 2", "Line 3")), replacedText.toString(), "Separator should be replaced with CRLF");
+        Assertions.assertEquals(CRLF.join(List.of("Line 1", "Line 2", "Line 3")), replacedText.toString(), "Separator should be replaced with CRLF");
     }
 
     @Test
     void testMapWithUnaryOperator() {
         Text text = Text.of("Line 1\nLine 2\nLine 3", LF);
         Text mappedText = text.map(line -> line.toUpperCase());
-        assertEquals("LINE 1\nLINE 2\nLINE 3", mappedText.toString(), "All lines should be uppercased");
+        Assertions.assertEquals("LINE 1\nLINE 2\nLINE 3", mappedText.toString(), "All lines should be uppercased");
     }
 
     @Test
     void testMapWithBiFunction() {
         Text text = Text.of("Line 1\nLine 2\nLine 3", LF);
         Text mappedText = text.map((index, line) -> line + " (line " + index + ")");
-        assertEquals("Line 1 (line 0)\nLine 2 (line 1)\nLine 3 (line 2)", mappedText.toString(), "Each line should be suffixed with its index");
+        Assertions.assertEquals("Line 1 (line 0)\nLine 2 (line 1)\nLine 3 (line 2)", mappedText.toString(), "Each line should be suffixed with its index");
     }
 
     @Test
@@ -104,7 +104,7 @@ class TextTest {
             lines.add("Line 4");
             return lines;
         });
-        assertEquals(4, adjustedText.length(), "Text should have 4 lines after adjustment");
+        Assertions.assertEquals(4, adjustedText.length(), "Text should have 4 lines after adjustment");
     }
 
     @Test
@@ -112,8 +112,8 @@ class TextTest {
         Text text1 = Text.of("Line 1\nLine 2", LF);
         Text text2 = Text.of("Line 3\nLine 4", LF);
         Text appendedText = text1.append(text2);
-        assertEquals(4, appendedText.length(), "Appended text should have 4 lines");
-        assertEquals("Line 1\nLine 2\nLine 3\nLine 4", appendedText.toString(), "Appended text should be correct");
+        Assertions.assertEquals(4, appendedText.length(), "Appended text should have 4 lines");
+        Assertions.assertEquals("Line 1\nLine 2\nLine 3\nLine 4", appendedText.toString(), "Appended text should be correct");
     }
 
     @Test
@@ -121,8 +121,8 @@ class TextTest {
         Text text1 = Text.of("Line 1\nLine 2", LF);
         Text text2 = Text.of("Line 3\nLine 4", LF);
         Text prependedText = text1.prepend(text2);
-        assertEquals(4, prependedText.length(), "Prepended text should have 4 lines");
-        assertEquals("Line 3\nLine 4\nLine 1\nLine 2", prependedText.toString(), "Prepended text should be correct");
+        Assertions.assertEquals(4, prependedText.length(), "Prepended text should have 4 lines");
+        Assertions.assertEquals("Line 3\nLine 4\nLine 1\nLine 2", prependedText.toString(), "Prepended text should be correct");
     }
 
     @Test
@@ -132,8 +132,8 @@ class TextTest {
 
         Text modified = original.toBuilder().appendText(additionalText).build();
 
-        assertEquals(List.of("Line 1", "Line 2", "Line 3", "Line 4"), modified.toLines());
-        assertNotSame(original, modified, "Text should be immutable and return a new instance");
+        Assertions.assertEquals(List.of("Line 1", "Line 2", "Line 3", "Line 4"), modified.toLines());
+        Assertions.assertNotSame(original, modified, "Text should be immutable and return a new instance");
     }
 
     @Test
@@ -143,33 +143,33 @@ class TextTest {
 
         Text modified = original.toBuilder().prependText(additionalText).build();
 
-        assertEquals(List.of("Line 1", "Line 2", "Line 3", "Line 4"), modified.toLines());
-        assertNotSame(original, modified, "Text should be immutable and return a new instance");
+        Assertions.assertEquals(List.of("Line 1", "Line 2", "Line 3", "Line 4"), modified.toLines());
+        Assertions.assertNotSame(original, modified, "Text should be immutable and return a new instance");
     }
 
     @Test
     void testSubText() {
         Text text = Text.of("Line 1\nLine 2\nLine 3", LF);
         Text subText = text.subText(1, 2);
-        assertEquals(1, subText.length(), "Subtext should have 1 line");
-        assertEquals("Line 2", subText.toLines().getFirst(), "Subtext should be 'Line 2'");
+        Assertions.assertEquals(1, subText.length(), "Subtext should have 1 line");
+        Assertions.assertEquals("Line 2", subText.toLines().getFirst(), "Subtext should be 'Line 2'");
     }
 
     @Test
     void testInvalidHead() {
         Text text = Text.of("Line 1\nLine 2", LF);
-        assertThrows(IllegalArgumentException.class, () -> text.head(-1), "Head should throw exception for negative count");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> text.head(-1), "Head should throw exception for negative count");
     }
 
     @Test
     void testInvalidTail() {
         Text text = Text.of("Line 1\nLine 2", LF);
-        assertThrows(IllegalArgumentException.class, () -> text.tail(-1), "Tail should throw exception for negative count");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> text.tail(-1), "Tail should throw exception for negative count");
     }
 
     @Test
     void testInvalidSubText() {
         Text text = Text.of("Line 1\nLine 2", LF);
-        assertThrows(IllegalArgumentException.class, () -> text.subText(2, 1), "Subtext should throw exception for invalid range");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> text.subText(2, 1), "Subtext should throw exception for invalid range");
     }
 }
