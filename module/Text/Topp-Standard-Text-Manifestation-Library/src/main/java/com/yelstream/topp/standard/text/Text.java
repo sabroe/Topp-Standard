@@ -164,6 +164,17 @@ public final class Text {
             return clearLines().lines(newLines);
         }
 
+        public Builder appendLine(String line) {
+            return line(line);
+        }
+
+        public Builder prependLine(String line) {
+            List<String> newLines=new ArrayList<>();
+            newLines.add(line);
+            newLines.addAll(this.lines);
+            return clearLines().lines(newLines);
+        }
+
         public Builder text(String text) {
             if (separator$value==null) {
                 separator$value=DEFAULT_LINE_SEPARATOR;  //Note: IDEA may have trouble have its compiler recognize '$default$separator()' as accessible!

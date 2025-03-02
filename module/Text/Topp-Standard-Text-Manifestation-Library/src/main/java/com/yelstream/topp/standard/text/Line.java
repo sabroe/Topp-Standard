@@ -4,18 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * Label of text.
+ * Line of text.
  * <p>
  *     This is immutable.
  * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-02-21
+ * @since 2025-03-02
  */
 @AllArgsConstructor(staticName="of")
 @SuppressWarnings("LombokGetterMayBeUsed")
-public class Label {
+public class Line {
     /**
      *
      */

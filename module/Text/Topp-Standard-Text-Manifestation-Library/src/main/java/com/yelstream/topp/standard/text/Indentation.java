@@ -22,9 +22,6 @@ package com.yelstream.topp.standard.text;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
-
 /**
  * Indentation of a single line of text.
  * <p>
@@ -35,35 +32,24 @@ import java.util.function.Function;
  * @version 1.0
  * @since 2025-02-21
  */
-@AllArgsConstructor
+@AllArgsConstructor(staticName="of")
+@lombok.Builder(builderClassName="Builder",toBuilder=true)
 @SuppressWarnings("LombokGetterMayBeUsed")
 public class Indentation {
     /**
      *
      */
     @Getter
-    private final BiFunction<Integer,String,String> operator;  //TO-DO: Change this to a label-generator!
+    private final String text;
 
     /**
      *
      */
-/*
     @Getter
-    private final BiFunction<Integer,String,String> operator;  //TO-DO: Change this to a label-generator!
-*/
+    private final int repeatCount;
 
-/*
     @Override
-    public String apply(Integer index,
-                        String line) {
-        return operator.apply(index,line);  //TO-DO: Change this to an operation prepending a new label to a line.
+    public String toString() {
+        return text.repeat(repeatCount);
     }
-*/
-
-/*
-    @Override
-    public String apply(Integer integer) {
-        return null;
-    }
-*/
 }
