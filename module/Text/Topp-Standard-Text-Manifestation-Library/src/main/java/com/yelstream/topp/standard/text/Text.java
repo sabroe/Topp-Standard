@@ -19,6 +19,8 @@
 
 package com.yelstream.topp.standard.text;
 
+import com.yelstream.topp.standard.text.line.LineBreaks;
+import com.yelstream.topp.standard.text.line.LineSeparator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -44,14 +46,25 @@ import java.util.stream.IntStream;
 @lombok.Builder(builderClassName="Builder",toBuilder=true)
 @SuppressWarnings("LombokGetterMayBeUsed")
 public final class Text {
+    /**
+     * Default line separator.
+     */
+    public static final LineSeparator DEFAULT_LINE_SEPARATOR=LineBreaks.DEFAULT_LINE_BREAK;
+
+    /**
+     * Lines.
+     */
     @Getter
     @Singular
     @NonNull
     private final List<String> lines;
 
+    /**
+     * Line separator.
+     */
     @Getter
     @lombok.Builder.Default
-    private final LineBreak lineBreak=LineBreaks.DEFAULT_LINE_BREAK;
+    private final LineSeparator separator=DEFAULT_LINE_SEPARATOR;
 
     public int length() {
         return lines.size();
@@ -62,7 +75,7 @@ public final class Text {
     }
 
     public String toString() {
-        return lineBreak.join(lines);
+        return separator.join(lines);
     }
 
     public Text head(int count) {
@@ -70,7 +83,7 @@ public final class Text {
             throw new IllegalArgumentException(String.format("Failure to create new text block; count must be non-negative, but is %d!",count));
         }
         List<String> headLines=lines.subList(0,Math.min(count,lines.size()));
-        return toBuilder().lines(headLines).build();
+        return toBuilder().clearLines().lines(headLines).build();
     }
 
     public Text tail(int count) {
@@ -79,11 +92,11 @@ public final class Text {
         }
         int start=Math.max(lines.size()-count,0);
         List<String> tailLines=lines.subList(start,lines.size());
-        return toBuilder().lines(tailLines).build();
+        return toBuilder().clearLines().lines(tailLines).build();
     }
 
-    public Text replace(LineBreak lineBreak) {
-        return toBuilder().lineBreak(lineBreak).build();
+    public Text replace(LineSeparator separator) {
+        return toBuilder().separator(separator).build();
     }
 
     /**
@@ -94,7 +107,7 @@ public final class Text {
      */
     public Text map(UnaryOperator<String> operator) {
         List<String> newLines=lines.stream().map(operator).toList();
-        return toBuilder().lines(List.copyOf(newLines)).build();
+        return toBuilder().clearLines().lines(List.copyOf(newLines)).build();
     }
 
     /**
@@ -106,7 +119,7 @@ public final class Text {
      */
     public Text map(BiFunction<Integer,String,String> operator) {
         List<String> newLines=IntStream.range(0,lines.size()).mapToObj(i->operator.apply(i,lines.get(i))).toList();
-        return toBuilder().lines(List.copyOf(newLines)).build();
+        return toBuilder().clearLines().lines(List.copyOf(newLines)).build();
     }
 
     /**
@@ -115,9 +128,11 @@ public final class Text {
      * @param operator Transforms the entire list of lines.
      * @return Created text block.
      */
+    @SuppressWarnings("java:S1117")
     public Text adjust(UnaryOperator<List<String>> operator) {
+        List<String> lines=new ArrayList<>(this.lines);  //Mutable copy of lines.
         List<String> newLines=List.copyOf(operator.apply(lines));
-        return toBuilder().lines(newLines).build();
+        return toBuilder().clearLines().lines(newLines).build();
     }
 
     public Text append(Text text) {
@@ -136,6 +151,7 @@ public final class Text {
         return toBuilder().clearLines().lines(subLines).build();
     }
 
+    @SuppressWarnings("FieldMayBeFinal")
     public static class Builder {
         public Builder appendLines(List<String> lines) {
             lines.forEach(this::line);
@@ -145,24 +161,33 @@ public final class Text {
         public Builder prependLines(List<String> lines) {
             List<String> newLines=new ArrayList<>(lines);
             newLines.addAll(this.lines);
-            return lines(newLines);
+            return clearLines().lines(newLines);
         }
 
         public Builder text(String text) {
-            String normalizedText=lineBreak$value.normalize(text);
-            List<String> lines=lineBreak$value.split(normalizedText);
-            return lines(lines);
+            if (separator$value==null) {
+                separator$value=DEFAULT_LINE_SEPARATOR;  //Note: IDEA may have trouble have its compiler recognize '$default$separator()' as accessible!
+            }
+            String normalizedText=separator$value.normalize(text);
+            List<String> lines=separator$value.split(normalizedText);
+            return clearLines().lines(lines);
         }
 
         public Builder appendText(String text) {
-            String normalizedText=lineBreak$value.normalize(text);
-            List<String> newLines=lineBreak$value.split(normalizedText);
+            if (separator$value==null) {
+                separator$value=DEFAULT_LINE_SEPARATOR;  //Note: IDEA may have trouble have its compiler recognize '$default$separator()' as accessible!
+            }
+            String normalizedText=separator$value.normalize(text);
+            List<String> newLines=separator$value.split(normalizedText);
             return appendLines(newLines);
         }
 
         public Builder prependText(String text) {
-            String normalizedText=lineBreak$value.normalize(text);
-            List<String> newLines=lineBreak$value.split(normalizedText);
+            if (separator$value==null) {
+                separator$value=DEFAULT_LINE_SEPARATOR;  //Note: IDEA may have trouble have its compiler recognize '$default$separator()' as accessible!
+            }
+            String normalizedText=separator$value.normalize(text);
+            List<String> newLines=separator$value.split(normalizedText);
             return prependLines(newLines);
         }
 
@@ -175,13 +200,13 @@ public final class Text {
         }
 
         public Text build() {
-            return new Text(List.copyOf(lines),this.lineBreak$value);
+            return new Text(List.copyOf(lines),this.separator$value);
         }
     }
 
     public static Text of(String text,
-                          LineBreak lineBreak) {
-        return builder().lineBreak(lineBreak).text(text).build();
+                          LineSeparator separator) {
+        return builder().separator(separator).text(text).build();
     }
 
     public static Text of(String text) {

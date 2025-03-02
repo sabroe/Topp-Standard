@@ -31,4 +31,5 @@ module com.yelstream.topp.standard.text.manifestation {
     exports com.yelstream.topp.standard.text.io;
 //    exports com.yelstream.topp.standard.text.name;
     exports com.yelstream.topp.standard.text.regex;
+    exports com.yelstream.topp.standard.text.line;
 }
