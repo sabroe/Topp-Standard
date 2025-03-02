@@ -17,19 +17,25 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.text.line;
+
 /**
- * Topp Standard Text Manifestation addressing basics of text presentation.
+ * Textual line break.
+ * <p>
+ *     This is immutable.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-02-15
+ * @version 1.0
+ * @since 2025-02-13
  */
-module com.yelstream.topp.standard.text.manifestation {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.text;
-//    exports com.yelstream.topp.standard.text.format;
-    exports com.yelstream.topp.standard.text.io;
-//    exports com.yelstream.topp.standard.text.name;
-    exports com.yelstream.topp.standard.text.regex;
-    exports com.yelstream.topp.standard.text.line;
+public class LineBreak extends LineSeparator {  //TO-DO: Consider dropping 'LineBreak', just use 'LineSeparator'!
+
+    protected LineBreak(String sequence) {
+        super(sequence);
+    }
+
+    public static LineBreak of(String sequence) {
+        return new LineBreak(sequence);
+    }
 }

@@ -17,19 +17,19 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.text;
+
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+
 /**
- * Topp Standard Text Manifestation addressing basics of text presentation.
+ * Test suite for {@code com.yelstream.topp.standard.text}.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-02-15
+ * @version 1.0
+ * @since 2025-03-02
  */
-module com.yelstream.topp.standard.text.manifestation {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.text;
-//    exports com.yelstream.topp.standard.text.format;
-    exports com.yelstream.topp.standard.text.io;
-//    exports com.yelstream.topp.standard.text.name;
-    exports com.yelstream.topp.standard.text.regex;
-    exports com.yelstream.topp.standard.text.line;
+@Suite
+@SelectClasses({TextTest.class})
+public class TextTestSuite {
 }

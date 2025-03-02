@@ -17,53 +17,38 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.text;
+package com.yelstream.topp.standard.text.line;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.List;
-
 /**
- * Textual line break.
+ * Most common newline sequences.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-02-13
+ * @since 2025-03-01
  */
 @AllArgsConstructor
 @Getter
-public enum LineBreak {  //TO-DO: Consider splitting into enum 'StandardLineBreak' and class 'LineBreak'; does it have any value?
+public enum StandardLineBreak {  //TO-DO: Consider renaming this to 'StandardLineSeparator'!
     /**
-     * Line Feed (Unix, Linux, macOS).
+     * Line Feed (UNIX, Linux, MacOS).
      */
-    LF("\n"),
+    LF(LineBreak.of("\n")),
 
     /**
      * Carriage Return + Line Feed (Windows).
      */
-    CRLF("\r\n"),
+    CRLF(LineBreak.of("\r\n")),
 
     /**
      * Carriage Return (Older Mac).
      */
-    CR("\r");
+    CR(LineBreak.of("\r"));
 
-    private final String pattern;
-
-    public boolean matches(String line) {  //TO-DO: Consider the sanity of this! Naming 'matches' -> 'ends'? Useful?
-        return line.endsWith(pattern);
-    }
-
-    public String normalize(String text) {
-        return text.replaceAll("\\R",pattern);
-    }
-
-    public List<String> split(String text) {
-        return List.of(text.split(pattern));
-    }
-
-    public String join(List<String> lines) {
-        return String.join(pattern,lines);
-    }
+    /**
+     * Line break.
+     */
+    private final LineBreak lineBreak;
 }

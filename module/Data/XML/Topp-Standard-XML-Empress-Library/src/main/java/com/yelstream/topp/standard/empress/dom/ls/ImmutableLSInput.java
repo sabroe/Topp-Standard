@@ -32,7 +32,6 @@ import java.io.Reader;
  * @version 1.0
  * @since 2025-02-13
  */
-@lombok.Builder(builderClassName="Builder",toBuilder=true)
 @ToString
 public class ImmutableLSInput extends ProxyLSInput {
     /**

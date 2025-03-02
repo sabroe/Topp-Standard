@@ -17,19 +17,29 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.text.line;
+
+import lombok.experimental.UtilityClass;
+
 /**
- * Topp Standard Text Manifestation addressing basics of text presentation.
+ * Textual line break.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-02-15
+ * @version 1.0
+ * @since 2025-02-13
  */
-module com.yelstream.topp.standard.text.manifestation {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.text;
-//    exports com.yelstream.topp.standard.text.format;
-    exports com.yelstream.topp.standard.text.io;
-//    exports com.yelstream.topp.standard.text.name;
-    exports com.yelstream.topp.standard.text.regex;
-    exports com.yelstream.topp.standard.text.line;
+@UtilityClass
+public class LineBreaks {  //TO-DO: Consider renaming this to 'LineSeparators'!
+
+    public static final LineBreak DEFAULT_LINE_BREAK=StandardLineBreak.LF.getLineBreak();
+
+    public static final LineBreak SYSTEM_LINE_BREAK=LineBreak.of(System.lineSeparator());
+
+    public static boolean matches(String line) {
+        return DEFAULT_LINE_BREAK.matches(line);
+    }
+
+    public static String normalize(String text) {
+        return DEFAULT_LINE_BREAK.normalize(text);
+    }
 }
