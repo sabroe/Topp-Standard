@@ -21,49 +21,57 @@ package com.yelstream.topp.standard.text;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.util.List;
-import java.util.function.UnaryOperator;
 
 /**
- * Textual frame to decorate a section of multi-line text with a start line and an end line.
+ * Textual frame decorating a multiline text with a start line and an end line.
+ * <p>
+ *     This is immutable.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-02-20
  */
-@AllArgsConstructor
-public class Frame implements UnaryOperator<List<String>> {
+@AllArgsConstructor(staticName="of")
+@lombok.Builder(builderClassName="Builder",toBuilder=true)
+@SuppressWarnings("LombokGetterMayBeUsed")
+public class Frame {
     /**
      *
      */
-    private final Section section;
+    @Getter
+    private final Label beginLabel;  //TO-DO: Consider the type, possibly 'Line' or 'Supplier<String>'?
 
     /**
-     * Text transformation.
+     *
      */
-    private final UnaryOperator<String> transform;
-
-    @Override
-    public List<String> apply(List<String> strings) {
-        return null;
-    }
-
     @Getter
-    @ToString
-    @AllArgsConstructor
-    public static class Section {
-        private final String begin;
-        private final String end;
+    private final Label endLabel;  //TO-DO: Consider the type, possibly 'Line' or 'Supplier<String>'?
+
+    /**
+     *
+     */
+    @Getter
+    private final Text text;
+
+    public Text toText() {
+        Text.Builder builder=text!=null?text.toBuilder():Text.builder();
+        if (beginLabel!=null) {
+            builder=builder.prependLine(beginLabel.toString());
+        }
+        if (endLabel!=null) {
+            builder=builder.appendLine(endLabel.toString());
+        }
+        return builder.build();
     }
 
-    public String format(String text) {
-        StringBuilder sb=new StringBuilder();
-        sb.append(section.begin);
-        sb.append("\n");
-        sb.append(transform.apply(text));
-        sb.append("\n");
-        return sb.toString();
+    public List<String> toLines() {
+        return toText().toLines();
+    }
+
+    public String toString() {
+        return toText().toString();
     }
 }
