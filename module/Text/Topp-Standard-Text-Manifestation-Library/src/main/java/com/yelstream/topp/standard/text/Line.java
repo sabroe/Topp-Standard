@@ -22,6 +22,10 @@ public class Line {
     @Getter
     private final String text;
 
+    /*
+     * TO-DO: Consider adding a "index" as an int, a line number, adjust it as lines are prepended, subsection are taken out, lines are moved around!
+     */
+
     @Override
     public String toString() {
         return text;
