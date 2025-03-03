@@ -66,6 +66,10 @@ public final class Text {
     @lombok.Builder.Default
     private final LineSeparator separator=DEFAULT_LINE_SEPARATOR;
 
+    /*
+     * TO-DO: Consider adding a "start index" as an int, adjust it as lines are prepended, subsection are taken out, lines are moved around!
+     */
+
     public int length() {
         return lines.size();
     }
