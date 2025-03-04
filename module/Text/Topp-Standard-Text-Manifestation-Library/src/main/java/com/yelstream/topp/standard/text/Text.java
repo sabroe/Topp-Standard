@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.text;
 
-import com.yelstream.topp.standard.text.line.LineBreaks;
+import com.yelstream.topp.standard.text.line.LineSeparators;
 import com.yelstream.topp.standard.text.line.LineSeparator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,7 +49,7 @@ public final class Text {
     /**
      * Default line separator.
      */
-    public static final LineSeparator DEFAULT_LINE_SEPARATOR=LineBreaks.DEFAULT_LINE_BREAK;
+    public static final LineSeparator DEFAULT_LINE_SEPARATOR=LineSeparators.DEFAULT_LINE_BREAK;
 
     /**
      * Lines.

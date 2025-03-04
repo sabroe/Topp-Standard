@@ -19,36 +19,27 @@
 
 package com.yelstream.topp.standard.text.line;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.experimental.UtilityClass;
 
 /**
- * Most common newline sequences.
+ * Utilities addressing textual line separators.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-03-01
+ * @since 2025-02-13
  */
-@AllArgsConstructor
-@Getter
-public enum StandardLineBreak {  //TO-DO: Consider renaming this to 'StandardLineSeparator'!
-    /**
-     * Line Feed (UNIX, Linux, MacOS).
-     */
-    LF(LineBreak.of("\n")),
+@UtilityClass
+public class LineSeparators {
 
-    /**
-     * Carriage Return + Line Feed (Windows).
-     */
-    CRLF(LineBreak.of("\r\n")),
+    public static final LineSeparator DEFAULT_LINE_BREAK= StandardLineSeparator.LF.getLineSeparator();
 
-    /**
-     * Carriage Return (Older Mac).
-     */
-    CR(LineBreak.of("\r"));
+    public static final LineSeparator SYSTEM_LINE_BREAK=LineSeparator.of(System.lineSeparator());
 
-    /**
-     * Line break.
-     */
-    private final LineBreak lineBreak;
+    public static boolean matches(String line) {
+        return DEFAULT_LINE_BREAK.matches(line);
+    }
+
+    public static String normalize(String text) {
+        return DEFAULT_LINE_BREAK.normalize(text);
+    }
 }
