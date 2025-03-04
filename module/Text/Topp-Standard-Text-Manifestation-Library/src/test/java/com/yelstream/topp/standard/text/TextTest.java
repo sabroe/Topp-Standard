@@ -20,7 +20,7 @@
 package com.yelstream.topp.standard.text;
 
 import com.yelstream.topp.standard.text.line.LineSeparator;
-import com.yelstream.topp.standard.text.line.StandardLineBreak;
+import com.yelstream.topp.standard.text.line.StandardLineSeparator;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -36,9 +36,9 @@ import org.junit.jupiter.api.Assertions;
  */
 class TextTest {
 
-    private static final LineSeparator LF = StandardLineBreak.LF.getLineBreak();
-    private static final LineSeparator CRLF = StandardLineBreak.CRLF.getLineBreak();
-    private static final LineSeparator CR = StandardLineBreak.CR.getLineBreak();
+    private static final LineSeparator LF = StandardLineSeparator.LF.getLineBreak();
+    private static final LineSeparator CRLF = StandardLineSeparator.CRLF.getLineBreak();
+    private static final LineSeparator CR = StandardLineSeparator.CR.getLineBreak();
 
     @Test
     void testLength() {
