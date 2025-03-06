@@ -45,5 +45,5 @@ include 'module:Data:XML:Topp-Standard-XML-Empress-Library'
 
 include 'module:Text:Topp-Standard-Text-Manifestation-Library'
 
-include 'module:Messaging:Jakarta:Topp-Standard-Jakarta-Messaging-Library'
-include 'module:Messaging:Apache:Topp-Standard-Apache-ActiveMQ-Library'
+include 'module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library'
+include 'module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library'
