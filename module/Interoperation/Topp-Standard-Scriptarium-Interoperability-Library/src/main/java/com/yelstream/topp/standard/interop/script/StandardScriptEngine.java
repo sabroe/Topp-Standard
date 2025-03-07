@@ -19,28 +19,45 @@
 
 package com.yelstream.topp.standard.interop.script;
 
-import lombok.experimental.UtilityClass;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 /**
- * Utilities addressing script context engines.
+ * Standard script context engine.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-03-06
+ * @since 2025-03-07
  */
-@UtilityClass
-public class ScriptEngines {
+@AllArgsConstructor
+@SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})
+public enum StandardScriptEngine {
+    /**
+     * Oracle Nashorn.
+     */
+    OracleNashorn("nashorn"),
 
-    public static ScriptEngine getEngineByName(String engineName) {
-        ScriptEngineManager manager=ScriptEngineManagers.createScriptEngineManager();
-        return getEngineByName(manager,engineName);
+    /**
+     * Mozilla Rhino.
+     */
+    MozillaRhino("rhino"),
+
+    /**
+     * Oracle Graal JS.
+     */
+    OracleGraalJS("graal.js");
+
+    @Getter
+    private final String engineName;
+
+    public ScriptEngine getEngine() {
+        return ScriptEngines.getEngineByName(engineName);
     }
 
-    public static ScriptEngine getEngineByName(ScriptEngineManager manager,
-                                               String engineName) {
-        return manager.getEngineByName(engineName);
+    public ScriptEngine getEngine(ScriptEngineManager manager) {
+        return ScriptEngines.getEngineByName(manager,engineName);
     }
 }

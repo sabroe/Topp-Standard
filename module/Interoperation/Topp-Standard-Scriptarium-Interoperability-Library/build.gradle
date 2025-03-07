@@ -26,5 +26,21 @@ plugins {
 }
 
 dependencies {
-//    implementation project(path: ':module:Topp-Standard-Annotator-Library')
+    /*
+     * Older Nashorn implementation, for non-Graal VMs.
+     * Limitations:
+     *   -- Nashorn is outdated and no longer developed.
+     *   -- Missing ES6+ features (e.g., let, const, arrow functions).
+     */
+//    implementation 'org.openjdk.nashorn:nashorn-core:15.6'  //TO-DO: Consider if default "implementation" is a good idea! Maybe "testImplementation" only?
+
+    /*
+     * Mozilla Rhino is an alternative JavaScript engine written in Java.
+     * It's fully Java-based, so it runs on any JVM.
+     *  Advantages:
+     *   -- Actively maintained.
+     *   -- Works without GraalVM.
+     *   -- Supports ES6+ (but slower than GraalJS).
+     */
+    implementation 'org.mozilla:rhino:1.8.0'  //TO-DO: Consider if default "implementation" is a good idea! Maybe "testImplementation" only?
 }

@@ -17,16 +17,23 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.interop.script;
+
+import lombok.experimental.UtilityClass;
+
+import javax.script.ScriptEngineManager;
+
 /**
- * Topp Standard Scriptarium Interoperability addressing selected elements of the Java Scripting API.
+ * Utilities addressing script engine managers.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-03-06
+ * @version 1.0
+ * @since 2025-03-07
  */
-module com.yelstream.topp.standard.interoperation.scriptarium {
-    requires static lombok;
-    requires org.slf4j;
-    requires java.scripting;
-    requires org.mozilla.rhino;
-    exports com.yelstream.topp.standard.interop.script;
+@UtilityClass
+public class ScriptEngineManagers {
+
+    public static ScriptEngineManager createScriptEngineManager() {
+        return new ScriptEngineManager();
+    }
 }
