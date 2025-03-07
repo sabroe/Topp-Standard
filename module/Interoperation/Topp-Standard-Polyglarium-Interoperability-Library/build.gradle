@@ -27,4 +27,37 @@ plugins {
 
 dependencies {
     implementation 'org.graalvm.polyglot:polyglot:24.1.2'
+
+    implementation 'org.graalvm.sdk:graal-sdk:24.1.2'  //TO-DO: Consider the relevance of this!
+    compileOnly 'org.graalvm.sdk:nativeimage:24.1.2'
+    implementation 'org.graalvm.sdk:nativebridge:24.1.2'
+    implementation 'org.graalvm.sdk:launcher-common:24.1.2'
+    implementation 'org.graalvm.sdk:jniutils:24.1.2'
+    implementation 'org.graalvm.truffle:truffle-api:24.1.2'
+
+    implementation 'org.graalvm.js:js:24.1.2'
+    implementation 'org.graalvm.python:python:24.1.2'
+
+    //TO-DO: Check all licenses, consider CycloneDX too!
+
+/*
+    1. Languages Supported by GraalVM
+    GraalVM natively supports:
+
+    ✅ Java (JVM-based)
+    ✅ Kotlin (JVM-based)
+    ✅ Scala (JVM-based)
+    ✅ Groovy (JVM-based)
+    ✅ JavaScript (ECMAScript, including Node.js)
+    ✅ Python (via GraalPython)
+    ✅ Ruby (via TruffleRuby)
+    ✅ R (for data science and statistics)
+    ✅ WebAssembly (Wasm) (via GraalWasm)
+    ✅ LLVM-based languages (C, C++, Rust)
+    🔹 Other experimental or third-party languages:
+
+    Golang (via LLVM backend)
+    PHP (unofficial Truffle-based implementation)
+    Swift (via LLVM backend)
+ */
 }

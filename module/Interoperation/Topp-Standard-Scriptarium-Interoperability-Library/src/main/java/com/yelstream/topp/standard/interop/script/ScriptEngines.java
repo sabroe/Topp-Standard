@@ -22,6 +22,7 @@ package com.yelstream.topp.standard.interop.script;
 import lombok.experimental.UtilityClass;
 
 import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 
 /**
  * Utilities addressing script context engines.
@@ -33,7 +34,13 @@ import javax.script.ScriptEngine;
 @UtilityClass
 public class ScriptEngines {
 
-    public static ScriptEngine createScriptEngine() {
-        return null;
+    public static ScriptEngine getEngineByName(String engineName) {
+        ScriptEngineManager manager=ScriptEngineManagers.createScriptEngineManager();
+        return getEngineByName(manager,engineName);
+    }
+
+    public static ScriptEngine getEngineByName(ScriptEngineManager manager,
+                                               String engineName) {
+        return manager.getEngineByName(engineName);
     }
 }

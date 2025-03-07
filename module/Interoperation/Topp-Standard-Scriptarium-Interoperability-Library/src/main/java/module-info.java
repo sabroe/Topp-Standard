@@ -27,5 +27,6 @@ module com.yelstream.topp.standard.interoperation.scriptarium {
     requires static lombok;
     requires org.slf4j;
     requires java.scripting;
+    requires org.mozilla.rhino;
     exports com.yelstream.topp.standard.interop.script;
 }
