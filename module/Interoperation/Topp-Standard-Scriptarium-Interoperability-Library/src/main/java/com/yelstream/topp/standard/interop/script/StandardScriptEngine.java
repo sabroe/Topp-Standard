@@ -26,7 +26,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 /**
- * Standard script context engine.
+ * Standard script engine by name.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -50,14 +50,21 @@ public enum StandardScriptEngine {
      */
     OracleGraalJS("graal.js");
 
+    /**
+     * Script engine name.
+     */
     @Getter
     private final String engineName;
 
-    public ScriptEngine getEngine() {
+    public ScriptEngine getEngineByName() {
         return ScriptEngines.getEngineByName(engineName);
     }
 
-    public ScriptEngine getEngine(ScriptEngineManager manager) {
+    public ScriptEngine getEngineByName(ScriptEngineManager manager) {
         return ScriptEngines.getEngineByName(manager,engineName);
+    }
+
+    public ScriptEngine getEngineByForce() {
+        return null;
     }
 }

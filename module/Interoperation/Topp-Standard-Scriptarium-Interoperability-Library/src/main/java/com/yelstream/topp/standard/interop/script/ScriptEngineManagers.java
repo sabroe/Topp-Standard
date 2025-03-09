@@ -21,7 +21,9 @@ package com.yelstream.topp.standard.interop.script;
 
 import lombok.experimental.UtilityClass;
 
+import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
+import java.util.List;
 
 /**
  * Utilities addressing script engine managers.
@@ -32,8 +34,56 @@ import javax.script.ScriptEngineManager;
  */
 @UtilityClass
 public class ScriptEngineManagers {
+    /**
+     * Loader used by the default constructor of 'ScriptEngineManager'.
+     */
+    public static final ClassLoader DEFAULT_CLASSLOADER = Thread.currentThread().getContextClassLoader();
+
+    public static ExtendedScriptEngineManager.Builder builder() {
+        return ExtendedScriptEngineManager.builder();
+    }
 
     public static ScriptEngineManager createScriptEngineManager() {
-        return new ScriptEngineManager();
+        return builder().build();
+    }
+
+    public static ScriptEngineManager createScriptEngineManager(ClassLoader loader) {
+        return builder().loader(loader).build();
+    }
+
+    public static ScriptEngineManager createScriptEngineManager(List<ScriptEngineFactory> factories) {
+        return builder().exact(factories).build();
+    }
+
+    public static ScriptEngineManager createScriptEngineManager(ScriptEngineFactory factory) {
+        return builder().exact(List.of(factory)).build();
+    }
+
+    public static List<String> getNames(ScriptEngineManager manager) {
+        return ScriptEngineFactories.getNames(manager.getEngineFactories());
+    }
+
+    public static List<String> getEngineNames(ScriptEngineManager manager) {
+        return ScriptEngineFactories.getEngineNames(manager.getEngineFactories());
+    }
+
+    public static List<String> getEngineVersions(ScriptEngineManager manager) {
+        return ScriptEngineFactories.getEngineVersions(manager.getEngineFactories());
+    }
+
+    public static List<String> getMimeTypes(ScriptEngineManager manager) {
+        return ScriptEngineFactories.getMimeTypes(manager.getEngineFactories());
+    }
+
+    public static List<String> getExtensions(ScriptEngineManager manager) {
+        return ScriptEngineFactories.getExtensions(manager.getEngineFactories());
+    }
+
+    public static List<String> getLanguageNames(ScriptEngineManager manager) {
+        return ScriptEngineFactories.getLanguageNames(manager.getEngineFactories());
+    }
+
+    public static List<String> getLanguageVersions(ScriptEngineManager manager) {
+        return ScriptEngineFactories.getLanguageVersions(manager.getEngineFactories());
     }
 }

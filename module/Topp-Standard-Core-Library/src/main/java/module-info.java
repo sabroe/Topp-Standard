@@ -27,6 +27,7 @@ module com.yelstream.topp.standard.core {
     requires static lombok;
     requires org.slf4j;
     requires com.yelstream.topp.standard.annotator;
+    requires java.scripting;
 //    requires jdk.net;
 //    requires jdk.sctp;
     exports com.yelstream.topp.standard.lang;
