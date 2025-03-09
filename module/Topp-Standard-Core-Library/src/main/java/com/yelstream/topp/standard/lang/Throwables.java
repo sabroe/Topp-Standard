@@ -120,8 +120,28 @@ public class Throwables {
                                              Throwable cause){
         return constructor.apply(message,cause);
     }
-
+    
     public static class Builder<T extends Throwable> {
+
+        public <T2 extends Throwable> Builder<T2> m(Supplier<T2> c) {
+            Builder<T2> b=builder();
+            return b.constructor(Throwables.m(c));
+        }
+
+        public <T2 extends Throwable> Builder<T2> m(Function<String,T2> c) {
+            Builder<T2> b=builder();
+            return b.constructor(Throwables.m(c));
+        }
+
+        public <T2 extends Throwable> Builder<T2> c(Function<Throwable,T2> constructor) {
+            Builder<T2> b=builder();
+            return b.constructor(Throwables.c(constructor));
+        }
+
+        public <T2 extends Throwable> Builder<T2> mc(BiFunction<String,Throwable,T2> constructor) {
+            Builder<T2> b=builder();
+            return b.constructor(Throwables.mc(constructor));
+        }
 
     }
 }
