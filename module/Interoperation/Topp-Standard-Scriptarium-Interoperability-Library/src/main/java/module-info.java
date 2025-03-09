@@ -29,4 +29,5 @@ module com.yelstream.topp.standard.interoperation.scriptarium {
     requires java.scripting;
     requires org.mozilla.rhino;
     exports com.yelstream.topp.standard.interop.script;
+    exports com.yelstream.topp.standard.interop.script.rhino;
 }

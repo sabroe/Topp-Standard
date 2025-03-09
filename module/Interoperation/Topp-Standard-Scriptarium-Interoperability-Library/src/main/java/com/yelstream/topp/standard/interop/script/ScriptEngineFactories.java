@@ -25,6 +25,7 @@ import lombok.ToString;
 import lombok.experimental.UtilityClass;
 
 import javax.script.ScriptEngineFactory;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -64,5 +65,33 @@ public class ScriptEngineFactories {
 
     public static Matcher matcher(ScriptEngineFactory factory) {
         return null;  //TO-DO: Fix!
+    }
+
+    public static List<String> getNames(List<ScriptEngineFactory> factories) {
+        return factories.stream().map(ScriptEngineFactory::getEngineVersion).distinct().toList();
+    }
+
+    public static List<String> getEngineNames(List<ScriptEngineFactory> factories) {
+        return factories.stream().map(ScriptEngineFactory::getEngineName).distinct().toList();
+    }
+
+    public static List<String> getEngineVersions(List<ScriptEngineFactory> factories) {
+        return factories.stream().map(ScriptEngineFactory::getEngineVersion).distinct().toList();
+    }
+
+    public static List<String> getMimeTypes(List<ScriptEngineFactory> factories) {
+        return factories.stream().flatMap(factory->factory.getMimeTypes().stream()).distinct().toList();
+    }
+
+    public static List<String> getExtensions(List<ScriptEngineFactory> factories) {
+        return factories.stream().flatMap(factory->factory.getExtensions().stream()).distinct().toList();
+    }
+
+    public static List<String> getLanguageNames(List<ScriptEngineFactory> factories) {
+        return factories.stream().map(ScriptEngineFactory::getLanguageName).distinct().toList();
+    }
+
+    public static List<String> getLanguageVersions(List<ScriptEngineFactory> factories) {
+        return factories.stream().map(ScriptEngineFactory::getLanguageVersion).distinct().toList();
     }
 }

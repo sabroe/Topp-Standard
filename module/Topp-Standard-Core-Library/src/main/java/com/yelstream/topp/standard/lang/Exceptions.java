@@ -17,20 +17,18 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.interop.script;
+package com.yelstream.topp.standard.lang;
 
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
+import lombok.experimental.UtilityClass;
 
-public class RhinoTest {
-    public static void main(String[] args) {
-        Context cx = Context.enter();
-        try {
-            Scriptable scope = cx.initStandardObjects();
-            Object result = cx.evaluateString(scope, "2 + 3", "test", 1, null);
-            System.out.println("Rhino result: " + result); // Should print: 5
-        } finally {
-            Context.exit();
-        }
-    }
+/**
+ * Utility addressing instances of {@link Exception}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-03-09
+ */
+@UtilityClass
+public class Exceptions {
+    //Empty!
 }
