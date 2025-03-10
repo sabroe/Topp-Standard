@@ -36,9 +36,9 @@ import org.junit.jupiter.api.Assertions;
  */
 class TextTest {
 
-    private static final LineSeparator LF = StandardLineSeparator.LF.getLineBreak();
-    private static final LineSeparator CRLF = StandardLineSeparator.CRLF.getLineBreak();
-    private static final LineSeparator CR = StandardLineSeparator.CR.getLineBreak();
+    private static final LineSeparator LF = StandardLineSeparator.LF.getLineSeparator();
+    private static final LineSeparator CRLF = StandardLineSeparator.CRLF.getLineSeparator();
+    private static final LineSeparator CR = StandardLineSeparator.CR.getLineSeparator();
 
     @Test
     void testLength() {
