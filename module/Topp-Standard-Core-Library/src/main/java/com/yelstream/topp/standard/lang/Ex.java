@@ -56,6 +56,17 @@ import java.util.function.Supplier;
  *     <li>Could there be a possible benefit to have messages created logged consistently at the point of creation?</li>
  *     <li>Could there be any way to generate this type of builder and specific to each exception type, without sacrificing compile-time type checking?</li>
  *     <li>Similarities between fluent logging APIs and fluent exception-throwing?</li>
+ *     <li>Matching constructors or methods dynamically, may involve some more advanced techniques:
+ *         <ol>
+ *             <li>Optional Parameters: Use Integer instead of int or Optional to handle missing parameters.</li>
+ *             <li>Varargs Matching: Match arbitrary-length argument lists using varargs.</li>
+ *             <li>Wildcard Type Matching: Handle covariant/contravariant types with instanceof and isAssignableFrom.</li>
+ *             <li>Named Parameters: Use -parameters flag to retain and match parameter names dynamically.</li>
+ *             <li>Primitive Boxing: Consider primitive-to-wrapper conversion (autoboxing/unboxing).</li>
+ *             <li>Method Overloads: Match method signatures with different overloads based on types and argument count.</li>
+ *             <li>Exception Handling: Use fallback constructors/methods if no exact match is found.</li>
+ *         </ol>
+ *     </li>
  * </ol>
  *
  * @author Morten Sabroe Mortensen
