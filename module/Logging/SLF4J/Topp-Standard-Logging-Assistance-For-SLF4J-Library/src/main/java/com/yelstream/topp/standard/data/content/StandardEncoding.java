@@ -29,6 +29,7 @@ import lombok.Getter;
  * @version 1.0
  * @since 2024-09-27
  */
+@SuppressWarnings("java:S115")
 @AllArgsConstructor
 public enum StandardEncoding {
 
