@@ -21,8 +21,6 @@ package com.yelstream.topp.standard.lang;
 
 import lombok.experimental.UtilityClass;
 
-import javax.script.ScriptException;
-import java.io.IOException;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -59,89 +57,71 @@ public class Throwables {
         return throwable;
     }
 
-/*
-    throw Throwables.new().format("Failure to evaluate script; exception message is %s!",ex.getMessage()).cause(ex).build();
-    throw Throwables.mc(IOException::new).format("Failure to evaluate script; exception message is %s!",ex.getMessage()).cause(ex).create();
-
-    Function<String, ScriptException> f=ScriptException::new;       //m
-    Function<String,IOException> f1=IOException::new;              //m
-    BiFunction<String,Throwable,IOException> f2=IOException::new;  //mc
-    Function<Throwable,IOException> f3=IOException::new;           //c
-    Supplier<IOException> f4=IOException::new;           //c
-
-    ScriptException x=(m,c)->ScriptException::new;
-
-    ScriptException exception=new ScriptException(String.format("Failure to evaluate script; exception message is %s!",ex.getMessage()));
-            exception.initCause(ex);
-            throw exception;
-*/
-
-//    public static
-
-    public static <T extends Throwable> BiFunction<String,Throwable,T> m(Supplier<T> constructor) {
+    /**
+     * Transforms a constructor invocation taking no arguments to create a throwable to one taking arguments (message,cause).
+     * @param constructor Constructor invocation taking no arguments.
+     * @return Creator of a throwable from a (message,cause).
+     * @param <T> Type of throwable.
+     */
+    public static <T extends Throwable> BiFunction<String,Throwable,T> creatorNoArgs(Supplier<T> constructor) {  //TO-DO: Consider making access package private or move to 'Ex'!
         return (message,cause) -> {
+            //TO-DO: Consider testing and logging if the message provided is non-null!
+            //TO-DO: Consider testing and logging if the cause provided is non-null!
             T t=constructor.get();
             if (cause!=null) {
+                //TO-DO: Consider logging that the cause is set in a special way!
                 t.initCause(cause);
             }
             return t;
         };
     }
 
-    public static <T extends Throwable> BiFunction<String,Throwable,T> m(Function<String,T> constructor) {
+    /**
+     * Transforms a constructor invocation taking arguments (message) to create a throwable to one taking arguments (message,cause).
+     * @param constructor Constructor invocation taking arguments (message).
+     * @return Creator of a throwable from a (message,cause).
+     * @param <T> Type of throwable.
+     */
+    public static <T extends Throwable> BiFunction<String,Throwable,T> creatorWithMessage(Function<String,T> constructor) {  //TO-DO: Consider making access package private or move to 'Ex'!
         return (message,cause) -> {
+            //TO-DO: Consider testing and logging if the message provided is null!
+            //TO-DO: Consider testing and logging if the cause provided is non-null!
             T t = constructor.apply(message);
-            if (cause != null) {
+            if (cause!=null) {
+                //TO-DO: Consider logging that the cause is set in a special way!
                 t.initCause(cause);
             }
             return t;
         };
     }
 
-    public static <T extends Throwable> BiFunction<String,Throwable,T> c(Function<Throwable,T> constructor) {
+    /**
+     * Transforms a constructor invocation taking arguments (cause) to create a throwable to one taking arguments (message,cause).
+     * @param constructor Constructor invocation taking arguments (cause).
+     * @return Creator of a throwable from a (message,cause).
+     * @param <T> Type of throwable.
+     */
+    @SuppressWarnings("java:S1602")
+    public static <T extends Throwable> BiFunction<String,Throwable,T> creatorWithCause(Function<Throwable,T> constructor) {  //TO-DO: Consider making access package private or move to 'Ex'!
         return (message,cause) -> {
-            T t=constructor.apply(cause);
-            if (cause != null) {
-                t.initCause(cause);
-            }
-            return t;
+            //TO-DO: Consider testing and logging if the message provided is non-null!
+            //TO-DO: Consider testing and logging if the cause provided is null!
+            return constructor.apply(cause);
         };
     }
 
-    public static <T extends Throwable> BiFunction<String,Throwable,T> mc(BiFunction<String,Throwable,T> constructor) {
+    /**
+     * Transforms a constructor invocation taking arguments (message,cause) to create a throwable to one taking arguments (message,cause).
+     * @param constructor Constructor invocation taking arguments (message,cause).
+     * @return Creator of a throwable from a (message,cause).
+     * @param <T> Type of throwable.
+     */
+    @SuppressWarnings({"java:S1602","java:S1612"})
+    public static <T extends Throwable> BiFunction<String,Throwable,T> creatorWithMessageAndCause(BiFunction<String,Throwable,T> constructor) {  //TO-DO: Consider making access package private or move to 'Ex'!
         return (message,cause) -> {
+            //TO-DO: Consider testing and logging if the message provided is null!
+            //TO-DO: Consider testing and logging if the cause provided is null!
             return constructor.apply(message,cause);
         };
-    }
-
-    @lombok.Builder(builderClassName="Builder")
-    public static <T extends Throwable> T ex(BiFunction<String,Throwable,T> constructor,
-                                             String message,
-                                             Throwable cause){
-        return constructor.apply(message,cause);
-    }
-    
-    public static class Builder<T extends Throwable> {
-
-        public <T2 extends Throwable> Builder<T2> m(Supplier<T2> c) {
-            Builder<T2> b=builder();
-            return b.constructor(Throwables.m(c));
-        }
-
-        public <T2 extends Throwable> Builder<T2> m(Function<String,T2> c) {
-            Builder<T2> b=builder();
-            return b.constructor(Throwables.m(c));
-        }
-
-        public <T2 extends Throwable> Builder<T2> c(Function<Throwable,T2> constructor) {
-            Builder<T2> b=builder();
-            return b.constructor(Throwables.c(constructor));
-        }
-
-        public <T2 extends Throwable> Builder<T2> mc(BiFunction<String,Throwable,T2> constructor) {
-            Builder<T2> b=builder();
-            return b.constructor(Throwables.mc(constructor));
-        }
-
     }
 }
