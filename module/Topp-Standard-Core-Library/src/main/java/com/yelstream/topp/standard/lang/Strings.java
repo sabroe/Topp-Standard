@@ -131,4 +131,22 @@ public class Strings {
     public static boolean equals(String a, String b) {
         return Comparables.equals(a,b);
     }
+
+    String removeLeadingZeroes1(String s) {
+        return s.replaceAll("^0+", "");
+    }
+
+    String removeTrailingZeroes1(String s) {
+        return s.replaceAll("0+$", "");
+    }
+
+    String removeLeadingZeroes2(String s) {
+        return s.replaceAll("^0+(?!$)", "");
+    }
+
+    String removeTrailingZeroes2(String s) {
+        return s.replaceAll("(?!^)0+$", "");
+    }
+
+
 }
