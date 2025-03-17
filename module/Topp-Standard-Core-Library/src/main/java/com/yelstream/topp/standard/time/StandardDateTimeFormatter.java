@@ -19,23 +19,25 @@
 
 package com.yelstream.topp.standard.time;
 
-import org.junit.platform.suite.api.SelectClasses;
-import org.junit.platform.suite.api.Suite;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.time.format.DateTimeFormatter;
 
 /**
- * Test suite for {@code com.yelstream.topp.standard.time}.
+ * Standard date-time formatters.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-04-26
+ * @since 2025-03-17
  */
-@Suite
-@SelectClasses({DurationSummaryStatisticsTest.class,
-                DurationSummaryStatisticsCollectorTest.class,
-                RandomDurationGeneratorTest.class,
-                DurationsTest.class,
-                InstantsTest.class,
-                InstantSourcesTest.class,
-                DateTimeFormattersTest.class})
-class TimeTestSuite {
+@AllArgsConstructor
+@SuppressWarnings("LombokGetterMayBeUsed")
+public enum StandardDateTimeFormatter {
+
+    ISO_OFFSET_DATE_TIME(DateTimeFormatter.ISO_OFFSET_DATE_TIME),
+    ISO_INSTANT(DateTimeFormatter.ISO_INSTANT);
+
+    @Getter
+    private final DateTimeFormatter formatter;
 }
