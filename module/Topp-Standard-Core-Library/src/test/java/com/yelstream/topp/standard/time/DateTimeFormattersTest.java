@@ -19,14 +19,20 @@
 
 package com.yelstream.topp.standard.time;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Test of {@link DateTimeFormatters}.
@@ -37,59 +43,77 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class DateTimeFormattersTest {
 
-    // Test Formatting
+    static Stream<Arguments> argumentsForRFC3339OffsetDateTimeFormatter() {
+        return Stream.of(
+            Arguments.of("2024-03-17T15:30:00.000+00:00","2024-03-17T15:30:00Z"),
+            Arguments.of("2024-03-17T15:30:00.100+00:00","2024-03-17T15:30:00.1Z"),
+            Arguments.of("2024-03-17T15:30:00.120+00:00","2024-03-17T15:30:00.12Z"),
+            Arguments.of("2024-03-17T15:30:00.123+00:00","2024-03-17T15:30:00.123Z"),
+            Arguments.of("2024-03-17T15:30:00.123456789+00:00","2024-03-17T15:30:00.123456789Z"),
+            Arguments.of("2024-03-17T15:30:00.000+01:00","2024-03-17T15:30:00+01:00"),
+            Arguments.of("2024-03-17T15:30:00.100-02:00","2024-03-17T15:30:00.1-02:00"),
+            Arguments.of("2024-03-17T15:30:00.120+03:00","2024-03-17T15:30:00.12+03:00"),
+            Arguments.of("2024-03-17T15:30:00.123-04:00","2024-03-17T15:30:00.123-04:00")
+        );
+    }
     @ParameterizedTest
-    @ValueSource(strings = {
-            "2024-03-17T15:30:00+00:00,000", // Format: date-time, milliseconds
-            "2024-03-17T15:30:00+00:00,100",
-            "2024-03-17T15:30:00+00:00,120",
-            "2024-03-17T15:30:00+00:00,123"
-    })
-    void testFormatting(String input) {
-        // Split the input into date-time and milliseconds
-        String[] parts = input.split(",");
-        String dateTimeStr = parts[0];
-        String milliseconds = parts[1];
-
-        // Parse the input string
-        OffsetDateTime baseTime = OffsetDateTime.parse(dateTimeStr);
-
-        // Expected formatted strings
-        String expectedRFC3339 = "2024-03-17T15:30:00" + (milliseconds.equals("000") ? "" : "." + milliseconds.replaceAll("(?!^)0+$","")) + "Z";
-        String expectedFixedFraction = "2024-03-17T15:30:00." + milliseconds + "Z";
-        String expectedOptionalFraction = "2024-03-17T15:30:00" + (milliseconds.equals("000") ? "" : "." + milliseconds) + "Z";
-
-        // Check that all formatters produce the correct string
-        assertEquals(expectedRFC3339, baseTime.format(DateTimeFormatters.RFC3339_OFFSET_DATE_TIME_FORMATTER));
-        assertEquals(expectedFixedFraction, baseTime.format(DateTimeFormatters.FIXED_FRACTION_RFC3339_OFFSET_DATE_TIME_FORMATTER));
-        assertEquals(expectedOptionalFraction, baseTime.format(DateTimeFormatters.OPTIONAL_FRACTION_RFC3339_OFFSET_DATE_TIME_FORMATTER));
+    @MethodSource("argumentsForRFC3339OffsetDateTimeFormatter")
+    void formattingForRFC3339OffsetDateTimeFormatter(String input,
+                                                     String expectedOutput) {
+        OffsetDateTime baseTime=OffsetDateTime.parse(input);
+        String actualOutput=baseTime.format(DateTimeFormatters.RFC3339_OFFSET_DATE_TIME_FORMATTER);
+        assertEquals(expectedOutput,actualOutput);
     }
 
-    // Test Parsing
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "2024-03-17T15:30:00+00:00,000",
-            "2024-03-17T15:30:00+00:00,100",
-            "2024-03-17T15:30:00+00:00,120",
-            "2024-03-17T15:30:00+00:00,123"
-    })
-    void testParsing(String input) {
-        // Split the input into date-time and milliseconds
-        String[] parts = input.split(",");
-        String dateTimeStr = parts[0];
-        String milliseconds = parts[1];
-
-        // Parse with each formatter and compare the parsed value
-        OffsetDateTime parsedRFC3339 = OffsetDateTime.parse(dateTimeStr, DateTimeFormatters.RFC3339_OFFSET_DATE_TIME_FORMATTER);
-        OffsetDateTime parsedFixedFraction = OffsetDateTime.parse(dateTimeStr, DateTimeFormatters.FIXED_FRACTION_RFC3339_OFFSET_DATE_TIME_FORMATTER);
-        OffsetDateTime parsedOptionalFraction = OffsetDateTime.parse(dateTimeStr, DateTimeFormatters.OPTIONAL_FRACTION_RFC3339_OFFSET_DATE_TIME_FORMATTER);
-
-        OffsetDateTime expectedTime = OffsetDateTime.parse("2024-03-17T15:30:00" + (milliseconds.equals("000") ? "" : "." + milliseconds) + "Z");
-
-        assertEquals(expectedTime, parsedRFC3339);
-        assertEquals(expectedTime, parsedFixedFraction);
-        assertEquals(expectedTime, parsedOptionalFraction);
+    static Stream<Arguments> argumentsForFixedFractionRFC3339OffsetDateTimeFormatter() {
+        return Stream.of(
+            Arguments.of("2024-03-17T15:30:00.000+00:00","2024-03-17T15:30:00.000Z"),
+            Arguments.of("2024-03-17T15:30:00.100+00:00","2024-03-17T15:30:00.100Z"),
+            Arguments.of("2024-03-17T15:30:00.120+00:00","2024-03-17T15:30:00.120Z"),
+            Arguments.of("2024-03-17T15:30:00.123+00:00","2024-03-17T15:30:00.123Z"),
+            Arguments.of("2024-03-17T15:30:00.123456789+00:00","2024-03-17T15:30:00.123Z"),
+            Arguments.of("2024-03-17T15:30:00.000+01:00","2024-03-17T15:30:00.000+01:00"),
+            Arguments.of("2024-03-17T15:30:00.100-02:00","2024-03-17T15:30:00.100-02:00"),
+            Arguments.of("2024-03-17T15:30:00.120+03:00","2024-03-17T15:30:00.120+03:00"),
+            Arguments.of("2024-03-17T15:30:00.123-04:00","2024-03-17T15:30:00.123-04:00")
+        );
     }
+    @ParameterizedTest
+    @MethodSource("argumentsForFixedFractionRFC3339OffsetDateTimeFormatter")
+    void formattingForFixedFractionRFC3339OffsetDateTimeFormatter(String input,
+                                                                  String expectedOutput) {
+        OffsetDateTime baseTime=OffsetDateTime.parse(input);
+        String actualOutput=baseTime.format(DateTimeFormatters.FIXED_FRACTION_RFC3339_OFFSET_DATE_TIME_FORMATTER);
+        assertEquals(expectedOutput,actualOutput);
+    }
+
+    static Stream<Arguments> argumentsForOptionalFractionRFC3339OffsetDateTimeFormatter() {
+        return Stream.of(
+            Arguments.of("2024-03-17T15:30:00.000+00:00","2024-03-17T15:30:00Z"),
+            Arguments.of("2024-03-17T15:30:00.100+00:00","2024-03-17T15:30:00.1Z"),
+            Arguments.of("2024-03-17T15:30:00.120+00:00","2024-03-17T15:30:00.12Z"),
+            Arguments.of("2024-03-17T15:30:00.123+00:00","2024-03-17T15:30:00.123Z"),
+            Arguments.of("2024-03-17T15:30:00.123456789+00:00","2024-03-17T15:30:00.123Z"),
+            Arguments.of("2024-03-17T15:30:00.000+01:00","2024-03-17T15:30:00+01:00"),
+            Arguments.of("2024-03-17T15:30:00.100-02:00","2024-03-17T15:30:00.1-02:00"),
+            Arguments.of("2024-03-17T15:30:00.120+03:00","2024-03-17T15:30:00.12+03:00"),
+            Arguments.of("2024-03-17T15:30:00.123-04:00","2024-03-17T15:30:00.123-04:00")
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("argumentsForOptionalFractionRFC3339OffsetDateTimeFormatter")
+    void formattingForOptionalFractionRFC3339OffsetDateTimeFormatter(String input,
+                                                                     String expectedOutput) {
+        OffsetDateTime baseTime=OffsetDateTime.parse(input);
+        String actualOutput=baseTime.format(DateTimeFormatters.OPTIONAL_FRACTION_RFC3339_OFFSET_DATE_TIME_FORMATTER);
+        assertEquals(expectedOutput,actualOutput);
+    }
+
+
+
+
+
+
 
     // Test parsing "+00:00" and "Z" handling for RFC3339_OFFSET_DATE_TIME_FORMATTER
     @Test
