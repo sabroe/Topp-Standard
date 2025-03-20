@@ -37,11 +37,12 @@ public class DateTimeFormatters {
     /**
      * Strict RFC 3339 format forcing "+00:00" to be "Z".
      * <p>
-     *     This is contrary to {@link DateTimeFormatter#ISO_OFFSET_DATE_TIME} which allows "+00:00".
+     *    Key features:
      * </p>
-     * <p>
-     *     Milliseconds are optional as stated by RFC 3339.
-     * </p>
+     * <ol>
+     *     <li>Forces "+00:00" to be output as "Z".</li>
+     *     <li>Milliseconds are optional (0-3 digits).</li>
+     * </ol>
      * <p>
      *   Examples of formatted output:
      * </p>
@@ -63,16 +64,18 @@ public class DateTimeFormatters {
     /**
      * Strict RFC 3339 format forcing "+00:00" to be "Z", forcing milliseconds to three digits even for "000".
      * <p>
-     *     This is contrary to {@link DateTimeFormatter#ISO_OFFSET_DATE_TIME} which allows "+00:00".
+     *    Key features:
      * </p>
-     * <p>
-     *     Milliseconds are always present as three decimal digits, as required by some APIs.
-     * </p>
+     * <ol>
+     *     <li>Forces "+00:00" to be output as "Z".</li>
+     *     <li>Milliseconds are always present as three decimal digits, as required by some APIs.</li>
+     *     <li>Useful for APIs requiring fixed precision.</li>
+     * </ol>
      * <p>
      *   Examples of formatted output:
      * </p>
      * <ul>
-     *     <li>{@code 2024-03-17T15:30:00Z.000}</li>
+     *     <li>{@code 2024-03-17T15:30:00.000Z}</li>
      *     <li>{@code 2024-03-17T15:30:00.100Z}</li>
      *     <li>{@code 2024-03-17T15:30:00.120Z}</li>
      *     <li>{@code 2024-03-17T15:30:00.123Z}</li>
@@ -95,11 +98,13 @@ public class DateTimeFormatters {
     /**
      * Strict RFC 3339 format forcing "+00:00" to be "Z", outputs milliseconds only if necessary.
      * <p>
-     *     This is contrary to {@link DateTimeFormatter#ISO_OFFSET_DATE_TIME} which allows "+00:00".
+     *    Key features:
      * </p>
-     * <p>
-     *     Outputs milliseconds only if necessary, this is valid per RFC 3339.
-     * </p>
+     * <ol>
+     *     <li>Forces "+00:00" to be output as "Z".</li>
+     *     <li>Most flexible with milliseconds (0-3 digits, only shown if needed).</li>
+     *     <li>Minimizes output length when possible.</li>
+     * </ol>
      * <p>
      *   Examples of formatted output:
      * </p>
@@ -120,7 +125,7 @@ public class DateTimeFormatters {
             .appendLiteral(':')
             .appendValue(ChronoField.SECOND_OF_MINUTE,2)
             .optionalStart()
-            .appendFraction(ChronoField.MILLI_OF_SECOND,1,3,true) //Optional fraction.
+            .appendFraction(ChronoField.MILLI_OF_SECOND,0,3,true)  //Optional fraction.
             .optionalEnd()
             .appendOffset("+HH:MM", "Z")  //Forces "Z" for UTC.
             .toFormatter();
