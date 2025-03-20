@@ -53,7 +53,7 @@ public class DateTimeFormatters {
      *     <li>{@code 2024-03-17T15:30:00.123Z}</li>
      * </ul>
      */
-    public static final DateTimeFormatter RFC3339_OFFSET_DATE_TIME_FORMATTER=
+    public static final DateTimeFormatter RFC_3339_OFFSET_DATE_TIME_FORMATTER=
         new DateTimeFormatterBuilder()
             .append(DateTimeFormatter.ISO_LOCAL_DATE)  //Format "YYYY-MM-DD".
             .appendLiteral('T')
@@ -81,7 +81,7 @@ public class DateTimeFormatters {
      *     <li>{@code 2024-03-17T15:30:00.123Z}</li>
      * </ul>
      */
-    public static final DateTimeFormatter FIXED_FRACTION_RFC3339_OFFSET_DATE_TIME_FORMATTER=
+    public static final DateTimeFormatter FIXED_FRACTION_RFC_3339_OFFSET_DATE_TIME_FORMATTER=
         new DateTimeFormatterBuilder()
             .append(DateTimeFormatter.ISO_LOCAL_DATE)  //Format "YYYY-MM-DD".
             .appendLiteral('T')
@@ -115,7 +115,7 @@ public class DateTimeFormatters {
      *     <li>{@code 2024-03-17T15:30:00.123Z}</li>
      * </ul>
      */
-    public static final DateTimeFormatter OPTIONAL_FRACTION_RFC3339_OFFSET_DATE_TIME_FORMATTER=
+    public static final DateTimeFormatter OPTIONAL_FRACTION_RFC_3339_OFFSET_DATE_TIME_FORMATTER=
         new DateTimeFormatterBuilder()
             .append(DateTimeFormatter.ISO_LOCAL_DATE)  //Format "YYYY-MM-DD".
             .appendLiteral('T')
@@ -128,5 +128,52 @@ public class DateTimeFormatters {
             .appendFraction(ChronoField.MILLI_OF_SECOND,0,3,true)  //Optional fraction.
             .optionalEnd()
             .appendOffset("+HH:MM", "Z")  //Forces "Z" for UTC.
+            .toFormatter();
+
+
+    public static final DateTimeFormatter RFC_3339_NO_FRACTION_OFFSET_DATE_TIME_FORMATTER =
+        new DateTimeFormatterBuilder()
+            .append(DateTimeFormatter.ISO_LOCAL_DATE)
+            .appendLiteral('T')
+            .appendValue(ChronoField.HOUR_OF_DAY,2)
+            .appendLiteral(':')
+            .appendValue(ChronoField.MINUTE_OF_HOUR,2)
+            .appendLiteral(':')
+            .appendValue(ChronoField.SECOND_OF_MINUTE,2)
+            .appendOffset("+HH:MM","Z")
+            .toFormatter();
+
+
+    public static final DateTimeFormatter FIXED_MICROSECOND_RFC_3339_OFFSET_DATE_TIME_FORMATTER =
+        new DateTimeFormatterBuilder()
+            .append(DateTimeFormatter.ISO_LOCAL_DATE)
+            .appendLiteral('T')
+            .appendValue(ChronoField.HOUR_OF_DAY,2)
+            .appendLiteral(':')
+            .appendValue(ChronoField.MINUTE_OF_HOUR,2)
+            .appendLiteral(':')
+            .appendValue(ChronoField.SECOND_OF_MINUTE,2)
+            .appendLiteral('.')
+            .appendValue(ChronoField.MICRO_OF_SECOND,6)  // Fixed 6 digits
+            .appendOffset("+HH:MM","Z")
+            .toFormatter();
+
+    public static final DateTimeFormatter ISO_8601_ZULU_DATE_TIME_FORMATTER =
+        new DateTimeFormatterBuilder()
+            .append(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            .appendLiteral('Z')  // Forces "Z", no offset parsing
+            .toFormatter();
+
+
+    public static final DateTimeFormatter COMPACT_RFC_3339_OFFSET_DATE_TIME_FORMATTER =
+        new DateTimeFormatterBuilder()
+            .appendValue(ChronoField.YEAR, 4)
+            .appendValue(ChronoField.MONTH_OF_YEAR,2)
+            .appendValue(ChronoField.DAY_OF_MONTH,2)
+            .appendLiteral('T')
+            .appendValue(ChronoField.HOUR_OF_DAY,2)
+            .appendValue(ChronoField.MINUTE_OF_HOUR,2)
+            .appendValue(ChronoField.SECOND_OF_MINUTE,2)
+            .appendOffset("+HHMM","Z")  // Compact offset
             .toFormatter();
 }

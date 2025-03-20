@@ -34,9 +34,55 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 @SuppressWarnings("LombokGetterMayBeUsed")
 public enum StandardDateTimeFormatter {
+    /**
+     *
+     */
+    ISO_8601_OFFSET_DATE_TIME(DateTimeFormatter.ISO_OFFSET_DATE_TIME),
 
-    ISO_OFFSET_DATE_TIME(DateTimeFormatter.ISO_OFFSET_DATE_TIME),
-    ISO_INSTANT(DateTimeFormatter.ISO_INSTANT);
+    /**
+     *
+     */
+    ISO_8601_INSTANT(DateTimeFormatter.ISO_INSTANT),
+
+    /**
+     *
+     */
+    ISO_8601_LOCAL_DATE_TIME(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+
+    /**
+     *
+     */
+    ISO_8601_ZULU_DATE_TIME_FORMATTER(DateTimeFormatters.ISO_8601_ZULU_DATE_TIME_FORMATTER),
+
+    /**
+     *
+     */
+    RFC_3339_OFFSET_DATE_TIME_FORMATTER(DateTimeFormatters.RFC_3339_OFFSET_DATE_TIME_FORMATTER),
+
+    /**
+     *
+     */
+    FIXED_FRACTION_RFC_3339_OFFSET_DATE_TIME_FORMATTER(DateTimeFormatters.FIXED_FRACTION_RFC_3339_OFFSET_DATE_TIME_FORMATTER),
+
+    /**
+     *
+     */
+    OPTIONAL_FRACTION_RFC_3339_OFFSET_DATE_TIME_FORMATTER(DateTimeFormatters.OPTIONAL_FRACTION_RFC_3339_OFFSET_DATE_TIME_FORMATTER),
+
+    /**
+     *
+     */
+    RFC_3339_NO_FRACTION_OFFSET_DATE_TIME_FORMATTER(DateTimeFormatters.RFC_3339_NO_FRACTION_OFFSET_DATE_TIME_FORMATTER),
+
+    /**
+     *
+     */
+    FIXED_MICROSECOND_RFC_3339_OFFSET_DATE_TIME_FORMATTER(DateTimeFormatters.FIXED_MICROSECOND_RFC_3339_OFFSET_DATE_TIME_FORMATTER),
+
+    /**
+     *
+     */
+    COMPACT_RFC_3339_OFFSET_DATE_TIME_FORMATTER(DateTimeFormatters.COMPACT_RFC_3339_OFFSET_DATE_TIME_FORMATTER);
 
     @Getter
     private final DateTimeFormatter formatter;
