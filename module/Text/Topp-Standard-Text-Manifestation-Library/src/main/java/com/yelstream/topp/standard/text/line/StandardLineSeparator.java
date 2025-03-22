@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * Most common newline sequences.
+ * Most common line separators.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
