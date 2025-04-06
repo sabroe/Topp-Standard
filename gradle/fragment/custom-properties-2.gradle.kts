@@ -19,6 +19,12 @@
 
 /*
  *
+    module.properties
+    private.properties
+    structure.properties
+
+    Logical Hierarchy
+    Physical Hierarchy
  */
 
 import java.time.ZonedDateTime
