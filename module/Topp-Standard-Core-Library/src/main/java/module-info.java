@@ -28,13 +28,16 @@ module com.yelstream.topp.standard.core {
     requires org.slf4j;
     requires com.yelstream.topp.standard.annotator;
     requires java.scripting;
-//    requires jdk.net;
-//    requires jdk.sctp;
+    requires org.bouncycastle.provider;
     exports com.yelstream.topp.standard.lang;
+    exports com.yelstream.topp.standard.lang.annotation;
     exports com.yelstream.topp.standard.lang.reflect;
     exports com.yelstream.topp.standard.lang.thread;
     exports com.yelstream.topp.standard.io;
     exports com.yelstream.topp.standard.net;
+    exports com.yelstream.topp.standard.net.ssl;
+    exports com.yelstream.topp.standard.security;
+    exports com.yelstream.topp.standard.security.cert;
     exports com.yelstream.topp.standard.time;
     exports com.yelstream.topp.standard.time.watch;
     exports com.yelstream.topp.standard.util;
