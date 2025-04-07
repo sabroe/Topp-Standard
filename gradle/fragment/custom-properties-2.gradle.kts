@@ -44,6 +44,17 @@ val Project.custom: Properties
 val Project.nonRootGradle: Properties
     get() = extra["nonRootGradle"] as? Properties ?: Properties().also { extra["nonRootGradle"] = it }
 
+fun Project.loadProperties(fileName: String): Properties {
+    val properties = Properties()
+    val file = file(fileName)
+    logger.info("[${name}]:> Looking for properties file: $file")
+    if (file.exists()) {
+        file.reader().use { properties.load(it) }
+        logger.info("[${name}]:> Did find and read properties file: $file")
+    }
+    return properties
+}
+
 allprojects {
     extra["custom"] = Properties()
     extra["nonRootGradle"] = Properties()
@@ -67,13 +78,7 @@ allprojects {
      */
     run {
         val fileName = "custom.properties"
-        val properties = Properties()
-        val file = file(fileName)
-        logger.info("[${name}]:> Looking for properties file: $file")
-        if (file.exists()) {
-            file.reader().use { properties.load(it) }
-            logger.info("[${name}]:> Did find and read properties file: $file")
-        }
+        val properties = loadProperties(fileName)
 
         if (parent != null) {
             custom.putAll(parent!!.custom)
@@ -94,13 +99,7 @@ allprojects {
     run {
         if (this != rootProject) { // Only for submodules
             val fileName = "gradle.properties"
-            val properties = Properties()
-            val file = file(fileName)
-            logger.info("[${name}]:> Looking for properties file: $file")
-            if (file.exists()) {
-                file.reader().use { properties.load(it) }
-                logger.info("[${name}]:> Did find and read properties file: $file")
-            }
+            val properties = loadProperties(fileName)
 
             if (parent != null) {
                 nonRootGradle.putAll(parent!!.nonRootGradle)
@@ -124,13 +123,7 @@ allprojects {
      */
     run {
         val fileName = "local.properties"
-        val properties = Properties()
-        val file = file(fileName)
-        logger.info("[${name}]:> Looking for properties file: $file")
-        if (file.exists()) {
-            file.reader().use { properties.load(it) }
-            logger.info("[${name}]:> Did find and read properties file: $file")
-        }
+        val properties = loadProperties(fileName)
 
         properties.forEach { key, value ->
             setProperty(key.toString(), value)

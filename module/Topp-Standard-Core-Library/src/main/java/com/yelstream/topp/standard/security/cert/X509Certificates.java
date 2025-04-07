@@ -20,12 +20,14 @@
 package com.yelstream.topp.standard.security.cert;
 
 import lombok.experimental.UtilityClass;
+import org.bouncycastle.asn1.x509.Extension;
+import org.bouncycastle.asn1.x509.KeyUsage;
 import org.bouncycastle.cert.X509CertificateHolder;
-import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
 
 import java.security.cert.CertificateParsingException;
-import java.security.cert.Extension;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -69,35 +71,52 @@ public class X509Certificates {
 
 
     public static String prettyPrintCertificate2(X509Certificate c) throws Exception {
-        X509CertificateHolder certHolder = new JcaX509CertificateConverter().getCertificate(c);
+        X509CertificateHolder certHolder = new X509CertificateHolder(c.getEncoded());
+        Extension sanExt = certHolder.getExtension(Extension.subjectAlternativeName);
+        Extension keyUsageExt = certHolder.getExtension(Extension.keyUsage);
+        Extension extKeyUsageExt = certHolder.getExtension(Extension.extendedKeyUsage);
+        Extension crlDistExt = certHolder.getExtension(Extension.cRLDistributionPoints);
+
         return String.format("""
-        Certificate for: %s
-        Issued by: %s
-        Valid from: %s to %s
-        Subject Alternative Names: %s
-        Public Key: %s
-        Key Usage: %s
-        Extended Key Usage: %s
-        Serial Number: %s
-        Signature Algorithm: %s
-        CRL Distribution Points: %s""",
+            Certificate for: %s
+            Issued by: %s
+            Valid from: %s to %s
+            Subject Alternative Names: %s
+            Public Key: %s
+            Key Usage: %s
+            Extended Key Usage: %s
+            Serial Number: %s
+            Signature Algorithm: %s
+            CRL Distribution Points: %s""",
                 certHolder.getSubject(),
                 certHolder.getIssuer(),
                 certHolder.getNotBefore(),
                 certHolder.getNotAfter(),
-                certHolder.getSubjectAlternativeNames() != null ? certHolder.getSubjectAlternativeNames() : "None",
+                sanExt != null ? sanExt.getParsedValue().toString() : "None",
                 certHolder.getSubjectPublicKeyInfo(),
-                formatKeyUsage(certHolder.getExtension(Extension.keyUsage)),
-                certHolder.getExtension(Extension.extendedKeyUsage),
+                formatKeyUsage(keyUsageExt),
+                extKeyUsageExt != null ? extKeyUsageExt.getParsedValue().toString() : "None",
                 certHolder.getSerialNumber(),
                 certHolder.getSignatureAlgorithm().getAlgorithm(),
-                certHolder.getExtension(Extension.cRLDistributionPoints)
+                crlDistExt != null ? crlDistExt.getParsedValue().toString() : "None"
         );
     }
 
-    // Helper method (simplified)
-    private static String formatKeyUsage(Extension ext) {
-        return ext != null ? "Present" : "None"; // Add real parsing as needed
+    private static String formatKeyUsage(Extension keyUsageExt) {
+        if (keyUsageExt == null) return "None";
+        KeyUsage usage = KeyUsage.getInstance(keyUsageExt.getParsedValue());
+        if (usage == null) return "None";
+        return Arrays.stream(new String[]{
+                usage.hasUsages(KeyUsage.digitalSignature) ? "digitalSignature" : null,
+                usage.hasUsages(KeyUsage.nonRepudiation) ? "nonRepudiation" : null,
+                usage.hasUsages(KeyUsage.keyEncipherment) ? "keyEncipherment" : null,
+                usage.hasUsages(KeyUsage.dataEncipherment) ? "dataEncipherment" : null,
+                usage.hasUsages(KeyUsage.keyAgreement) ? "keyAgreement" : null,
+                usage.hasUsages(KeyUsage.keyCertSign) ? "keyCertSign" : null,
+                usage.hasUsages(KeyUsage.cRLSign) ? "cRLSign" : null,
+                usage.hasUsages(KeyUsage.encipherOnly) ? "encipherOnly" : null,
+                usage.hasUsages(KeyUsage.decipherOnly) ? "decipherOnly" : null
+        }).filter(Objects::nonNull).collect(Collectors.joining(", "));
     }
 
 
