@@ -54,8 +54,11 @@ val Project.nonRootGradle: Properties
 val Project.structual: Properties
     get() = extra["structual"] as? Properties ?: Properties().also { extra["structual"] = it }
 
-// Cache for structural properties: Map<absolute-directory-as-File, Properties>
-val structuralPropertiesCache = mutableMapOf<File, Properties>()
+val Project.local: Properties
+    get() = extra["local"] as? Properties ?: Properties().also { extra["local"] = it }
+
+// Cache for structual properties: Map<absolute-directory-as-File, Properties>
+val structualPropertiesCache = mutableMapOf<File, Properties>()
 
 fun Project.loadProperties(fileName: String): Properties {
     val file = file(fileName)
@@ -80,7 +83,7 @@ fun Properties.resolvePlaceholders(project: Project, sources: Properties): Prope
         if (strValue.contains("\${")) {
             strValue = strValue.replace(Regex("\\$\\{([^}]+)\\}")) { match ->
                 val propKey = match.groupValues[1]
-                sources[propKey] // First check merged sources
+                sources.getProperty(propKey) // Use sources for resolution
                     ?: project.findProperty(propKey)?.toString() // Then Gradle project properties
                     ?: System.getProperty(propKey) // Then system properties
                     ?: match.value // Unresolved, keep as-is
@@ -91,7 +94,7 @@ fun Properties.resolvePlaceholders(project: Project, sources: Properties): Prope
     return resolved
 }
 
-// Compute structural properties by walking up the file system
+// Compute structual properties by walking up the file system
 fun Project.computeStructuralProperties(): Properties {
     val result = Properties()
     var currentDir: File? = projectDir.absoluteFile
@@ -99,7 +102,7 @@ fun Project.computeStructuralProperties(): Properties {
     while (currentDir != null) {
         val currentDirKey = currentDir.absoluteFile
 
-        val cachedProps = structuralPropertiesCache[currentDirKey]
+        val cachedProps = structualPropertiesCache[currentDirKey]
 
         val dirProps =
             if (cachedProps != null) {
@@ -111,7 +114,7 @@ fun Project.computeStructuralProperties(): Properties {
 
         result.putAll(dirProps)
 
-        structuralPropertiesCache[currentDirKey] = dirProps
+        structualPropertiesCache[currentDirKey] = dirProps
 
         currentDir =
             if (currentDir.absolutePath == rootDir.absolutePath) {
@@ -128,6 +131,7 @@ allprojects {
     extra["custom"] = Properties()
     extra["nonRootGradle"] = Properties()
     extra["structual"] = Properties()
+    extra["local"] = Properties()
 
     /*
      * Set all default custom properties.
@@ -146,6 +150,7 @@ allprojects {
      * Each custom property can be accessed as 'ext.custom.xxx' or just 'custom.xxx'.
      * Inherited custom properties is a main feature.
      */
+/*
     run {
         val fileName = "custom.properties"
         val properties = loadProperties(fileName)
@@ -159,6 +164,12 @@ allprojects {
         logger.debug("[${name}]:> Custom properties introduced by local module: $properties")
         logger.debug("[${name}]:> Custom properties resolved: $custom")
     }
+*/
+    run {
+        val properties = loadProperties("custom.properties")
+        if (parent != null) custom.putAll(parent!!.custom)
+        custom.putAll(properties)
+    }
 
     /*
      * Populate project properties from parent, non-root properties and local module file "gradle.properties.
@@ -166,6 +177,7 @@ allprojects {
      * with either their full or part content down to a sub-module and without too much hassle like e.g. moving the properties.
      * For now, this feature is a convenience more like an actually intended functionality.
      */
+/*
     run {
         if (this != rootProject) { // Only for submodules
             val fileName = "gradle.properties"
@@ -185,12 +197,22 @@ allprojects {
             logger.debug("[${name}]:> Non-root \"Gradle\" properties resolved: $nonRootGradle")
         }
     }
+*/
+    run {
+        if (this != rootProject) {
+            val properties = loadProperties("gradle.properties")
+            if (parent != null) nonRootGradle.putAll(parent!!.nonRootGradle)
+            nonRootGradle.putAll(properties)
+            properties.forEach { (key, value) -> setProperty(key.toString(), value) }
+        }
+    }
 
     /*
      * Populate project properties from the structual hierarchy (file system) using gradle.properties files.
      * This reads properties from the current directory and all parent directories up to the root,
      * caching them for efficiency, and applies them as project properties for submodules.
      */
+/*
     run {
         if (this != rootProject) {
             val properties = computeStructuralProperties()
@@ -204,12 +226,21 @@ allprojects {
             logger.debug("[${name}]:> Structual properties resolved from file system: $properties")
         }
     }
+ */
+    run {
+        if (this != rootProject) {
+            val properties = computeStructuralProperties()
+            structual.putAll(properties)
+            properties.forEach { (key, value) -> setProperty(key.toString(), value) }
+        }
+    }
 
     /*
      * Populate project properties with additional properties from local module file "local.properties".
      * This allows for a forced override of project properties within a local sub-module.
      * Local, forced override of project properties is a main feature.
      */
+/*
     run {
         val fileName = "local.properties"
         val properties = loadProperties(fileName)
@@ -220,8 +251,49 @@ allprojects {
 
         logger.debug("[${name}]:> Project properties introduced by local module: $properties")
     }
+ */
+    run {
+        val properties = loadProperties("local.properties")
+        properties.forEach { key, value -> setProperty(key.toString(), value) }
+    }
 
     logger.debug("[${name}]:> Project properties: ${properties.filter { it.key != "parent" && it.key != "rootProject" }}")
+
+    // Combine all sources into one Properties object
+    run {
+            val allProps = Properties().apply {
+                putAll(custom)
+                putAll(nonRootGradle)
+                putAll(structual)
+                putAll(loadProperties("local.properties")) // Re-load to ensure latest
+            }
+
+            // Resolve placeholders using only allProps
+            val resolvedProps = allProps.resolvePlaceholders(project,allProps)
+
+            // Apply resolved properties to project
+println(resolvedProps)
+        resolvedProps.forEach { key, value ->
+            val keyStr = key.toString()
+println("key:   " + keyStr)
+println("value: " + value)
+            // Check if the property exists before setting it
+            if (project.hasProperty(keyStr)) {
+                setProperty(keyStr, value)
+                logger.debug("[${name}]:> Set existing property $keyStr to $value")
+            } else {
+                logger.debug("[${name}]:> Skipped setting $keyStr - not a known project property")
+                // Optionally store in extra for later use
+/*
+                extra["resolved"] = (extra["resolved"] as? Properties ?: Properties()).apply {
+                    put(key, value)
+                }
+*/
+            }
+        }
+
+            logger.debug("[${name}]:> All resolved properties: $resolvedProps")
+    }
 
     /*
      * Set project group and version, if not already set.
@@ -232,5 +304,9 @@ allprojects {
     run {
         group = /*group ?: */custom["project.group"] ?: "com.example"             //TO-DO: When properties are merged to be all Gradle-global, apply or remove these lines!
         version = /*version ?: */custom["project.version"] ?: sanitizedBuildTime
+//        group = group ?: "com.example"
+//        version = version ?: sanitizedBuildTime
+//        group = project.findProperty("project.group") ?: "com.example"
+//        version = project.findProperty("project.version") ?: sanitizedBuildTime
     }
 }

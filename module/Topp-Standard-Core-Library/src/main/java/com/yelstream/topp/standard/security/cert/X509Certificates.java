@@ -24,6 +24,8 @@ import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.asn1.x509.KeyUsage;
 import org.bouncycastle.cert.X509CertificateHolder;
 
+import java.io.IOException;
+import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
@@ -70,7 +72,7 @@ public class X509Certificates {
     }
 
 
-    public static String prettyPrintCertificate2(X509Certificate c) throws Exception {
+    public static String prettyPrintCertificate2(X509Certificate c) throws CertificateEncodingException, IOException {
         X509CertificateHolder certHolder = new X509CertificateHolder(c.getEncoded());
         Extension sanExt = certHolder.getExtension(Extension.subjectAlternativeName);
         Extension keyUsageExt = certHolder.getExtension(Extension.keyUsage);

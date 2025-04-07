@@ -37,7 +37,8 @@ def fragmentDir = "${rootProject.projectDir}/gradle/fragment"
 //apply from: "${fragmentDir}/custom-properties.gradle"
 //apply from: "https://raw.githubusercontent.com/sabroe/Topp-Grasp/refs/heads/main/template/root/gradle/fragment/custom-properties.gradle"
 //apply from: "${fragmentDir}/custom-properties-2.gradle"
-apply from: "${fragmentDir}/custom-properties-2.gradle.kts"
+//apply from: "${fragmentDir}/custom-properties-2.gradle.kts"
+apply from: "${fragmentDir}/custom-properties-3.gradle.kts"
 
 allprojects {
     repositories {
