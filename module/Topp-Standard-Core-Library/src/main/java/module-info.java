@@ -29,6 +29,7 @@ module com.yelstream.topp.standard.core {
     requires com.yelstream.topp.standard.annotator;
     requires java.scripting;
     requires org.bouncycastle.provider;
+    requires org.bouncycastle.pkix;
     exports com.yelstream.topp.standard.lang;
     exports com.yelstream.topp.standard.lang.annotation;
     exports com.yelstream.topp.standard.lang.reflect;
