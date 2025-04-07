@@ -27,6 +27,12 @@
     Physical Hierarchy
  */
 
+/*
+ * In Gradle’s normal semantics, submodules inherit properties (like those in gradle.properties or set via -P) only
+ * from the root project, regardless of their position in the module hierarchy.
+ * There’s no automatic inheritance from intermediate parent modules—only the root’s properties propagate down to all subprojects.
+ */
+
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Properties
@@ -41,12 +47,23 @@ val sanitizedBuildTime: String = buildTime.replace("T", "-").replace(":", "") //
 // Define extension properties at the top level for type safety (optional)
 val Project.custom: Properties
     get() = extra["custom"] as? Properties ?: Properties().also { extra["custom"] = it }
+
 val Project.nonRootGradle: Properties
     get() = extra["nonRootGradle"] as? Properties ?: Properties().also { extra["nonRootGradle"] = it }
 
+val Project.structual: Properties
+    get() = extra["structual"] as? Properties ?: Properties().also { extra["structual"] = it }
+
+// Cache for structural properties: Map<absolute-directory-as-File, Properties>
+val structuralPropertiesCache = mutableMapOf<File, Properties>()
+
 fun Project.loadProperties(fileName: String): Properties {
-    val properties = Properties()
     val file = file(fileName)
+    return loadProperties(file)
+}
+
+fun Project.loadProperties(file: File): Properties {
+    val properties = Properties()
     logger.info("[${name}]:> Looking for properties file: $file")
     if (file.exists()) {
         file.reader().use { properties.load(it) }
@@ -55,9 +72,62 @@ fun Project.loadProperties(fileName: String): Properties {
     return properties
 }
 
+// Utility to resolve placeholders in a Properties object
+fun Properties.resolvePlaceholders(project: Project, sources: Properties): Properties {
+    val resolved = Properties()
+    forEach { key, value ->
+        var strValue = value.toString()
+        if (strValue.contains("\${")) {
+            strValue = strValue.replace(Regex("\\$\\{([^}]+)\\}")) { match ->
+                val propKey = match.groupValues[1]
+                sources[propKey] // First check merged sources
+                    ?: project.findProperty(propKey)?.toString() // Then Gradle project properties
+                    ?: System.getProperty(propKey) // Then system properties
+                    ?: match.value // Unresolved, keep as-is
+            }
+        }
+        resolved[key] = strValue
+    }
+    return resolved
+}
+
+// Compute structural properties by walking up the file system
+fun Project.computeStructuralProperties(): Properties {
+    val result = Properties()
+    var currentDir: File? = projectDir.absoluteFile
+
+    while (currentDir != null) {
+        val currentDirKey = currentDir.absoluteFile
+
+        val cachedProps = structuralPropertiesCache[currentDirKey]
+
+        val dirProps =
+            if (cachedProps != null) {
+                cachedProps
+            } else {
+                val gradlePropsFile = File(currentDir, "gradle.properties")
+                loadProperties(gradlePropsFile)
+            }
+
+        result.putAll(dirProps)
+
+        structuralPropertiesCache[currentDirKey] = dirProps
+
+        currentDir =
+            if (currentDir.absolutePath == rootDir.absolutePath) {
+                null
+            } else {
+                currentDir.parentFile
+            }
+    }
+
+    return result
+}
+
 allprojects {
     extra["custom"] = Properties()
     extra["nonRootGradle"] = Properties()
+    extra["structual"] = Properties()
 
     /*
      * Set all default custom properties.
@@ -117,6 +187,25 @@ allprojects {
     }
 
     /*
+     * Populate project properties from the structual hierarchy (file system) using gradle.properties files.
+     * This reads properties from the current directory and all parent directories up to the root,
+     * caching them for efficiency, and applies them as project properties for submodules.
+     */
+    run {
+        if (this != rootProject) {
+            val properties = computeStructuralProperties()
+
+            structual.putAll(properties)
+
+            properties.forEach { (key, value) ->
+                setProperty(key.toString(), value)
+            }
+
+            logger.debug("[${name}]:> Structual properties resolved from file system: $properties")
+        }
+    }
+
+    /*
      * Populate project properties with additional properties from local module file "local.properties".
      * This allows for a forced override of project properties within a local sub-module.
      * Local, forced override of project properties is a main feature.
@@ -141,10 +230,7 @@ allprojects {
      * the root of the project while allowing for a local overwrite within a sub-module, if necessary.
      */
     run {
-        group = custom["project.group"] ?: "com.example"
-        version = custom["project.version"] ?: sanitizedBuildTime
-
-        logger.info("GROUP:   $group")
-        logger.info("VERSION: $version")
+        group = /*group ?: */custom["project.group"] ?: "com.example"             //TO-DO: When properties are merged to be all Gradle-global, apply or remove these lines!
+        version = /*version ?: */custom["project.version"] ?: sanitizedBuildTime
     }
 }
