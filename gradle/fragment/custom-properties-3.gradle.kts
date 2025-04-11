@@ -302,11 +302,17 @@ println("value: " + value)
      * the root of the project while allowing for a local overwrite within a sub-module, if necessary.
      */
     run {
-        group = /*group ?: */custom["project.group"] ?: "com.example"             //TO-DO: When properties are merged to be all Gradle-global, apply or remove these lines!
-        version = /*version ?: */custom["project.version"] ?: sanitizedBuildTime
-//        group = group ?: "com.example"
-//        version = version ?: sanitizedBuildTime
-//        group = project.findProperty("project.group") ?: "com.example"
-//        version = project.findProperty("project.version") ?: sanitizedBuildTime
+        logger.debug("[${name}]:> Custom map: $custom")
+        logger.debug("[${name}]:> Custom map key types: ${custom.keys.map { it::class }}")
+
+        val keyPrefix="project."
+        custom.forEach { (key, value) ->
+            if (key is String && key.startsWith(keyPrefix)) {
+                val name = key.removePrefix(keyPrefix)
+                project.setProperty(name, value)
+            }
+        }
+        group = project.findProperty("group") ?: "com.example"
+        version = project.findProperty("version") ?: sanitizedBuildTime
     }
 }
