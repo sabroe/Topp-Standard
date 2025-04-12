@@ -62,10 +62,6 @@ open class Module(private val project: Project) : ExtensionAware {
         get() = project.extensions.extraProperties
 }
 
-open class SubModule(private val project: Project) {
-    var nestedProp: String? = null
-}
-
 val Project.module: Module
     get() = if (extensions.extraProperties.has(Constants.MODULE_KEY)) {
         extensions.extraProperties[Constants.MODULE_KEY] as Module
@@ -166,14 +162,6 @@ fun Project.computeStructuralProperties(): Properties {
 }
 
 allprojects {
-    project.module.extensions.create<SubModule>("subModule", project)
-
-    project.module.setProperty("test", "value")
-    project.module.extensions.getByType<SubModule>().nestedProp = "nested"
-    println(project.module.getProperty("test"))
-    println(project.module.extensions.getByType<SubModule>().nestedProp)
-    println(project.module.extra.subModule.nestedProp)
-
     extra["custom"] = Properties()
     extra["nonRootGradle"] = Properties()
     extra["structural"] = Properties()
