@@ -18,16 +18,6 @@
  */
 
 /*
- *
-    module.properties
-    private.properties
-    structure.properties
-
-    Logical Hierarchy
-    Physical Hierarchy
- */
-
-/*
  * In Gradle’s normal semantics, submodules inherit properties (like those in gradle.properties or set via -P) only
  * from the root project, regardless of their position in the module hierarchy.
  * There’s no automatic inheritance from intermediate parent modules—only the root’s properties propagate down to all subprojects.
@@ -36,6 +26,54 @@
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Properties
+import org.gradle.api.Project
+import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.plugins.ExtraPropertiesExtension
+import org.gradle.kotlin.dsl.*
+
+object Constants {
+    const val MODULE_KEY = "module"
+}
+
+open class Module(private val project: Project) : ExtensionAware {
+    private val properties = mutableMapOf<String, Any?>()
+
+    override fun getExtensions() = project.extensions
+
+    open fun setProperty(name: String, value: Any?) {
+        properties[name] = value
+    }
+
+    open fun getProperty(name: String): Any? {
+        return properties[name] ?: throw IllegalArgumentException("Property '$name' not found in module")
+    }
+
+    open fun findProperty(name: String): Any? {
+        return properties[name]
+    }
+
+    open fun properties(configure: MutableMap<String, Any?>.() -> Unit) {
+        properties.configure()
+    }
+
+    var description: String? = null
+
+    val extra: ExtraPropertiesExtension
+        get() = project.extensions.extraProperties
+}
+
+open class SubModule(private val project: Project) {
+    var nestedProp: String? = null
+}
+
+val Project.module: Module
+    get() = if (extensions.extraProperties.has(Constants.MODULE_KEY)) {
+        extensions.extraProperties[Constants.MODULE_KEY] as Module
+    } else {
+        Module(this).also {
+            extensions.extraProperties[Constants.MODULE_KEY] = it
+        }
+    }
 
 val buildZonedTime: ZonedDateTime = ZonedDateTime.now()
 val buildTimeZulu: String = DateTimeFormatter.ISO_INSTANT.format(buildZonedTime) // E.g., '2011-12-03T10:15:30Z'
@@ -51,14 +89,14 @@ val Project.custom: Properties
 val Project.nonRootGradle: Properties
     get() = extra["nonRootGradle"] as? Properties ?: Properties().also { extra["nonRootGradle"] = it }
 
-val Project.structual: Properties
-    get() = extra["structual"] as? Properties ?: Properties().also { extra["structual"] = it }
+val Project.structural: Properties
+    get() = extra["structural"] as? Properties ?: Properties().also { extra["structural"] = it }
 
 val Project.local: Properties
     get() = extra["local"] as? Properties ?: Properties().also { extra["local"] = it }
 
-// Cache for structual properties: Map<absolute-directory-as-File, Properties>
-val structualPropertiesCache = mutableMapOf<File, Properties>()
+// Cache for structural properties: Map<absolute-directory-as-File, Properties>
+val structuralPropertiesCache = mutableMapOf<File, Properties>()
 
 fun Project.loadProperties(fileName: String): Properties {
     val file = file(fileName)
@@ -94,7 +132,7 @@ fun Properties.resolvePlaceholders(project: Project, sources: Properties): Prope
     return resolved
 }
 
-// Compute structual properties by walking up the file system
+// Compute structural properties by walking up the file system
 fun Project.computeStructuralProperties(): Properties {
     val result = Properties()
     var currentDir: File? = projectDir.absoluteFile
@@ -102,7 +140,7 @@ fun Project.computeStructuralProperties(): Properties {
     while (currentDir != null) {
         val currentDirKey = currentDir.absoluteFile
 
-        val cachedProps = structualPropertiesCache[currentDirKey]
+        val cachedProps = structuralPropertiesCache[currentDirKey]
 
         val dirProps =
             if (cachedProps != null) {
@@ -114,7 +152,7 @@ fun Project.computeStructuralProperties(): Properties {
 
         result.putAll(dirProps)
 
-        structualPropertiesCache[currentDirKey] = dirProps
+        structuralPropertiesCache[currentDirKey] = dirProps
 
         currentDir =
             if (currentDir.absolutePath == rootDir.absolutePath) {
@@ -128,9 +166,17 @@ fun Project.computeStructuralProperties(): Properties {
 }
 
 allprojects {
+    project.module.extensions.create<SubModule>("subModule", project)
+
+    project.module.setProperty("test", "value")
+    project.module.extensions.getByType<SubModule>().nestedProp = "nested"
+    println(project.module.getProperty("test"))
+    println(project.module.extensions.getByType<SubModule>().nestedProp)
+    println(project.module.extra.subModule.nestedProp)
+
     extra["custom"] = Properties()
     extra["nonRootGradle"] = Properties()
-    extra["structual"] = Properties()
+    extra["structural"] = Properties()
     extra["local"] = Properties()
 
     /*
@@ -208,7 +254,7 @@ allprojects {
     }
 
     /*
-     * Populate project properties from the structual hierarchy (file system) using gradle.properties files.
+     * Populate project properties from the structural hierarchy (file system) using gradle.properties files.
      * This reads properties from the current directory and all parent directories up to the root,
      * caching them for efficiency, and applies them as project properties for submodules.
      */
@@ -217,7 +263,7 @@ allprojects {
         if (this != rootProject) {
             val properties = computeStructuralProperties()
 
-            structual.putAll(properties)
+            structural.putAll(properties)
 
             properties.forEach { (key, value) ->
                 setProperty(key.toString(), value)
@@ -230,7 +276,7 @@ allprojects {
     run {
         if (this != rootProject) {
             val properties = computeStructuralProperties()
-            structual.putAll(properties)
+            structural.putAll(properties)
             properties.forEach { (key, value) -> setProperty(key.toString(), value) }
         }
     }
@@ -261,38 +307,28 @@ allprojects {
 
     // Combine all sources into one Properties object
     run {
-            val allProps = Properties().apply {
-                putAll(custom)
-                putAll(nonRootGradle)
-                putAll(structual)
-                putAll(loadProperties("local.properties")) // Re-load to ensure latest
-            }
+        val allProps = Properties().apply {
+            putAll(custom)
+            putAll(nonRootGradle)
+            putAll(structural)
+            putAll(loadProperties("local.properties")) // Re-load to ensure latest
+        }
 
-            // Resolve placeholders using only allProps
-            val resolvedProps = allProps.resolvePlaceholders(project,allProps)
+        // Resolve placeholders using only allProps
+        val resolvedProps = allProps.resolvePlaceholders(project,allProps)
 
-            // Apply resolved properties to project
-println(resolvedProps)
         resolvedProps.forEach { key, value ->
             val keyStr = key.toString()
-println("key:   " + keyStr)
-println("value: " + value)
-            // Check if the property exists before setting it
             if (project.hasProperty(keyStr)) {
                 setProperty(keyStr, value)
                 logger.debug("[${name}]:> Set existing property $keyStr to $value")
             } else {
                 logger.debug("[${name}]:> Skipped setting $keyStr - not a known project property")
-                // Optionally store in extra for later use
-/*
-                extra["resolved"] = (extra["resolved"] as? Properties ?: Properties()).apply {
-                    put(key, value)
-                }
-*/
+                project.module.setProperty(keyStr, value)
             }
         }
 
-            logger.debug("[${name}]:> All resolved properties: $resolvedProps")
+        logger.debug("[${name}]:> All resolved properties: $resolvedProps")
     }
 
     /*
