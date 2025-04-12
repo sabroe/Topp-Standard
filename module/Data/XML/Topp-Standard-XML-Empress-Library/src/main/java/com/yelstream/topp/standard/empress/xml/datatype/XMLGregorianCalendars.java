@@ -21,29 +21,66 @@ package com.yelstream.topp.standard.empress.xml.datatype;
 
 import lombok.experimental.UtilityClass;
 
-import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.GregorianCalendar;
 
+/**
+ * Utilities addressing instances of {@link XMLGregorianCalendar}.
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-02-13
+ */
 @UtilityClass
 public class XMLGregorianCalendars {
 
-    public static XMLGregorianCalendar createGregorianCalendar() throws DatatypeConfigurationException {
-        DatatypeFactory datatypeFactory=DatatypeFactory.newInstance();
+    public static XMLGregorianCalendar createGregorianCalendar() {
+        DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
         return datatypeFactory.newXMLGregorianCalendar();
     }
 
-    public static XMLGregorianCalendar createGregorianCalendar(GregorianCalendar calendar) throws DatatypeConfigurationException {
-        DatatypeFactory datatypeFactory=DatatypeFactory.newInstance();
+    public static XMLGregorianCalendar createGregorianCalendar(GregorianCalendar calendar) {
+        DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
         return datatypeFactory.newXMLGregorianCalendar(calendar);
     }
 
-    public static XMLGregorianCalendar createGregorianCalendar(ZonedDateTime dateTime) throws DatatypeConfigurationException {
+    public static XMLGregorianCalendar createGregorianCalendar(ZonedDateTime dateTime) {
         return createGregorianCalendar(GregorianCalendar.from(dateTime));
     }
 
+    public static XMLGregorianCalendar createGregorianCalendarDate(LocalDate date) {
+        DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
+        return datatypeFactory.newXMLGregorianCalendarDate(date.getYear(),
+                                                           date.getMonth().getValue(),  //Offset 1; range is [1..12]
+                                                           date.getDayOfMonth(),
+                                                           DatatypeConstants.FIELD_UNDEFINED);
+    }
+
+    public static XMLGregorianCalendar createGregorianCalendarTimeWithMilliseconds(LocalTime time) {
+        DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
+        return datatypeFactory.newXMLGregorianCalendarTime(time.getHour(),
+                                                           time.getMinute(),
+                                                           time.getSecond(),
+                                                 time.getNano()/1_000_000,  //Convert nanoseconds to milliseconds.
+                                                           DatatypeConstants.FIELD_UNDEFINED);
+    }
+
+    public static XMLGregorianCalendar createGregorianCalendarTimeWithNanoseconds(LocalTime time) {
+        DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
+        BigDecimal fractionalSecond=BigDecimal.valueOf(time.getNano(),9);  //Scale is 9; nano = 10^-9.
+        return datatypeFactory.newXMLGregorianCalendarTime(time.getHour(),
+                                                           time.getMinute(),
+                                                           time.getSecond(),
+                                                           fractionalSecond,
+                                                           DatatypeConstants.FIELD_UNDEFINED);
+    }
+
+    //TO-DO: Consider creating a builder!
 
 /*
     public static void main(String[] args) throws Exception {
