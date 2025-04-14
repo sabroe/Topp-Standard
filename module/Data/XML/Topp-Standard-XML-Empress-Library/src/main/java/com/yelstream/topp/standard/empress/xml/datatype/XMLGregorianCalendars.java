@@ -27,6 +27,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.GregorianCalendar;
 
@@ -80,32 +81,143 @@ public class XMLGregorianCalendars {
                                                            DatatypeConstants.FIELD_UNDEFINED);
     }
 
-    //TO-DO: Consider creating a builder!
+    /**
+     * Builder for creating full XMLGregorianCalendar instances (date and time).
+     */
+    @lombok.Builder(builderClassName = "FullGregorianCalendarBuilder", builderMethodName = "fullGregorianCalendarBuilder")
+    private static XMLGregorianCalendar createFullGregorianCalendar(
+            ZonedDateTime zonedDateTime,
+            GregorianCalendar gregorianCalendar
+    ) {
+        DatatypeFactory datatypeFactory = DatatypeFactories.createDataTypeFactory();
+        if (zonedDateTime != null) {
+            // Format ZonedDateTime to XML Schema dateTime format with nanosecond precision
+            StringBuilder lexical = new StringBuilder();
+            lexical.append(zonedDateTime.getYear())
+                    .append('-')
+                    .append(String.format("%02d", zonedDateTime.getMonthValue()))
+                    .append('-')
+                    .append(String.format("%02d", zonedDateTime.getDayOfMonth()))
+                    .append('T')
+                    .append(String.format("%02d", zonedDateTime.getHour()))
+                    .append(':')
+                    .append(String.format("%02d", zonedDateTime.getMinute()))
+                    .append(':')
+                    .append(String.format("%02d", zonedDateTime.getSecond()));
 
-/*
-    public static void main(String[] args) throws Exception {
-        DatatypeFactory df = DatatypeFactory.newInstance();
+            // Append fractional second if nanoseconds exist
+            int nano = zonedDateTime.getNano();
+            if (nano > 0) {
+                lexical.append('.');
+                // Convert nanoseconds to string, removing trailing zeros
+                String nanoStr = String.format("%09d", nano); // e.g., 123456789
+                nanoStr = nanoStr.replaceAll("0+$", ""); // Remove trailing zeros
+                lexical.append(nanoStr);
+            }
 
-        // Convert LocalDateTime (no timezone)
-        LocalDateTime localDateTime = LocalDateTime.now();
-        GregorianCalendar gregorianCalendar = GregorianCalendar.from(localDateTime.atZone(ZoneId.systemDefault()));
-        XMLGregorianCalendar xmlDateTime = df.newXMLGregorianCalendar(gregorianCalendar);
+            // Append timezone (Z for UTC, or offset like +01:00)
+            ZoneOffset offset = zonedDateTime.getOffset();
+            if (offset.getTotalSeconds() == 0) {
+                lexical.append('Z');
+            } else {
+                int offsetMinutes = offset.getTotalSeconds() / 60;
+                lexical.append(offsetMinutes >= 0 ? "+" : "-")
+                        .append(String.format("%02d", Math.abs(offsetMinutes / 60)))
+                        .append(':')
+                        .append(String.format("%02d", Math.abs(offsetMinutes % 60)));
+            }
 
-        System.out.println("xsd:dateTime: " + xmlDateTime.toXMLFormat());
-
-        // Convert OffsetDateTime (with explicit offset)
-        OffsetDateTime offsetDateTime = OffsetDateTime.now();
-        XMLGregorianCalendar xmlOffsetDateTime = df.newXMLGregorianCalendar(GregorianCalendar.from(offsetDateTime.toZonedDateTime()));
-
-        System.out.println("xsd:dateTime (offset): " + xmlOffsetDateTime.toXMLFormat());
-
-        // Convert ZonedDateTime
-        ZonedDateTime zonedDateTime = ZonedDateTime.now();
-        XMLGregorianCalendar xmlZonedDateTime = df.newXMLGregorianCalendar(GregorianCalendar.from(zonedDateTime));
-
-        System.out.println("xsd:dateTime (zoned): " + xmlZonedDateTime.toXMLFormat());
+            return datatypeFactory.newXMLGregorianCalendar(lexical.toString());
+        } else if (gregorianCalendar != null) {
+            return datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
+        } else {
+            return datatypeFactory.newXMLGregorianCalendar();
+        }
     }
-*/
 
+    /**
+     * Builder for creating date-only XMLGregorianCalendar instances.
+     */
+    @lombok.Builder(builderClassName = "DateGregorianCalendarBuilder", builderMethodName = "dateGregorianCalendarBuilder")
+    private static XMLGregorianCalendar createDateGregorianCalendar(
+            LocalDate date,
+            Integer year,
+            Integer month,
+            Integer day
+    ) {
+        DatatypeFactory datatypeFactory = DatatypeFactories.createDataTypeFactory();
+        if (date != null) {
+            return datatypeFactory.newXMLGregorianCalendarDate(
+                    date.getYear(),
+                    date.getMonth().getValue(),
+                    date.getDayOfMonth(),
+                    DatatypeConstants.FIELD_UNDEFINED
+            );
+        } else if (year != null && month != null && day != null) {
+            return datatypeFactory.newXMLGregorianCalendarDate(
+                    year,
+                    month,
+                    day,
+                    DatatypeConstants.FIELD_UNDEFINED
+            );
+        }
+        throw new IllegalArgumentException("Either date or year/month/day must be provided.");
+    }
 
+    /**
+     * Builder for creating time-only XMLGregorianCalendar instances.
+     */
+    @lombok.Builder(builderClassName = "TimeGregorianCalendarBuilder", builderMethodName = "timeGregorianCalendarBuilder")
+    private static XMLGregorianCalendar createTimeGregorianCalendar(
+            LocalTime time,
+            Integer hour,
+            Integer minute,
+            Integer second,
+            Integer millisecond,
+            BigDecimal fractionalSecond
+    ) {
+        DatatypeFactory datatypeFactory = DatatypeFactories.createDataTypeFactory();
+        if (time != null) {
+            if (fractionalSecond != null) {
+                // Nanosecond precision
+                return datatypeFactory.newXMLGregorianCalendarTime(
+                        time.getHour(),
+                        time.getMinute(),
+                        time.getSecond(),
+                        fractionalSecond,
+                        DatatypeConstants.FIELD_UNDEFINED
+                );
+            } else {
+                // Millisecond precision
+                return datatypeFactory.newXMLGregorianCalendarTime(
+                        time.getHour(),
+                        time.getMinute(),
+                        time.getSecond(),
+                        time.getNano() / 1_000_000,
+                        DatatypeConstants.FIELD_UNDEFINED
+                );
+            }
+        } else if (hour != null && minute != null && second != null) {
+            if (fractionalSecond != null) {
+                // Nanosecond precision via fractionalSecond
+                return datatypeFactory.newXMLGregorianCalendarTime(
+                        hour,
+                        minute,
+                        second,
+                        fractionalSecond,
+                        DatatypeConstants.FIELD_UNDEFINED
+                );
+            } else {
+                // Millisecond precision or none
+                return datatypeFactory.newXMLGregorianCalendarTime(
+                        hour,
+                        minute,
+                        second,
+                        millisecond != null ? millisecond : DatatypeConstants.FIELD_UNDEFINED,
+                        DatatypeConstants.FIELD_UNDEFINED
+                );
+            }
+        }
+        throw new IllegalArgumentException("Either time or hour/minute/second must be provided.");
+    }
 }
