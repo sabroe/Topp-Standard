@@ -32,13 +32,17 @@ import javax.xml.datatype.DatatypeFactory;
  */
 @UtilityClass
 public class DatatypeFactories {
-
+    /**
+     * Creates a new data-type factory using the normal lookup mechanisms.
+     * @return Created instance.
+     * @throws IllegalStateException Thrown in case of configuration error.
+     */
     public static DatatypeFactory createDataTypeFactory() {
         DatatypeFactory datatypeFactory;
         try {
             datatypeFactory=DatatypeFactory.newInstance();
         } catch (DatatypeConfigurationException ex) {
-            throw new IllegalArgumentException("Failure to create data-type factory!",ex);
+            throw new IllegalStateException("Failure to create data-type factory; configuration error!",ex);
         }
         return datatypeFactory;
     }
