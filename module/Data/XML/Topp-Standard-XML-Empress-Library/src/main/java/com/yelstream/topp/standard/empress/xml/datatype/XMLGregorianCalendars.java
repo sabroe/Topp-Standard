@@ -39,18 +39,32 @@ import java.util.GregorianCalendar;
  */
 @UtilityClass
 public class XMLGregorianCalendars {
-
+    /**
+     * Creates an {@link XMLGregorianCalendar}.
+     * All date/time fields are set to {@link DatatypeConstants#FIELD_UNDEFINED} or {@code null}.
+     * @return Created date/time instance.
+     */
     public static XMLGregorianCalendar createGregorianCalendar() {
         DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
         return datatypeFactory.newXMLGregorianCalendar();
     }
 
+    /**
+     * Creates an {@link XMLGregorianCalendar} from a {@link GregorianCalendar}.
+     * @param calendar Calendar whose state is the source for the new instance created.
+     * @return Created date/time instance.
+     */
     public static XMLGregorianCalendar createGregorianCalendar(GregorianCalendar calendar) {
         DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
         return datatypeFactory.newXMLGregorianCalendar(calendar);
     }
 
-    public static XMLGregorianCalendar createGregorianCalendar(ZonedDateTime dateTime) {
+    /**
+     * Creates an {@link XMLGregorianCalendar} from a {@link GregorianCalendar}.
+     * @param dateTime Timestamp whose state is the source for the new instance created.
+     * @return Created date/time instance.
+     */
+    public static XMLGregorianCalendar createGregorianCalendar(ZonedDateTime dateTime) {  //TO-DO: Precision, ms vs ns, GregorianCalendar carries only ms, not ns!
         return createGregorianCalendar(GregorianCalendar.from(dateTime));
     }
 
@@ -86,10 +100,13 @@ public class XMLGregorianCalendars {
      */
     @lombok.Builder(builderClassName = "FullGregorianCalendarBuilder", builderMethodName = "fullGregorianCalendarBuilder")
     private static XMLGregorianCalendar createFullGregorianCalendar(
+            DatatypeFactory datatypeFactory,
             ZonedDateTime zonedDateTime,
             GregorianCalendar gregorianCalendar
     ) {
-        DatatypeFactory datatypeFactory = DatatypeFactories.createDataTypeFactory();
+        if (datatypeFactory==null) {
+            datatypeFactory = DatatypeFactories.createDataTypeFactory();
+        }
         if (zonedDateTime != null) {
             // Format ZonedDateTime to XML Schema dateTime format with nanosecond precision
             StringBuilder lexical = new StringBuilder();
@@ -140,12 +157,15 @@ public class XMLGregorianCalendars {
      */
     @lombok.Builder(builderClassName = "DateGregorianCalendarBuilder", builderMethodName = "dateGregorianCalendarBuilder")
     private static XMLGregorianCalendar createDateGregorianCalendar(
+            DatatypeFactory datatypeFactory,
             LocalDate date,
             Integer year,
             Integer month,
             Integer day
     ) {
-        DatatypeFactory datatypeFactory = DatatypeFactories.createDataTypeFactory();
+        if (datatypeFactory==null) {
+            datatypeFactory = DatatypeFactories.createDataTypeFactory();
+        }
         if (date != null) {
             return datatypeFactory.newXMLGregorianCalendarDate(
                     date.getYear(),
@@ -169,6 +189,7 @@ public class XMLGregorianCalendars {
      */
     @lombok.Builder(builderClassName = "TimeGregorianCalendarBuilder", builderMethodName = "timeGregorianCalendarBuilder")
     private static XMLGregorianCalendar createTimeGregorianCalendar(
+            DatatypeFactory datatypeFactory,
             LocalTime time,
             Integer hour,
             Integer minute,
@@ -176,7 +197,9 @@ public class XMLGregorianCalendars {
             Integer millisecond,
             BigDecimal fractionalSecond
     ) {
-        DatatypeFactory datatypeFactory = DatatypeFactories.createDataTypeFactory();
+        if (datatypeFactory==null) {
+            datatypeFactory = DatatypeFactories.createDataTypeFactory();
+        }
         if (time != null) {
             if (fractionalSecond != null) {
                 // Nanosecond precision
