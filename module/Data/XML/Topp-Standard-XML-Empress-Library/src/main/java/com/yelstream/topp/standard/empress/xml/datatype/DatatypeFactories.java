@@ -38,12 +38,27 @@ public class DatatypeFactories {
      * @throws IllegalStateException Thrown in case of configuration error.
      */
     public static DatatypeFactory createDataTypeFactory() {
-        DatatypeFactory datatypeFactory;
         try {
-            datatypeFactory=DatatypeFactory.newInstance();
+            return DatatypeFactory.newInstance();
         } catch (DatatypeConfigurationException ex) {
             throw new IllegalStateException("Failure to create data-type factory; configuration error!",ex);
         }
-        return datatypeFactory;
+    }
+
+    /**
+     * Creates a new data-type factory using the normal lookup mechanisms.
+     * @param factoryClassName Name of class implementing {@link DatatypeFactory}.
+     * @param classLoader Class-loader to load.
+     *                    This may be {@code null}.
+     * @return Created instance.
+     * @throws IllegalStateException Thrown in case of configuration error.
+     */
+    public static DatatypeFactory createDataTypeFactory(String factoryClassName,
+                                                        ClassLoader classLoader) {
+        try {
+            return DatatypeFactory.newInstance(factoryClassName,classLoader);
+        } catch (DatatypeConfigurationException ex) {
+            throw new IllegalStateException("Failure to create data-type factory; configuration error!",ex);
+        }
     }
 }
