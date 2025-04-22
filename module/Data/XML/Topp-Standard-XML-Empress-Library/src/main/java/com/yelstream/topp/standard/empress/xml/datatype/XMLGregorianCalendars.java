@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.GregorianCalendar;
 
 /**
@@ -60,14 +61,51 @@ public class XMLGregorianCalendars {
     }
 
     /**
-     * Creates an {@link XMLGregorianCalendar} from a {@link GregorianCalendar}.
+     * Creates an {@link XMLGregorianCalendar} from a {@link ZonedDateTime}.
      * @param dateTime Timestamp whose state is the source for the new instance created.
      * @return Created date/time instance.
+     *         This includes a fixed resolution of milliseconds;
+     *         fractional seconds {@link XMLGregorianCalendar#getFractionalSecond()} will always be non-{@code null} and contain three decimals.
+     *         <br/>
+     *         The precision is milliseconds.
      */
-    public static XMLGregorianCalendar createGregorianCalendar(ZonedDateTime dateTime) {  //TO-DO: Precision, ms vs ns, GregorianCalendar carries only ms, not ns!
+    public static XMLGregorianCalendar createGregorianCalendar(ZonedDateTime dateTime) {
         return createGregorianCalendar(GregorianCalendar.from(dateTime));
     }
 
+    /**
+     * Creates an {@link XMLGregorianCalendar} from a {@link ZonedDateTime}.
+     * @param dateTime Timestamp whose state is the source for the new instance created.
+     * @return Created date/time instance.
+     *         This includes a variable resolution of fractional seconds;
+     *         fractional seconds {@link XMLGregorianCalendar#getFractionalSecond()} may be {@code null} or contains from one to nine decimals.
+     *         <br/>
+     *         The precision is nanoseconds.
+     */
+    public static XMLGregorianCalendar createGregorianCalendarWithNanoseconds(ZonedDateTime dateTime) {
+        DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
+        String lexical=dateTime.format(java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        return datatypeFactory.newXMLGregorianCalendar(lexical);
+    }
+
+    /**
+     * Creates an {@link XMLGregorianCalendar} from a {@link ZonedDateTime}.
+     * @param dateTime Timestamp whose state is the source for the new instance created.
+     * @param dateTimeFormatter Date-time formatter.
+     * @return Created date/time instance.
+     */
+    public static XMLGregorianCalendar createGregorianCalendar(ZonedDateTime dateTime,
+                                                               DateTimeFormatter dateTimeFormatter) {
+        DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
+        String lexical=dateTime.format(dateTimeFormatter);
+        return datatypeFactory.newXMLGregorianCalendar(lexical);
+    }
+
+    /**
+     * Creates an {@link XMLGregorianCalendar} from a {@link LocalDate}.
+     * @param date Timestamp whose state is the source for the new instance created.
+     * @return Created date/time instance.
+     */
     public static XMLGregorianCalendar createGregorianCalendarDate(LocalDate date) {
         DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
         return datatypeFactory.newXMLGregorianCalendarDate(date.getYear(),
@@ -76,6 +114,15 @@ public class XMLGregorianCalendars {
                                                            DatatypeConstants.FIELD_UNDEFINED);
     }
 
+    /**
+     * Creates an {@link XMLGregorianCalendar} from a {@link LocalTime}.
+     * @param time Timestamp whose state is the source for the new instance created.
+     * @return Created date/time instance.
+     *         This includes a fixed resolution of milliseconds;
+     *         fractional seconds {@link XMLGregorianCalendar#getFractionalSecond()} will always be non-{@code null} and contain three decimals.
+     *         <br/>
+     *         The precision is milliseconds.
+     */
     public static XMLGregorianCalendar createGregorianCalendarTimeWithMilliseconds(LocalTime time) {
         DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
         return datatypeFactory.newXMLGregorianCalendarTime(time.getHour(),
@@ -85,6 +132,15 @@ public class XMLGregorianCalendars {
                                                            DatatypeConstants.FIELD_UNDEFINED);
     }
 
+    /**
+     * Creates an {@link XMLGregorianCalendar} from a {@link LocalTime}.
+     * @param time Timestamp whose state is the source for the new instance created.
+     * @return Created date/time instance.
+     *         This includes a fixed resolution of nanoseconds;
+     *         fractional seconds {@link XMLGregorianCalendar#getFractionalSecond()} will always be non-{@code null} and contain three decimals.
+     *         <br/>
+     *         The precision is nanoseconds.
+     */
     public static XMLGregorianCalendar createGregorianCalendarTimeWithNanoseconds(LocalTime time) {
         DatatypeFactory datatypeFactory=DatatypeFactories.createDataTypeFactory();
         BigDecimal fractionalSecond=BigDecimal.valueOf(time.getNano(),9);  //Scale is 9; nano = 10^-9.
@@ -98,12 +154,10 @@ public class XMLGregorianCalendars {
     /**
      * Builder for creating full XMLGregorianCalendar instances (date and time).
      */
-    @lombok.Builder(builderClassName = "FullGregorianCalendarBuilder", builderMethodName = "fullGregorianCalendarBuilder")
-    private static XMLGregorianCalendar createFullGregorianCalendar(
-            DatatypeFactory datatypeFactory,
-            ZonedDateTime zonedDateTime,
-            GregorianCalendar gregorianCalendar
-    ) {
+    @lombok.Builder(builderClassName = "DateTimeGregorianCalendarBuilder", builderMethodName = "gregorianCalendarBuilder")
+    private static XMLGregorianCalendar createFullGregorianCalendar(DatatypeFactory datatypeFactory,
+                                                                    ZonedDateTime zonedDateTime,
+                                                                    GregorianCalendar gregorianCalendar) {
         if (datatypeFactory==null) {
             datatypeFactory = DatatypeFactories.createDataTypeFactory();
         }
@@ -156,13 +210,11 @@ public class XMLGregorianCalendars {
      * Builder for creating date-only XMLGregorianCalendar instances.
      */
     @lombok.Builder(builderClassName = "DateGregorianCalendarBuilder", builderMethodName = "dateGregorianCalendarBuilder")
-    private static XMLGregorianCalendar createDateGregorianCalendar(
-            DatatypeFactory datatypeFactory,
-            LocalDate date,
-            Integer year,
-            Integer month,
-            Integer day
-    ) {
+    private static XMLGregorianCalendar createDateGregorianCalendar(DatatypeFactory datatypeFactory,
+                                                                    LocalDate date,
+                                                                    Integer year,
+                                                                    Integer month,
+                                                                    Integer day) {
         if (datatypeFactory==null) {
             datatypeFactory = DatatypeFactories.createDataTypeFactory();
         }
@@ -188,15 +240,13 @@ public class XMLGregorianCalendars {
      * Builder for creating time-only XMLGregorianCalendar instances.
      */
     @lombok.Builder(builderClassName = "TimeGregorianCalendarBuilder", builderMethodName = "timeGregorianCalendarBuilder")
-    private static XMLGregorianCalendar createTimeGregorianCalendar(
-            DatatypeFactory datatypeFactory,
-            LocalTime time,
-            Integer hour,
-            Integer minute,
-            Integer second,
-            Integer millisecond,
-            BigDecimal fractionalSecond
-    ) {
+    private static XMLGregorianCalendar createTimeGregorianCalendar(DatatypeFactory datatypeFactory,
+                                                                    LocalTime time,
+                                                                    Integer hour,
+                                                                    Integer minute,
+                                                                    Integer second,
+                                                                    Integer millisecond,
+                                                                    BigDecimal fractionalSecond) {
         if (datatypeFactory==null) {
             datatypeFactory = DatatypeFactories.createDataTypeFactory();
         }
