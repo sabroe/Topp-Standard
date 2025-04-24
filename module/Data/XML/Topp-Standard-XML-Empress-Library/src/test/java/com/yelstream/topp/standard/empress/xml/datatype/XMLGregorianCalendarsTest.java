@@ -19,51 +19,254 @@
 
 package com.yelstream.topp.standard.empress.xml.datatype;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import javax.xml.datatype.DatatypeConstants;
-import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZonedDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.GregorianCalendar;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for {@link XMLGregorianCalendars} builder methods.
  */
 class XMLGregorianCalendarsTest {
+    /**
+     * Tests {@link XMLGregorianCalendars#createGregorianCalendar()}.
+     */
+    @Test
+    void createGregorianCalendar() {
+        XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendar();
 
-    private DatatypeFactory datatypeFactory;
-
-    @BeforeEach
-    void setUp() throws Exception {
-        // Initialize DatatypeFactory (use DatatypeFactories.createDataTypeFactory() if available)
-        datatypeFactory = DatatypeFactory.newInstance();
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getYear());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMonth());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getDay());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getHour());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMinute());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getSecond());
+        Assertions.assertNull(calendar.getFractionalSecond());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
     }
 
-    // --- Tests for FullGregorianCalendarBuilder ---
+    /**
+     * Tests {@link XMLGregorianCalendars#createGregorianCalendar(GregorianCalendar)}.
+     */
+    @Test
+    void createGregorianCalendarFromGregorianCalendar() {
+        {
+            ZonedDateTime zonedDateTime = ZonedDateTime.parse("2025-04-21T15:30:45+01:00");
+            GregorianCalendar gregorianCalendar = GregorianCalendar.from(zonedDateTime);
+
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendar(gregorianCalendar);
+
+            Assertions.assertNotNull(calendar);
+            Assertions.assertEquals(2025, calendar.getYear());
+            Assertions.assertEquals(4, calendar.getMonth());
+            Assertions.assertEquals(21, calendar.getDay());
+            Assertions.assertEquals(15, calendar.getHour());
+            Assertions.assertEquals(30, calendar.getMinute());
+            Assertions.assertEquals(45, calendar.getSecond());
+            Assertions.assertEquals(60, calendar.getTimezone());
+        }
+        {
+            Assertions.assertThrows(NullPointerException.class, () -> {
+                XMLGregorianCalendars.createGregorianCalendar((GregorianCalendar) null);
+            }, "Should throw NullPointerException for null input");
+        }
+    }
+
+    /**
+     * Tests {@link XMLGregorianCalendars#createGregorianCalendar(ZonedDateTime)}.
+     */
+    @Test
+    void createGregorianCalendarFromZonedDateTime() {
+        {
+            ZonedDateTime zonedDateTime = ZonedDateTime.parse("2025-04-21T15:30:45.123+01:00");
+
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendar(zonedDateTime);
+
+            Assertions.assertNotNull(calendar);
+            Assertions.assertEquals(2025, calendar.getYear());
+            Assertions.assertEquals(4, calendar.getMonth());
+            Assertions.assertEquals(21, calendar.getDay());
+            Assertions.assertEquals(15, calendar.getHour());
+            Assertions.assertEquals(30, calendar.getMinute());
+            Assertions.assertEquals(45, calendar.getSecond());
+            Assertions.assertEquals(new java.math.BigDecimal("0.123"), calendar.getFractionalSecond());
+            Assertions.assertEquals(60, calendar.getTimezone());
+        }
+        {
+            ZonedDateTime zonedDateTime = ZonedDateTime.parse("2025-04-21T15:30:45.123456789+01:00");
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendar(zonedDateTime);
+            Assertions.assertNotNull(calendar);
+            Assertions.assertEquals(new java.math.BigDecimal("0.123"), calendar.getFractionalSecond());
+        }
+        {
+            ZonedDateTime zonedDateTime = ZonedDateTime.parse("2025-04-21T15:30:45+01:00");
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendar(zonedDateTime);
+            Assertions.assertNotNull(calendar);
+            Assertions.assertEquals(45, calendar.getSecond());
+            Assertions.assertEquals(new java.math.BigDecimal("0.000"), calendar.getFractionalSecond());
+        }
+    }
+
+    /**
+     * Tests {@link XMLGregorianCalendars#createGregorianCalendarWithNanoseconds(ZonedDateTime)}.
+     */
+    @Test
+    void createGregorianCalendarFromZonedDateWithNanoseconds() {
+        {
+            ZonedDateTime zonedDateTime = ZonedDateTime.parse("2025-04-21T15:30:45.123456789+01:00");
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendarWithNanoseconds(zonedDateTime);
+            Assertions.assertNotNull(calendar);
+            Assertions.assertEquals(new java.math.BigDecimal("0.123456789"), calendar.getFractionalSecond());
+        }
+        {
+            ZonedDateTime zonedDateTime = ZonedDateTime.parse("2025-04-21T15:30:45.000+01:00");
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendarWithNanoseconds(zonedDateTime);
+            Assertions.assertNotNull(calendar);
+            Assertions.assertNull(calendar.getFractionalSecond());
+        }
+        {
+            ZonedDateTime zonedDateTime = ZonedDateTime.parse("2025-04-21T15:30:45+01:00");
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendarWithNanoseconds(zonedDateTime);
+            Assertions.assertNotNull(calendar);
+            Assertions.assertNull(calendar.getFractionalSecond());
+        }
+    }
+
+    /**
+     * Tests {@link XMLGregorianCalendars#createGregorianCalendar(ZonedDateTime, DateTimeFormatter)}.
+     */
+    @Test
+    void createGregorianCalendarFromZonedDateTimeWithFormatter() {
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse("2025-04-21T15:30:45.123456789+01:00");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+
+        XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendar(zonedDateTime, formatter);
+
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(2025, calendar.getYear());
+        Assertions.assertEquals(4, calendar.getMonth());
+        Assertions.assertEquals(21, calendar.getDay());
+        Assertions.assertEquals(15, calendar.getHour());
+        Assertions.assertEquals(30, calendar.getMinute());
+        Assertions.assertEquals(45, calendar.getSecond());
+        Assertions.assertEquals(new java.math.BigDecimal("0.123456789"), calendar.getFractionalSecond());
+        Assertions.assertEquals(60, calendar.getTimezone());
+    }
+
+    /**
+     * Tests {@link XMLGregorianCalendars#createGregorianCalendarDate(LocalDate)}.
+     */
+    @Test
+    void createGregorianCalendarDate() {
+        LocalDate date = LocalDate.of(2025, 4, 21);
+
+        XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendarDate(date);
+
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(2025, calendar.getYear());
+        Assertions.assertEquals(4, calendar.getMonth());
+        Assertions.assertEquals(21, calendar.getDay());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getHour());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMinute());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getSecond());
+        Assertions.assertNull(calendar.getFractionalSecond());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
+    }
+
+    /**
+     * Tests {@link XMLGregorianCalendars#createGregorianCalendarTimeWithMilliseconds(LocalTime)}.
+     */
+    @Test
+    void createGregorianCalendarTimeWithMilliseconds() {
+        {
+            LocalTime time = LocalTime.of(15, 30, 45, 123_456_789);
+
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendarTimeWithMilliseconds(time);
+
+            Assertions.assertNotNull(calendar);
+            Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getYear());
+            Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMonth());
+            Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getDay());
+            Assertions.assertEquals(15, calendar.getHour());
+            Assertions.assertEquals(30, calendar.getMinute());
+            Assertions.assertEquals(45, calendar.getSecond());
+            Assertions.assertEquals(123, calendar.getMillisecond());
+            Assertions.assertEquals(new java.math.BigDecimal("0.123"), calendar.getFractionalSecond());
+            Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
+        }
+        {
+            LocalTime time = LocalTime.of(15, 30, 45);
+
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendarTimeWithMilliseconds(time);
+
+            Assertions.assertNotNull(calendar);
+            Assertions.assertEquals(new java.math.BigDecimal("0.000"), calendar.getFractionalSecond());
+        }
+    }
+
+    /**
+     * Tests {@link XMLGregorianCalendars#createGregorianCalendarTimeWithNanoseconds(LocalTime)}.
+     */
+    @Test
+    void createGregorianCalendarTimeWithNanoseconds() {
+        {
+            LocalTime time = LocalTime.of(15, 30, 45, 123_456_789);
+
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendarTimeWithNanoseconds(time);
+
+            Assertions.assertNotNull(calendar);
+            Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getYear());
+            Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMonth());
+            Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getDay());
+            Assertions.assertEquals(15, calendar.getHour());
+            Assertions.assertEquals(30, calendar.getMinute());
+            Assertions.assertEquals(45, calendar.getSecond());
+            Assertions.assertEquals(new BigDecimal("0.123456789"), calendar.getFractionalSecond());
+            Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
+        }
+        {
+            LocalTime time = LocalTime.of(15, 30, 45);
+
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendarTimeWithNanoseconds(time);
+
+            Assertions.assertNotNull(calendar);
+            Assertions.assertEquals(new BigDecimal("0.000000000"), calendar.getFractionalSecond());
+        }
+        {
+            LocalTime time = LocalTime.of(15, 30, 45, 123_000_000);
+
+            XMLGregorianCalendar calendar = XMLGregorianCalendars.createGregorianCalendarTimeWithNanoseconds(time);
+
+            Assertions.assertNotNull(calendar);
+            Assertions.assertEquals(new BigDecimal("0.123000000"), calendar.getFractionalSecond());
+        }
+    }
 
     @Test
     @DisplayName("FullGregorianCalendarBuilder creates empty calendar when no fields are set")
     void fullGregorianCalendarBuilder_empty() {
         XMLGregorianCalendar calendar = XMLGregorianCalendars
-                .fullGregorianCalendarBuilder()
+                .gregorianCalendarBuilder()
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getYear());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMonth());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getDay());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getHour());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMinute());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getSecond());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getYear());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMonth());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getDay());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getHour());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMinute());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getSecond());
     }
 
     @Test
@@ -72,36 +275,36 @@ class XMLGregorianCalendarsTest {
         // Test with nanosecond precision
         ZonedDateTime zonedDateTime = ZonedDateTime.of(2025, 4, 14, 14, 30, 45, 123_456_789, ZoneId.of("UTC"));
         XMLGregorianCalendar calendar = XMLGregorianCalendars
-                .fullGregorianCalendarBuilder()
+                .gregorianCalendarBuilder()
                 .zonedDateTime(zonedDateTime)
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(2025, calendar.getYear());
-        assertEquals(4, calendar.getMonth());
-        assertEquals(14, calendar.getDay());
-        assertEquals(14, calendar.getHour());
-        assertEquals(30, calendar.getMinute());
-        assertEquals(45, calendar.getSecond());
-        assertEquals(BigDecimal.valueOf(123_456_789, 9), calendar.getFractionalSecond());
-        assertEquals(0, calendar.getTimezone());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(2025, calendar.getYear());
+        Assertions.assertEquals(4, calendar.getMonth());
+        Assertions.assertEquals(14, calendar.getDay());
+        Assertions.assertEquals(14, calendar.getHour());
+        Assertions.assertEquals(30, calendar.getMinute());
+        Assertions.assertEquals(45, calendar.getSecond());
+        Assertions.assertEquals(BigDecimal.valueOf(123_456_789, 9), calendar.getFractionalSecond());
+        Assertions.assertEquals(0, calendar.getTimezone());
 
         // Test with zero nanoseconds
         ZonedDateTime noNanoDateTime = ZonedDateTime.of(2025, 4, 14, 14, 30, 45, 0, ZoneId.of("UTC"));
         XMLGregorianCalendar noNanoCalendar = XMLGregorianCalendars
-                .fullGregorianCalendarBuilder()
+                .gregorianCalendarBuilder()
                 .zonedDateTime(noNanoDateTime)
                 .build();
 
-        assertNotNull(noNanoCalendar);
-        assertEquals(2025, noNanoCalendar.getYear());
-        assertEquals(4, noNanoCalendar.getMonth());
-        assertEquals(14, noNanoCalendar.getDay());
-        assertEquals(14, noNanoCalendar.getHour());
-        assertEquals(30, noNanoCalendar.getMinute());
-        assertEquals(45, noNanoCalendar.getSecond());
-        assertNull(noNanoCalendar.getFractionalSecond()); // No fractional second when nano = 0
-        assertEquals(0, noNanoCalendar.getTimezone());
+        Assertions.assertNotNull(noNanoCalendar);
+        Assertions.assertEquals(2025, noNanoCalendar.getYear());
+        Assertions.assertEquals(4, noNanoCalendar.getMonth());
+        Assertions.assertEquals(14, noNanoCalendar.getDay());
+        Assertions.assertEquals(14, noNanoCalendar.getHour());
+        Assertions.assertEquals(30, noNanoCalendar.getMinute());
+        Assertions.assertEquals(45, noNanoCalendar.getSecond());
+        Assertions.assertNull(noNanoCalendar.getFractionalSecond()); // No fractional second when nano = 0
+        Assertions.assertEquals(0, noNanoCalendar.getTimezone());
     }
 
     @Test
@@ -110,17 +313,17 @@ class XMLGregorianCalendarsTest {
         GregorianCalendar gregorianCalendar = new GregorianCalendar(2025, 3, 14, 14, 30, 45); // April 14 (month is 0-based)
         gregorianCalendar.setGregorianChange(new java.util.Date(Long.MIN_VALUE)); // Ensure pure Gregorian
         XMLGregorianCalendar calendar = XMLGregorianCalendars
-                .fullGregorianCalendarBuilder()
+                .gregorianCalendarBuilder()
                 .gregorianCalendar(gregorianCalendar)
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(2025, calendar.getYear());
-        assertEquals(4, calendar.getMonth());
-        assertEquals(14, calendar.getDay());
-        assertEquals(14, calendar.getHour());
-        assertEquals(30, calendar.getMinute());
-        assertEquals(45, calendar.getSecond());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(2025, calendar.getYear());
+        Assertions.assertEquals(4, calendar.getMonth());
+        Assertions.assertEquals(14, calendar.getDay());
+        Assertions.assertEquals(14, calendar.getHour());
+        Assertions.assertEquals(30, calendar.getMinute());
+        Assertions.assertEquals(45, calendar.getSecond());
     }
 
     @Test
@@ -129,18 +332,18 @@ class XMLGregorianCalendarsTest {
         ZonedDateTime zonedDateTime = ZonedDateTime.of(2025, 4, 14, 14, 30, 45, 0, ZoneId.of("UTC"));
         GregorianCalendar gregorianCalendar = new GregorianCalendar(2024, 3, 15, 15, 31, 46);
         XMLGregorianCalendar calendar = XMLGregorianCalendars
-                .fullGregorianCalendarBuilder()
+                .gregorianCalendarBuilder()
                 .zonedDateTime(zonedDateTime)
                 .gregorianCalendar(gregorianCalendar)
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(2025, calendar.getYear());
-        assertEquals(4, calendar.getMonth());
-        assertEquals(14, calendar.getDay());
-        assertEquals(14, calendar.getHour());
-        assertEquals(30, calendar.getMinute());
-        assertEquals(45, calendar.getSecond());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(2025, calendar.getYear());
+        Assertions.assertEquals(4, calendar.getMonth());
+        Assertions.assertEquals(14, calendar.getDay());
+        Assertions.assertEquals(14, calendar.getHour());
+        Assertions.assertEquals(30, calendar.getMinute());
+        Assertions.assertEquals(45, calendar.getSecond());
     }
 
     // --- Tests for DateGregorianCalendarBuilder ---
@@ -154,14 +357,14 @@ class XMLGregorianCalendarsTest {
                 .date(date)
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(2025, calendar.getYear());
-        assertEquals(4, calendar.getMonth());
-        assertEquals(14, calendar.getDay());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getHour());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMinute());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getSecond());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(2025, calendar.getYear());
+        Assertions.assertEquals(4, calendar.getMonth());
+        Assertions.assertEquals(14, calendar.getDay());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getHour());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMinute());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getSecond());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
     }
 
     @Test
@@ -174,14 +377,14 @@ class XMLGregorianCalendarsTest {
                 .day(14)
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(2025, calendar.getYear());
-        assertEquals(4, calendar.getMonth());
-        assertEquals(14, calendar.getDay());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getHour());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMinute());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getSecond());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(2025, calendar.getYear());
+        Assertions.assertEquals(4, calendar.getMonth());
+        Assertions.assertEquals(14, calendar.getDay());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getHour());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMinute());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getSecond());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
     }
 
     @Test
@@ -196,31 +399,31 @@ class XMLGregorianCalendarsTest {
                 .day(15)
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(2025, calendar.getYear());
-        assertEquals(4, calendar.getMonth());
-        assertEquals(14, calendar.getDay());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(2025, calendar.getYear());
+        Assertions.assertEquals(4, calendar.getMonth());
+        Assertions.assertEquals(14, calendar.getDay());
     }
 
     @Test
     @DisplayName("DateGregorianCalendarBuilder throws exception for missing inputs")
     void dateGregorianCalendarBuilder_missingInputs() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             XMLGregorianCalendars
                     .dateGregorianCalendarBuilder()
                     .build();
         });
-        assertEquals("Either date or year/month/day must be provided.", exception.getMessage());
+        Assertions.assertEquals("Either date or year/month/day must be provided.", exception.getMessage());
 
         // Partial components
-        Exception partialException = assertThrows(IllegalArgumentException.class, () -> {
+        Exception partialException = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             XMLGregorianCalendars
                     .dateGregorianCalendarBuilder()
                     .year(2025)
                     .month(4)
                     .build();
         });
-        assertEquals("Either date or year/month/day must be provided.", partialException.getMessage());
+        Assertions.assertEquals("Either date or year/month/day must be provided.", partialException.getMessage());
     }
 
     // --- Tests for TimeGregorianCalendarBuilder ---
@@ -234,15 +437,15 @@ class XMLGregorianCalendarsTest {
                 .time(time)
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getYear());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMonth());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getDay());
-        assertEquals(14, calendar.getHour());
-        assertEquals(30, calendar.getMinute());
-        assertEquals(45, calendar.getSecond());
-        assertEquals(123, calendar.getMillisecond());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getYear());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getMonth());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getDay());
+        Assertions.assertEquals(14, calendar.getHour());
+        Assertions.assertEquals(30, calendar.getMinute());
+        Assertions.assertEquals(45, calendar.getSecond());
+        Assertions.assertEquals(123, calendar.getMillisecond());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
     }
 
     @Test
@@ -256,12 +459,12 @@ class XMLGregorianCalendarsTest {
                 .fractionalSecond(fractionalSecond)
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(14, calendar.getHour());
-        assertEquals(30, calendar.getMinute());
-        assertEquals(45, calendar.getSecond());
-        assertEquals(fractionalSecond, calendar.getFractionalSecond());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(14, calendar.getHour());
+        Assertions.assertEquals(30, calendar.getMinute());
+        Assertions.assertEquals(45, calendar.getSecond());
+        Assertions.assertEquals(fractionalSecond, calendar.getFractionalSecond());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
     }
 
     @Test
@@ -275,12 +478,12 @@ class XMLGregorianCalendarsTest {
                 .millisecond(123)
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(14, calendar.getHour());
-        assertEquals(30, calendar.getMinute());
-        assertEquals(45, calendar.getSecond());
-        assertEquals(123, calendar.getMillisecond());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(14, calendar.getHour());
+        Assertions.assertEquals(30, calendar.getMinute());
+        Assertions.assertEquals(45, calendar.getSecond());
+        Assertions.assertEquals(123, calendar.getMillisecond());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
     }
 
     @Test
@@ -295,12 +498,12 @@ class XMLGregorianCalendarsTest {
                 .fractionalSecond(fractionalSecond)
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(14, calendar.getHour());
-        assertEquals(30, calendar.getMinute());
-        assertEquals(45, calendar.getSecond());
-        assertEquals(fractionalSecond, calendar.getFractionalSecond());
-        assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(14, calendar.getHour());
+        Assertions.assertEquals(30, calendar.getMinute());
+        Assertions.assertEquals(45, calendar.getSecond());
+        Assertions.assertEquals(fractionalSecond, calendar.getFractionalSecond());
+        Assertions.assertEquals(DatatypeConstants.FIELD_UNDEFINED, calendar.getTimezone());
     }
 
     @Test
@@ -316,31 +519,31 @@ class XMLGregorianCalendarsTest {
                 .millisecond(456)
                 .build();
 
-        assertNotNull(calendar);
-        assertEquals(14, calendar.getHour());
-        assertEquals(30, calendar.getMinute());
-        assertEquals(45, calendar.getSecond());
-        assertEquals(123, calendar.getMillisecond());
+        Assertions.assertNotNull(calendar);
+        Assertions.assertEquals(14, calendar.getHour());
+        Assertions.assertEquals(30, calendar.getMinute());
+        Assertions.assertEquals(45, calendar.getSecond());
+        Assertions.assertEquals(123, calendar.getMillisecond());
     }
 
     @Test
     @DisplayName("TimeGregorianCalendarBuilder throws exception for missing inputs")
     void timeGregorianCalendarBuilder_missingInputs() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             XMLGregorianCalendars
                     .timeGregorianCalendarBuilder()
                     .build();
         });
-        assertEquals("Either time or hour/minute/second must be provided.", exception.getMessage());
+        Assertions.assertEquals("Either time or hour/minute/second must be provided.", exception.getMessage());
 
         // Partial components
-        Exception partialException = assertThrows(IllegalArgumentException.class, () -> {
+        Exception partialException = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             XMLGregorianCalendars
                     .timeGregorianCalendarBuilder()
                     .hour(14)
                     .minute(30)
                     .build();
         });
-        assertEquals("Either time or hour/minute/second must be provided.", partialException.getMessage());
+        Assertions.assertEquals("Either time or hour/minute/second must be provided.", partialException.getMessage());
     }
 }
