@@ -31,6 +31,8 @@ import org.xml.sax.SAXException;
 import javax.xml.namespace.QName;
 import javax.xml.validation.Schema;
 import java.io.IOException;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * Utility addressing instances of {@link JAXBElement}.
@@ -53,6 +55,63 @@ public class JAXBElements {
                                                        T value) {
         return new JAXBElement<>(name,declaredType,value);
     }
+
+    public static <T> JAXBElement<T> createJAXBElement(QName name,
+                                                       Class<T> declaredType,
+                                                       Class<?> scope,
+                                                       T value) {
+        return new JAXBElement<>(name,declaredType,scope,value);
+    }
+
+    private static <S,T> JAXBElement<T> createJAXBElement(S value,
+                                                          Predicate<S> nilPredicate,
+                                                          Function<S,T> typeTransformer,
+                                                          Function<T,JAXBElement<T>> elementFactory) {
+        JAXBElement<T> element;
+        if (value == null) {
+            element = elementFactory.apply(null);
+        } else {
+            if (nilPredicate.test(value)) {
+                element = elementFactory.apply(null);
+                element.setNil(true);
+            } else {
+                T transformedValue = typeTransformer.apply(value);
+                element = elementFactory.apply(transformedValue);
+            }
+        }
+        return element;
+    }
+
+    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    private static <T> JAXBElement<T> createJAXBElement(JAXBElementFactory<T> factory,
+                                                        T value,
+                                                        boolean nil) {
+        return factory.create(value,nil);
+    }
+
+    //TO-DO: Copy-constructor?
+
+/*
+    private static <S,T> JAXBElement<T> createJAXBElement(S value,
+                                                          Predicate<S> nulPredicate,
+                                                          Predicate<S> nilPredicate,
+                                                          Function<S,T> typeTransformer,
+                                                          Function<T,JAXBElement<T>> elementFactory) {
+        JAXBElement<T> element;
+        if (nulPredicate) {
+            element = elementFactory.apply(null);
+        } else {
+            if (nilPredicate.test(value)) {
+                element = elementFactory.apply(null);
+                element.setNil(true);
+            } else {
+                T transformedValue = typeTransformer.apply(value);
+                element = elementFactory.apply(transformedValue);
+            }
+        }
+        return element;
+    }
+*/
 
     /**
      * Reads a JAXB element.
