@@ -23,15 +23,28 @@ import jakarta.xml.bind.JAXBElement;
 
 /**
  * Factory of {@link JAXBElement} instances.
+ * @param <T> Type of value of created elements.
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-05-19
  */
 @FunctionalInterface
 public interface JAXBElementFactory<T> {
-
+    /**
+     * Creates a new element.
+     * @param value Value of element.
+     *              This may be {@code null}.
+     * @return Created element.
+     */
     JAXBElement<T> create(T value);
 
+    /**
+     * Creates a new element.
+     * @param value Value of element.
+     *              This may be {@code null}.
+     * @param nil Indicates, if element attribute 'nil' is set.
+     * @return Created element.
+     */
     default JAXBElement<T> create(T value,
                                   boolean nil) {
         JAXBElement<T> element=create(value);
