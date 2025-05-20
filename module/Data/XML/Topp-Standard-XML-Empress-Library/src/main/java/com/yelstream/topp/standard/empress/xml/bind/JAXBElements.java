@@ -82,7 +82,7 @@ public class JAXBElements {
         return element;
     }
 
-    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    @lombok.Builder(builderClassName="Builder")
     private static <T> JAXBElement<T> createJAXBElement(JAXBElementFactory<T> factory,
                                                         T value,
                                                         boolean nil) {

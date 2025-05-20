@@ -18,21 +18,9 @@
  */
 
 /**
- * Topp Standard XML Empress Library addressing basics of XML parsing and formatting.
  *
  * @author Morten Sabroe Mortensen
- * @since 2024-06-18
+ * @version 1.0
+ * @since 2025-05-20
  */
-module com.yelstream.topp.standard.xml.empress {
-    requires static lombok;
-    requires org.slf4j;
-    requires transitive java.xml;
-    requires transitive jakarta.xml.bind;
-    exports com.yelstream.topp.standard.empress.dom.ls;
-    exports com.yelstream.topp.standard.empress.xml.bind;
-    exports com.yelstream.topp.standard.empress.xml.datatype;
-    exports com.yelstream.topp.standard.empress.xml.namespace;
-    exports com.yelstream.topp.standard.empress.xml.sax;
-    exports com.yelstream.topp.standard.empress.xml.util;
-    exports com.yelstream.topp.standard.empress.xml.validation;
-}
+package com.yelstream.topp.standard.empress.xml.namespace;
