@@ -31,5 +31,8 @@ module com.yelstream.topp.standard.xml.empress {
     exports com.yelstream.topp.standard.empress.dom.ls;
     exports com.yelstream.topp.standard.empress.xml.bind;
     exports com.yelstream.topp.standard.empress.xml.datatype;
+    exports com.yelstream.topp.standard.empress.xml.namespace;
+    exports com.yelstream.topp.standard.empress.xml.sax;
+    exports com.yelstream.topp.standard.empress.xml.util;
     exports com.yelstream.topp.standard.empress.xml.validation;
 }

@@ -46,32 +46,7 @@ public class JAXBElementFactories {
         return value -> JAXBElements.createJAXBElement(name,declaredType,scope,value);
     }
 
-    /*
-    public static class Builder<T> {
-        private QName name;
-        private Class<T> declaredType;
-        private Class<?> scope;
+    public static <T> Builder<T> builderOf(JAXBElement<T> element) {
+        return JAXBElementFactories.<T>builder().name(element.getName()).declaredType(element.getDeclaredType()).scope(element.getScope());
     }
-    S
-     */
-/*
-    public static <T> Builder<T> builder() {
-        return new Builder<>();
-    }
-
-
- */
-    /*
-    public static <T> Builder<T> builder(JAXBElement<T> element) {
-        Builder<T> builder=builder();
-//        return builder.name(element.getName()).declaredType(element.getDeclaredType()).scope(element.getScope());
-        builder=builder.name(element.getName());
-
-Class<T> declaredType= element.getDeclaredType();
-        builder=builder.declaredType(declaredType);
-        builder=builder.scope(element.getScope());
-        return builder;
-    }
-
-     */
 }
