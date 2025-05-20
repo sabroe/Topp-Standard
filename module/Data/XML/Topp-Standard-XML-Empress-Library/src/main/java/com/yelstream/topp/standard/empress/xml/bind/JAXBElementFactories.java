@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.empress.xml.bind;
 
+import jakarta.xml.bind.JAXBElement;
 import lombok.experimental.UtilityClass;
 
 import javax.xml.namespace.QName;
@@ -31,12 +32,46 @@ import javax.xml.namespace.QName;
  */
 @UtilityClass
 public class JAXBElementFactories {
-
-
-    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    /**
+     * XXX
+     * @param name
+     * @param declaredType
+     * @param scope
+     * @return
+,     */
+    @lombok.Builder(builderClassName="Builder")
     private static <T> JAXBElementFactory<T> createJAXBElementFactory(QName name,
                                                                       Class<T> declaredType,
                                                                       Class<?> scope) {
         return value -> JAXBElements.createJAXBElement(name,declaredType,scope,value);
     }
+
+    /*
+    public static class Builder<T> {
+        private QName name;
+        private Class<T> declaredType;
+        private Class<?> scope;
+    }
+    S
+     */
+/*
+    public static <T> Builder<T> builder() {
+        return new Builder<>();
+    }
+
+
+ */
+    /*
+    public static <T> Builder<T> builder(JAXBElement<T> element) {
+        Builder<T> builder=builder();
+//        return builder.name(element.getName()).declaredType(element.getDeclaredType()).scope(element.getScope());
+        builder=builder.name(element.getName());
+
+Class<T> declaredType= element.getDeclaredType();
+        builder=builder.declaredType(declaredType);
+        builder=builder.scope(element.getScope());
+        return builder;
+    }
+
+     */
 }
