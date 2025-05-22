@@ -21,8 +21,6 @@ package com.yelstream.topp.standard.util;
 
 import lombok.experimental.UtilityClass;
 
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.TrustManager;
 import java.util.List;
 import java.util.function.Supplier;
 
