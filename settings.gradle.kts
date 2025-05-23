@@ -41,10 +41,10 @@ include("module:Build:Topp-Standard-Gradle-Contribution-Library")
 
 include("module:Management:Topp-Standard-Management-Library")
 
-include("module:Data:XML:Topp-Standard-XML-Empress-Library")
-include("module:Data:XML:Topp-Standard-XML-Binding-Library")
-//include("module:Data:XML:Topp-Standard-XML-Processing-Library")
-//include("module:Data:XML:Topp-Standard-XML-Binding-Library")
+include("module:Data:XML:Topp-Standard-XML-Process-Library")
+include("module:Data:XML:Topp-Standard-XML-Bind-Library")
+include("module:Data:XML:Topp-Standard-XML-Stream-Library")
+include("module:Data:XML:Topp-Standard-XML-Library")
 
 include("module:Text:Topp-Standard-Text-Manifestation-Library")
 
