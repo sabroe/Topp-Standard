@@ -37,8 +37,8 @@ module com.yelstream.topp.standard.xml.process {
     requires static lombok;
     requires org.slf4j;
     requires transitive java.xml;
-    exports com.yelstream.topp.standard.empress.dom.ls;
-    exports com.yelstream.topp.standard.empress.xml.namespace;
-    exports com.yelstream.topp.standard.empress.xml.sax;
-    exports com.yelstream.topp.standard.empress.xml.validation;
+    exports com.yelstream.topp.standard.dom.ls;
+    exports com.yelstream.topp.standard.xml.namespace;
+    exports com.yelstream.topp.standard.xml.sax;
+    exports com.yelstream.topp.standard.xml.validation;
 }

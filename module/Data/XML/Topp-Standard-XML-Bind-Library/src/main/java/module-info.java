@@ -29,6 +29,6 @@ module com.yelstream.topp.standard.xml.bind {
     requires transitive java.xml;
     requires transitive jakarta.xml.bind;
     requires com.yelstream.topp.standard.xml.process;
-    exports com.yelstream.topp.standard.empress.xml.bind;
-    exports com.yelstream.topp.standard.empress.xml.datatype;
+    exports com.yelstream.topp.standard.xml.bind;
+    exports com.yelstream.topp.standard.xml.datatype;
 }
