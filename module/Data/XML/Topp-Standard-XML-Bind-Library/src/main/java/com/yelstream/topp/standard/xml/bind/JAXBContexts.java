@@ -17,18 +17,27 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.xml.bind;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import lombok.experimental.UtilityClass;
+
 /**
- * Topp Standard XML Bind Library addressing Jakarta JAXB binding and builder utilities.
- *
+ * Utility addressing instances of {@link JAXBContext}.
  * @author Morten Sabroe Mortensen
- * @since 2024-06-18
+ * @version 1.0
+ * @since 2022-04-20
  */
-module com.yelstream.topp.standard.xml.bind {
-    requires static lombok;
-    requires org.slf4j;
-    requires transitive java.xml;
-    requires transitive jakarta.xml.bind;
-    requires com.yelstream.topp.standard.xml.process;
-    exports com.yelstream.topp.standard.xml.bind;
-    exports com.yelstream.topp.standard.xml.datatype;
+@UtilityClass
+public class JAXBContexts {
+    /**
+     * Create a new JAXB context.
+     * @param declaredType Class to be recognized by JAXB context.
+     * @return JAXB context.
+     * @throws JAXBException Thrown in case of JAXB error.
+     */
+    public static JAXBContext createJAXBContext(Class<?> declaredType) throws JAXBException {
+        return JAXBContext.newInstance(declaredType);
+    }
 }

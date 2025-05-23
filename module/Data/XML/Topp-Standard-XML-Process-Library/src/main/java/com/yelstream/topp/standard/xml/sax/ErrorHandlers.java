@@ -17,18 +17,22 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.xml.sax;
+
+import lombok.experimental.UtilityClass;
+
 /**
- * Topp Standard XML Bind Library addressing Jakarta JAXB binding and builder utilities.
- *
+ * Utilities addressing instances of {@llink ErrorHandler}.
  * @author Morten Sabroe Mortensen
- * @since 2024-06-18
+ * @version 1.0
+ * @since 2025-02-19
  */
-module com.yelstream.topp.standard.xml.bind {
-    requires static lombok;
-    requires org.slf4j;
-    requires transitive java.xml;
-    requires transitive jakarta.xml.bind;
-    requires com.yelstream.topp.standard.xml.process;
-    exports com.yelstream.topp.standard.xml.bind;
-    exports com.yelstream.topp.standard.xml.datatype;
+@UtilityClass
+public class ErrorHandlers {
+
+
+
+    ;
+
+
 }

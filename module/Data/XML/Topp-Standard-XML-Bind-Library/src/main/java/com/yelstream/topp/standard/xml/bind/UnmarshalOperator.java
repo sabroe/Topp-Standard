@@ -17,18 +17,28 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.xml.bind;
+
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
+
 /**
- * Topp Standard XML Bind Library addressing Jakarta JAXB binding and builder utilities.
- *
+ * Unmarshal operator.
+ * @param <T> Class representing XML element.
  * @author Morten Sabroe Mortensen
- * @since 2024-06-18
+ * @version 1.0
+ * @since 2022-04-20
  */
-module com.yelstream.topp.standard.xml.bind {
-    requires static lombok;
-    requires org.slf4j;
-    requires transitive java.xml;
-    requires transitive jakarta.xml.bind;
-    requires com.yelstream.topp.standard.xml.process;
-    exports com.yelstream.topp.standard.xml.bind;
-    exports com.yelstream.topp.standard.xml.datatype;
+@FunctionalInterface
+public interface UnmarshalOperator<T> {
+    /**
+     * Applies unmarshalling.
+     * @param unmarshaller Unmarshaller.
+     * @param declaredType Binding of XML element declaration's type.
+     * @return JAXB element.
+     * @throws JAXBException Thrown in case of JAXB error.
+     */
+    JAXBElement<T> unmarshal(Unmarshaller unmarshaller,
+                             Class<T> declaredType) throws JAXBException;
 }

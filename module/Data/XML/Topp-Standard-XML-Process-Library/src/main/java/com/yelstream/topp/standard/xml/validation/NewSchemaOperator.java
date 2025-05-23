@@ -17,18 +17,26 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.xml.validation;
+
+import org.xml.sax.SAXException;
+
+import javax.xml.validation.Schema;
+import java.io.IOException;
+
 /**
- * Topp Standard XML Bind Library addressing Jakarta JAXB binding and builder utilities.
- *
+ * Factory of schema instances.
  * @author Morten Sabroe Mortensen
- * @since 2024-06-18
+ * @version 1.0
+ * @since 2022-04-20
  */
-module com.yelstream.topp.standard.xml.bind {
-    requires static lombok;
-    requires org.slf4j;
-    requires transitive java.xml;
-    requires transitive jakarta.xml.bind;
-    requires com.yelstream.topp.standard.xml.process;
-    exports com.yelstream.topp.standard.xml.bind;
-    exports com.yelstream.topp.standard.xml.datatype;
+@FunctionalInterface
+public interface NewSchemaOperator {
+    /**
+     * Creates a new schema.
+     * @return Schema.
+     * @throws IOException Thrown in case of I/O error.
+     * @throws SAXException Thrown in case of SAX error.
+     */
+    Schema newSchema() throws IOException, SAXException;
 }
