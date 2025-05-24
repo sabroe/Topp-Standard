@@ -30,6 +30,7 @@ module com.yelstream.topp.standard.xml {
     requires transitive jakarta.xml.bind;
     requires transitive com.yelstream.topp.standard.xml.process;
     requires transitive com.yelstream.topp.standard.xml.bind;
+    requires transitive com.yelstream.topp.standard.xml.crypto;
     requires transitive com.yelstream.topp.standard.xml.stream;
     exports com.yelstream.topp.standard.xml.io;
     exports com.yelstream.topp.standard.xml.util;

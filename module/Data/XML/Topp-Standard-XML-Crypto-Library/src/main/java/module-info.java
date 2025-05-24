@@ -17,17 +17,17 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    api project(':module:Data:XML:Topp-Standard-XML-Process-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Bind-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Stream-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Crypto-Library')
+/**
+ * Topp Standard XML Crypto Library for XML digital signatures and encryption.
+ * Leverages the Java XML Cryptography API for secure processing.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-05-23
+ */
+module com.yelstream.topp.standard.xml.crypto {
+    requires static lombok;
+    requires org.slf4j;
+    requires transitive java.xml;
+    requires transitive java.xml.crypto;
+    exports com.yelstream.topp.standard.xml.crypto;
 }
