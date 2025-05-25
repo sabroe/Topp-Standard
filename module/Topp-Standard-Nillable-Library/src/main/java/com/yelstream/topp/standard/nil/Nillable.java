@@ -19,7 +19,6 @@
 
 package com.yelstream.topp.standard.nil;
 
-import com.yelstream.topp.standard.nil.action.NillableAction;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -75,20 +74,6 @@ public final class Nillable<T> {
      */
     public boolean isPresent() {
         return !isNull() && !isNil();
-    }
-
-    /**
-     * Applies an action based on the state of this nillable value.
-     * @param action The action to apply.
-     */
-    public void apply(NillableAction<T> action) {
-        if (isNull()) {
-            action.onNull();
-        } else if (isNil()) {
-            action.onNil();
-        } else {
-            action.onPresent(value);
-        }
     }
 
     public static <T> Nillable<T> nil(Nil<T> nil) {

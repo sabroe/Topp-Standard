@@ -20,7 +20,10 @@
 package com.yelstream.topp.standard.nil.util;
 
 import com.yelstream.topp.standard.nil.Nillable;
+import com.yelstream.topp.standard.nil.action.NillableAction;
 import lombok.experimental.UtilityClass;
+
+import java.util.function.Consumer;
 
 /**
  * Utility addressing instances of {@link Nillable}.
@@ -33,25 +36,35 @@ import lombok.experimental.UtilityClass;
 public final class Nillables {
 
 
-/*
-    public void apply(NillableAction<T> action) {
-        if (isNull()) {
+    public static <T> void apply(Nillable<T> nillable,
+                                 NillableAction<T> action) {
+        if (nillable.isNull()) {
             action.onNull();
-        } else if (isNil()) {
-            action.onNil();
         } else {
-            action.onPresent(value);
+            if (nillable.isNil()) {
+                action.onNil(nillable.getValue());
+            } else {
+                action.onPresent(nillable.getValue());
+            }
         }
     }
-*/
 
-/*
-    public static <T> NillableAction<T> action(Runnable onNull, Runnable onNil, Consumer<? super T> onPresent) {
+    public static <T> NillableAction<T> action(Runnable onNull,
+                                               Consumer<? super T> onNil,
+                                               Consumer<? super T> onPresent) {  //TO-DO: Consider moving this to a new 'NillableActions' helper!
         return new NillableAction<>() {
-            @Override public void onNull() { if (onNull != null) onNull.run(); }
-            @Override public void onNil() { if (onNil != null) onNil.run(); }
-            @Override public void onPresent(T value) { if (onPresent != null) onPresent.accept(value); }
+            @Override
+            public void onNull() {
+                if (onNull!=null) onNull.run();
+            }
+            @Override
+            public void onNil(T value) {
+                if (onNil!=null) onNil.accept(value);
+            }
+            @Override
+            public void onPresent(T value) {
+                if (onPresent!=null) onPresent.accept(value);
+            }
         };
     }
-*/
 }

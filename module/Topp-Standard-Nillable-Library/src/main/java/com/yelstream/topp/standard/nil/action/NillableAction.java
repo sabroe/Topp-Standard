@@ -35,14 +35,15 @@ import com.yelstream.topp.standard.nil.Nillable;
  */
 public interface NillableAction<T> {
     /**
-     * Handles the null state (unset, no value provided).
+     * Handles the null state (unset, no value or element provided).
      */
     void onNull();
 
     /**
-     * Handles the nil state (explicit null, e.g., xsi:nil in XML).
+     * Handles the nil state (explicit null, e.g., xsi:nil="true" with possible attributes).
+     * @param value The nil value, which may carry metadata (e.g., attributes in a JAXBElement).
      */
-    void onNil();
+    void onNil(T value);
 
     /**
      * Handles the present state (actual non-nil value).
