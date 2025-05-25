@@ -17,17 +17,28 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.nil;
+package com.yelstream.topp.standard.nil.type;
 
+import com.yelstream.topp.standard.nil.Nil;
 import lombok.experimental.UtilityClass;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+
 /**
- * Utility addressing instances of {@link Nil}.
- *
+ * Utilities addressing {@code Nil<OffsetDateTime>}.
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-05-24
+ * @since 2025-02-13
  */
 @UtilityClass
-public class Nils {
+public class OffsetDateTimeNils {
+    @SuppressWarnings("java:S2386")
+    public static final OffsetDateTime DEFAULT_NIL_VALUE=OffsetDateTime.of(1970,1,1,0,0,0,0,ZoneOffset.UTC);
+
+    public static final Nil<OffsetDateTime> DEFAULT_NIL=Nil.of(DEFAULT_NIL_VALUE);
+
+    public static Nil<OffsetDateTime> getNil() {
+        return DEFAULT_NIL;
+    }
 }

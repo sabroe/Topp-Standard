@@ -19,25 +19,39 @@
 
 package com.yelstream.topp.standard.nil.util;
 
-import com.yelstream.topp.standard.nil.Nil;
+import com.yelstream.topp.standard.nil.Nillable;
 import lombok.experimental.UtilityClass;
 
-import java.math.BigDecimal;
-
 /**
- * Utilities addressing {@code Nil<BigDecimal>}.
+ * Utility addressing instances of {@link Nillable}.
+ *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-02-13
+ * @since 2025-05-24
  */
 @UtilityClass
-public class BigDecimalNils {
-    @SuppressWarnings("java:S2386")
-    public static final BigDecimal DEFAULT_NIL_VALUE= BigDecimal.ZERO;
+public final class Nillables {
 
-    public static final Nil<BigDecimal> DEFAULT_NIL=Nil.of(DEFAULT_NIL_VALUE);
 
-    public static Nil<BigDecimal> getNil() {
-        return DEFAULT_NIL;
+/*
+    public void apply(NillableAction<T> action) {
+        if (isNull()) {
+            action.onNull();
+        } else if (isNil()) {
+            action.onNil();
+        } else {
+            action.onPresent(value);
+        }
     }
+*/
+
+/*
+    public static <T> NillableAction<T> action(Runnable onNull, Runnable onNil, Consumer<? super T> onPresent) {
+        return new NillableAction<>() {
+            @Override public void onNull() { if (onNull != null) onNull.run(); }
+            @Override public void onNil() { if (onNil != null) onNil.run(); }
+            @Override public void onPresent(T value) { if (onPresent != null) onPresent.accept(value); }
+        };
+    }
+*/
 }

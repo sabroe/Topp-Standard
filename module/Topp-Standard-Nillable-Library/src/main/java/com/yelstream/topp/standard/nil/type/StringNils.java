@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.nil.util;
+package com.yelstream.topp.standard.nil.type;
 
 import com.yelstream.topp.standard.nil.Nil;
 import lombok.experimental.UtilityClass;

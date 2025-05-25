@@ -17,40 +17,18 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.nil;
+package com.yelstream.topp.standard.nil.util;
 
+import com.yelstream.topp.standard.nil.Nil;
 import lombok.experimental.UtilityClass;
 
 /**
- * Utility addressing instances of {@link Nillable}.
+ * Utility addressing instances of {@link Nil}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-05-24
  */
 @UtilityClass
-public final class Nillables {
-
-
-/*
-    public void apply(NillableAction<T> action) {
-        if (isNull()) {
-            action.onNull();
-        } else if (isNil()) {
-            action.onNil();
-        } else {
-            action.onPresent(value);
-        }
-    }
-*/
-
-/*
-    public static <T> NillableAction<T> action(Runnable onNull, Runnable onNil, Consumer<? super T> onPresent) {
-        return new NillableAction<>() {
-            @Override public void onNull() { if (onNull != null) onNull.run(); }
-            @Override public void onNil() { if (onNil != null) onNil.run(); }
-            @Override public void onPresent(T value) { if (onPresent != null) onPresent.accept(value); }
-        };
-    }
-*/
+public class Nils {
 }
