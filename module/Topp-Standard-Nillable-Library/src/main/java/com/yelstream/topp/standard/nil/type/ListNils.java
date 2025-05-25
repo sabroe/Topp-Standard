@@ -17,40 +17,22 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.nil.util;
+package com.yelstream.topp.standard.nil.type;
 
 import com.yelstream.topp.standard.nil.Nil;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.experimental.UtilityClass;
 
-import java.util.Date;
+import java.util.List;
 
 /**
- * Utilities addressing {@code Nil<Date>}.
+ * Utilities addressing {@code Nil<List<?>}.
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-02-13
  */
 @UtilityClass
-public class DateNils {
-    @SuppressWarnings("java:S2386")
-    public static final Date DEFAULT_NIL_VALUE = new Date(0);
-
-    public static final Nil<Date> DEFAULT_NIL=Nil.of(DEFAULT_NIL_VALUE);
-
-    @SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})
-    @AllArgsConstructor
-    public enum Standard {
-        Default(Nil.of(DEFAULT_NIL_VALUE)),
-        High(Nil.of(new Date(Long.MIN_VALUE))),
-        Low(Nil.of(new Date(Long.MAX_VALUE)));
-
-        @Getter
-        private final Nil<Date> nil;
-    }
-
-    public static Nil<Date> getNil() {
-        return DEFAULT_NIL;
+public class ListNils {
+    public static <E> Nil<List<E>> getNil() {
+        return Nil.of(List.of());
     }
 }

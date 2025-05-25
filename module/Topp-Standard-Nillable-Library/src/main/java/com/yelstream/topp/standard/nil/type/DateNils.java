@@ -17,28 +17,40 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.nil.util;
+package com.yelstream.topp.standard.nil.type;
 
 import com.yelstream.topp.standard.nil.Nil;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.experimental.UtilityClass;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.util.Date;
 
 /**
- * Utilities addressing {@code Nil<OffsetDateTime>}.
+ * Utilities addressing {@code Nil<Date>}.
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-02-13
  */
 @UtilityClass
-public class OffsetDateTimeNils {
+public class DateNils {
     @SuppressWarnings("java:S2386")
-    public static final OffsetDateTime DEFAULT_NIL_VALUE=OffsetDateTime.of(1970,1,1,0,0,0,0,ZoneOffset.UTC);
+    public static final Date DEFAULT_NIL_VALUE = new Date(0);
 
-    public static final Nil<OffsetDateTime> DEFAULT_NIL=Nil.of(DEFAULT_NIL_VALUE);
+    public static final Nil<Date> DEFAULT_NIL=Nil.of(DEFAULT_NIL_VALUE);
 
-    public static Nil<OffsetDateTime> getNil() {
+    @SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})
+    @AllArgsConstructor
+    public enum Standard {
+        Default(Nil.of(DEFAULT_NIL_VALUE)),
+        High(Nil.of(new Date(Long.MIN_VALUE))),
+        Low(Nil.of(new Date(Long.MAX_VALUE)));
+
+        @Getter
+        private final Nil<Date> nil;
+    }
+
+    public static Nil<Date> getNil() {
         return DEFAULT_NIL;
     }
 }

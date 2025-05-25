@@ -51,9 +51,9 @@ public interface NilProvider<T> {
 
     /**
      * Create a nil-provider.
+     * @param <T> Type of value.
      * @param value Nil value.
      * @return Created nil-provider
-     * @param <T> Type of value.
      */
     static <T> NilProvider<T> of(T value) {
         return of(Nil.of(value));
@@ -61,9 +61,9 @@ public interface NilProvider<T> {
 
     /**
      * Create a nil-provider.
+     * @param <T> Type of value.
      * @param nil Nil.
      * @return Created nil-provider
-     * @param <T> Type of value.
      */
     static <T> NilProvider<T> of(Nil<T> nil) {
         return ()->nil;

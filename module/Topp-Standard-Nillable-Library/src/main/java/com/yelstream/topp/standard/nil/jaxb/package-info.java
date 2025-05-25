@@ -24,4 +24,4 @@
  * @version 1.0
  * @since 2025-05-24
  */
-package com.yelstream.topp.standard.nil.util;
+package com.yelstream.topp.standard.nil.jaxb;

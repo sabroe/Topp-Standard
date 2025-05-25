@@ -19,13 +19,12 @@
 
 package com.yelstream.topp.standard.nil;
 
+import com.yelstream.topp.standard.nil.action.NillableAction;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.util.Objects;
 
 /**
  * Represent a value that can be null, nil, or an actual value.

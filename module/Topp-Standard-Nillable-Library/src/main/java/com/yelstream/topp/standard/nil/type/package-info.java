@@ -19,9 +19,8 @@
 
 /**
  *
- *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-05-24
+ * @since 2025-02-13
  */
-package com.yelstream.topp.standard.nil.util;
+package com.yelstream.topp.standard.nil.type;

@@ -17,22 +17,11 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.nil.util;
-
-import com.yelstream.topp.standard.nil.Nil;
-import lombok.experimental.UtilityClass;
-
-import java.util.List;
-
 /**
- * Utilities addressing {@code Nil<List<?>}.
+ *
+ *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-02-13
+ * @since 2025-05-24
  */
-@UtilityClass
-public class ListNils {
-    public static <E> Nil<List<E>> getNil() {
-        return Nil.of(List.of());
-    }
-}
+package com.yelstream.topp.standard.nil.action;

@@ -17,11 +17,27 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.nil.type;
+
+import com.yelstream.topp.standard.nil.Nil;
+import lombok.experimental.UtilityClass;
+
+import java.math.BigDecimal;
+
 /**
- *
- *
+ * Utilities addressing {@code Nil<BigDecimal>}.
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-05-24
+ * @since 2025-02-13
  */
-package com.yelstream.topp.standard.nil.util;
+@UtilityClass
+public class BigDecimalNils {
+    @SuppressWarnings("java:S2386")
+    public static final BigDecimal DEFAULT_NIL_VALUE= BigDecimal.ZERO;
+
+    public static final Nil<BigDecimal> DEFAULT_NIL=Nil.of(DEFAULT_NIL_VALUE);
+
+    public static Nil<BigDecimal> getNil() {
+        return DEFAULT_NIL;
+    }
+}

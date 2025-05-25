@@ -35,4 +35,6 @@ module com.yelstream.topp.standard.nil {
     requires jakarta.xml.bind;
     requires com.fasterxml.jackson.databind;
     exports com.yelstream.topp.standard.nil;
+    exports com.yelstream.topp.standard.nil.util;
+    exports com.yelstream.topp.standard.nil.action;
 }

@@ -17,11 +17,15 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.nil.action;
+
+import com.yelstream.topp.standard.nil.Nillable;
+
 /**
- *
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2025-05-24
+ * Represents the state of a {@link Nillable} value for action mapping.
  */
-package com.yelstream.topp.standard.nil.util;
+public enum NillableState {
+    NULL,
+    NIL,
+    PRESENT
+}
