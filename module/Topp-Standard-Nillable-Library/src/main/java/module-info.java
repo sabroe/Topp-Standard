@@ -18,19 +18,21 @@
  */
 
 /**
- * Topp Standard XML Stream Library for high-level XML input and output operations.
+ * Enables three-state nullability, distinguishing {@code null} (unset),
+ * {@code nill} (explicit null), and {@code present} (actual value) for precise data transfer and action mapping.
  * <p>
- *     This includes usages of {@link javax.xml.stream} for StAX,
- *     and higher-level utilities (e.g., simplified readers, writers, and file-based I/O).
+ *   Inspired by XML Schema's {@code nillable}, it supports custom nil values (e.g., {@code new Date(0)},
+ *   {@code BigDecimal.ZERO}) and integrates with JAXB and Jackson for XML/JSON serialization.
+ *   Ideal for APIs, financial systems, and XML-based workflows.
  * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-05-24
  */
-module com.yelstream.topp.standard.xml.stream {
+module com.yelstream.topp.standard.nil {
     requires static lombok;
     requires org.slf4j;
-    requires transitive java.xml;
-    requires com.yelstream.topp.standard.xml.process;
-    exports com.yelstream.topp.standard.xml.stream;
+    requires jakarta.xml.bind;
+    requires com.fasterxml.jackson.databind;
+    exports com.yelstream.topp.standard.nil;
 }

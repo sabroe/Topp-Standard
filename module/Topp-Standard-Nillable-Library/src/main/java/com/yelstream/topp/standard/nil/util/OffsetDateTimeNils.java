@@ -17,20 +17,28 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.nil.util;
+
+import com.yelstream.topp.standard.nil.Nil;
+import lombok.experimental.UtilityClass;
+
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+
 /**
- * Topp Standard XML Stream Library for high-level XML input and output operations.
- * <p>
- *     This includes usages of {@link javax.xml.stream} for StAX,
- *     and higher-level utilities (e.g., simplified readers, writers, and file-based I/O).
- * </p>
- *
+ * Utilities addressing {@code Nil<OffsetDateTime>}.
  * @author Morten Sabroe Mortensen
- * @since 2025-05-24
+ * @version 1.0
+ * @since 2025-02-13
  */
-module com.yelstream.topp.standard.xml.stream {
-    requires static lombok;
-    requires org.slf4j;
-    requires transitive java.xml;
-    requires com.yelstream.topp.standard.xml.process;
-    exports com.yelstream.topp.standard.xml.stream;
+@UtilityClass
+public class OffsetDateTimeNils {
+    @SuppressWarnings("java:S2386")
+    public static final OffsetDateTime DEFAULT_NIL_VALUE=OffsetDateTime.of(1970,1,1,0,0,0,0,ZoneOffset.UTC);
+
+    public static final Nil<OffsetDateTime> DEFAULT_NIL=Nil.of(DEFAULT_NIL_VALUE);
+
+    public static Nil<OffsetDateTime> getNil() {
+        return DEFAULT_NIL;
+    }
 }

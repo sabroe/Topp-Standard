@@ -17,20 +17,15 @@
  * limitations under the License.
  */
 
-/**
- * Topp Standard XML Stream Library for high-level XML input and output operations.
- * <p>
- *     This includes usages of {@link javax.xml.stream} for StAX,
- *     and higher-level utilities (e.g., simplified readers, writers, and file-based I/O).
- * </p>
- *
- * @author Morten Sabroe Mortensen
- * @since 2025-05-24
- */
-module com.yelstream.topp.standard.xml.stream {
-    requires static lombok;
-    requires org.slf4j;
-    requires transitive java.xml;
-    requires com.yelstream.topp.standard.xml.process;
-    exports com.yelstream.topp.standard.xml.stream;
+plugins {
+    id 'java'
+    id 'java-library-distribution'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+}
+
+dependencies {
+    api 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
+    api 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
 }
