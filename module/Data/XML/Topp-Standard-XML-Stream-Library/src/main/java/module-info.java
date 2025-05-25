@@ -25,7 +25,7 @@
  * </p>
  *
  * @author Morten Sabroe Mortensen
- * @since 2024-06-18
+ * @since 2025-05-24
  */
 module com.yelstream.topp.standard.xml.stream {
     requires static lombok;
