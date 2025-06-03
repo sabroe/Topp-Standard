@@ -17,15 +17,15 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.util;
+package com.yelstream.topp.standard.messaging.jakarta.jms.util;
 
 /**
  *
  *
  * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2025-05-19
+ * @since 2025-06-03
  */
-public class Nillables {
-
+@FunctionalInterface
+public interface ConsumerWithException<T, E extends Exception> {
+    void accept(T t) throws E;
 }

@@ -26,13 +26,7 @@ plugins {
 }
 
 dependencies {
-//    api 'org.apache.activemq:activemq-broker:6.1.6'
-//    api 'org.apache.activemq:activemq-client:6.1.6'
-//    api 'org.apache.activemq:activemq-spring:6.1.6'
-
+    api "io.smallrye.reactive:smallrye-reactive-messaging-jms:4.28.0"
+    api "org.jboss.weld.se:weld-se-core:6.0.3.Final"
     api 'org.apache.activemq:artemis-jms-client:2.41.0'
-}
-
-java {
-//    modularity.inferModulePath = true
 }

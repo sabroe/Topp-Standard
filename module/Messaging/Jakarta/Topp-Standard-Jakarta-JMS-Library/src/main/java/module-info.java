@@ -17,22 +17,16 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-//    api 'org.apache.activemq:activemq-broker:6.1.6'
-//    api 'org.apache.activemq:activemq-client:6.1.6'
-//    api 'org.apache.activemq:activemq-spring:6.1.6'
-
-    api 'org.apache.activemq:artemis-jms-client:2.41.0'
-}
-
-java {
-//    modularity.inferModulePath = true
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-03
+ */
+module com.yelstream.topp.standard.messaging.jakarta.jms {
+    requires static lombok;
+    requires org.slf4j;
+    requires jakarta.messaging;
+    exports com.yelstream.topp.standard.messaging.jakarta.jms;
+    exports com.yelstream.topp.standard.messaging.jakarta.jms.util;
 }

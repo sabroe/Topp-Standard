@@ -17,22 +17,16 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
+package com.yelstream.topp.standard.messaging.jakarta.jms.util;
+
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-03
+ */
+@FunctionalInterface
+public interface Factory<T,E extends Exception> {
+    T create() throws E;
 }
 
-dependencies {
-//    api 'org.apache.activemq:activemq-broker:6.1.6'
-//    api 'org.apache.activemq:activemq-client:6.1.6'
-//    api 'org.apache.activemq:activemq-spring:6.1.6'
-
-    api 'org.apache.activemq:artemis-jms-client:2.41.0'
-}
-
-java {
-//    modularity.inferModulePath = true
-}

@@ -17,22 +17,14 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-//    api 'org.apache.activemq:activemq-broker:6.1.6'
-//    api 'org.apache.activemq:activemq-client:6.1.6'
-//    api 'org.apache.activemq:activemq-spring:6.1.6'
-
-    api 'org.apache.activemq:artemis-jms-client:2.41.0'
-}
-
-java {
-//    modularity.inferModulePath = true
+/**
+ * Topp Standard SmallRye Reactive Messaging Library addressing basics of SmallRye Reactive Messaging.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-03
+ */
+module com.yelstream.topp.standard.messaging.smallrye.reactive.messaging {
+    requires static lombok;
+    requires org.slf4j;
+    exports com.yelstream.topp.standard.messaging.smallrye.reactive.messaging;
 }
