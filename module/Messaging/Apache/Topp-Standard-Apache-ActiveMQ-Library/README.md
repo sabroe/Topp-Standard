@@ -1,6 +1,6 @@
-# Topp Standard Apache ActiveMQ Library
+# Topp Standard Apache ActiveMQ Library~~~~~~~~
 
-Topp Standard Apache ActiveMQ Library addressing basics of Apache ActiveMQ
+Topp Standard Apache ActiveMQ Library addressing basics of Apache ActiveMQ.
 
 
 ## Artifacts

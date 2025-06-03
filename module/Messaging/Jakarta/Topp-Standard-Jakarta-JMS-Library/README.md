@@ -1,6 +1,6 @@
-# Topp Standard Jakarta Messaging Library
+# Topp Standard Jakarta JMS Library
 
-Topp Standard Jakarta Messaging Library addressing basics of Jakarta Messaging
+Topp Standard Jakarta JMS Library addressing basics of Jakarta JMS.
 
 
 ## Artifacts
