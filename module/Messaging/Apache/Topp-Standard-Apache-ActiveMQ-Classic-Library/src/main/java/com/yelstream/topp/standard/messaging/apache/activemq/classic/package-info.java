@@ -17,19 +17,10 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    implementation 'jakarta.jms:jakarta.jms-api:3.1.0'
-    api 'org.apache.activemq:artemis-jms-client:2.41.0'
-}
-
-java {
-//    modularity.inferModulePath = true
-}
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-03
+ */
+package com.yelstream.topp.standard.messaging.apache.activemq.classic;

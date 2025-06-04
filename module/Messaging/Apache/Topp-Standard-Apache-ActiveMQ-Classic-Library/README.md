@@ -1,6 +1,6 @@
-# Topp Standard Apache ActiveMQ Artemis Library
+# Topp Standard Apache ActiveMQ Classic Library
 
-Topp Standard Apache ActiveMQ Artemis Library addressing basics of Apache ActiveMQ Artemis.
+Topp Standard Apache ActiveMQ Classic Library addressing basics of Apache ActiveMQ Classic.
 
 
 ## Artifacts
