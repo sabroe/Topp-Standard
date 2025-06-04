@@ -23,10 +23,10 @@
  * @author Morten Sabroe Mortensen
  * @since 2025-06-03
  */
-module com.yelstream.topp.standard.messaging.apache.activemq {
+module com.yelstream.topp.standard.messaging.apache.activemq.artemis {
     requires static lombok;
     requires org.slf4j;
     requires artemis.jms.client;
     requires jakarta.jms.api;
-    exports com.yelstream.topp.standard.messaging.apache.activemq;
+    exports com.yelstream.topp.standard.messaging.apache.activemq.artemis.jms.client;
 }
