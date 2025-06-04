@@ -41,7 +41,8 @@ include("module:Build:Topp-Standard-Gradle-Contribution-Library")
 
 include("module:Management:Topp-Standard-Management-Library")
 
-include("module:Messaging:Apache:Topp-Standard-Apache-ActiveMQ-Library")
+include("module:Messaging:Apache:Topp-Standard-Apache-ActiveMQ-Classic-Library")
+include("module:Messaging:Apache:Topp-Standard-Apache-ActiveMQ-Artemis-Library")
 include("module:Messaging:Jakarta:Topp-Standard-Jakarta-JMS-Library")
 include("module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library")
 
