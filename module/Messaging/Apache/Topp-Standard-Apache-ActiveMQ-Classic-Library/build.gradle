@@ -28,8 +28,25 @@ plugins {
 dependencies {
     api 'jakarta.jms:jakarta.jms-api:3.1.0'
     api 'org.apache.activemq:activemq-client:6.1.6'
+
+    configurations {
+        all*.exclude group: 'org.slf4j', module: 'slf4j-simple'
+        all*.exclude group: 'org.slf4j', module: 'slf4j-ext'
+    }
 }
 
 java {
-//    modularity.inferModulePath = true
+    modularity.inferModulePath = true
+}
+
+tasks.withType(JavaCompile) {
+//    options.compilerArgs += ['--module-path', configurations.runtimeClasspath.asPath]
+    options.compilerArgs += ['--module-path', configurations.compileClasspath.asPath]
+}
+
+tasks.withType(Javadoc) {
+//    options.addStringOption('--module-path', configurations.compileClasspath.asPath + ";" + configurations.runtimeClasspath.asPath)
+//    options.addStringOption('--add-modules', 'activemq.client,jakarta.messaging,org.slf4j,lombok')
+//    options.modulePath = sourceSets.main.runtimeClasspath
+    options.modulePath = sourceSets.main.compileClasspath
 }

@@ -26,6 +26,8 @@
 module com.yelstream.topp.standard.messaging.apache.activemq.classic {
     requires static lombok;
     requires org.slf4j;
+    requires java.naming;
+    requires jakarta.messaging;
     requires activemq.client;
     exports com.yelstream.topp.standard.messaging.apache.activemq.classic;
 }
