@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.messaging.apache.activemq;
+package com.yelstream.topp.standard.messaging.apache.activemq.artemis.jms.client;
 
 import lombok.experimental.UtilityClass;
 import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
@@ -37,23 +37,29 @@ public class ActiveMQConnectionFactories {
 
     @lombok.Builder(builderClassName="Builder")
     private static ActiveMQConnectionFactory createActiveMQConnectionFactoryByBuilder(URI brokerURL,
-                                                                                      String username,
+                                                                                      String user,
                                                                                       String password,
-                                                                                      List<String> trustedPackages) throws JMSException {
+                                                                                      List<String> trustedPackages) {
         ActiveMQConnectionFactory connectionFactory=new ActiveMQConnectionFactory();
         if (brokerURL!=null) {
-            connectionFactory.setBrokerURL(brokerURL.toString());
+            try {
+                connectionFactory.setBrokerURL(brokerURL.toString());
+            } catch (JMSException ex) {
+                throw new IllegalStateException(String.format("Failure to create connection-factory; cannot set broker URL '%s'!",brokerURL),ex);
+            }
         }
-        if (username!=null) {
-            connectionFactory.setsetUserName(username);
+        if (user!=null) {
+            connectionFactory.setUser(user);
         }
         if (password!=null) {
             connectionFactory.setPassword(password);
         }
+/*
         if (trustedPackages!=null) {
-            connectionFactory.setTrustedPackages(trustedPackages);
+            connectionFactory.setsetTrustedPackages(trustedPackages);
             connectionFactory.setTrustAllPackages(false);
         }
+/**/
         return connectionFactory;
     }
 
