@@ -20,8 +20,9 @@
 package com.yelstream.topp.standard.messaging.apache.activemq;
 
 import lombok.experimental.UtilityClass;
-import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
 
+import javax.jms.JMSException;
 import java.net.URI;
 import java.util.List;
 
@@ -38,13 +39,13 @@ public class ActiveMQConnectionFactories {
     private static ActiveMQConnectionFactory createActiveMQConnectionFactoryByBuilder(URI brokerURL,
                                                                                       String username,
                                                                                       String password,
-                                                                                      List<String> trustedPackages) {
+                                                                                      List<String> trustedPackages) throws JMSException {
         ActiveMQConnectionFactory connectionFactory=new ActiveMQConnectionFactory();
         if (brokerURL!=null) {
             connectionFactory.setBrokerURL(brokerURL.toString());
         }
         if (username!=null) {
-            connectionFactory.setUserName(username);
+            connectionFactory.setsetUserName(username);
         }
         if (password!=null) {
             connectionFactory.setPassword(password);

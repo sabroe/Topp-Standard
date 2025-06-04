@@ -26,7 +26,7 @@
 module com.yelstream.topp.standard.messaging.apache.activemq {
     requires static lombok;
     requires org.slf4j;
-//    requires activemq.client;
-    requires org.apache.activemq.artemis.jms.client;
+    requires artemis.jms.client;
+    requires jakarta.jms.api;
     exports com.yelstream.topp.standard.messaging.apache.activemq;
 }
