@@ -26,10 +26,29 @@ plugins {
 }
 
 dependencies {
-    implementation 'jakarta.jms:jakarta.jms-api:3.1.0'
+    api 'jakarta.jms:jakarta.jms-api:2.0.3'  //Yes, not newer 3.0.1; artemis-jms-client:2.41.0 is behind!
     api 'org.apache.activemq:artemis-jms-client:2.41.0'
+
+    configurations {
+        all*.exclude group: 'org.slf4j', module: 'slf4j-simple'
+        all*.exclude group: 'org.slf4j', module: 'slf4j-ext'
+        all*.exclude group: 'org.apache.activemq', module: 'artemis-commons'
+        all*.exclude group: 'org.apache.activemq', module: 'artemis-core-client'
+    }
 }
 
 java {
-//    modularity.inferModulePath = true
+    modularity.inferModulePath = true
+}
+
+tasks.withType(JavaCompile) {
+//    options.compilerArgs += ['--module-path', configurations.runtimeClasspath.asPath]
+    options.compilerArgs += ['--module-path', configurations.compileClasspath.asPath]
+}
+
+tasks.withType(Javadoc) {
+//    options.addStringOption('--module-path', configurations.compileClasspath.asPath + ";" + configurations.runtimeClasspath.asPath)
+//    options.addStringOption('--add-modules', 'activemq.client,jakarta.messaging,org.slf4j,lombok')
+//    options.modulePath = sourceSets.main.runtimeClasspath
+    options.modulePath = sourceSets.main.compileClasspath
 }

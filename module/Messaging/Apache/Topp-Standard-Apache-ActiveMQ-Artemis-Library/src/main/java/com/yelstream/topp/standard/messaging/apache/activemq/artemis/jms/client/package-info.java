@@ -23,4 +23,4 @@
  * @author Morten Sabroe Mortensen
  * @since 2025-06-03
  */
-package com.yelstream.topp.standard.messaging.apache.activemq;
+package com.yelstream.topp.standard.messaging.apache.activemq.artemis.jms.client;
