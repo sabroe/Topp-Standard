@@ -18,7 +18,12 @@
  */
 
 /**
- *
+ * Topp Standard Apache ActiveMQ Classic Library addressing basics of Apache ActiveMQ Classic.
+ * <p>
+ *     Note that ActiveMQ Classic is not JPMS-compliant, as of 6.1.6/2025-06-04!
+ *     <br/>
+ *     For more information, visit the <a href="https://activemq.apache.org/">Apache ActiveMQ Website</a>.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-03

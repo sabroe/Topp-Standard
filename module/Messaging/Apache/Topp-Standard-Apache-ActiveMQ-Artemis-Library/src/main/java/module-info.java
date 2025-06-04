@@ -18,7 +18,12 @@
  */
 
 /**
- *
+ * Topp Standard Apache ActiveMQ Artemis Library addressing basics of Apache ActiveMQ Artemis.
+ * <p>
+ *     Note that ActiveMQ Artemis is not fully JPMS-compliant, as of 2.41.0/2025-06-04!
+ *     <br/>
+ *     For more information, visit the <a href="https://activemq.apache.org/">Apache ActiveMQ Website</a>.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-03
