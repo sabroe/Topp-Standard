@@ -26,9 +26,6 @@ plugins {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
     api project(':module:Topp-Standard-Core-Library')
     api project(':module:Health:Topp-Standard-Health-Serialization-Library')
     api 'org.eclipse.microprofile.health:microprofile-health-api:4.0.1'
