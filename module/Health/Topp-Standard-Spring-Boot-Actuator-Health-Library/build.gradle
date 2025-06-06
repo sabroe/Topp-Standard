@@ -26,12 +26,9 @@ plugins {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
     api project(':module:Topp-Standard-Core-Library')
     api project(':module:Health:Topp-Standard-Health-Serialization-Library')
-    api 'org.springframework.boot:spring-boot-actuator:3.4.1'
+    api 'org.springframework.boot:spring-boot-actuator:3.5.0'
 
     testImplementation 'org.slf4j:slf4j-simple:2.0.16'
 //    testImplementation 'org.springframework.boot:spring-boot-starter-actuator:3.3.1'
