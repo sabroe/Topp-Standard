@@ -18,7 +18,7 @@
  */
 
 /**
- * Topp Standard XML Library for simplified XML reading, writing, validation, and binding.
+ * Topp Standard XML Library for an umbrella inclusion of all XML functionalities.
  *
  * @author Morten Sabroe Mortensen
  * @since 2024-06-18
