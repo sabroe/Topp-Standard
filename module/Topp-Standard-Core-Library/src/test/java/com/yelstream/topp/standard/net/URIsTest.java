@@ -200,4 +200,38 @@ class URIsTest {
         Assertions.assertEquals(uri1,uri2);
         Assertions.assertEquals(uri,uri2.toString());
     }
+
+    /**
+     * Tests the matching, parsing and rebuilding of URIs with the non-standard scheme "jdbc:sqlserver".
+     * @throws URISyntaxException Thrown in case of URI syntax error.
+     */
+    @ParameterizedTest
+    @ValueSource(strings=
+        {
+            "jdbc:sqlserver://localhost:1433",
+            "jdbc:sqlserver://localhost:1433;databaseName=database1",
+            "jdbc:sqlserver://localhost:1433;databaseName=database1;user=user1;password=password1",
+            "jdbc:sqlserver://localhost:1433;databaseName=database1;user=user1;password=password1;encrypt=true;trustServerCertificate=false"
+        }
+    )
+    void schemaJDBC(String uri) throws URISyntaxException {
+        URI uri1=new URI(uri);
+        URIs.Builder builder=URIs.builder();
+        builder.uri(uri1);
+        URI uri2=builder.build();
+
+        Assertions.assertEquals(uri1,uri2);
+        Assertions.assertEquals(uri,uri2.toString());
+
+        Assertions.assertEquals("jdbc",uri2.getScheme());
+//TO-DO!        Assertions.assertEquals("sqlserver",uri2.getSchemeSpecificPart());
+        Assertions.assertEquals("localhost",uri2.getHost());
+        Assertions.assertEquals(1433,uri2.getPort());
+        Assertions.assertEquals("",uri2.getPath());
+    }
+
+/*
+    public static final String JMX_SERVICE_URL = "service:jmx:rmi:///jndi/rmi://localhost:10224/jmxrmi";
+    public static final String BROKER_URL = "tcp://localhost:61616";
+*/
 }
