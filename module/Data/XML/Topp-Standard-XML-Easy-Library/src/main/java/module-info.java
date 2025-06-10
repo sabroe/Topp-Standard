@@ -18,12 +18,12 @@
  */
 
 /**
- * Topp Standard XML Library for an umbrella inclusion of all XML functionalities.
+ * Topp Standard XML Easy Library for simplified, fluent XML access.
  *
  * @author Morten Sabroe Mortensen
- * @since 2024-06-18
+ * @since 2025-06-10
  */
-module com.yelstream.topp.standard.xml {
+module com.yelstream.topp.standard.xml.easy {
     requires static lombok;
     requires org.slf4j;
     requires transitive java.xml;
@@ -32,6 +32,5 @@ module com.yelstream.topp.standard.xml {
     requires transitive com.yelstream.topp.standard.xml.bind;
     requires transitive com.yelstream.topp.standard.xml.crypto;
     requires transitive com.yelstream.topp.standard.xml.stream;
-    exports com.yelstream.topp.standard.xml.io;
-    exports com.yelstream.topp.standard.xml.util;
+    exports com.yelstream.topp.standard.xml.easy;
 }

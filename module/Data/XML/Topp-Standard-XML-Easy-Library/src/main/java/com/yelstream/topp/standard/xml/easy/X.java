@@ -1,8 +1,8 @@
 /*
- * Project: Topp Grasp
- * GitHub: https://github.com/sabroe/Topp-Grasp
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
  *
- * Copyright 2022-2025 Morten Sabroe Mortensen
+ * Copyright 2024-2025 Morten Sabroe Mortensen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +17,8 @@
  * limitations under the License.
  */
 
-plugins.withType(JacocoPlugin) {
-    jacoco {
-        toolVersion = "0.8.13"
-//          reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
-    }
-    test {
-        finalizedBy jacocoTestReport // report is always generated after tests run
-    }
-    jacocoTestReport {
-        dependsOn test // tests are required to run before generating the report
-    }
+package com.yelstream.topp.standard.xml.easy;
+
+public class X {
+
 }

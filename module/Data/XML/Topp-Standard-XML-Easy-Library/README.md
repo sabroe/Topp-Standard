@@ -1,6 +1,6 @@
-# Topp Standard XML Library
+# Topp Standard XML Easy Library
 
-Topp Standard XML Library for an umbrella inclusion of all XML functionalities.
+Topp Standard XML Easy Library for simplified, fluent XML access.
 
 
 ## Artifacts

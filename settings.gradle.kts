@@ -52,6 +52,7 @@ include("module:Data:XML:Topp-Standard-XML-Process-Library")
 include("module:Data:XML:Topp-Standard-XML-Bind-Library")
 include("module:Data:XML:Topp-Standard-XML-Stream-Library")
 include("module:Data:XML:Topp-Standard-XML-Crypto-Library")
+include("module:Data:XML:Topp-Standard-XML-Easy-Library")
 include("module:Data:XML:Topp-Standard-XML-Library")
 
 include("module:Text:Topp-Standard-Text-Manifestation-Library")
