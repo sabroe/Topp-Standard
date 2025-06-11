@@ -26,6 +26,7 @@
 module com.yelstream.topp.standard.media.apache.poi.document {
     requires static lombok;
     requires org.slf4j;
+    requires org.apache.poi.ooxml;
     exports com.yelstream.topp.standard.media.apache.poi.xssf;
     exports com.yelstream.topp.standard.media.apache.poi.xwpf;
 }
