@@ -17,16 +17,26 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.media.apache.poi.xwpf;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
- * Topp Standard Apache POI Document Library contributing with utilities for Apache POI.
+ * Named standard margins.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-06-06
+ * @since 2025-06-07
  */
-module com.yelstream.topp.standard.media.apache.poi.document {
-    requires static lombok;
-    requires org.slf4j;
-    requires org.apache.poi.ooxml;
-    exports com.yelstream.topp.standard.media.apache.poi.xssf;
-    exports com.yelstream.topp.standard.media.apache.poi.xwpf;
+@AllArgsConstructor
+@SuppressWarnings({"LombokGetterMayBeUsed","java:S115"})
+public enum StandardMargin {
+
+    Normal(Margin.of(1440L,1440L,1440L,1440L)),  //{ 2.54 cm, 2.54 cm, 2.54 cm, 2.54 cm }
+    Narrow(Margin.of(720L,720L,720L,720L)),  //{ 1.27 cm, 1.27 cm, 1.27 cm, 1.27 cm }
+    Moderate(Margin.of(1440L,1440L,1080L,1080L)),  //{ 2.54 cm, 2.54 cm, 1.92 cm, 1.92 cm }
+    Wide(Margin.of(1440L,1440L,2880L,2880L));  //{ 2.54 cm, 2.54 cm, 5.08 cm, 5.08 cm }
+
+    @Getter
+    private final Margin margin;
 }
