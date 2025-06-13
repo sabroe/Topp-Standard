@@ -48,6 +48,8 @@ include("module:Messaging:Apache:Topp-Standard-Apache-ActiveMQ-Artemis-Library")
 include("module:Messaging:Jakarta:Topp-Standard-Jakarta-JMS-Library")
 include("module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library")
 
+include("module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library")
+
 include("module:Data:XML:Topp-Standard-XML-Process-Library")
 include("module:Data:XML:Topp-Standard-XML-Bind-Library")
 include("module:Data:XML:Topp-Standard-XML-Stream-Library")
