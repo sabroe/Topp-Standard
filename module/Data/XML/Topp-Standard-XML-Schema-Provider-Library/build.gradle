@@ -26,10 +26,5 @@ plugins {
 }
 
 dependencies {
-    api project(':module:Data:XML:Topp-Standard-XML-Process-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Bind-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Stream-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Crypto-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Schema-Provider-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Easy-Library')
+//    api 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
 }

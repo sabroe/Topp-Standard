@@ -17,19 +17,16 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    api project(':module:Data:XML:Topp-Standard-XML-Process-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Bind-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Stream-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Crypto-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Schema-Provider-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Easy-Library')
+/**
+ * Topp Standard Apache POI Document Library contributing with utilities for Apache POI.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-16
+ */
+module com.yelstream.topp.standard.data.xsd.w3c.signature.schema {
+    uses com.yelstream.topp.standard.xml.schema.provider.CatalogProvider;
+    uses com.yelstream.topp.standard.xml.schema.provider.SchemaProvider;
+    requires com.yelstream.topp.standard.xml.schema.provider;
+    requires jakarta.xml.bind;
+    exports com.yelstream.topp.standard.data.xsd.w3c.signature.schema;
 }

@@ -50,10 +50,13 @@ include("module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Lib
 
 include("module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library")
 
+include("module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library")
+
 include("module:Data:XML:Topp-Standard-XML-Process-Library")
 include("module:Data:XML:Topp-Standard-XML-Bind-Library")
 include("module:Data:XML:Topp-Standard-XML-Stream-Library")
 include("module:Data:XML:Topp-Standard-XML-Crypto-Library")
+include("module:Data:XML:Topp-Standard-XML-Schema-Provider-Library")
 include("module:Data:XML:Topp-Standard-XML-Easy-Library")
 include("module:Data:XML:Topp-Standard-XML-Library")
 

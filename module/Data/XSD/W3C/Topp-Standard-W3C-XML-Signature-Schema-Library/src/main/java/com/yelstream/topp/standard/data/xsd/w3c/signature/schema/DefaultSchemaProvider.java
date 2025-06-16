@@ -17,19 +17,25 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.standard.data.xsd.w3c.signature.schema;
 
-dependencies {
-    api project(':module:Data:XML:Topp-Standard-XML-Process-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Bind-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Stream-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Crypto-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Schema-Provider-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Easy-Library')
+import com.yelstream.topp.standard.xml.schema.provider.SchemaProvider;
+
+import java.net.URL;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-16
+ */
+public class DefaultSchemaProvider implements SchemaProvider {
+    @Override
+    public List<URL> getSchemaURLs() {
+        return List.of(
+            Objects.requireNonNull(getClass().getClassLoader().getResource("XSD/W3C/XML Signature/xmldsig-core-schema.xsd"))
+        );
+    }
 }

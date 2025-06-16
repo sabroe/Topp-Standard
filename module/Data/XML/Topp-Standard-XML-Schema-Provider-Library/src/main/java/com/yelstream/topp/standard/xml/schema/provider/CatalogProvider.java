@@ -17,19 +17,21 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.standard.xml.schema.provider;
 
-dependencies {
-    api project(':module:Data:XML:Topp-Standard-XML-Process-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Bind-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Stream-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Crypto-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Schema-Provider-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Easy-Library')
+import java.net.URL;
+
+/**
+ * Provider of a catalog over XML Schema files.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-16
+ */
+@FunctionalInterface
+public interface CatalogProvider {
+    /**
+     * Gets reference to a catalog over XML Schema files.
+     * @return Reference to a catalog over XML Schema files.
+     */
+    URL getCatalogURL();  //TO-DO: Consider if 'URL' should be an association (name,type,path,URL), more rich!
 }

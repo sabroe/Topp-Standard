@@ -17,10 +17,4 @@
  * limitations under the License.
  */
 
-/**
- *
- *
- * @author Morten Sabroe Mortensen
- * @since 2025-06-13
- */
-package package com.yelstream.topp.standard.data.jakarta.jaxb;
+package com.yelstream.topp.standard.data.jakarta.jaxb;
