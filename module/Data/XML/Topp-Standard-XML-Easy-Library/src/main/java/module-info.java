@@ -32,5 +32,6 @@ module com.yelstream.topp.standard.xml.easy {
     requires transitive com.yelstream.topp.standard.xml.bind;
     requires transitive com.yelstream.topp.standard.xml.crypto;
     requires transitive com.yelstream.topp.standard.xml.stream;
+    requires transitive com.yelstream.topp.standard.xml.schema.provider;
     exports com.yelstream.topp.standard.xml.easy;
 }
