@@ -17,17 +17,26 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.messaging.jakarta.jms;
+
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+
+import java.util.concurrent.CompletableFuture;
+
 /**
- *
+ * Sender of a message.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-06-03
+ * @since 2025-06-17
  */
-module com.yelstream.topp.standard.messaging.jakarta.jms {
-    requires static lombok;
-    requires org.slf4j;
-    requires jakarta.messaging;
-    requires com.yelstream.topp.standard.core;
-    exports com.yelstream.topp.standard.messaging.jakarta.jms;
-    exports com.yelstream.topp.standard.messaging.jakarta.jms.util;
+@FunctionalInterface
+public interface Sender {
+    /**
+     * Initiates the sending of a message.
+     * @param message Message to send.
+     * @return Completion handle.
+     * @throws JMSException Thrown in case of JMS error.
+     */
+    CompletableFuture<Void> send(Message message) throws JMSException;
 }
