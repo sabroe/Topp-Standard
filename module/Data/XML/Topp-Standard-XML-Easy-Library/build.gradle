@@ -30,5 +30,4 @@ dependencies {
     api project(':module:Data:XML:Topp-Standard-XML-Bind-Library')
     api project(':module:Data:XML:Topp-Standard-XML-Stream-Library')
     api project(':module:Data:XML:Topp-Standard-XML-Crypto-Library')
-    api project(':module:Data:XML:Topp-Standard-XML-Schema-Provider-Library')
 }
