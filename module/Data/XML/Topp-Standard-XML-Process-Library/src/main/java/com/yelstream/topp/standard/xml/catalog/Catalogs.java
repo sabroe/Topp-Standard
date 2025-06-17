@@ -17,18 +17,32 @@
  * limitations under the License.
  */
 
-import com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
+package com.yelstream.topp.standard.xml.catalog;
+
+import lombok.experimental.UtilityClass;
+
+import javax.xml.catalog.Catalog;
+import javax.xml.catalog.CatalogFeatures;
+import javax.xml.catalog.CatalogManager;
+import java.net.URI;
+import java.util.List;
+import java.util.ServiceLoader;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
- * Topp Standard Apache POI Document Library contributing with utilities for Apache POI.
+ * Utility addressing instances of {@link Catalog}.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-06-16
+ * @since 2025-06-17
  */
-module com.yelstream.topp.standard.data.xsd.w3c.signature.schema {
-    uses CatalogProvider;
-    uses com.yelstream.topp.standard.xml.schema.provider.SchemaProvider;
-    requires jakarta.xml.bind;
-    requires com.yelstream.topp.standard.xml.process;
-    exports com.yelstream.topp.standard.data.xsd.w3c.signature.schema;
+@UtilityClass
+public class Catalogs {
+    /**
+     *
+     */
+    public static Catalog createCatalog(CatalogFeatures features,
+                                        List<URI> uris) {
+        return CatalogManager.catalog(features,uris.toArray(new URI[0]));
+    }
 }
