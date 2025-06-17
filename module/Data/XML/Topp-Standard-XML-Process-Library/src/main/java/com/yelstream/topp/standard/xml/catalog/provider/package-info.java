@@ -17,21 +17,11 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.xml.schema.provider;
-
-import java.net.URL;
-
 /**
- * Provider of a catalog over XML Schema files.
+ * Discovery of XML catalogs.
  *
  * @author Morten Sabroe Mortensen
+ * @version 1.0
  * @since 2025-06-16
  */
-@FunctionalInterface
-public interface CatalogProvider {
-    /**
-     * Gets reference to a catalog over XML Schema files.
-     * @return Reference to a catalog over XML Schema files.
-     */
-    URL getCatalogURL();  //TO-DO: Consider if 'URL' should be an association (name,type,path,URL), more rich!
-}
+package com.yelstream.topp.standard.xml.catalog.provider;

@@ -34,10 +34,13 @@
  * @since 2024-06-18
  */
 module com.yelstream.topp.standard.xml.process {
+    uses com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
     requires static lombok;
     requires org.slf4j;
     requires transitive java.xml;
     exports com.yelstream.topp.standard.dom.ls;
+    exports com.yelstream.topp.standard.xml.catalog;
+    exports com.yelstream.topp.standard.xml.catalog.provider;
     exports com.yelstream.topp.standard.xml.namespace;
     exports com.yelstream.topp.standard.xml.sax;
     exports com.yelstream.topp.standard.xml.schema.provider;

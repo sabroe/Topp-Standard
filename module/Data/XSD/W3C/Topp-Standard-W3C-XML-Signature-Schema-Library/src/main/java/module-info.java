@@ -17,6 +17,8 @@
  * limitations under the License.
  */
 
+import com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
+
 /**
  * Topp Standard Apache POI Document Library contributing with utilities for Apache POI.
  *
@@ -24,7 +26,7 @@
  * @since 2025-06-16
  */
 module com.yelstream.topp.standard.data.xsd.w3c.signature.schema {
-    uses com.yelstream.topp.standard.xml.schema.provider.CatalogProvider;
+    uses CatalogProvider;
     uses com.yelstream.topp.standard.xml.schema.provider.SchemaProvider;
     requires jakarta.xml.bind;
     requires com.yelstream.topp.standard.xml.process;

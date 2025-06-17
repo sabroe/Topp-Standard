@@ -1,6 +1,6 @@
 package com.yelstream.topp.standard.data.xsd.w3c.signature.schema;
 
-import com.yelstream.topp.standard.xml.schema.provider.CatalogProvider;
+import com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
 import com.yelstream.topp.standard.xml.schema.provider.SchemaProvider;
 
 import java.net.URL;

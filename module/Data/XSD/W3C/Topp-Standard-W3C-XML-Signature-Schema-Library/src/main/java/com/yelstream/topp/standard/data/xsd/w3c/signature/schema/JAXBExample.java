@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.data.xsd.w3c.signature.schema;
 
-import com.yelstream.topp.standard.xml.schema.provider.CatalogProvider;
+import com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 
@@ -43,18 +43,6 @@ public class JAXBExample {
         CatalogFeatures features = CatalogFeatures.defaults();
         Catalog catalog = CatalogManager.catalog(features, catalogURL.toURI());
         CatalogResolver catalogResolver = CatalogManager.catalogResolver(features, catalogURL.toURI());
-
-/*
-        CatalogFeatures features = CatalogFeatures.builder()
-                .with(CatalogFeatures.Feature.FILES, catalogURL.toString())
-                .with(CatalogFeatures.Feature.PREFER, "public")
-                .with(CatalogFeatures.Feature.RESOLVE, "continue")
-                .build();
-        Catalog catalog = CatalogManager.catalog(features, catalogURL.toURI());
-*/
-
-//        Debugging Tip: If you encounter issues with catalog resolution, set the javax.xml.catalog.resolve property to "continue" to avoid exceptions on unresolved references, or enable debugging by setting system property javax.xml.catalog.verbosity to a non-zero value for detailed logging.
-
 
 /*
 For more control, here’s how you might customize the catalog features:
