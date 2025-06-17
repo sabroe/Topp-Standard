@@ -17,29 +17,11 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.xml.catalog;
-
-import lombok.experimental.UtilityClass;
-
-import javax.xml.catalog.Catalog;
-import javax.xml.catalog.CatalogFeatures;
-import javax.xml.catalog.CatalogManager;
-import java.net.URI;
-import java.util.List;
-
 /**
- * Utility addressing instances of {@link Catalog}.
+ * Handling of XML catalogs.
  *
  * @author Morten Sabroe Mortensen
+ * @version 1.0
  * @since 2025-06-17
  */
-@UtilityClass
-public class Catalogs {
-    /**
-     *
-     */
-    public static Catalog createCatalog(CatalogFeatures features,
-                                        List<URI> uris) {
-        return CatalogManager.catalog(features,uris.toArray(new URI[0]));
-    }
-}
+package com.yelstream.topp.standard.xml.catalog;
