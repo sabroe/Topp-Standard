@@ -26,9 +26,6 @@ import javax.xml.catalog.CatalogFeatures;
 import javax.xml.catalog.CatalogManager;
 import java.net.URI;
 import java.util.List;
-import java.util.ServiceLoader;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * Utility addressing instances of {@link Catalog}.
