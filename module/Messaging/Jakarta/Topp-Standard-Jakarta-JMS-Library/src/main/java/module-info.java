@@ -27,6 +27,7 @@ module com.yelstream.topp.standard.messaging.jakarta.jms {
     requires static lombok;
     requires org.slf4j;
     requires jakarta.messaging;
+    requires com.yelstream.topp.standard.core;
     exports com.yelstream.topp.standard.messaging.jakarta.jms;
     exports com.yelstream.topp.standard.messaging.jakarta.jms.util;
 }
