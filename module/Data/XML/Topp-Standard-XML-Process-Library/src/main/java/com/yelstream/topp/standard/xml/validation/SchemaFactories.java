@@ -23,6 +23,7 @@ import lombok.experimental.UtilityClass;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
+import javax.xml.catalog.Catalog;
 import javax.xml.validation.SchemaFactory;
 import java.util.Objects;
 
@@ -46,13 +47,13 @@ public class SchemaFactories {
 
     /**
      * Creates a schema factory.
-     * @param enableExternalAccess Indicates, if external access is to be enabled.
+     * @param externalAccess Indicates, if external access is to be enabled.
      * @return Schema factory.
      */
     @SuppressWarnings("java:S2755")
-    public static SchemaFactory createSchemaFactory(boolean enableExternalAccess) {
+    public static SchemaFactory createSchemaFactory(boolean externalAccess) {
         SchemaFactory factory=SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        if (!enableExternalAccess) {
+        if (!externalAccess) {
             disableExternalAccess(factory);
         }
         return factory;
@@ -65,10 +66,43 @@ public class SchemaFactories {
     public static void disableExternalAccess(SchemaFactory factory) {
         Objects.requireNonNull(factory);
         try {
-            factory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-            factory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+            factory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD,"");
+            factory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA,"");
         } catch (SAXException ex) {
             throw new IllegalStateException("Failure to create schema-factory!",ex);
         }
+    }
+
+    /**
+     * Adds an XML catalog to a schema factory.
+     * @param factory Schema factory.
+     * @param catalog XML catalog.
+     */
+    public static void addCatalog(SchemaFactory factory,
+                                  Catalog catalog) {
+        Objects.requireNonNull(factory);
+        Objects.requireNonNull(catalog);
+        try {
+            factory.setFeature("http://javax.xml.XMLConstants/feature/xml-catalog",true);
+            factory.setProperty("http://javax.xml.XMLConstants/property/xml-catalog",catalog);
+        } catch (SAXException ex) {
+            throw new IllegalStateException("Failure add catalog to schema-factory!",ex);
+        }
+    }
+
+    /**
+     * Creates a schema factory.
+     * @param externalAccess Indicates, if external access is to be enabled.
+     * @param catalog XML catalog.
+     * @return Schema factory.
+     */
+    @lombok.Builder(builderClassName="Builder")
+    private static SchemaFactory createSchemaFactoryByBuilder(boolean externalAccess,
+                                                              Catalog catalog) {
+        SchemaFactory factory=createSchemaFactory(externalAccess);
+        if (catalog!=null) {
+            addCatalog(factory,catalog);
+        }
+        return factory;
     }
 }
