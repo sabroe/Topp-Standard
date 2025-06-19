@@ -89,4 +89,6 @@ public class Schemas {
         SchemaFactory schemaFactory=SchemaFactories.createSchemaFactory();
         return createSchema(schemaFactory,schemaInputStream);
     }
+
+    //TO-DO: Add Lombok builder? No chance?
 }

@@ -42,4 +42,7 @@ public class Catalogs {
                                         List<URI> uris) {
         return CatalogManager.catalog(features,uris.toArray(new URI[0]));
     }
+
+
+    //TO-DO: Add Lombok builder?
 }

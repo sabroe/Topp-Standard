@@ -54,10 +54,20 @@ public class Marshallers {
     public static Marshaller createMarshaller(JAXBContext context,
                                               Schema schema) throws JAXBException {
         Marshaller marshaller=context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);  //TO-DO: Make this conditional?
         if (schema!=null) {
             marshaller.setSchema(schema);
         }
         return marshaller;
     }
+
+    //TO-DO: Add enabling of basic pretty-print!
+    //TO-DO: Add NamespacePrefixMapper! Note that 'org.glassfish.jaxb.runtime.marshaller.NamespacePrefixMapper' is glassfish-specific!
+    //TO-DO: Add Lombok builder of Marshaller
+    //TO-DO: Add properties!
+    //TO-DO: Add event-handler ValidationEventHandler !
+    //TO-DO: Add adapter !
+    //TO-DO: Add attachment marshaller AttachmentMarshaller !
+    //TO-DO: Add schema!
+    //TO-DO: Add listener!
 }
