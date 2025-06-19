@@ -40,4 +40,6 @@ public class JAXBContexts {
     public static JAXBContext createJAXBContext(Class<?> declaredType) throws JAXBException {
         return JAXBContext.newInstance(declaredType);
     }
+
+    //TO-DO: Add builder? Binder, JAXBIntrospector, SchemaOutputResolver,
 }
