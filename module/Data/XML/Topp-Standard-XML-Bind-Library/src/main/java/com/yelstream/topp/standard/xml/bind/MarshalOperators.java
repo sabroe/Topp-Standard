@@ -19,17 +19,10 @@
 
 package com.yelstream.topp.standard.xml.bind;
 
+import com.yelstream.topp.standard.xml.bind.io.MarshalOutput;
+import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.Marshaller;
 import lombok.experimental.UtilityClass;
-import org.w3c.dom.Node;
-import org.xml.sax.ContentHandler;
-
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamWriter;
-import javax.xml.transform.Result;
-import java.io.File;
-import java.io.OutputStream;
-import java.io.Writer;
 
 /**
  * Utilities addressing instances of {@link MarshalOperator}.
@@ -40,35 +33,8 @@ import java.io.Writer;
 @UtilityClass
 public class MarshalOperators {
 
-    public static MarshalOperator of(Result result) {
-        return (Marshaller marshaller, Object element) -> marshaller.marshal(element,result);
-    }
-
-    public static MarshalOperator of(OutputStream os) {
-        return (Marshaller marshaller, Object element) -> marshaller.marshal(element,os);
-    }
-
-    public static MarshalOperator of(File output) {
-        return (Marshaller marshaller, Object element) -> marshaller.marshal(element,output);
-    }
-
-    public static MarshalOperator of(Writer writer) {
-        return (Marshaller marshaller, Object element) -> marshaller.marshal(element,writer);
-    }
-
-    public static MarshalOperator of(ContentHandler handler) {
-        return (Marshaller marshaller, Object element) -> marshaller.marshal(element,handler);
-    }
-
-    public static MarshalOperator of(Node node) {
-        return (Marshaller marshaller, Object element) -> marshaller.marshal(element,node);
-    }
-
-    public static MarshalOperator of(XMLStreamWriter writer) {
-        return (Marshaller marshaller, Object element) -> marshaller.marshal(element,writer);
-    }
-
-    public static MarshalOperator of(XMLEventWriter writer) {
-        return (Marshaller marshaller, Object element) -> marshaller.marshal(element,writer);
+    public static <T> MarshalOperator<T> of(Marshaller marshaller,
+                                            MarshalOutput output) {
+        return (JAXBElement<T> element) -> output.marshal(marshaller,element);
     }
 }
