@@ -42,4 +42,30 @@ public class JAXBContexts {
     }
 
     //TO-DO: Add builder? Binder, JAXBIntrospector, SchemaOutputResolver,
+
+    @lombok.Builder(builderClassName="Builder")
+    private static JAXBContext createJAXBContextByBuilder(Class<?> declaredType) throws JAXBException {
+        JAXBContext context=JAXBContext.newInstance(declaredType);
+/*
+        if (properties!=null) {
+            properties.forEach((name,value)->setProperty(marshaller,name,value));
+        }
+        if (schema!=null) {
+            marshaller.setSchema(schema);
+        }
+        if (eventHandler!=null) {
+            marshaller.setEventHandler(eventHandler);
+        }
+        if (adapter!=null) {
+            marshaller.setAdapter(adapter);
+        }
+        if (listener!=null) {
+            marshaller.setListener(listener);
+        }
+        if (attachmentMarshaller!=null) {
+            marshaller.setAttachmentMarshaller(attachmentMarshaller);
+        }
+ */
+        return context;
+    }
 }
