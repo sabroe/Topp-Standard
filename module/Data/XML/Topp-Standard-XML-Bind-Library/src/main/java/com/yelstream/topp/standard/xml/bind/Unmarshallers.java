@@ -21,10 +21,15 @@ package com.yelstream.topp.standard.xml.bind;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.PropertyException;
 import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.ValidationEventHandler;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.attachment.AttachmentUnmarshaller;
 import lombok.experimental.UtilityClass;
 
 import javax.xml.validation.Schema;
+import java.util.Map;
 
 /**
  * Utility addressing instances of {@link Unmarshaller}.
@@ -34,6 +39,26 @@ import javax.xml.validation.Schema;
  */
 @UtilityClass
 public class Unmarshallers {
+
+    public void setProperty(Unmarshaller unmarshaller,
+                            String name,
+                            Object value) {
+        try {
+            unmarshaller.setProperty(name, value);
+        } catch (PropertyException ex) {
+            throw new IllegalArgumentException("Failure to set unmarshaller property; name is %s!".formatted(name),ex);
+        }
+    }
+
+    public Object getProperty(Unmarshaller unmarshaller,
+                              String name) {
+        try {
+            return unmarshaller.getProperty(name);
+        } catch (PropertyException ex) {
+            throw new IllegalArgumentException("Failure to get unmarshaller property; name is %s!".formatted(name),ex);
+        }
+    }
+
     /**
      * Creates an unmarshaller.
      * @param context JAXB context.
@@ -51,7 +76,8 @@ public class Unmarshallers {
      * @return Unmarshaller.
      * @throws JAXBException Thrown in case of JAXB error.
      */
-    public static Unmarshaller createUnmarshaller(JAXBContext context, Schema schema) throws JAXBException {
+    public static Unmarshaller createUnmarshaller(JAXBContext context,
+                                                  Schema schema) throws JAXBException {
         Unmarshaller unmarshaller=context.createUnmarshaller();
         if (schema!=null) {
             unmarshaller.setSchema(schema);
@@ -60,4 +86,34 @@ public class Unmarshallers {
     }
 
     //TO-DO: Add Lombok builder? ValidationEventHandler? Properties? Schema? XMLAdapter? AttachmentUnmarshaller? Listener?
+
+    @lombok.Builder(builderClassName="Builder")
+    private static Unmarshaller createUnmarshallerByBuilder(JAXBContext context,
+                                                            Map<String,Object> properties,
+                                                            Schema schema,
+                                                            ValidationEventHandler eventHandler,
+                                                            XmlAdapter<?,?> adapter,
+                                                            Unmarshaller.Listener listener,
+                                                            AttachmentUnmarshaller attachmentUnmarshaller) throws JAXBException {
+        Unmarshaller unmarshaller=context.createUnmarshaller();
+        if (properties!=null) {
+            properties.forEach((name,value)->setProperty(unmarshaller,name,value));
+        }
+        if (schema!=null) {
+            unmarshaller.setSchema(schema);
+        }
+        if (eventHandler!=null) {
+            unmarshaller.setEventHandler(eventHandler);
+        }
+        if (adapter!=null) {
+            unmarshaller.setAdapter(adapter);
+        }
+        if (listener!=null) {
+            unmarshaller.setListener(listener);
+        }
+        if (attachmentUnmarshaller!=null) {
+            unmarshaller.setAttachmentUnmarshaller(attachmentUnmarshaller);
+        }
+        return unmarshaller;
+    }
 }
