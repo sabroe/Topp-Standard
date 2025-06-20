@@ -19,13 +19,9 @@
 
 package com.yelstream.topp.standard.xml.bind;
 
+import com.yelstream.topp.standard.xml.bind.io.UnmarshalInput;
 import jakarta.xml.bind.Unmarshaller;
 import lombok.experimental.UtilityClass;
-import org.w3c.dom.Node;
-
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.transform.Source;
 
 /**
  * Utilities addressing instances of {@link UnmarshalOperator}.
@@ -35,20 +31,9 @@ import javax.xml.transform.Source;
  */
 @UtilityClass
 public class UnmarshalOperators {
-
-    public static <T> UnmarshalOperator<T> of(Node node) {
-        return (Unmarshaller unmarshaller, Class<T> declaredType) -> unmarshaller.unmarshal(node,declaredType);
-    }
-
-    public static <T> UnmarshalOperator<T> of(Source source) {
-        return (Unmarshaller unmarshaller, Class<T> declaredType) -> unmarshaller.unmarshal(source,declaredType);
-    }
-
-    public static <T> UnmarshalOperator<T> of(XMLStreamReader reader) {
-        return (Unmarshaller unmarshaller, Class<T> declaredType) -> unmarshaller.unmarshal(reader,declaredType);
-    }
-
-    public static <T> UnmarshalOperator<T> of(XMLEventReader reader) {
-        return (Unmarshaller unmarshaller, Class<T> declaredType) -> unmarshaller.unmarshal(reader,declaredType);
+    public static <T> UnmarshalOperator<T> of(Unmarshaller unmarshaller,
+                                              UnmarshalInput input,
+                                              Class<T> declaredType) {
+        return () -> input.unmarshal(unmarshaller,declaredType);
     }
 }

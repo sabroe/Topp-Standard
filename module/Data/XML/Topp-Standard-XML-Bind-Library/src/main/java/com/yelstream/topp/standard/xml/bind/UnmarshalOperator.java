@@ -21,7 +21,6 @@ package com.yelstream.topp.standard.xml.bind;
 
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Unmarshaller;
 
 /**
  * Unmarshal operator.
@@ -34,11 +33,8 @@ import jakarta.xml.bind.Unmarshaller;
 public interface UnmarshalOperator<T> {
     /**
      * Applies unmarshalling.
-     * @param unmarshaller Unmarshaller.
-     * @param declaredType Binding of XML element declaration's type.
      * @return JAXB element.
      * @throws JAXBException Thrown in case of JAXB error.
      */
-    JAXBElement<T> unmarshal(Unmarshaller unmarshaller,
-                             Class<T> declaredType) throws JAXBException;
+    JAXBElement<T> unmarshal() throws JAXBException;
 }

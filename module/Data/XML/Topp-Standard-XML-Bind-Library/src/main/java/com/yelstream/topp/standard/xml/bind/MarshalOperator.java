@@ -19,23 +19,22 @@
 
 package com.yelstream.topp.standard.xml.bind;
 
+import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
 
 /**
  * Marshal operator.
+ * @param <T> Class representing XML element.
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2022-04-20
  */
 @FunctionalInterface
-public interface MarshalOperator {
+public interface MarshalOperator<T> {
     /**
      * Applies marshalling.
-     * @param marshaller Marshaller.
      * @param element JAXB element.
      * @throws JAXBException Thrown in case of JAXB error.
      */
-    void marshal(Marshaller marshaller,
-                 Object element) throws JAXBException;
+    void marshal(JAXBElement<T> element) throws JAXBException;
 }

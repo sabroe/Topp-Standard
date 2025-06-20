@@ -19,6 +19,8 @@
 
 package com.yelstream.topp.standard.xml.bind;
 
+import com.yelstream.topp.standard.xml.bind.io.MarshalOutput;
+import com.yelstream.topp.standard.xml.bind.io.UnmarshalInput;
 import com.yelstream.topp.standard.xml.validation.NewSchemaOperator;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
@@ -117,49 +119,49 @@ public class JAXBElements {
      * Reads a JAXB element.
      * @param declaredType Binding of XML element declaration's type.
      * @param schema Schema.
-     * @param unmarshalOperator Unmarshal operator.
+     * @param input Unmarshal input.
      * @param <T> Class representing XML element.
      * @return JAXB element.
      * @throws JAXBException Thrown in case of JAXB error.
      */
     public static <T> JAXBElement<T> readJAXBElement(Class<T> declaredType,
                                                      Schema schema,
-                                                     UnmarshalOperator<T> unmarshalOperator) throws JAXBException {
+                                                     UnmarshalInput input) throws JAXBException {
         JAXBContext context=JAXBContexts.createJAXBContext(declaredType);
         Unmarshaller unmarshaller=Unmarshallers.createUnmarshaller(context,schema);
-        return unmarshalOperator.unmarshal(unmarshaller,declaredType);
+        return input.unmarshal(unmarshaller,declaredType);
     }
 
     /**
      * Writes a JAXB element.
      * @param element JAXB element.
      * @param schema Schema.
-     * @param marshalOperator Marshal operator.
+     * @param output Marshal output.
      * @param <T> Class representing XML element.
      * @throws JAXBException Thrown in case of JAXB error.
      */
     public static <T> void writeJAXBElement(JAXBElement<T> element,
                                             Schema schema,
-                                            MarshalOperator marshalOperator) throws JAXBException {
+                                            MarshalOutput output) throws JAXBException {
         Class<T> declaredType=element.getDeclaredType();
         JAXBContext context=JAXBContexts.createJAXBContext(declaredType);
         Marshaller marshaller=Marshallers.createMarshaller(context,schema);
-        marshalOperator.marshal(marshaller,element);
+        output.marshal(marshaller,element);
     }
 
     /**
      * Reads a XML element binding value.
      * @param declaredType Binding of XML element declaration's type.
      * @param schema Schema.
-     * @param unmarshalOperator Unmarshal operator.
+     * @param input Unmarshal input.
      * @param <T> Class representing XML element.
      * @return Binding of XML element.
      * @throws JAXBException Thrown in case of JAXB error.
      */
     public static <T> T readValue(Class<T> declaredType,
                                   Schema schema,
-                                  UnmarshalOperator<T> unmarshalOperator) throws JAXBException {
-        JAXBElement<T> element=readJAXBElement(declaredType,schema,unmarshalOperator);
+                                  UnmarshalInput input) throws JAXBException {
+        JAXBElement<T> element=readJAXBElement(declaredType,schema,input);
         return element.getValue();
     }
 
@@ -169,7 +171,7 @@ public class JAXBElements {
      * @param declaredType Binding of XML element declaration's type.
      * @param value Binding of XML element.
      * @param schema Schema.
-     * @param marshalOperator Marshal operator.
+     * @param output Marshal output.
      * @param <T> Class representing XML element.
      * @throws JAXBException Thrown in case of JAXB error.
      */
@@ -177,26 +179,26 @@ public class JAXBElements {
                                       Class<T> declaredType,
                                       T value,
                                       Schema schema,
-                                      MarshalOperator marshalOperator) throws JAXBException {
+                                      MarshalOutput output) throws JAXBException {
         JAXBElement<T> element=JAXBElements.createJAXBElement(name,declaredType,value);
-        writeJAXBElement(element,schema,marshalOperator);
+        writeJAXBElement(element,schema,output);
     }
 
     /**
      * Reads a XML element binding value.
      * @param declaredType Binding of XML element declaration's type.
      * @param newSchemaOperator New-schema operator.
-     * @param unmarshalOperator Unmarshal operator.
+     * @param input Unmarshal input.
      * @param <T> Class representing XML element.
      * @return XML element binding value.
      * @throws IOException Thrown in case of I/O error.
      */
     public static <T> T read(Class<T> declaredType,
                              NewSchemaOperator newSchemaOperator,
-                             UnmarshalOperator<T> unmarshalOperator) throws IOException {
+                             UnmarshalInput input) throws IOException {
         try {
             Schema schema=newSchemaOperator==null?null:newSchemaOperator.newSchema();
-            return JAXBElements.readValue(declaredType,schema,unmarshalOperator);
+            return JAXBElements.readValue(declaredType,schema,input);
         } catch (JAXBException | SAXException ex) {
             throw new IOException("Failure to read document!",ex);
         }
@@ -208,7 +210,7 @@ public class JAXBElements {
      * @param declaredType Binding of XML element declaration's type.
      * @param value Binding of XML element.
      * @param newSchemaOperator New-schema operator.
-     * @param marshalOperator Marshal operator.
+     * @param output Marshal output.
      * @param <T> Class representing XML element.
      * @throws IOException Thrown in case of I/O error.
      */
@@ -216,11 +218,11 @@ public class JAXBElements {
                                  Class<T> declaredType,
                                  T value,
                                  NewSchemaOperator newSchemaOperator,
-                                 MarshalOperator marshalOperator) throws IOException {
+                                 MarshalOutput output) throws IOException {
         try {
             Schema schema=newSchemaOperator==null?null:newSchemaOperator.newSchema();
             JAXBElement<T> element=JAXBElements.createJAXBElement(name,declaredType,value);
-            JAXBElements.writeJAXBElement(element,schema,marshalOperator);
+            JAXBElements.writeJAXBElement(element,schema,output);
         } catch (JAXBException | SAXException ex) {
             throw new IOException("Failure to write document!",ex);
         }
