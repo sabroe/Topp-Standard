@@ -25,7 +25,11 @@ import lombok.experimental.UtilityClass;
 import javax.xml.catalog.Catalog;
 import javax.xml.catalog.CatalogFeatures;
 import javax.xml.catalog.CatalogManager;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
@@ -68,8 +72,18 @@ public class CatalogProviders {
         return getCatalogs(getCatalogProviders());
     }
 
+    public static List<CatalogProvider.CatalogResource> getCatalogResources() {
+        return getCatalogProviderStream().flatMap(provider -> provider.getCatalogResources().stream()).toList();
+    }
+
     public static List<URI> getCatalogURIs() {
-        return getCatalogProviderStream().map(CatalogProvider::getCatalogURI).toList();
+        return getCatalogResources().stream().map(resource-> {
+            try {
+                return resource.getURL().toURI();
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);  //TO-DO: Fix!
+            }
+        }).toList();
     }
 
     /**
@@ -86,5 +100,19 @@ public class CatalogProviders {
      */
     public static Catalog createCatalog() {
         return createCatalog(CatalogFeatures.defaults());
+    }
+
+    /**
+     * Retrieves the content of a catalog resource as a string.
+     * @param resource The catalog resource.
+     * @return The content of the resource as a string, encoded in UTF-8.
+     * @throws IOException If an I/O error occurs while reading the resource.
+     */
+    public static String getContentAsString(CatalogProvider.CatalogResource resource) {  //TO-DO: Move to new "CatalogResources"!
+        try (InputStream inputStream = resource.getURL().openStream()) {
+            return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);  //TO-DO: Fix!
+        }
     }
 }
