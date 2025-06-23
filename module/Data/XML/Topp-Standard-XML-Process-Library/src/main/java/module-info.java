@@ -47,4 +47,5 @@ module com.yelstream.topp.standard.xml.process {
     exports com.yelstream.topp.standard.xml.transform;
     exports com.yelstream.topp.standard.xml.schema.provider;
     exports com.yelstream.topp.standard.xml.validation;
+    exports com.yelstream.topp.standard.xml.catalog.provider.util;
 }
