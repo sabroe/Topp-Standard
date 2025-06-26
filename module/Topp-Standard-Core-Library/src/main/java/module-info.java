@@ -34,6 +34,7 @@ module com.yelstream.topp.standard.core {
     exports com.yelstream.topp.standard.lang.annotation;
     exports com.yelstream.topp.standard.lang.reflect;
     exports com.yelstream.topp.standard.lang.thread;
+    exports com.yelstream.topp.standard.id;
     exports com.yelstream.topp.standard.io;
     exports com.yelstream.topp.standard.net;
     exports com.yelstream.topp.standard.net.ssl;
