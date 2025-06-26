@@ -35,6 +35,8 @@ include("module:Configuration:Topp-Standard-Quarkus-Config-Library")
 
 include("module:Network:Topp-Standard-Network-Tooling-Library")
 
+include("module:Runtime:Topp-Standard-Loader-Library")
+
 include("module:Topp-Standard-Annotator-Library")
 
 include("module:Build:Topp-Standard-Gradle-Contribution-Library")
