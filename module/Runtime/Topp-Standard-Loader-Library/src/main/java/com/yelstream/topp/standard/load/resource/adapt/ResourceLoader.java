@@ -17,16 +17,18 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.resource.lookup;
+package com.yelstream.topp.standard.load.resource.adapt;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.Enumeration;
 import java.util.stream.Stream;
 
 /**
- * Adapter facilitating lookup of resource specifics.
+ * Loads resource specifics.
  * <p>
  *     This is mimicking the method signatures of {@link ClassLoader}.
  * </p>
@@ -37,10 +39,15 @@ import java.util.stream.Stream;
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
-public interface ResourceLookup {
+public interface ResourceLoader {
     URL getResource(String name);
 
     InputStream getResourceAsStream(String name);
+
+    default ReadableByteChannel getResourceAsChannel(String name) {
+        InputStream stream=getResourceAsStream(name);
+        return stream==null?null:Channels.newChannel(stream);
+    }
 
     Enumeration<URL> getResources(String name) throws IOException;
 

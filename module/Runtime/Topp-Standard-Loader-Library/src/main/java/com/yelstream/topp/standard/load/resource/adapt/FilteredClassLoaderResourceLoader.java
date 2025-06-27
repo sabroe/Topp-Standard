@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.resource.lookup;
+package com.yelstream.topp.standard.load.resource.adapt;
 
 import lombok.AllArgsConstructor;
 
@@ -39,7 +39,7 @@ import java.util.stream.Stream;
  * @since 2025-06-26
  */
 @AllArgsConstructor(staticName="of")
-final class FilteredClassLoaderResourceLookup implements ResourceLookup {
+final class FilteredClassLoaderResourceLoader implements ResourceLoader {
     /**
      * Classloader.
      */
@@ -90,11 +90,11 @@ final class FilteredClassLoaderResourceLookup implements ResourceLookup {
         }
     }
 
-    public static FilteredClassLoaderResourceLookup of(ClassLoader classLoader) {
+    public static FilteredClassLoaderResourceLoader of(ClassLoader classLoader) {
         return of(classLoader,null,null);
     }
 
-    public static FilteredClassLoaderResourceLookup of(ClassLoader classLoader,
+    public static FilteredClassLoaderResourceLoader of(ClassLoader classLoader,
                                                        Predicate<URL> filter) {
         return of(classLoader,
                   enumeration->filter(enumeration,filter),

@@ -19,7 +19,6 @@
 
 package com.yelstream.topp.standard.load.io;
 
-import com.yelstream.topp.standard.load.resource.lookup.ResourceLookup;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
@@ -51,14 +50,14 @@ public class InputSources {
     }
 
     /**
-     * Create an input source to a resource whose content can be read through an adapter.
-     * @param lookup Adapter for lookup of resource content.
-     * @param name Named resource.
+     * Create an input source to a resource.
+     * @param streamSupplier Factory of input-streams.
+     * @param channelSupplier Factory of readable byte-channels.
      * @return Readable source.
      */
-    public static InputSource createInputSource(ResourceLookup lookup,
-                                                String name) {
-        return createInputSourceByStream(()->lookup.getResourceAsStream(name));
+    public static InputSource createInputSource(Supplier<InputStream> streamSupplier,
+                                                Supplier<ReadableByteChannel> channelSupplier) {
+        return DefaultInputSource.of(streamSupplier,channelSupplier);
     }
 
     /**

@@ -29,6 +29,6 @@ module com.yelstream.topp.standard.load {
     exports com.yelstream.topp.standard.load.clazz;
     exports com.yelstream.topp.standard.load.io;
     exports com.yelstream.topp.standard.load.resource;
-    exports com.yelstream.topp.standard.load.resource.lookup;
+    exports com.yelstream.topp.standard.load.resource.adapt;
     exports com.yelstream.topp.standard.load.resource.provider;
 }

@@ -29,7 +29,12 @@ import java.net.URL;
  * <p>
  *     Usually associated with a class-loader.
  * </p>
- *
+ * <p>
+ *     This supports both in-memory (e.g., a "memory:" scheme) and file-based catalogs
+ *     while avoiding imposing any JVM-wide registrations for private schemes.
+ *     <br/>
+ *     However, a global, JVM-wide registration may be used.
+ * </p>
  * <p>
  *     This is immutable.
  * </p>
@@ -48,22 +53,28 @@ public interface Resource {
     /**
      * Gets an identification of this resource.
      * <p>
-     *     Note that the scheme may be symbolic and has no associated URL handler.
-     *     To obtain a URL use {@link #getURL()}.
+     *     Note: This may not resolve to a URL with an actively supported scheme.
      * </p>
      * @return Identification.
      *         This may be {@code null}.
+     *         This may use non-JVM-wide, private schemes (e.g., "memory:").
      */
-    URI getURI();  //TO-DO: Grab hold of description set upon CatalogProvider! Fix detected package cycle!
+    URI getURI();
 
     /**
      * Gets a reference to the content of this resource.
+     * <p>
+     *     Note: This may involve copying content to a temporary file for accessibility.
+     * </p>
      * @return Content reference.
      *         This may be {@code null}.
+     *         May be distinct from {@code getURI().toURL()}.
      */
-    URL getURL();  //TO-DO: Grab hold of description set upon CatalogProvider! Fix detected package cycle!
+    URL getURL();
 
-//    Stream<Resource> resources();
-
-    InputSource read();  //TO-DO: -> "readable"? "createReadable()"?
+    /**
+     * Creates an accessor for reading the content of the resource.
+     * @return Accessor for reading the content of the resource.
+     */
+    InputSource readable();
 }

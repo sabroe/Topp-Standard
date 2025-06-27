@@ -30,5 +30,6 @@ module com.yelstream.topp.standard.data.xsd.w3c.signature.schema {
     uses com.yelstream.topp.standard.xml.schema.provider.SchemaProvider;
     requires jakarta.xml.bind;
     requires com.yelstream.topp.standard.xml.process;
+    requires com.yelstream.topp.standard.load;
     exports com.yelstream.topp.standard.data.xsd.w3c.signature.schema;
 }

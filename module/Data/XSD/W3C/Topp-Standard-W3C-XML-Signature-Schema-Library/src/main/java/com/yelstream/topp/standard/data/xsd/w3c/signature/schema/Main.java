@@ -11,7 +11,7 @@ public class Main {
         // Load catalog
         ServiceLoader<CatalogProvider> catalogLoader = ServiceLoader.load(CatalogProvider.class);
         for (CatalogProvider provider : catalogLoader) {
-            URL catalogURL = provider.getCatalogURL();
+            URL catalogURL = null;//provider.getCatalogURL();
             System.out.println("Catalog URL: " + catalogURL);
         }
 

@@ -37,7 +37,7 @@ public class JAXBExample {
     public static void main(String[] args) throws Exception {
         // Load catalog
         ServiceLoader<CatalogProvider> catalogLoader = ServiceLoader.load(CatalogProvider.class);
-        URL catalogURL = catalogLoader.iterator().next().getCatalogURL();
+        URL catalogURL = null;//catalogLoader.iterator().next().getCatalogResources().getCatalogURL();
 
         // Create catalog and resolver
         CatalogFeatures features = CatalogFeatures.defaults();

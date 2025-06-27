@@ -46,7 +46,8 @@ final class ReadableByteChannelInputSource implements InputSource {
 
     @Override
     public InputStream openStream() throws IOException {
-        return Channels.newInputStream(openChannel());
+        ReadableByteChannel channel=openChannel();
+        return channel==null?null:Channels.newInputStream(channel);
     }
 
     @Override
