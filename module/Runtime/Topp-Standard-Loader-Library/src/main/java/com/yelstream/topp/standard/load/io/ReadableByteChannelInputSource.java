@@ -36,6 +36,12 @@ import java.util.function.Supplier;
  */
 @AllArgsConstructor(staticName="of")
 final class ReadableByteChannelInputSource implements InputSource {
+    /**
+     * Supplier of readable byte-channels.
+     * <p>
+     *     Note that usages catch {@link UncheckedIOException}.
+     * </p>
+     */
     private final Supplier<ReadableByteChannel> channelSupplier;
 
     @Override

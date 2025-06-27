@@ -26,7 +26,7 @@ import java.util.Enumeration;
 import java.util.stream.Stream;
 
 /**
- * Facilitates lookup of resource specifics.
+ * Adapter facilitating lookup of resource specifics.
  * <p>
  *     This is mimicking the method signatures of {@link ClassLoader}.
  * </p>

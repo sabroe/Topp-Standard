@@ -19,15 +19,36 @@
 
 package com.yelstream.topp.standard.load.resource.provider;
 
+import com.yelstream.topp.standard.load.resource.Resource;
+
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 /**
- * Provides access to a resource.
- * <p>
- *     This is mimicking the method signatures of {@link ClassLoader}.
- * </p>
+ * Provides access to resources.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
 public interface ResourceProvider {
     //TO-DO: Let this a provider of 'Resource' instances, possibly do traversal!
+
+    Stream<Resource> createResourceStream();
+
+    default Stream<Resource> createResourceStream(Predicate<Resource> filter) {
+        if (filter==null) {
+            return createResourceStream();
+        } else {
+            return createResourceStream().filter(filter);
+        }
+    }
+
+    default List<Resource> getResources() {
+        return createResourceStream().toList();
+    }
+
+    default List<Resource> getResources(Predicate<Resource> filter) {
+        return createResourceStream(filter).toList();
+    }
 }

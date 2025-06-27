@@ -32,59 +32,97 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.function.Supplier;
 
 /**
- *
+ * Utility addressing instances of {@link InputSource}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
 @UtilityClass
 public class InputSources {
-
+    /**
+     * Create an input source to a resource whose content can be read by a classloader.
+     * @param classLoader Classloader.
+     * @param name Named resource.
+     * @return Readable source.
+     */
     public static InputSource createInputSource(ClassLoader classLoader,
                                                 String name) {
         return createInputSourceByStream(()->classLoader.getResourceAsStream(name));
     }
 
+    /**
+     * Create an input source to a resource whose content can be read through an adapter.
+     * @param lookup Adapter for lookup of resource content.
+     * @param name Named resource.
+     * @return Readable source.
+     */
     public static InputSource createInputSource(ResourceLookup lookup,
                                                 String name) {
         return createInputSourceByStream(()->lookup.getResourceAsStream(name));
     }
 
+    /**
+     * Create an input source to a resource whose content can be read through an input-stream.
+     * @param streamSupplier Factory of input-streams.
+     * @return Readable source.
+     */
     public static InputSource createInputSourceByStream(Supplier<InputStream> streamSupplier) {
         return InputStreamInputSource.of(streamSupplier);
     }
 
+    /**
+     * Create an input source to a resource whose content can be read through a readable byte-channel.
+     * @param channelSupplier Factory of readable byte-channels.
+     * @return Readable source.
+     */
     public static InputSource createInputSourceByChannel(Supplier<ReadableByteChannel> channelSupplier) {
         return ReadableByteChannelInputSource.of(channelSupplier);
     }
 
+    /**
+     * Create an input source to a resource whose content can be read through a URL-connection.
+     * @param connectionSupplier Factory of URL-connections.
+     * @return Readable source.
+     */
     public static InputSource createInputSourceByConnection(Supplier<URLConnection> connectionSupplier) {
         return createInputSourceByStream(() -> {
             try {
-                return connectionSupplier.get().getInputStream();
+                URLConnection connection=connectionSupplier.get();
+                return connection.getInputStream();
             } catch (IOException ex) {
                 throw new UncheckedIOException("Failure to create input-source from URL-connection!",ex);
             }
         });
     }
 
+    /**
+     * Create an input source to a resource whose content is references by a URL.
+     * @param url Reference to content.
+     * @return Readable source.
+     */
     public static InputSource createInputSource(URL url) {
         return createInputSourceByConnection(() -> {
             try {
                 return url.openConnection();
             } catch (IOException ex) {
-                throw new UncheckedIOException("Failure to create input-source from URL!",ex);
+                throw new UncheckedIOException("Failure to create input-source from URL; URL is '%s'!".formatted(url),ex);
             }
         });
     }
 
+    /**
+     * Create an input source to a resource whose content is references by a URL.
+     * @param url Reference to content.
+     * @param proxy Connection proxy.
+     * @return Readable source.
+     */
     public static InputSource createInputSource(URL url,
                                                 Proxy proxy) {
         return createInputSourceByConnection(() -> {
             try {
                 return url.openConnection(proxy);
             } catch (IOException ex) {
-                throw new UncheckedIOException("Failure to create input-source from URL and proxy!",ex);
+                throw new UncheckedIOException("Failure to create input-source from URL and proxy; URL is '%s', proxy is '%s'!".formatted(url,proxy),ex);
             }
         });
     }
