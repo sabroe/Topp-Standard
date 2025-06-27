@@ -19,11 +19,11 @@
 
 package com.yelstream.topp.standard.data.xsd.w3c.signature.schema;
 
+import com.yelstream.topp.standard.load.resource.Resource;
 import com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
 
 import javax.xml.catalog.CatalogFeatures;
-import java.net.URL;
-import java.util.Objects;
+import java.util.List;
 
 /**
  *
@@ -32,9 +32,16 @@ import java.util.Objects;
  * @since 2025-06-16
  */
 public class DefaultCatalogProvider implements CatalogProvider {
+/*
     @Override
     public URL getCatalogURL() {
         return Objects.requireNonNull(getClass().getClassLoader().getResource("catalog.xml"));
+    }
+*/
+
+    @Override
+    public List<Resource> getCatalogResources() {
+        return List.of();
     }
 
     @Override

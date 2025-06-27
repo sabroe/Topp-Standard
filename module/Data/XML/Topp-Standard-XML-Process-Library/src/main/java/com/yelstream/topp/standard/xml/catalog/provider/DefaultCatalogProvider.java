@@ -1,5 +1,6 @@
 package com.yelstream.topp.standard.xml.catalog.provider;
 
+import com.yelstream.topp.standard.load.resource.Resource;
 import com.yelstream.topp.standard.xml.catalog.provider.util.JarXsdResourceScanner3;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.util.List;
  * @since 2025-06-22
  */
 public class DefaultCatalogProvider implements CatalogProvider {
-    private final List<CatalogResource> catalogResources;
+    private final List<Resource> catalogResources;
 
     /**
      * Constructs a provider with the specified XSD base path and namespace base URI.
@@ -32,7 +33,7 @@ public class DefaultCatalogProvider implements CatalogProvider {
     }
 
     @Override
-    public List<CatalogResource> getCatalogResources() {
+    public List<Resource> getCatalogResources() {
         return catalogResources;
     }
 }

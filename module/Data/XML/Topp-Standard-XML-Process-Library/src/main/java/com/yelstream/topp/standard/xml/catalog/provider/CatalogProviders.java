@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.xml.catalog.provider;
 
+import com.yelstream.topp.standard.load.resource.Resource;
 import com.yelstream.topp.standard.xml.catalog.Catalogs;
 import lombok.experimental.UtilityClass;
 
@@ -72,7 +73,7 @@ public class CatalogProviders {
         return getCatalogs(getCatalogProviders());
     }
 
-    public static List<CatalogProvider.CatalogResource> getCatalogResources() {
+    public static List<Resource> getCatalogResources() {
         return getCatalogProviderStream().flatMap(provider -> provider.getCatalogResources().stream()).toList();
     }
 
@@ -108,9 +109,9 @@ public class CatalogProviders {
      * @return The content of the resource as a string, encoded in UTF-8.
      * @throws IOException If an I/O error occurs while reading the resource.
      */
-    public static String getContentAsString(CatalogProvider.CatalogResource resource) {  //TO-DO: Move to new "CatalogResources"!
+    public static String getContentAsString(Resource resource) {  //TO-DO: Move to new "CatalogResources"!
         try (InputStream inputStream = resource.getURL().openStream()) {
-            return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+            return new String(inputStream.readAllBytes(),StandardCharsets.UTF_8);
         } catch (IOException ex) {
             throw new RuntimeException(ex);  //TO-DO: Fix!
         }

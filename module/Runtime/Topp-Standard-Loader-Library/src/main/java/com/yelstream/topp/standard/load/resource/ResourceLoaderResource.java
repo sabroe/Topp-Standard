@@ -21,6 +21,7 @@ package com.yelstream.topp.standard.load.resource;
 
 import com.yelstream.topp.standard.load.io.InputSource;
 import com.yelstream.topp.standard.load.io.InputSources;
+import com.yelstream.topp.standard.load.resource.adapt.ResourceLoader;
 import lombok.AllArgsConstructor;
 
 import java.net.URI;
@@ -28,17 +29,17 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
- * Resource attached to a classloader.
+ *
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
 @AllArgsConstructor(staticName="of")
-final class ClassLoaderResource implements Resource {
+public final class ResourceLoaderResource implements Resource {  //TO-DO: Name? "LookupBasedResource"?
     /**
-     * Classloader.
+     * Resource loader.
      */
-    private final ClassLoader classLoader;
+    private final ResourceLoader resourceLoader;
 
     /**
      * Resource name.
@@ -53,7 +54,7 @@ final class ClassLoaderResource implements Resource {
     @Override
     public URI getURI() {
         try {
-            URL url=classLoader.getResource(name);
+            URL url=resourceLoader.getResource(name);
             return url==null?null:url.toURI();
         } catch (URISyntaxException ex) {
             throw new IllegalStateException("Failure to get URI for named classloader resource!",ex);
@@ -62,11 +63,12 @@ final class ClassLoaderResource implements Resource {
 
     @Override
     public URL getURL() {
-        return classLoader.getResource(name);
+        return resourceLoader.getResource(name);
     }
 
     @Override
     public InputSource readable() {
-        return InputSources.createInputSource(classLoader,name);
+        return InputSources.createInputSource(()->resourceLoader.getResourceAsStream(name),
+                                              ()->resourceLoader.getResourceAsChannel(name));
     }
 }

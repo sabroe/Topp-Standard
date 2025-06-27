@@ -17,38 +17,42 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.resource.lookup;
+package com.yelstream.topp.standard.load.resource.adapt;
 
 import com.yelstream.topp.standard.load.clazz.ClassLoaders;
 import com.yelstream.topp.standard.load.clazz.Modules;
+import com.yelstream.topp.standard.load.io.InputSource;
 import lombok.experimental.UtilityClass;
 
+import java.net.URI;
 import java.net.URL;
 import java.security.CodeSource;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 /**
- * Utility addressing instances of {@link ResourceLookup}.
+ * Utility addressing instances of {@link ResourceLoader}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
 @UtilityClass
-public class ResourceLookups {
-    public static ResourceLookup createResourceLookup(ClassLoader classLoader) {
-        return FilteredClassLoaderResourceLookup.of(classLoader);
+public class ResourceLoaders {
+    public static ResourceLoader createResourceLookup(ClassLoader classLoader) {
+        return FilteredClassLoaderResourceLoader.of(classLoader);
     }
 
-    public static ResourceLookup createResourceLookup(ClassLoader classLoader,
+    public static ResourceLoader createResourceLookup(ClassLoader classLoader,
                                                       Predicate<URL> filter) {
-        return FilteredClassLoaderResourceLookup.of(classLoader,filter);
+        return FilteredClassLoaderResourceLoader.of(classLoader,filter);
     }
 
-    public static ResourceLookup createClassLoaderFilteredByCodeSource(Class<?> clazz) {
+    public static ResourceLoader createClassLoaderFilteredByCodeSource(Class<?> clazz) {
         return createResourceLookup(ClassLoaders.getClassLoader(clazz),createFilterByCodeSource(clazz));
     }
 
-    public static ResourceLookup createResourceLookup(Class<?> clazz) {
+    public static ResourceLoader createResourceLookup(Class<?> clazz) {
         if (Modules.isInNamedModule(clazz)) {
             return createResourceLookup(ClassLoaders.getModuleClassLoader(clazz));
         } else {
@@ -67,5 +71,16 @@ public class ResourceLookups {
     private static Predicate<URL> createFilterByBaseURL(URL baseURL) {  //TO-DO: Move to ??
         String prefix=baseURL.toString();
         return resource -> resource.toString().startsWith(prefix);
+    }
+
+    @lombok.Builder(builderClassName="Builder")
+    private ResourceLoader createResourceLoaderByBuilder(ClassLoader classLoader,
+                                                             ResourceLoader resourceLoader,
+                                                             String name,
+                                                             UnaryOperator<URI> uriTransformer,
+                                                             UnaryOperator<URL> urlTransformer,
+                                                             Supplier<InputSource> readableSupplier) {
+        ;
+        return null;
     }
 }

@@ -1,5 +1,7 @@
 package com.yelstream.topp.standard.xml.catalog.provider.util;
 
+import com.yelstream.topp.standard.load.io.InputSource;
+import com.yelstream.topp.standard.load.resource.Resource;
 import com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,11 +34,11 @@ import java.util.stream.Stream;
  */
 public final class JarXsdResourceScanner3 {
 
-    public static List<CatalogProvider.CatalogResource> scanForXsdResources(String xsdBasePath, String namespaceBaseUri, Class<?> callerClass, ClassLoader classLoader) throws IOException, URISyntaxException {
+    public static List<Resource> scanForXsdResources(String xsdBasePath, String namespaceBaseUri, Class<?> callerClass, ClassLoader classLoader) throws IOException, URISyntaxException {
         String catalogContent = generateCatalogContent(xsdBasePath, namespaceBaseUri, callerClass, classLoader);
         URI catalogUri = URI.create("memory://jar-xsd-catalog-" + System.identityHashCode(new Object()));
         MemoryUriRegistry.register(catalogUri, catalogContent);
-        CatalogProvider.CatalogResource resource = new MemoryCatalogResource(catalogUri, catalogContent);
+        Resource resource = new MemoryCatalogResource(catalogUri, catalogContent);
         return List.of(resource);
     }
 
@@ -180,13 +182,18 @@ public final class JarXsdResourceScanner3 {
                 .replace("'", "&apos;");
     }
 
-    private static class MemoryCatalogResource implements CatalogProvider.CatalogResource {
+    private static class MemoryCatalogResource implements Resource {  //TO-DO: Move to Loader-library?
         private final URI uri;
         private final String content;
 
         MemoryCatalogResource(URI uri, String content) {
             this.uri = uri;
             this.content = content;
+        }
+
+        @Override
+        public String getName() {
+            return "";
         }
 
         @Override
@@ -210,6 +217,11 @@ public final class JarXsdResourceScanner3 {
                     throw new IllegalStateException("Failed to create URL for catalog resource: " + uri, ex);
                 }
             }
+        }
+
+        @Override
+        public InputSource readable() {
+            return null;
         }
     }
 
