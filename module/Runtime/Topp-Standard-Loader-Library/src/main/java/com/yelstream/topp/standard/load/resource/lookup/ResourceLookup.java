@@ -45,4 +45,8 @@ public interface ResourceLookup {
     Enumeration<URL> getResources(String name) throws IOException;
 
     Stream<URL> resources(String name);
+
+    default boolean hasResource(String name) {
+        return getResource(name)!=null;
+    }
 }

@@ -39,7 +39,7 @@ import java.util.stream.Stream;
  * @since 2025-06-26
  */
 @AllArgsConstructor(staticName="of")
-public final class FilteredClassLoaderResourceLookup implements ResourceLookup {
+final class FilteredClassLoaderResourceLookup implements ResourceLookup {
     /**
      * Classloader.
      */
