@@ -22,6 +22,7 @@ package com.yelstream.topp.standard.load.resource;
 import com.yelstream.topp.standard.load.io.InputSource;
 
 import java.net.URI;
+import java.net.URL;
 
 /**
  * Resource.
@@ -37,12 +38,30 @@ import java.net.URI;
  * @since 2025-06-26
  */
 public interface Resource {
-
+    /**
+     * Gets the name of this resource.
+     * @return Name.
+     *         This may be {@code null}.
+     */
     String getName();
 
+    /**
+     * Gets an identification of this resource.
+     * <p>
+     *     Note that the scheme may be symbolic and has no associated URL handler.
+     *     To obtain a URL use {@link #getURL()}.
+     * </p>
+     * @return Identification.
+     *         This may be {@code null}.
+     */
     URI getURI();  //TO-DO: Grab hold of description set upon CatalogProvider! Fix detected package cycle!
 
-//    URL getURL();  //TO-DO: Grab hold of description set upon CatalogProvider! Fix detected package cycle!
+    /**
+     * Gets a reference to the content of this resource.
+     * @return Content reference.
+     *         This may be {@code null}.
+     */
+    URL getURL();  //TO-DO: Grab hold of description set upon CatalogProvider! Fix detected package cycle!
 
 //    Stream<Resource> resources();
 
