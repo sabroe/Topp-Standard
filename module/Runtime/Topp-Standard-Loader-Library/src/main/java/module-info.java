@@ -27,7 +27,8 @@ module com.yelstream.topp.standard.load {
     requires static lombok;
     requires org.slf4j;
     exports com.yelstream.topp.standard.load.clazz;
+    exports com.yelstream.topp.standard.load.io;
     exports com.yelstream.topp.standard.load.resource;
-    exports com.yelstream.topp.standard.load.resource.system;
-    exports com.yelstream.topp.standard.load.resource.access;
+    exports com.yelstream.topp.standard.load.resource.lookup;
+    exports com.yelstream.topp.standard.load.resource.provider;
 }

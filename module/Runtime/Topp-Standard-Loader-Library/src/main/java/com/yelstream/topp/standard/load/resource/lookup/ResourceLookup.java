@@ -17,13 +17,32 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.resource.system;
+package com.yelstream.topp.standard.load.resource.lookup;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.stream.Stream;
 
 /**
- *
+ * Facilitates lookup of resource specifics.
+ * <p>
+ *     This is mimicking the method signatures of {@link ClassLoader}.
+ * </p>
+ * <p>
+ *     This is essentially a low-level service-provider-interface, not to be used directly.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
-public class SystemResourceAccessor {
+public interface ResourceLookup {
+    URL getResource(String name);
+
+    InputStream getResourceAsStream(String name);
+
+    Enumeration<URL> getResources(String name) throws IOException;
+
+    Stream<URL> resources(String name);
 }

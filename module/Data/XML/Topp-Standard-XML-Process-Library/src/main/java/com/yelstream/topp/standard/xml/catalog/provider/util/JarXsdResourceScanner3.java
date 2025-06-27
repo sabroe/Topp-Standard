@@ -1,10 +1,9 @@
 package com.yelstream.topp.standard.xml.catalog.provider.util;
 
 import com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
-import com.yelstream.topp.standard.xml.catalog.provider.util.MemoryUriRegistry;
-import com.yelstream.topp.standard.xml.catalog.provider.util.Resources;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
@@ -14,7 +13,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
