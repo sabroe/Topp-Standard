@@ -17,10 +17,17 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.load.resource.provider;
+
 /**
- *
+ * Provides access to a resource.
+ * <p>
+ *     This is mimicking the method signatures of {@link ClassLoader}.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
-package com.yelstream.topp.standard.load.resource.system;
+public interface ResourceProvider {
+    //TO-DO: Let this a provider of 'Resource' instances, possibly do traversal!
+}

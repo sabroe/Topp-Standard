@@ -17,7 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.resource.access;
-
-public class URLResourceAccessor {
-}
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-26
+ */
+package com.yelstream.topp.standard.load.resource.provider;

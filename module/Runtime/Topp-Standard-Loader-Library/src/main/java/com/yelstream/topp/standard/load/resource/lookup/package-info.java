@@ -17,28 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.resource.access;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.stream.Stream;
-
 /**
  *
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
-public interface ResourceAccessor {
-    //TODO: WIP!
-
-    URL getResource();
-
-    InputStream getResourceAsStream();
-
-    Enumeration<URL> getResources() throws IOException;
-
-    Stream<URL> resources();
-}
+package com.yelstream.topp.standard.load.resource.lookup;

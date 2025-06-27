@@ -22,10 +22,8 @@ package com.yelstream.topp.standard.load.clazz;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
-import java.security.CodeSource;
-
 /**
- *
+ * Utility addressing {@link ClassLoader} instances.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
@@ -59,19 +57,7 @@ public class ClassLoaders {
         return getContextClassLoader(Thread.currentThread());
     }
 
-    public static ClassLoader getCodeSourceClassLoader(CodeSource codeSource) {
-        return codeSource.getClass().getClassLoader();
-    }
-
-    public static ClassLoader getCodeSourceClassLoader(Class<?> clazz) {
-        return null;  //TODO:!
-    }
-
     public static ClassLoader getClassLoader(Class<?> clazz) {
-        return null;  //TODO:!
-    }
-
-    public static ClassLoader getCodeBaseClassLoader(Class<?> clazz) {
-        return null;  //TODO: Has module? Or else has code-source?
+        return clazz.getClassLoader();
     }
 }

@@ -17,13 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.resource.system;
+package com.yelstream.topp.standard.load.resource.provider;
+
+import lombok.experimental.UtilityClass;
 
 /**
- *
+ * Utility addressing instances of {@link ResourceProvider}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
-public class SystemResources {
+@UtilityClass
+public class ResourceProviders {
+
+    //TO-DO: WIP!
+
 }

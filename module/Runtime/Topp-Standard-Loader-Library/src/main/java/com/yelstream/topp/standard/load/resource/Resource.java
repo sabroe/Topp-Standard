@@ -19,10 +19,15 @@
 
 package com.yelstream.topp.standard.load.resource;
 
-import com.yelstream.topp.standard.load.resource.access.ResourceAccessor;
-import lombok.AllArgsConstructor;
+import com.yelstream.topp.standard.load.io.InputSource;
+
+import java.net.URI;
 
 /**
+ * Resource.
+ * <p>
+ *     Usually associated with a class-loader.
+ * </p>
  *
  * <p>
  *     This is immutable.
@@ -31,15 +36,15 @@ import lombok.AllArgsConstructor;
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
-@lombok.Builder()
-@AllArgsConstructor(staticName="of")
-public class Resource {
-    //TODO: WIP!
+public interface Resource {
 
-    private final String name;
+    String getName();
 
+    URI getURI();  //TO-DO: Grab hold of description set upon CatalogProvider! Fix detected package cycle!
 
-    public ResourceAccessor access() {
-        return null;  //TODO: Fix!
-    }
+//    URL getURL();  //TO-DO: Grab hold of description set upon CatalogProvider! Fix detected package cycle!
+
+//    Stream<Resource> resources();
+
+    InputSource read();  //TO-DO: -> "readable"? "createReadable()"?
 }

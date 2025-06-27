@@ -17,7 +17,11 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.resource.system;
+package com.yelstream.topp.standard.load.io;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.channels.ReadableByteChannel;
 
 /**
  *
@@ -25,5 +29,18 @@ package com.yelstream.topp.standard.load.resource.system;
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
-public class SystemResource {
+public interface InputSource {
+    /**
+     *
+     * @return
+     * @throws IOException Thrown in case of I/O error.
+     */
+    InputStream openStream() throws IOException;
+
+    /**
+     *
+     * @return
+     * @throws IOException Thrown in case of I/O error.
+     */
+    ReadableByteChannel openChannel() throws IOException;
 }
