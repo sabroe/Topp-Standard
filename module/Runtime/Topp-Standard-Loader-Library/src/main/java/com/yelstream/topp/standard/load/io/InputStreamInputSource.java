@@ -36,6 +36,12 @@ import java.util.function.Supplier;
  */
 @AllArgsConstructor(staticName="of")
 final class InputStreamInputSource implements InputSource {
+    /**
+     * Supplier of input-streams.
+     * <p>
+     *     Note that usages catch {@link UncheckedIOException}.
+     * </p>
+     */
     private final Supplier<InputStream> streamSupplier;
 
     @Override
