@@ -17,13 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.resource.util;
-
 /**
  *
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-06-26
+ * @since 2025-06-29
  */
-public class ResourceName {
-}
+package com.yelstream.topp.standard.load.clazz.scan;

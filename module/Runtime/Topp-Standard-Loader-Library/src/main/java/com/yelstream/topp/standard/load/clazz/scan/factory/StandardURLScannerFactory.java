@@ -36,6 +36,9 @@ import java.util.stream.Stream;
  * <p>
  *     Enumeration of URL-scanner factories for standard URL protocols.
  * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-29
  */
 @AllArgsConstructor
 @SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})

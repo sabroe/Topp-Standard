@@ -31,6 +31,12 @@ import java.util.List;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-29
+ */
 @UtilityClass
 public class FileURLs {
     /**
