@@ -17,13 +17,16 @@
  * limitations under the License.
  */
 
-/**
- * Access to resource content.
- * <p>
- *     This is usually, but not necessarily, associated with a classloader.
- * </p>
- *
- * @author Morten Sabroe Mortensen
- * @since 2025-06-26
- */
-package com.yelstream.topp.standard.load.resource;
+package com.yelstream.topp.standard.load.clazz.util.file;
+
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
+public class FileURIs {
+    /**
+     * URI scheme.
+     */
+    public static final String SCHEME="file";
+
+
+}

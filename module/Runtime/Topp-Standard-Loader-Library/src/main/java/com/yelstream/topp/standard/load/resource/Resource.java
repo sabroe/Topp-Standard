@@ -30,7 +30,7 @@ import java.net.URL;
  *     Usually associated with a class-loader.
  * </p>
  * <p>
- *     This supports both in-memory (e.g., a "memory:" scheme) and file-based catalogs
+ *     This supports both in-memory (e.g., a "memory:" scheme) and file-based content
  *     while avoiding imposing any JVM-wide registrations for private schemes.
  *     <br/>
  *     However, a global, JVM-wide registration may be used.

@@ -17,13 +17,22 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.load.resource.resolve;
+
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 /**
- * Access to resource content.
- * <p>
- *     This is usually, but not necessarily, associated with a classloader.
- * </p>
+ * Provides access to resources.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
-package com.yelstream.topp.standard.load.resource;
+public interface ResourceResolver {
+
+
+    //org.springframework.core.io.support.PathMatchingResourcePatternResolver
+
+
+}
