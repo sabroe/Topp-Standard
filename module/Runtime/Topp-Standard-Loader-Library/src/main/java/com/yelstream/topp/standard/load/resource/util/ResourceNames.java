@@ -19,11 +19,57 @@
 
 package com.yelstream.topp.standard.load.resource.util;
 
+import lombok.experimental.UtilityClass;
+
 /**
- *
+ * Utility addressing instance of {@code #ResourceName}
+ * and classloader resource names in general.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
+@UtilityClass
 public class ResourceNames {
+
+    public static final String root="";
+
+    public static String normalizeName(String name,
+                                       boolean file) {
+        return null;
+    }
+
+    public static String normalizeDirectory(String name) {
+        return null;
+    }
+
+
+
+    public static ResourceName createResourceName(String name) {
+        return SimpleResourceName.of(name);
+    }
+
+
+    public String normalize(String name) {
+        return null;  //TO-DO: !
+    }
+
+    public String normalizeDirectory(String name) {
+        return null;  //TO-DO: !
+    }
+
+    public String normalizeFile(String name) {
+        return null;  //TO-DO: !
+    }
+
+    public boolean isFile(String name) {
+        return false;  //TO-DO: !
+    }
+
+    public boolean isDirectory(String name) {
+        return false;  //TO-DO: !
+    }
+
+    public boolean isRoot(String name) {
+        return false;  //TO-DO: !
+    }
 }

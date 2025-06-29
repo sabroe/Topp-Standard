@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * Loads resource specifics.
+ * Loader of individually named resource.
  * <p>
  *     This is mimicking the method signatures of {@link ClassLoader}.
  * </p>

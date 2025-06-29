@@ -20,10 +20,27 @@
 package com.yelstream.topp.standard.load.resource.util;
 
 /**
- *
+ * Resource name.
+ * <p>
+ *     When classloader related,
+ *     then {@link #getName()} and {@code #toString()} can be applied directly.
+ * </p>
+ * <p>
+ *     This is immutable.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-06-26
+ * @since 2025-06-29
  */
-public class ResourceName {
+public interface ResourceName {
+
+    String getName();
+
+    ResourceName normalize();
+
+    boolean isFile();
+
+    boolean isDirectory();
+
+    boolean isRoot();
 }
