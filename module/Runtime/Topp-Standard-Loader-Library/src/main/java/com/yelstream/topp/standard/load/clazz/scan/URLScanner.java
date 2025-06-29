@@ -28,6 +28,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-29
+ */
 @FunctionalInterface
 public interface URLScanner /*extends AutoCloseable*/ {  //TO-DO: Consider, if auto-closeable is necessary!
     /**
@@ -78,9 +84,9 @@ public interface URLScanner /*extends AutoCloseable*/ {  //TO-DO: Consider, if a
     @Getter
     class Offset {
 
-        private final ClassLoader classLoader;
+//        private final ClassLoader classLoader;
 
-        private String path;
+//        private String path;
 
         @lombok.Builder.Default
         private URL url=null;

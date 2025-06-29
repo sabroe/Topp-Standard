@@ -34,6 +34,12 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
 
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-29
+ */
 @UtilityClass
 public class JARURLs {
     /**

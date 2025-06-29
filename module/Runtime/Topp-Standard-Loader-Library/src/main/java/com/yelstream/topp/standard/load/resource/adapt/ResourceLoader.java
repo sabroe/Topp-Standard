@@ -25,6 +25,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -40,20 +41,112 @@ import java.util.stream.Stream;
  * @since 2025-06-26
  */
 public interface ResourceLoader {
+    /**
+     * Gets a reference to a resource.
+     * <p>
+     *     If multiple resources with the same name exists, then this is one of them.
+     *     To get all resources with the same name,
+     *     use {@link #getResources(String)}, {@link #resources(String)} or {@link #getResourcesAsList(String)}.
+     * </p>
+     * <p>
+     *     See {@link ClassLoader#getResource(String)}.
+     * </p>
+     * @param name Resource name.
+     * @return Reference to resource.
+     *         This can be used to access the resource.
+     */
     URL getResource(String name);
 
+    /**
+     * Gets access to resource content as an input-stream.
+     * <p>
+     *     If multiple resources with the same name exists, then this opens access to one of them.
+     *     To get all resources with the same name,
+     *     use {@link #getResources(String)}, {@link #resources(String)} or {@link #getResourcesAsList(String)},
+     *     and use the reference URLs to open access.
+     * </p>
+     * <p>
+     *     See {@link ClassLoader#getResourceAsStream(String)}.
+     * </p>
+     * @param name Resource name.
+     * @return Input-stream to resource content.
+     */
     InputStream getResourceAsStream(String name);
 
+    /**
+     * Gets references to all resources with the same name.
+     * <p>
+     *     See {@link ClassLoader#getResources(String)}.
+     * </p>
+     * <p>
+     *     If multiple resources are present,
+     *     then it may be one file URL for classes and one file URL for resources.
+     * </p>
+     * @param name Resource name.
+     * @return References to resources.
+     *         These can be used to access the resources.
+     */
+    Enumeration<URL> getResources(String name) throws IOException;
+
+    /**
+     * Gets references to all resources with the same name.
+     * <p>
+     *     See {@link ClassLoader#resources(String)}.
+     * </p>
+     * <p>
+     *     If multiple resources are present,
+     *     then it may be one file URL for classes and one file URL for resources.
+     * </p>
+     * @param name Resource name.
+     * @return References to resources.
+     *         These can be used to access the resources.
+     */
+    Stream<URL> resources(String name);
+
+    /**
+     * Gets access to resource content as a readable byte-channel.
+     * <p>
+     *     If multiple resources with the same name exists, then this opens access to one of them.
+     *     To get all resources with the same name,
+     *     use {@link #getResources(String)}, {@link #resources(String)} or {@link #getResourcesAsList(String)},
+     *     and use the reference URLs to open access.
+     * </p>
+     * <p>
+     *     See {@link ClassLoader#getResourceAsStream(String)}.
+     * </p>
+     * @param name Resource name.
+     * @return Readable byte-channel to resource content.
+     */
     default ReadableByteChannel getResourceAsChannel(String name) {
         InputStream stream=getResourceAsStream(name);
         return stream==null?null:Channels.newChannel(stream);
     }
 
-    Enumeration<URL> getResources(String name) throws IOException;
-
-    Stream<URL> resources(String name);
-
+    /**
+     * Indicates, if there exists a resource.
+     * @param name Resource name.
+     * @return Indicates, if the resource exists.
+     */
     default boolean hasResource(String name) {
         return getResource(name)!=null;
+    }
+
+    /**
+     * Gets the number of resources with the same name.
+     * @param name Resource name.
+     * @return Number of resources.
+     */
+    default int getResourceCount(String name) {
+        return (int)resources(name).count();
+    }
+
+    /**
+     * Gets references to all resources with the same name.
+     * @param name Resource name.
+     * @return References to resources.
+     *         These can be used to access the resources.
+     */
+    default List<URL> getResourcesAsList(String name) {
+        return resources(name).toList();
     }
 }
