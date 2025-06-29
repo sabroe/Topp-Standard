@@ -18,7 +18,10 @@
  */
 
 /**
- *
+ * Access to resource content.
+ * <p>
+ *     This is usually, but not necessarily, associated with a classloader.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
