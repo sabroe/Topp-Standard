@@ -19,28 +19,45 @@
 
 package com.yelstream.topp.standard.load.resource.util;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
- * Resource name.
+ * Simple, lightweight resource name.
  * <p>
- *     When classloader related,
- *     then {@link #getName()} and {@code #toString()} can be applied directly.
- * </p>
- * <p>
- *     This is immutable.
+ *     This contains the name only.
  * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-29
  */
-public interface ResourceName {
+@AllArgsConstructor(staticName="of")
+final class SimpleResourceName implements ResourceName {
+    @Getter
+    private final String name;
 
-    String getName();
+    public ResourceName normalize() {
+        return null;  //TO-DO: !
+    }
 
-    ResourceName normalize();
+    public boolean isFile() {
+        return false;  //TO-DO: !
+    }
 
-    boolean isFile();
+    public boolean isDirectory() {
+        return false;  //TO-DO: !
+    }
 
-    boolean isDirectory();
+    public boolean isRoot() {
+        return false;  //TO-DO: !
+    }
 
-    boolean isRoot();
+    /**
+     * Returns name alone, allows for direct usage.
+     * @return Name.
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -32,7 +32,6 @@ import java.util.stream.Stream;
  * @since 2025-06-26
  */
 public interface ResourceProvider {
-    //TO-DO: Let this a provider of 'Resource' instances, possibly do traversal!
 
     Stream<Resource> createResourceStream();
 
@@ -51,4 +50,5 @@ public interface ResourceProvider {
     default List<Resource> getResources(Predicate<Resource> filter) {
         return createResourceStream(filter).toList();
     }
+
 }
