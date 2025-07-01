@@ -19,7 +19,6 @@
 
 package com.yelstream.topp.standard.load.clazz.util.jar;
 
-import com.yelstream.topp.standard.load.clazz.ClassLoaders;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
@@ -97,6 +96,10 @@ public class JARURLs {
         }
     }
 
+    public static String normalizePath(String path) {
+        return (path.replaceFirst("/$","")+"/").replaceFirst("^/","");
+    }
+
     public static List<String> findResources(ClassLoader classLoader,
                                              String path) throws IOException {
         return findResources(classLoader,path,null);
@@ -105,7 +108,7 @@ public class JARURLs {
     public static List<String> findResources(ClassLoader classLoader,
                                              String path,
                                              UnaryOperator<Stream<JarEntry>> streamOperator) throws IOException {
-        String normalizedPath=ClassLoaders.normalizePath(path);
+        String normalizedPath=normalizePath(path);
         URL resource=classLoader.getResource(normalizedPath);
         if (streamOperator==null) {
             streamOperator=UnaryOperator.identity();
@@ -129,7 +132,7 @@ public class JARURLs {
 
     public static List<String> findResources(String path,
                                              URL resource) throws IOException {
-        String normalizedPath=ClassLoaders.normalizePath(path);
+        String normalizedPath=normalizePath(path);
         return findResources(normalizedPath,resource,UnaryOperator.identity());
     }
 

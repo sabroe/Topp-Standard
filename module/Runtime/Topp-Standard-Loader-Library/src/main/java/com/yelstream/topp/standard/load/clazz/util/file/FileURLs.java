@@ -63,6 +63,10 @@ public class FileURLs {
         }
     }
 
+    public static String normalizePath(String path) {
+        return (path.replaceFirst("/$", "") + "/").replaceFirst("^/", "");
+    }
+
     public static List<String> findResources(ClassLoader classLoader,
                                              String path) throws IOException {
         return findResources(classLoader,path,null);
@@ -71,7 +75,7 @@ public class FileURLs {
     public static List<String> findResources(ClassLoader classLoader,
                                              String path,
                                              UnaryOperator<Stream<Path>> streamOperator) throws IOException {
-        String normalizedPath=ClassLoaders.normalizePath(path);
+        String normalizedPath=normalizePath(path);
         URL resource=classLoader.getResource(normalizedPath);
         if (streamOperator==null) {
             streamOperator=UnaryOperator.identity();
@@ -104,7 +108,7 @@ public class FileURLs {
 
     public static List<String> findResources(String path,
                                              URL resource) throws IOException {
-        String normalizedPath=ClassLoaders.normalizePath(path);
+        String normalizedPath=normalizePath(path);
         return findResources(normalizedPath,resource,UnaryOperator.identity());
     }
 
