@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.data.xsd.w3c.signature.schema;
 
-import com.yelstream.topp.standard.load.resource.Resource;
+import com.yelstream.topp.standard.resource.Resource;
 import com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
 
 import javax.xml.catalog.CatalogFeatures;

@@ -19,13 +19,12 @@
 
 package com.yelstream.topp.standard.xml.catalog.provider;
 
-import com.yelstream.topp.standard.load.resource.Resource;
+import com.yelstream.topp.standard.resource.Resource;
 import com.yelstream.topp.standard.xml.catalog.Catalogs;
 import lombok.experimental.UtilityClass;
 
 import javax.xml.catalog.Catalog;
 import javax.xml.catalog.CatalogFeatures;
-import javax.xml.catalog.CatalogManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;

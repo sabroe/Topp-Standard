@@ -1,0 +1,13 @@
+-- Multiple resource nodes in URL-scanners
+-- ZIP file access, ResourceLoader
+-- ResourceName
+-- ResourceProvider, StandardResourceProvider, service-locater based, own composition
+-- Static index-file, META-INF/indexes/
+-- URL-scanner matching, by protocol only, by protocol and is-dir/has-jar-suffix,
+-- Local "memory:"-URL scheme, constructed indexes
+-- Resource-filtering, +/- root, +/-dir, +/-file, +/-after prefix and/or reg-ex
+-- Resource-filtering, existence
+-- Cached index
+-- Reference to other solutions of this same type
+-- Tests, just very basic
+-- Code-coverage

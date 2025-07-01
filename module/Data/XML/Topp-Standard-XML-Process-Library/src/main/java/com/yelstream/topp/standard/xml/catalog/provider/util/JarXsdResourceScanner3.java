@@ -1,8 +1,7 @@
 package com.yelstream.topp.standard.xml.catalog.provider.util;
 
-import com.yelstream.topp.standard.load.io.InputSource;
-import com.yelstream.topp.standard.load.resource.Resource;
-import com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
+import com.yelstream.topp.standard.resource.io.source.InputSource;
+import com.yelstream.topp.standard.resource.Resource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

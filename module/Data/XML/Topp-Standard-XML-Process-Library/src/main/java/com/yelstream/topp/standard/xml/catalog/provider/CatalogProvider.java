@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.xml.catalog.provider;
 
-import com.yelstream.topp.standard.load.resource.Resource;
+import com.yelstream.topp.standard.resource.Resource;
 
 import javax.xml.catalog.Catalog;
 import javax.xml.catalog.CatalogFeatures;

@@ -1,6 +1,6 @@
 package com.yelstream.topp.standard.xml.catalog.provider;
 
-import com.yelstream.topp.standard.load.resource.Resource;
+import com.yelstream.topp.standard.resource.Resource;
 import com.yelstream.topp.standard.xml.catalog.provider.util.JarXsdResourceScanner3;
 
 import java.io.IOException;
