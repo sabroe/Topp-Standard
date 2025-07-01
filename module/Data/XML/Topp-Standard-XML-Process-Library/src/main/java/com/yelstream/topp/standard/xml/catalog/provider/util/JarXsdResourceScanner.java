@@ -19,8 +19,10 @@
 
 package com.yelstream.topp.standard.xml.catalog.provider.util;
 
+import com.yelstream.topp.standard.resource.content.Item;
 import com.yelstream.topp.standard.resource.io.source.InputSource;
 import com.yelstream.topp.standard.resource.Resource;
+import com.yelstream.topp.standard.resource.name.Location;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -239,17 +241,7 @@ try {
             this.content = content;
         }
 
-        @Override
-        public String getName() {
-            return "";
-        }
-
-        @Override
-        public URI getURI() {
-            return uri;
-        }
-
-        @Override
+//        @Override
         public URL getURL() {
             try {
                 return MemoryUriRegistry.createMemoryUrl(uri);
@@ -268,7 +260,12 @@ try {
         }
 
         @Override
-        public InputSource readable() {
+        public Location getLocation() {
+            return null;
+        }
+
+        @Override
+        public Item getItem() {
             return null;
         }
     }

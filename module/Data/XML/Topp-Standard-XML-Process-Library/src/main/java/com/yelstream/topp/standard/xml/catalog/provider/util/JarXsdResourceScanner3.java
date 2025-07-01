@@ -1,7 +1,9 @@
 package com.yelstream.topp.standard.xml.catalog.provider.util;
 
+import com.yelstream.topp.standard.resource.content.Item;
 import com.yelstream.topp.standard.resource.io.source.InputSource;
 import com.yelstream.topp.standard.resource.Resource;
+import com.yelstream.topp.standard.resource.name.Location;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -190,17 +192,7 @@ public final class JarXsdResourceScanner3 {
             this.content = content;
         }
 
-        @Override
-        public String getName() {
-            return "";
-        }
-
-        @Override
-        public URI getURI() {
-            return uri;
-        }
-
-        @Override
+//        @Override
         public URL getURL() {
             try {
                 return MemoryUriRegistry.createMemoryUrl(uri);
@@ -219,7 +211,12 @@ public final class JarXsdResourceScanner3 {
         }
 
         @Override
-        public InputSource readable() {
+        public Location getLocation() {
+            return null;
+        }
+
+        @Override
+        public Item getItem() {
             return null;
         }
     }

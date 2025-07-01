@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="10.6.0">
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\scan\DefaultURLScanner.java">
+<error line="22" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\scan\factory\package-info.java">
+<error line="20" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\scan\factory\StandardURLScannerFactory.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\scan\factory\URLScannerFactory.java">
+<error line="31" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="63" severity="warning" message="At-clause should have a non-empty description." source="com.puppycrawl.tools.checkstyle.checks.javadoc.NonEmptyAtclauseDescriptionCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\scan\impl\FileURLScanner.java">
+<error line="27" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="47" column="1" severity="warning" message="Block comment has incorrect indentation level 0, expected is 4, indentation should be the same level as line 34." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\scan\impl\JARURLScanner.java">
+<error line="27" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="38" column="1" severity="warning" message="Block comment has incorrect indentation level 0, expected is 4, indentation should be the same level as line 34." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\scan\package-info.java">
+<error line="20" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\scan\URLScanner.java">
+<error line="31" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="89" column="1" severity="warning" message="Comment has incorrect indentation level 0, expected is 8, indentation should be the same level as line 91." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+<error line="98" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\scan\URLScanners.java">
+<error line="24" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\util\file\FileURIs.java">
+<error line="24" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\util\file\FileURLs.java">
+<error line="33" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="50" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="56" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="74" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\util\file\package-info.java">
+<error line="20" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\util\jar\JARURIs.java">
+<error line="22" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\util\jar\JARURLs.java">
+<error line="36" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="53" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="64" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="79" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="88" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="108" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\clazz\util\jar\package-info.java">
+<error line="20" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\resource\adapt\FilteredClassLoaderResourceLoader.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\resource\adapt\package-info.java">
+<error line="20" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\resource\adapt\ResourceLoader.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\resource\adapt\ResourceLoaders.java">
+<error line="55" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\resource\resolve\package-info.java">
+<error line="20" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\resource\resolve\ResourceResolver.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\load\resource\resolve\ResourceResolvers.java">
+<error line="22" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\clazz\ClassLoaders.java">
+<error line="121" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="132" column="1" severity="warning" message="Comment has incorrect indentation level 0, expected is 4, indentation should be the same level as line 134." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+<error line="134" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="160" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="174" column="1" severity="warning" message="&apos;if&apos; child has incorrect indentation level 0, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="187" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="199" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="202" column="1" severity="warning" message="&apos;method def&apos; child has incorrect indentation level 0, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="204" column="1" severity="warning" message="&apos;try&apos; has incorrect indentation level 0, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="205" column="5" severity="warning" message="&apos;if&apos; has incorrect indentation level 4, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="206" column="9" severity="warning" message="&apos;if&apos; child has incorrect indentation level 8, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="207" column="9" severity="warning" message="&apos;if&apos; child has incorrect indentation level 8, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="208" column="9" severity="warning" message="&apos;if&apos; child has incorrect indentation level 8, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="209" column="9" severity="warning" message="&apos;if&apos; child has incorrect indentation level 8, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="210" column="9" severity="warning" message="&apos;if&apos; child has incorrect indentation level 8, expected level should be 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="211" column="5" severity="warning" message="&apos;if rcurly&apos; has incorrect indentation level 4, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="212" column="1" severity="warning" message="&apos;try rcurly&apos; has incorrect indentation level 0, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="213" column="5" severity="warning" message="&apos;catch&apos; child has incorrect indentation level 4, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="214" column="1" severity="warning" message="&apos;catch rcurly&apos; has incorrect indentation level 0, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="220" column="1" severity="warning" message="&apos;method def&apos; child has incorrect indentation level 0, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="223" column="13" severity="warning" message="&apos;switch&apos; has incorrect indentation level 12, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="224" column="17" severity="warning" message="&apos;case&apos; child has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="225" column="17" severity="warning" message="&apos;case&apos; child has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="226" column="17" severity="warning" message="&apos;case&apos; child has incorrect indentation level 16, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="227" column="13" severity="warning" message="&apos;switch rcurly&apos; has incorrect indentation level 12, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\clazz\Modules.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\clazz\package-info.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\content\Capabilities.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\content\Capability.java">
+<error line="22" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\content\ClassLoaderItem.java">
+<error line="84" column="1" severity="warning" message="Comment has incorrect indentation level 0, expected is 8, indentation should be the same level as line 85." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\content\Item.java">
+<error line="28" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="42" severity="warning" message="Line continuation have incorrect indentation level, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTagContinuationIndentationCheck"/>
+<error line="43" severity="warning" message="Line continuation have incorrect indentation level, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTagContinuationIndentationCheck"/>
+<error line="54" severity="warning" message="Line continuation have incorrect indentation level, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTagContinuationIndentationCheck"/>
+<error line="55" severity="warning" message="Line continuation have incorrect indentation level, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTagContinuationIndentationCheck"/>
+<error line="59" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="61" severity="warning" message="At-clause should have a non-empty description." source="com.puppycrawl.tools.checkstyle.checks.javadoc.NonEmptyAtclauseDescriptionCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\content\Items.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\content\package-info.java">
+<error line="20" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\content\ResourceLoaderItem.java">
+<error line="86" column="1" severity="warning" message="Comment has incorrect indentation level 0, expected is 8, indentation should be the same level as line 87." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\content\SimpleCapability.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\source\DefaultInputSource.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\source\InputSource.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\source\InputSources.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\source\InputStreamInputSource.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\source\package-info.java">
+<error line="20" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\source\ReadableByteChannelInputSource.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\target\DefaultOutputTarget.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\target\OutputStreamOutputTarget.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\target\OutputTarget.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\target\OutputTargets.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\target\package-info.java">
+<error line="20" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\io\target\WritableByteChannelOutputTarget.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\name\Location.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\name\Locations.java">
+<error line="48" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="55" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="66" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\name\package-info.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\name\SimpleLocation.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\package-info.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\provider\package-info.java">
+<error line="20" severity="warning" message="Summary javadoc is missing." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\provider\ResourceProvider.java">
+<error line="38" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\provider\ResourceProviders.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\Resource.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\Resources.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Runtime\Topp-Standard-Resource-Library\src\main\java\com\yelstream\topp\standard\resource\SimpleResource.java">
+</file>
+</checkstyle>

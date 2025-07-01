@@ -38,7 +38,7 @@ module com.yelstream.topp.standard.xml.process {
     requires org.slf4j;
     uses com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
     requires transitive java.xml;
-    requires com.yelstream.topp.standard.load;
+    requires com.yelstream.topp.standard.resource;
     exports com.yelstream.topp.standard.dom.ls;
     exports com.yelstream.topp.standard.xml.catalog;
     exports com.yelstream.topp.standard.xml.catalog.provider;

@@ -79,7 +79,7 @@ public class CatalogProviders {
     public static List<URI> getCatalogURIs() {
         return getCatalogResources().stream().map(resource-> {
             try {
-                return resource.getURL().toURI();
+                return resource.getItem().getURL().toURI();
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);  //TO-DO: Fix!
             }
@@ -109,7 +109,7 @@ public class CatalogProviders {
      * @throws IOException If an I/O error occurs while reading the resource.
      */
     public static String getContentAsString(Resource resource) {  //TO-DO: Move to new "CatalogResources"!
-        try (InputStream inputStream = resource.getURL().openStream()) {
+        try (InputStream inputStream = resource.getItem().getURL().openStream()) {
             return new String(inputStream.readAllBytes(),StandardCharsets.UTF_8);
         } catch (IOException ex) {
             throw new RuntimeException(ex);  //TO-DO: Fix!

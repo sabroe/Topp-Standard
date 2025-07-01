@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>URLScannerFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Topp-Standard-Resource-Library</a> &gt; <a href="index.source.html" class="el_package">com.yelstream.topp.standard.load.clazz.scan.factory</a> &gt; <span class="el_source">URLScannerFactory.java</span></div><h1>URLScannerFactory.java</h1><pre class="source lang-java linenums">/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024-2025 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.yelstream.topp.standard.load.clazz.scan.factory;
+
+import com.yelstream.topp.standard.load.clazz.scan.URLScanner;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.net.URL;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-29
+ */
+@lombok.Builder
+@AllArgsConstructor(staticName=&quot;of&quot;)
+public final class URLScannerFactory {
+    /**
+     * URL protocol/URI scheme.
+     * E.g. { &quot;jar&quot;, &quot;file&quot; }.
+     */
+    @Getter
+    private final String protocol;
+
+    /**
+     * Supplier of URL-scanners instances.
+     * Technically, this may be either a factory always creating new instances,
+     * or a supplier constantly handing out the same, fixed, thread-safe instance.
+     */
+    private final Supplier&lt;URLScanner&gt; supplier;
+
+    /**
+     * Non-standard testing of if a URL can be scanned.
+     */
+    @Builder.Default
+    private final Predicate&lt;URL&gt; matcher=null;
+
+    /**
+     * Indicated, if a URL can be applied to this scanner.
+     * @param url URL.
+     * @return
+     */
+    @SuppressWarnings({&quot;java:S2583&quot;,&quot;ConstantConditions&quot;})
+    public boolean matches(URL url) {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (matcher==null) {</span>
+<span class="nc" id="L68">            return protocol.equals(url.getProtocol());</span>
+        } else {
+<span class="nc" id="L70">            return matcher.test(url);</span>
+        }
+    }
+
+    public URLScanner scanner() {
+<span class="nc" id="L75">        return supplier.get();</span>
+    }
+
+    public static URLScannerFactory of(String protocol,
+                                       Supplier&lt;URLScanner&gt; supplier) {
+<span class="nc" id="L80">        return builder().protocol(protocol).supplier(supplier).build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

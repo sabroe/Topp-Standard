@@ -1,0 +1,15 @@
+module:com.yelstream.topp.standard.resource
+com.yelstream.topp.standard.load.clazz.scan
+com.yelstream.topp.standard.load.clazz.scan.factory
+com.yelstream.topp.standard.load.clazz.scan.impl
+com.yelstream.topp.standard.load.clazz.util.file
+com.yelstream.topp.standard.load.clazz.util.jar
+com.yelstream.topp.standard.load.resource.adapt
+com.yelstream.topp.standard.load.resource.resolve
+com.yelstream.topp.standard.resource
+com.yelstream.topp.standard.resource.clazz
+com.yelstream.topp.standard.resource.content
+com.yelstream.topp.standard.resource.io.source
+com.yelstream.topp.standard.resource.io.target
+com.yelstream.topp.standard.resource.name
+com.yelstream.topp.standard.resource.provider

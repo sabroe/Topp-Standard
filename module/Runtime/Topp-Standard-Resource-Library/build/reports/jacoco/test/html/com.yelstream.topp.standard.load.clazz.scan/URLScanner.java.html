@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>URLScanner.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Topp-Standard-Resource-Library</a> &gt; <a href="index.source.html" class="el_package">com.yelstream.topp.standard.load.clazz.scan</a> &gt; <span class="el_source">URLScanner.java</span></div><h1>URLScanner.java</h1><pre class="source lang-java linenums">/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024-2025 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.yelstream.topp.standard.load.clazz.scan;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.stream.Stream;
+
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-29
+ */
+@FunctionalInterface
+public interface URLScanner /*extends AutoCloseable*/ {  //TO-DO: Consider, if auto-closeable is necessary!
+    /**
+     *
+     * &lt;p&gt;
+     *     This is immutable.
+     * &lt;/p&gt;
+     *
+     */
+    @lombok.Builder(builderClassName=&quot;Builder&quot;)
+    @AllArgsConstructor(staticName=&quot;of&quot;)
+    @Getter
+    @ToString
+    class Filter {
+        @lombok.Builder.Default
+        private final boolean includeRoot=true;
+
+        @lombok.Builder.Default
+        private final boolean includeFiles=true;
+
+        @lombok.Builder.Default
+        private final boolean includeDirectories=true;
+
+/* TO-DO: Consider this; this can be done externally from the actual scanning!! Belongs at a higher level.
+        @lombok.Builder.Default
+        private final boolean verifyLookupOfURLForFile=true;
+
+        @lombok.Builder.Default
+        private final boolean verifyLookupOfURLForDirectory=true;
+
+        @lombok.Builder.Default
+        private final boolean verifyLookupOfContentForNameToFile=true;
+
+        @lombok.Builder.Default
+        private final boolean verifyLookupOfContentForNameToDirectory=true;
+*/
+    }
+
+    /**
+     *
+     * &lt;p&gt;
+     *     This is immutable.
+     * &lt;/p&gt;
+     *
+     */
+    @lombok.Builder(builderClassName=&quot;Builder&quot;)
+    @AllArgsConstructor(staticName=&quot;of&quot;)
+    @Getter
+    class Offset {
+
+//        private final ClassLoader classLoader;
+
+//        private String path;
+
+        @lombok.Builder.Default
+        private URL url=null;
+    }
+
+    Stream&lt;String&gt; scan(Offset offset,
+                        Filter filter) throws IOException;
+
+    default List&lt;String&gt; scanToList(Offset offset,
+                                    Filter filter) throws IOException {
+<span class="nc" id="L100">        try (Stream&lt;String&gt; stream=scan(offset,filter)) {</span>
+<span class="nc" id="L101">            return stream.toList();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
