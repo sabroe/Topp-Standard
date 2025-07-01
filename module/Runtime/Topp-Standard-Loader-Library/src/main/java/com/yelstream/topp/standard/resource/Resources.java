@@ -26,6 +26,8 @@ import com.yelstream.topp.standard.resource.name.Location;
 import com.yelstream.topp.standard.resource.name.Locations;
 import lombok.experimental.UtilityClass;
 
+import java.util.Objects;
+
 /**
  * Utility addressing instances of {@link Resource}.
  *
@@ -34,6 +36,21 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class Resources {
+    /**
+     * Creates a resource.
+     * @param location Location.
+     *                 Must be set.
+     * @param item Item.
+     *             Must be set.
+     * @return Created resource.
+     */
+    public static Resource createResource(Location location,
+                                          Item item) {
+        Objects.requireNonNull(location);
+        Objects.requireNonNull(item);
+        return SimpleResource.of(location,item);
+    }
+
     /**
      * Creates a resource.
      * @param classLoader Class-loader.
@@ -45,7 +62,7 @@ public class Resources {
                                           boolean container) {
         Location location=Locations.createLocation(name,container);
         Item item=Items.createItem(location,classLoader);
-        return SimpleResource.of(location,item);
+        return createResource(location,item);
     }
 
     /**
@@ -59,7 +76,7 @@ public class Resources {
                                           boolean container) {
         Location location=Locations.createLocation(name,container);
         Item item=Items.createItem(location,resourceLoader);
-        return SimpleResource.of(location,item);
+        return createResource(location,item);
     }
 
     /**
