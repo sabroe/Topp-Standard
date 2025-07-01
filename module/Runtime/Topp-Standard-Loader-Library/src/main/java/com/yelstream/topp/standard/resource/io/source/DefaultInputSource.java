@@ -51,7 +51,6 @@ final class DefaultInputSource implements InputSource {
      */
     private final Supplier<ReadableByteChannel> channelSupplier;
 
-
     @Override
     public InputStream openStream() throws IOException {
         try {
