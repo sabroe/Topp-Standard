@@ -58,7 +58,7 @@ public interface CatalogProvider {
      */
     default Catalog getCatalog() {
         List<URI> resolvedContentURIs=
-            getCatalogResources().stream().map(Resource::getURL).map(url-> {
+            getCatalogResources().stream().map(resource -> resource.getItem().getURL()).map(url-> {
                 try {
                     return url.toURI();
                 } catch (URISyntaxException ex) {

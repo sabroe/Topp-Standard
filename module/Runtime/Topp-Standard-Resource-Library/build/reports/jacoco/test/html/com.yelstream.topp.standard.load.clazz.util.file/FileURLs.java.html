@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileURLs.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Topp-Standard-Resource-Library</a> &gt; <a href="index.source.html" class="el_package">com.yelstream.topp.standard.load.clazz.util.file</a> &gt; <span class="el_source">FileURLs.java</span></div><h1>FileURLs.java</h1><pre class="source lang-java linenums">/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024-2025 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.yelstream.topp.standard.load.clazz.util.file;
+
+import lombok.experimental.UtilityClass;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
+
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-29
+ */
+@UtilityClass
+public class FileURLs {
+    /**
+     * URL protocol.
+     */
+    public static final String PROTOCOL=&quot;file&quot;;
+
+    public static boolean matches(URL url) {
+<span class="nc" id="L47">        return url.getProtocol().equals(PROTOCOL);</span>
+    }
+
+    public static void requireMatch(URL url) {
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (!matches(url)) {</span>
+<span class="nc" id="L52">            throw new IllegalArgumentException(&quot;Failure to match URL; URL protocol does not indicate a file URL, actual URL is '%s'!&quot;.formatted(url));</span>
+        }
+<span class="nc" id="L54">    }</span>
+
+    public static Path toFileSystemPath(URL url) {
+<span class="nc" id="L57">        requireMatch(url);</span>
+        try {
+<span class="nc" id="L59">            return Path.of(url.toURI());</span>
+<span class="nc" id="L60">        } catch (URISyntaxException ex) {</span>
+<span class="nc" id="L61">            throw new IllegalStateException(&quot;Failure to obtain file system path; actual URL is '%s'!&quot;.formatted(url));</span>
+        }
+    }
+
+    public static String normalizePath(String path) {
+<span class="nc" id="L66">        return (path.replaceFirst(&quot;/$&quot;, &quot;&quot;) + &quot;/&quot;).replaceFirst(&quot;^/&quot;, &quot;&quot;);</span>
+    }
+
+    public static List&lt;String&gt; findResources(ClassLoader classLoader,
+                                             String path) throws IOException {
+<span class="nc" id="L71">        return findResources(classLoader,path,null);</span>
+    }
+
+    public static List&lt;String&gt; findResources(ClassLoader classLoader,
+                                             String path,
+                                             UnaryOperator&lt;Stream&lt;Path&gt;&gt; streamOperator) throws IOException {
+<span class="nc" id="L77">        String normalizedPath=normalizePath(path);</span>
+<span class="nc" id="L78">        URL resource=classLoader.getResource(normalizedPath);</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (streamOperator==null) {</span>
+<span class="nc" id="L80">            streamOperator=UnaryOperator.identity();</span>
+        }
+<span class="nc" id="L82">        return findResources(normalizedPath,resource,streamOperator);</span>
+    }
+
+    private static List&lt;String&gt; findResources(String normalizedPath,
+                                              URL resource,
+                                              UnaryOperator&lt;Stream&lt;Path&gt;&gt; streamOperator) throws IOException {
+<span class="nc" id="L88">        requireMatch(resource);</span>
+<span class="nc" id="L89">        Path fileSystemPath=toFileSystemPath(resource);</span>
+<span class="nc" id="L90">        String fileSeparator=fileSystemPath.getFileSystem().getSeparator();</span>
+<span class="nc" id="L91">        return streamOperator.apply(Files.walk(fileSystemPath))</span>
+<span class="nc bnc" id="L92" title="All 4 branches missed.">                .filter(path -&gt; Files.isRegularFile(path) || Files.isDirectory(path))</span>
+<span class="nc" id="L93">                .map(path -&gt; {</span>
+<span class="nc" id="L94">                    String relativePath = fileSystemPath.relativize(path).toString().replace(fileSeparator, &quot;/&quot;);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">                    if (Files.isDirectory(path)) {</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                        if (relativePath.isEmpty()) {</span>
+<span class="nc" id="L97">                            return normalizedPath;  //Note: This is the root &quot;&quot;!</span>
+                        } else {
+<span class="nc" id="L99">                            return normalizedPath + relativePath + &quot;/&quot;;  //Directory name, got a trailing &quot;/&quot;!</span>
+                        }
+                    }
+<span class="nc" id="L102">                    return normalizedPath + relativePath;  //File name, got no trailing &quot;/&quot;!</span>
+                })
+<span class="nc" id="L104">                .toList();</span>
+    }
+
+
+    public static List&lt;String&gt; findResources(String path,
+                                             URL resource) throws IOException {
+<span class="nc" id="L110">        String normalizedPath=normalizePath(path);</span>
+<span class="nc" id="L111">        return findResources(normalizedPath,resource,UnaryOperator.identity());</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

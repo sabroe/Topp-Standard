@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Resources.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Topp-Standard-Resource-Library</a> &gt; <a href="index.source.html" class="el_package">com.yelstream.topp.standard.resource</a> &gt; <span class="el_source">Resources.java</span></div><h1>Resources.java</h1><pre class="source lang-java linenums">/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024-2025 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.yelstream.topp.standard.resource;
+
+import com.yelstream.topp.standard.load.resource.adapt.ResourceLoader;
+import com.yelstream.topp.standard.resource.content.Item;
+import com.yelstream.topp.standard.resource.content.Items;
+import com.yelstream.topp.standard.resource.name.Location;
+import com.yelstream.topp.standard.resource.name.Locations;
+import lombok.experimental.UtilityClass;
+
+import java.util.Objects;
+
+/**
+ * Utility addressing instances of {@link Resource}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-06-26
+ */
+@UtilityClass
+public class Resources {
+    /**
+     * Creates a resource.
+     * @param location Location.
+     *                 Must be set.
+     * @param item Item.
+     *             Must be set.
+     * @return Created resource.
+     */
+    public static Resource createResource(Location location,
+                                          Item item) {
+<span class="nc" id="L49">        Objects.requireNonNull(location);</span>
+<span class="nc" id="L50">        Objects.requireNonNull(item);</span>
+<span class="nc" id="L51">        return SimpleResource.of(location,item);</span>
+    }
+
+    /**
+     * Creates a resource.
+     * @param classLoader Class-loader.
+     * @param name Resource name.
+     * @return Created resource.
+     */
+    public static Resource createResource(ClassLoader classLoader,
+                                          String name,
+                                          boolean container) {
+<span class="nc" id="L63">        Location location=Locations.createLocation(name,container);</span>
+<span class="nc" id="L64">        Item item=Items.createItem(location,classLoader);</span>
+<span class="nc" id="L65">        return createResource(location,item);</span>
+    }
+
+    /**
+     * Creates a resource.
+     * @param resourceLoader Resource-loader.
+     * @param name Resource name.
+     * @return Created resource.
+     */
+    public static Resource createResource(ResourceLoader resourceLoader,
+                                          String name,
+                                          boolean container) {
+<span class="nc" id="L77">        Location location=Locations.createLocation(name,container);</span>
+<span class="nc" id="L78">        Item item=Items.createItem(location,resourceLoader);</span>
+<span class="nc" id="L79">        return createResource(location,item);</span>
+    }
+
+    /**
+     * Creates a resource using a builder.
+     * &lt;p&gt;
+     *     Note that if manipulation with values it to take place,
+     *     then create a manipulating resource-loader.
+     * &lt;/p&gt;
+     * @param classLoader Class-loader.
+     * @param resourceLoader Resource-loader.
+     * @param name Resource name.
+     * @return Created resource.
+     */
+    @lombok.Builder(builderClassName=&quot;Builder&quot;)
+    private Resource createResourceByBuilder(ClassLoader classLoader,
+                                             ResourceLoader resourceLoader,
+                                             String name,
+                                             boolean container) {
+<span class="nc bnc" id="L98" title="All 4 branches missed.">        if (classLoader!=null &amp;&amp; resourceLoader!=null) {</span>
+<span class="nc" id="L99">            throw new IllegalStateException(&quot;Failure to create resource; only one of class-loader and resource-loader may be set!&quot;);</span>
+        }
+<span class="nc bnc" id="L101" title="All 4 branches missed.">        if (classLoader==null &amp;&amp; resourceLoader==null) {</span>
+<span class="nc" id="L102">            throw new IllegalStateException(&quot;Failure to create resource; one of class-loader and resource-loader must be set!&quot;);</span>
+        }
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        if (classLoader!=null) {</span>
+<span class="nc" id="L105">            return createResource(classLoader,name,container);</span>
+        } else {
+<span class="nc" id="L107">            return createResource(resourceLoader,name,container);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
