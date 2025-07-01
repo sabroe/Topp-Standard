@@ -25,6 +25,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * Simple resource.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-01
@@ -34,12 +35,12 @@ import lombok.Getter;
 @AllArgsConstructor(staticName="of")
 final class SimpleResource implements Resource {
     /**
-     *
+     * Location.
      */
     private final Location location;
 
     /**
-     *
+     * Item.
      */
     private final Item item;
 }
