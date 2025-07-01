@@ -17,38 +17,38 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.data.xsd.w3c.signature.schema;
+package com.yelstream.topp.standard.resource.provider;
 
 import com.yelstream.topp.standard.resource.Resource;
-import com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
 
-import javax.xml.catalog.CatalogFeatures;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
- *
+ * Provides access to resources.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-06-16
+ * @since 2025-06-26
  */
-public class DefaultCatalogProvider implements CatalogProvider {
-/*
-    @Override
-    public URL getCatalogURL() {
-        return Objects.requireNonNull(getClass().getClassLoader().getResource("catalog.xml"));
-    }
-*/
+public interface ResourceProvider {
 
-    @Override
-    public List<Resource> getCatalogResources() {
-        return List.of();
+    Stream<Resource> createResourceStream();
+
+    default Stream<Resource> createResourceStream(Predicate<Resource> filter) {
+        if (filter==null) {
+            return createResourceStream();
+        } else {
+            return createResourceStream().filter(filter);
+        }
     }
 
-    @Override
-    public CatalogFeatures getCatalogFeatures() {
-        return CatalogFeatures.builder()
-                .with(CatalogFeatures.Feature.PREFER,"public")
-                .with(CatalogFeatures.Feature.RESOLVE,"continue")
-                .build();
+    default List<Resource> getResources() {
+        return createResourceStream().toList();
     }
+
+    default List<Resource> getResources(Predicate<Resource> filter) {
+        return createResourceStream(filter).toList();
+    }
+
 }

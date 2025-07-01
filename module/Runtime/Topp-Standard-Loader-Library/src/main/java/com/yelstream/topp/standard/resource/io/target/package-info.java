@@ -18,20 +18,9 @@
  */
 
 /**
- * Topp Standard Loader Library addressing basics of class- and resource-loading.
+ *
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-06-26
+ * @since 2025-07-01
  */
-module com.yelstream.topp.standard.resource {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.load.clazz;
-    exports com.yelstream.topp.standard.load.resource.adapt;
-    exports com.yelstream.topp.standard.resource;
-    exports com.yelstream.topp.standard.resource.content;
-    exports com.yelstream.topp.standard.resource.io.source;
-    exports com.yelstream.topp.standard.resource.io.target;
-    exports com.yelstream.topp.standard.resource.name;
-    exports com.yelstream.topp.standard.resource.provider;
-}
+package com.yelstream.topp.standard.resource.io.target;
