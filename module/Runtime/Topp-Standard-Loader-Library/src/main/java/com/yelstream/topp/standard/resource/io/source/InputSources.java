@@ -39,18 +39,7 @@ import java.util.function.Supplier;
 @UtilityClass
 public class InputSources {
     /**
-     * Create an input source to a resource whose content can be read by a classloader.
-     * @param classLoader Classloader.
-     * @param name Named resource.
-     * @return Readable source.
-     */
-    public static InputSource createInputSource(ClassLoader classLoader,
-                                                String name) {
-        return createInputSourceByStream(()->classLoader.getResourceAsStream(name));
-    }
-
-    /**
-     * Create an input source to a resource.
+     * Creates an input source.
      * @param streamSupplier Factory of input-streams.
      * @param channelSupplier Factory of readable byte-channels.
      * @return Readable source.
@@ -61,7 +50,7 @@ public class InputSources {
     }
 
     /**
-     * Create an input source to a resource whose content can be read through an input-stream.
+     * Creates an input source whose content can be read through an input-stream.
      * @param streamSupplier Factory of input-streams.
      * @return Readable source.
      */
@@ -70,7 +59,7 @@ public class InputSources {
     }
 
     /**
-     * Create an input source to a resource whose content can be read through a readable byte-channel.
+     * Creates an input source whose content can be read through a readable byte-channel.
      * @param channelSupplier Factory of readable byte-channels.
      * @return Readable source.
      */
@@ -79,7 +68,7 @@ public class InputSources {
     }
 
     /**
-     * Create an input source to a resource whose content can be read through a URL-connection.
+     * Creates an input source whose content can be read through a URL-connection.
      * @param connectionSupplier Factory of URL-connections.
      * @return Readable source.
      */
@@ -95,7 +84,7 @@ public class InputSources {
     }
 
     /**
-     * Create an input source to a resource whose content is references by a URL.
+     * Creates an input source whose content is referenced by a URL.
      * @param url Reference to content.
      * @return Readable source.
      */
@@ -110,7 +99,7 @@ public class InputSources {
     }
 
     /**
-     * Create an input source to a resource whose content is references by a URL.
+     * Creates an input source whose content is referenced by a URL.
      * @param url Reference to content.
      * @param proxy Connection proxy.
      * @return Readable source.

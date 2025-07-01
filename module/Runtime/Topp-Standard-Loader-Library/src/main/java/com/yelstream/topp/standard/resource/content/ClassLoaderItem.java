@@ -76,7 +76,7 @@ final class ClassLoaderItem implements Item {
 
     @Override
     public InputSource readable() {
-        return InputSources.createInputSource(classLoader,location.getName());
+        return InputSources.createInputSourceByStream(()->classLoader.getResourceAsStream(location.getName()));
     }
 
     @Override
