@@ -28,7 +28,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * Proxy for instance of {@link ResourceProvider}.
+ * Proxy for instances of {@link ResourceProvider}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-02
@@ -75,6 +75,14 @@ public final class ProxyResourceProvider implements ResourceProvider {
      *
      */
     @Override
+    public Stream<String> resourceNames(String name) {
+        return getResourceProvider().resourceNames(name);
+    }
+
+    /**
+     *
+     */
+    @Override
     public Stream<Resource> resources(String name) {
         return getResourceProvider().resources(name);
     }
@@ -87,12 +95,29 @@ public final class ProxyResourceProvider implements ResourceProvider {
         return getResourceProvider().getResource(name);
     }
 
+
+    /**
+     *
+     */
+    @Override
+    public List<String> getResourceNames(String name) {
+        return getResourceProvider().getResourceNames(name);
+    }
+
     /**
      *
      */
     @Override
     public List<Resource> getResources(String name) {
         return getResourceProvider().getResources(name);
+    }
+
+    /**
+     *
+     */
+    @Override
+    public Stream<String> resourceNames() {
+        return getResourceProvider().resourceNames();
     }
 
     /**
@@ -109,5 +134,12 @@ public final class ProxyResourceProvider implements ResourceProvider {
     @Override
     public List<Resource> getResources() {
         return getResourceProvider().getResources();
+    }
+
+    /**
+     *
+     */
+    public static ProxyResourceProvider of(Supplier<ResourceProvider> resourceProviderSupplier) {
+        return of(resourceProviderSupplier,null);
     }
 }

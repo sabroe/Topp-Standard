@@ -48,6 +48,10 @@ public interface ResourceProvider {
      */
     String getScheme();
 
+    /**
+     *
+     */
+    Stream<String> resourceNames(String name);
 
     /**
      *
@@ -62,8 +66,22 @@ public interface ResourceProvider {
     /**
      *
      */
+    default List<String> getResourceNames(String name) {
+        return resourceNames(name).toList();
+    }
+
+    /**
+     *
+     */
     default List<Resource> getResources(String name) {
         return resources(name).toList();
+    }
+
+    /**
+     *
+     */
+    default Stream<String> resourceNames() {
+        return resourceNames(Locations.ROOT_CONTAINER_NAME);
     }
 
     /**
@@ -77,6 +95,6 @@ public interface ResourceProvider {
      *
      */
     default List<Resource> getResources() {
-        return resources().toList();
+        return getResources(Locations.ROOT_CONTAINER_NAME);
     }
 }

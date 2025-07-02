@@ -49,7 +49,9 @@ final class SuppliedItemResource implements Resource {
 
     /**
      * Item-supplier.
-     * Note that multiple resources from the same provider may use the same item-supplier.
+     * <p>
+     *     Note that this construction allows multiple resources from the same provider to use the same item-supplier.
+     * </p>
      */
     private final Function<Location,Item> itemSupplier;
 

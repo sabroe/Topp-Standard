@@ -19,5 +19,59 @@
 
 package com.yelstream.topp.standard.resource.provider;
 
-public class ClassLoaderResourceProvider {
+import com.yelstream.topp.standard.resource.Resource;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+/**
+ * Classloader based resource provider.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-07-02
+ */
+@AllArgsConstructor(staticName="of")
+public final class ClassLoaderResourceProvider implements ResourceProvider {
+    /**
+     *
+     */
+    private final ClassLoader classLoader;
+
+    /**
+     *
+     */
+    @Getter
+    private final String name;
+
+    /**
+     *
+     */
+    @Getter
+    private final String scheme;
+
+    /**
+     *
+     */
+    @Override
+    public Stream<String> resourceNames(String name) {
+        return null;  //TO-DO: Fix!
+    }
+
+    /**
+     *
+     */
+    @Override
+    public Stream<Resource> resources(String name) {
+        return null;  //TO-DO: Fix!
+    }
+
+    /**
+     *
+     */
+    @Override
+    public Resource getResource(String name) {
+        return null;  //TO-DO: Fix!
+    }
 }
