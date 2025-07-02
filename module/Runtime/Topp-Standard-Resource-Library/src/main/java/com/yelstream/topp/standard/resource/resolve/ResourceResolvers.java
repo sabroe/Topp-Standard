@@ -17,30 +17,25 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.content;
+package com.yelstream.topp.standard.resource.resolve;
 
-import com.yelstream.topp.standard.resource.clazz.load.ResourceLoader;
-import com.yelstream.topp.standard.resource.name.Location;
 import lombok.experimental.UtilityClass;
 
+import java.util.List;
+
 /**
- * Utility addressing instances of {@code #Location}
- * and classloader resource names in general.
+ * Utility addressing instances of {@link ResourceResolver}.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-01
+ * @since 2025-06-26
  */
 @UtilityClass
-public class Items {
+public class ResourceResolvers {
 
-    public static Item createItem(Location location,
-                                  ClassLoader classLoader) {
-        return ClassLoaderItem.of(classLoader,location);
+
+    public static ResourceResolver createResourceResolver(List<ResourceResolver> resourceResolvers) {
+        return null;  //TO-DO: Fix!
     }
 
-    public static Item createItem(Location location,
-                                  ResourceLoader resourceLoader) {
-        return ResourceLoaderItem.of(resourceLoader,location);
-    }
 
 }

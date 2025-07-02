@@ -17,32 +17,55 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.provider;
+package com.yelstream.topp.standard.resource.resolve;
 
 import com.yelstream.topp.standard.resource.Resource;
 import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.resolve.ResourceResolver;
 
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
- * Provides access to resources through {@link ResourceResolver} instances.
+ * Provides access to a related group of resources.
+ * <p>
+ *     This is a read interface, possibly it may support a full set of CRUD operations.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
-public interface ResourceProvider {
-    /**
-     * Gets the resource resolvers provided.
-     * @return Resource resolvers provided, never empty.
-     */
-    List<ResourceResolver> getResourceResolvers();  //TO-DO: Create new vs. get the same, single instance??
+public interface ResourceResolver {
+
+
+    //org.springframework.core.io.support.PathMatchingResourcePatternResolver
+
+
+/*
+    Stream<Resource> createResourceStream();
+
+    default Stream<Resource> createResourceStream(Predicate<Resource> filter) {
+        if (filter==null) {
+            return createResourceStream();
+        } else {
+            return createResourceStream().filter(filter);
+        }
+    }
+
+    default List<Resource> getResources() {
+        return createResourceStream().toList();
+    }
+
+    default List<Resource> getResources(Predicate<Resource> filter) {
+        return createResourceStream(filter).toList();
+    }
+*/
+
 
     /**
      *
      */
     default Resource getResource(String name) {
-//        return getResourceResolver().getResource(name);
         return null;  //TO-DO: Fix!
     }
 
@@ -50,8 +73,6 @@ public interface ResourceProvider {
      *
      */
     default Resource getResource(Location location) {
-//        return getResourceResolver().getResource(location);
         return null;  //TO-DO: Fix!
     }
-
 }

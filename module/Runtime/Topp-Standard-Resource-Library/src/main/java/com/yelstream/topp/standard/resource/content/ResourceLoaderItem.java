@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.resource.content;
 import com.yelstream.topp.standard.resource.io.source.InputSource;
 import com.yelstream.topp.standard.resource.io.source.InputSources;
 import com.yelstream.topp.standard.resource.io.target.OutputTarget;
-import com.yelstream.topp.standard.load.resource.adapt.ResourceLoader;
+import com.yelstream.topp.standard.resource.clazz.load.ResourceLoader;
 import com.yelstream.topp.standard.resource.name.Location;
 import com.yelstream.topp.standard.resource.name.Locations;
 import lombok.AllArgsConstructor;
