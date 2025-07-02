@@ -17,13 +17,7 @@
  * limitations under the License.
  */
 
-/**
- * Access to resource content.
- * <p>
- *     This is usually, but not necessarily, associated with a classloader.
- * </p>
- *
- * @author Morten Sabroe Mortensen
- * @since 2025-06-26
- */
-package com.yelstream.topp.standard.resource;
+package com.yelstream.topp.standard.resource.provider;
+
+public class ClassLoaderResourceProvider {
+}

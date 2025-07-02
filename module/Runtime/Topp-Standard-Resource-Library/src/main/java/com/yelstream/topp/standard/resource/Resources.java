@@ -24,10 +24,10 @@ import com.yelstream.topp.standard.resource.content.Item;
 import com.yelstream.topp.standard.resource.content.Items;
 import com.yelstream.topp.standard.resource.name.Location;
 import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.resource.provider.ResourceProviders;
 import lombok.experimental.UtilityClass;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Utility addressing instances of {@link Resource}.
@@ -50,6 +50,13 @@ public class Resources {
         Objects.requireNonNull(location);
         Objects.requireNonNull(item);
         return SimpleResource.of(location,item);
+    }
+
+    public static Resource createResource(Location location,
+                                          Function<Location,Item> itemSupplier) {
+        Objects.requireNonNull(location);
+        Objects.requireNonNull(itemSupplier);
+        return SuppliedItemResource.of(location,itemSupplier);
     }
 
     /**
@@ -107,13 +114,5 @@ public class Resources {
         } else {
             return createResource(resourceLoader,name,container);
         }
-    }
-
-    public static Resource getResource(String name) {
-        return ResourceProviders.getResource(name);
-    }
-
-    public static Resource getResource(Location location) {
-        return ResourceProviders.getResource(location);
     }
 }

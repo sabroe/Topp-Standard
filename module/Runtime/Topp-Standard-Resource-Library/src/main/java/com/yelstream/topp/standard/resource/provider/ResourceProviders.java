@@ -19,14 +19,15 @@
 
 package com.yelstream.topp.standard.resource.provider;
 
-import com.yelstream.topp.standard.resource.Resource;
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.resolve.ResourceResolver;
-import com.yelstream.topp.standard.resource.resolve.ResourceResolvers;
+import lombok.Getter;
 import lombok.experimental.UtilityClass;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ServiceLoader;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -41,55 +42,38 @@ public class ResourceProviders {
     /**
      *
      */
-    public static Stream<ResourceProvider> getResourceProviderStream() {
+    public static Stream<ResourceProvider> getResourceProvidersByServiceLoader() {
         ServiceLoader<ResourceProvider> loader=ServiceLoader.load(ResourceProvider.class);
         return StreamSupport.stream(loader.spliterator(), false);
     }
 
-    /**
-     *
-     */
-    public static List<ResourceProvider> getResourceProviders() {
-        return getResourceProviderStream().toList();
+    private static final List<Supplier<List<ResourceProvider>>> resourceProviderSuppliers=
+        new CopyOnWriteArrayList<>(Collections.singletonList(
+            () -> getResourceProvidersByServiceLoader().toList()
+        ));
+
+    public static void updateResourceProviderSuppliers(Consumer<List<Supplier<List<ResourceProvider>>>> updateOperation) {
+        updateOperation.accept(resourceProviderSuppliers);
+    }
+
+    private static List<ResourceProvider> initResourceProviders() {
+        return resourceProviderSuppliers.stream().flatMap(providerSupplier->providerSupplier.get().stream()).toList();
     }
 
     /**
-     *
+     * Default resource providers.
+     * <p>
+     *     This is immutable.
+     * </p>
      */
-    public static List<ResourceResolver> getResourceResolvers(List<ResourceProvider> resourceProviders) {
-        return resourceProviders.stream().flatMap(provider -> provider.getResourceResolvers().stream()).toList();
+    @Getter(lazy=true)
+    private static final List<ResourceProvider> defaultResourceProviders=Collections.unmodifiableList(initResourceProviders());
+
+    public ResourceProvider createResourceProvider(ClassLoader classLoader) {
+        return null;  //TO-DO: Fix!
     }
 
-    /**
-     *
-     */
-    public static List<ResourceResolver> getResourceResolvers() {
-        return getResourceResolvers(getResourceProviders());
-    }
-
-    /**
-     *
-     */
-    public static ResourceResolver createResourceResolver() {
-        List<ResourceResolver> resourceResolvers=getResourceResolvers();
-        return ResourceResolvers.createResourceResolver(resourceResolvers);
-    }
-
-    public static ResourceProvider getResourceProvider() {  //TO-DO: Single instance, on-demand creation, keep for all time!
-        return null;  //TO-DO: fix!
-    }
-
-    /**
-     *
-     */
-    public static Resource getResource(String name) {
-        return getResourceProvider().getResource(name);
-    }
-
-    /**
-     *
-     */
-    public static Resource getResource(Location location) {
-        return getResourceProvider().getResource(location);
+    public ResourceProvider createResourceProviderForBoundClass(Class<?> clazz) {
+        return createResourceProvider(clazz.getClassLoader());
     }
 }
