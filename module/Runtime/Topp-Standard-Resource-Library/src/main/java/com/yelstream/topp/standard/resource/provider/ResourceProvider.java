@@ -20,35 +20,38 @@
 package com.yelstream.topp.standard.resource.provider;
 
 import com.yelstream.topp.standard.resource.Resource;
+import com.yelstream.topp.standard.resource.name.Location;
+import com.yelstream.topp.standard.resource.resolve.ResourceResolver;
 
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /**
- * Provides access to resources.
+ * Provides access to resources through {@link ResourceResolver} instances.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
 public interface ResourceProvider {
+    /**
+     * Gets the resource resolvers provided.
+     * @return Resource resolvers provided, never empty.
+     */
+    List<ResourceResolver> getResourceResolvers();  //TO-DO: Create new vs. get the same, single instance??
 
-    Stream<Resource> createResourceStream();
-
-    default Stream<Resource> createResourceStream(Predicate<Resource> filter) {
-        if (filter==null) {
-            return createResourceStream();
-        } else {
-            return createResourceStream().filter(filter);
-        }
+    /**
+     *
+     */
+    default Resource getResource(String name) {
+//        return getResourceResolver().getResource(name);
+        return null;  //TO-DO: Fix!
     }
 
-    default List<Resource> getResources() {
-        return createResourceStream().toList();
-    }
-
-    default List<Resource> getResources(Predicate<Resource> filter) {
-        return createResourceStream(filter).toList();
+    /**
+     *
+     */
+    default Resource getResource(Location location) {
+//        return getResourceResolver().getResource(location);
+        return null;  //TO-DO: Fix!
     }
 
 }

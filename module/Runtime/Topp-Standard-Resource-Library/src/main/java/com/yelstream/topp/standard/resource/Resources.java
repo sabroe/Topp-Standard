@@ -19,11 +19,12 @@
 
 package com.yelstream.topp.standard.resource;
 
-import com.yelstream.topp.standard.load.resource.adapt.ResourceLoader;
+import com.yelstream.topp.standard.resource.clazz.load.ResourceLoader;
 import com.yelstream.topp.standard.resource.content.Item;
 import com.yelstream.topp.standard.resource.content.Items;
 import com.yelstream.topp.standard.resource.name.Location;
 import com.yelstream.topp.standard.resource.name.Locations;
+import com.yelstream.topp.standard.resource.provider.ResourceProviders;
 import lombok.experimental.UtilityClass;
 
 import java.util.Objects;
@@ -106,5 +107,13 @@ public class Resources {
         } else {
             return createResource(resourceLoader,name,container);
         }
+    }
+
+    public static Resource getResource(String name) {
+        return ResourceProviders.getResource(name);
+    }
+
+    public static Resource getResource(Location location) {
+        return ResourceProviders.getResource(location);
     }
 }

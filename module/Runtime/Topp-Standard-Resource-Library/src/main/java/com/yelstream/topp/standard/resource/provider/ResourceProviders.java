@@ -19,7 +19,16 @@
 
 package com.yelstream.topp.standard.resource.provider;
 
+import com.yelstream.topp.standard.resource.Resource;
+import com.yelstream.topp.standard.resource.name.Location;
+import com.yelstream.topp.standard.resource.resolve.ResourceResolver;
+import com.yelstream.topp.standard.resource.resolve.ResourceResolvers;
 import lombok.experimental.UtilityClass;
+
+import java.util.List;
+import java.util.ServiceLoader;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Utility addressing instances of {@link ResourceProvider}.
@@ -29,7 +38,58 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class ResourceProviders {
+    /**
+     *
+     */
+    public static Stream<ResourceProvider> getResourceProviderStream() {
+        ServiceLoader<ResourceProvider> loader=ServiceLoader.load(ResourceProvider.class);
+        return StreamSupport.stream(loader.spliterator(), false);
+    }
 
-    //TO-DO: WIP!
+    /**
+     *
+     */
+    public static List<ResourceProvider> getResourceProviders() {
+        return getResourceProviderStream().toList();
+    }
 
+    /**
+     *
+     */
+    public static List<ResourceResolver> getResourceResolvers(List<ResourceProvider> resourceProviders) {
+        return resourceProviders.stream().flatMap(provider -> provider.getResourceResolvers().stream()).toList();
+    }
+
+    /**
+     *
+     */
+    public static List<ResourceResolver> getResourceResolvers() {
+        return getResourceResolvers(getResourceProviders());
+    }
+
+    /**
+     *
+     */
+    public static ResourceResolver createResourceResolver() {
+        List<ResourceResolver> resourceResolvers=getResourceResolvers();
+        return ResourceResolvers.createResourceResolver(resourceResolvers);
+    }
+
+    public static ResourceProvider getResourceProvider() {  //TO-DO: Single instance, on-demand creation, keep for all time!
+        return null;  //TO-DO: fix!
+    }
+
+    /**
+     *
+     */
+    public static Resource getResource(String name) {
+        return getResourceProvider().getResource(name);
+    }
+
+    /**
+     *
+     */
+    public static Resource getResource(Location location) {
+        return getResourceProvider().getResource(location);
+    }
 }

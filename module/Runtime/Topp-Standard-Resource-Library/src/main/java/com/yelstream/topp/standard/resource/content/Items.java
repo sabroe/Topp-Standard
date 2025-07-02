@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.resource.content;
 
-import com.yelstream.topp.standard.load.resource.adapt.ResourceLoader;
+import com.yelstream.topp.standard.resource.clazz.load.ResourceLoader;
 import com.yelstream.topp.standard.resource.name.Location;
 import lombok.experimental.UtilityClass;
 

@@ -47,7 +47,7 @@ public class CatalogProviders {
      *
      */
     public static Stream<CatalogProvider> getCatalogProviderStream() {
-        ServiceLoader<CatalogProvider> loader = ServiceLoader.load(CatalogProvider.class);
+        ServiceLoader<CatalogProvider> loader=ServiceLoader.load(CatalogProvider.class);
         return StreamSupport.stream(loader.spliterator(), false);
     }
 
