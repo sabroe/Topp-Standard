@@ -20,38 +20,63 @@
 package com.yelstream.topp.standard.resource.provider;
 
 import com.yelstream.topp.standard.resource.Resource;
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.resolve.ResourceResolver;
+import com.yelstream.topp.standard.resource.name.Locations;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
- * Provides access to resources through {@link ResourceResolver} instances.
+ * Provides resources.
+ * <p>
+ *     For indexing, traverse the stream of resources.
+ * </p>
+ * <p>
+ *     For more elaborate, filtered lookup of resources, use resource resolvers.
+ * /p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
 public interface ResourceProvider {
     /**
-     * Gets the resource resolvers provided.
-     * @return Resource resolvers provided, never empty.
+     *
      */
-    List<ResourceResolver> getResourceResolvers();  //TO-DO: Create new vs. get the same, single instance??
+    String getName();
 
     /**
      *
      */
-    default Resource getResource(String name) {
-//        return getResourceResolver().getResource(name);
-        return null;  //TO-DO: Fix!
+    String getScheme();
+
+
+    /**
+     *
+     */
+    Stream<Resource> resources(String name);
+
+    /**
+     *
+     */
+    Resource getResource(String name);
+
+    /**
+     *
+     */
+    default List<Resource> getResources(String name) {
+        return resources(name).toList();
     }
 
     /**
      *
      */
-    default Resource getResource(Location location) {
-//        return getResourceResolver().getResource(location);
-        return null;  //TO-DO: Fix!
+    default Stream<Resource> resources() {
+        return resources(Locations.ROOT_CONTAINER_NAME);
     }
 
+    /**
+     *
+     */
+    default List<Resource> getResources() {
+        return resources().toList();
+    }
 }
