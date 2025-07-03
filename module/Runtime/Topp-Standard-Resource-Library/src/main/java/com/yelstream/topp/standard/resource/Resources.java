@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.resource;
 
+import com.yelstream.topp.standard.resource.clazz.ClassLoaders;
 import com.yelstream.topp.standard.resource.clazz.load.ResourceLoader;
 import com.yelstream.topp.standard.resource.content.Item;
 import com.yelstream.topp.standard.resource.content.Items;
@@ -114,5 +115,33 @@ public class Resources {
         } else {
             return createResource(resourceLoader,name,container);
         }
+    }
+
+    /**
+     *
+     * @param classLoader
+     * @param name
+     * @return
+     */
+    public Resource getResource(ClassLoader classLoader,
+                                String name) {
+        Location location=Locations.createLocation(classLoader,name);
+        if (location==null) {
+            return null;
+        } else {
+            Item item=Items.createItem(location,classLoader);
+            return createResource(location,item);
+        }
+    }
+
+    public Resource getResource(Class<?> clazz,
+                                String name) {
+        ClassLoader classLoader=ClassLoaders.getClassLoader(clazz);
+        return getResource(classLoader,name);
+    }
+
+    public Resource getResource(String name) {
+        ClassLoader classLoader=ClassLoaders.getContextClassLoader();
+        return getResource(classLoader,name);
     }
 }

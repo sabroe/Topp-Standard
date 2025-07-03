@@ -47,6 +47,7 @@ public class ResourceProviders {
         return StreamSupport.stream(loader.spliterator(), false);
     }
 
+/*** BEGIN: Encapsulate "late" setting of providers into a separate tech-class ***/
     private static final List<Supplier<List<ResourceProvider>>> resourceProviderSuppliers=
         new CopyOnWriteArrayList<>(Collections.singletonList(
             () -> getResourceProvidersByServiceLoader().toList()
@@ -68,6 +69,7 @@ public class ResourceProviders {
      */
     @Getter(lazy=true)
     private static final List<ResourceProvider> defaultResourceProviders=Collections.unmodifiableList(initResourceProviders());
+/*** END. ***/
 
     public ResourceProvider createResourceProvider(ClassLoader classLoader) {
         return null;  //TO-DO: Fix!
@@ -76,4 +78,6 @@ public class ResourceProviders {
     public ResourceProvider createResourceProviderForBoundClass(Class<?> clazz) {
         return createResourceProvider(clazz.getClassLoader());
     }
+
+    public Resource
 }

@@ -56,10 +56,19 @@ public class ClassLoaders {
         return getModuleClassLoader(clazz.getModule());
     }
 
+    /**
+     * Gets the context classloader for a specific thread.
+     * @param thread Thread.
+     * @return Classloader.
+     */
     public static ClassLoader getContextClassLoader(Thread thread) {
         return thread.getContextClassLoader();
     }
 
+    /**
+     * Gets the context classloader for the current thread.
+     * @return Classloader.
+     */
     public static ClassLoader getContextClassLoader() {
         return getContextClassLoader(Thread.currentThread());
     }
