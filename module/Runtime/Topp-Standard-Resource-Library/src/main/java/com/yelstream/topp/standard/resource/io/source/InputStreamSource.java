@@ -29,33 +29,34 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.function.Supplier;
 
 /**
- * Input source based on access to {@link ReadableByteChannel}.
+ * Source based on access to {@link InputStream}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
 @AllArgsConstructor(staticName="of")
-final class ReadableByteChannelInputSource implements InputSource {
+final class InputStreamSource implements Source {
     /**
-     * Supplier of readable byte-channels.
+     * Supplier of input-streams.
      * <p>
      *     Note that usages catch {@link UncheckedIOException}.
      * </p>
      */
-    private final Supplier<ReadableByteChannel> channelSupplier;
+    private final Supplier<InputStream> streamSupplier;
 
     @Override
     public InputStream openStream() throws IOException {
-        ReadableByteChannel channel=openChannel();
-        return channel==null?null:Channels.newInputStream(channel);
+        try {
+            return streamSupplier.get();
+        } catch (UncheckedIOException ex) {
+            throw new IOException("Failure to create stream!",ex);
+        }
+
     }
 
     @Override
     public ReadableByteChannel openChannel() throws IOException {
-        try {
-            return channelSupplier.get();
-        } catch (UncheckedIOException ex) {
-            throw new IOException("Failure to create channel!",ex);
-        }
+        InputStream stream=openStream();
+        return stream==null?null:Channels.newChannel(stream);
     }
 }

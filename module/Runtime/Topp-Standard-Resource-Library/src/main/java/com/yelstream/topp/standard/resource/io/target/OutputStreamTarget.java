@@ -29,13 +29,13 @@ import java.nio.channels.WritableByteChannel;
 import java.util.function.Supplier;
 
 /**
- * Output target based on access to {@link OutputStream}.
+ * OTarget based on access to {@link OutputStream}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-02
  */
 @AllArgsConstructor(staticName="of")
-final class OutputStreamOutputTarget implements OutputTarget {
+final class OutputStreamTarget implements Target {
     /**
      * Supplier of output-streams.
      * <p>

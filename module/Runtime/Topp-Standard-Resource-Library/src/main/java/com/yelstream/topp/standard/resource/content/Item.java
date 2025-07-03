@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.resource.content;
 
-import com.yelstream.topp.standard.resource.io.source.InputSource;
-import com.yelstream.topp.standard.resource.io.target.OutputTarget;
+import com.yelstream.topp.standard.resource.io.source.Source;
+import com.yelstream.topp.standard.resource.io.target.Target;
 
 import java.net.URI;
 import java.net.URL;
@@ -66,11 +66,11 @@ public interface Item {
      * Creates an accessor for reading data.
      * @return Accessor for reading data.
      */
-    InputSource readable();
+    Source readable();
 
     /**
      * Creates an accessor for writing data.
      * @return Accessor for writing data.
      */
-    OutputTarget writable();
+    Target writable();
 }

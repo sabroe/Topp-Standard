@@ -31,86 +31,86 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.function.Supplier;
 
 /**
- * Utility addressing instances of {@link InputSource}.
+ * Utility addressing instances of {@link Source}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
 @UtilityClass
-public class InputSources {
+public class Sources {
     /**
-     * Creates an input source.
+     * Creates a source.
      * @param streamSupplier Factory of input-streams.
      * @param channelSupplier Factory of readable byte-channels.
      * @return Readable source.
      */
-    public static InputSource createInputSource(Supplier<InputStream> streamSupplier,
-                                                Supplier<ReadableByteChannel> channelSupplier) {
-        return DefaultInputSource.of(streamSupplier,channelSupplier);
+    public static Source createSource(Supplier<InputStream> streamSupplier,
+                                      Supplier<ReadableByteChannel> channelSupplier) {
+        return DefaultSource.of(streamSupplier,channelSupplier);
     }
 
     /**
-     * Creates an input source whose content can be read through an input-stream.
+     * Creates a source whose content can be read through an input-stream.
      * @param streamSupplier Factory of input-streams.
      * @return Readable source.
      */
-    public static InputSource createInputSourceByStream(Supplier<InputStream> streamSupplier) {
-        return InputStreamInputSource.of(streamSupplier);
+    public static Source createSourceByStream(Supplier<InputStream> streamSupplier) {
+        return InputStreamSource.of(streamSupplier);
     }
 
     /**
-     * Creates an input source whose content can be read through a readable byte-channel.
+     * Creates a source whose content can be read through a readable byte-channel.
      * @param channelSupplier Factory of readable byte-channels.
      * @return Readable source.
      */
-    public static InputSource createInputSourceByChannel(Supplier<ReadableByteChannel> channelSupplier) {
-        return ReadableByteChannelInputSource.of(channelSupplier);
+    public static Source createSourceByChannel(Supplier<ReadableByteChannel> channelSupplier) {
+        return ReadableByteChannelSource.of(channelSupplier);
     }
 
     /**
-     * Creates an input source whose content can be read through a URL-connection.
+     * Creates a source whose content can be read through a URL-connection.
      * @param connectionSupplier Factory of URL-connections.
      * @return Readable source.
      */
-    public static InputSource createInputSourceByConnection(Supplier<URLConnection> connectionSupplier) {
-        return createInputSourceByStream(() -> {
+    public static Source createSourceByConnection(Supplier<URLConnection> connectionSupplier) {
+        return createSourceByStream(() -> {
             try {
                 URLConnection connection=connectionSupplier.get();
                 return connection.getInputStream();
             } catch (IOException ex) {
-                throw new UncheckedIOException("Failure to create input-source from URL-connection!",ex);
+                throw new UncheckedIOException("Failure to create source from URL-connection!",ex);
             }
         });
     }
 
     /**
-     * Creates an input source whose content is referenced by a URL.
+     * Creates a source whose content is referenced by a URL.
      * @param url Reference to content.
      * @return Readable source.
      */
-    public static InputSource createInputSource(URL url) {
-        return createInputSourceByConnection(() -> {
+    public static Source createSource(URL url) {
+        return createSourceByConnection(() -> {
             try {
                 return url.openConnection();
             } catch (IOException ex) {
-                throw new UncheckedIOException("Failure to create input-source from URL; URL is '%s'!".formatted(url),ex);
+                throw new UncheckedIOException("Failure to create source from URL; URL is '%s'!".formatted(url),ex);
             }
         });
     }
 
     /**
-     * Creates an input source whose content is referenced by a URL.
+     * Creates a source whose content is referenced by a URL.
      * @param url Reference to content.
      * @param proxy Connection proxy.
      * @return Readable source.
      */
-    public static InputSource createInputSource(URL url,
-                                                Proxy proxy) {
-        return createInputSourceByConnection(() -> {
+    public static Source createSource(URL url,
+                                      Proxy proxy) {
+        return createSourceByConnection(() -> {
             try {
                 return url.openConnection(proxy);
             } catch (IOException ex) {
-                throw new UncheckedIOException("Failure to create input-source from URL and proxy; URL is '%s', proxy is '%s'!".formatted(url,proxy),ex);
+                throw new UncheckedIOException("Failure to create source from URL and proxy; URL is '%s', proxy is '%s'!".formatted(url,proxy),ex);
             }
         });
     }

@@ -24,18 +24,25 @@ import lombok.AllArgsConstructor;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
-import java.nio.channels.Channels;
 import java.nio.channels.WritableByteChannel;
 import java.util.function.Supplier;
 
 /**
- * Output target based on access to {@link WritableByteChannel}.
+ * Default implementation of {@link OutputStream}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-02
  */
 @AllArgsConstructor(staticName="of")
-final class WritableByteChannelOutputTarget implements OutputTarget {
+final class DefaultTarget implements Target {
+    /**
+     * Supplier of output-streams.
+     * <p>
+     *     Note that usages catch {@link UncheckedIOException}.
+     * </p>
+     */
+    private final Supplier<OutputStream> streamSupplier;
+
     /**
      * Supplier of writable byte-channels.
      * <p>
@@ -46,8 +53,12 @@ final class WritableByteChannelOutputTarget implements OutputTarget {
 
     @Override
     public OutputStream openStream() throws IOException {
-        WritableByteChannel channel=openChannel();
-        return channel==null?null:Channels.newOutputStream(channel);
+        try {
+            return streamSupplier.get();
+        } catch (UncheckedIOException ex) {
+            throw new IOException("Failure to create stream!",ex);
+        }
+
     }
 
     @Override

@@ -17,52 +17,41 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.io.target;
+package com.yelstream.topp.standard.resource.io.source;
 
 import lombok.AllArgsConstructor;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
-import java.nio.channels.WritableByteChannel;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.function.Supplier;
 
 /**
- * Default implementation of {@link OutputStream}.
+ * Source based on access to {@link ReadableByteChannel}.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-02
+ * @since 2025-06-26
  */
 @AllArgsConstructor(staticName="of")
-final class DefaultOutputTarget implements OutputTarget {
+final class ReadableByteChannelSource implements Source {
     /**
-     * Supplier of output-streams.
+     * Supplier of readable byte-channels.
      * <p>
      *     Note that usages catch {@link UncheckedIOException}.
      * </p>
      */
-    private final Supplier<OutputStream> streamSupplier;
-
-    /**
-     * Supplier of writable byte-channels.
-     * <p>
-     *     Note that usages catch {@link UncheckedIOException}.
-     * </p>
-     */
-    private final Supplier<WritableByteChannel> channelSupplier;
+    private final Supplier<ReadableByteChannel> channelSupplier;
 
     @Override
-    public OutputStream openStream() throws IOException {
-        try {
-            return streamSupplier.get();
-        } catch (UncheckedIOException ex) {
-            throw new IOException("Failure to create stream!",ex);
-        }
-
+    public InputStream openStream() throws IOException {
+        ReadableByteChannel channel=openChannel();
+        return channel==null?null:Channels.newInputStream(channel);
     }
 
     @Override
-    public WritableByteChannel openChannel() throws IOException {
+    public ReadableByteChannel openChannel() throws IOException {
         try {
             return channelSupplier.get();
         } catch (UncheckedIOException ex) {

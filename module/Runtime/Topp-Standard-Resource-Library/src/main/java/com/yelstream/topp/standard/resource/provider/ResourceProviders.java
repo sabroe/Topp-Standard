@@ -43,33 +43,34 @@ public class ResourceProviders {
      *
      */
     public static Stream<ResourceProvider> getResourceProvidersByServiceLoader() {
-        ServiceLoader<ResourceProvider> loader=ServiceLoader.load(ResourceProvider.class);
+        ServiceLoader<ResourceProvider> loader = ServiceLoader.load(ResourceProvider.class);
         return StreamSupport.stream(loader.spliterator(), false);
     }
 
-/*** BEGIN: Encapsulate "late" setting of providers into a separate tech-class ***/
-    private static final List<Supplier<List<ResourceProvider>>> resourceProviderSuppliers=
-        new CopyOnWriteArrayList<>(Collections.singletonList(
-            () -> getResourceProvidersByServiceLoader().toList()
-        ));
+    /*** BEGIN: Encapsulate "late" setting of providers into a separate tech-class ***/
+    private static final List<Supplier<List<ResourceProvider>>> resourceProviderSuppliers =
+            new CopyOnWriteArrayList<>(Collections.singletonList(
+                    () -> getResourceProvidersByServiceLoader().toList()
+            ));
 
     public static void updateResourceProviderSuppliers(Consumer<List<Supplier<List<ResourceProvider>>>> updateOperation) {
         updateOperation.accept(resourceProviderSuppliers);
     }
 
     private static List<ResourceProvider> initResourceProviders() {
-        return resourceProviderSuppliers.stream().flatMap(providerSupplier->providerSupplier.get().stream()).toList();
+        return resourceProviderSuppliers.stream().flatMap(providerSupplier -> providerSupplier.get().stream()).toList();
     }
 
     /**
      * Default resource providers.
      * <p>
-     *     This is immutable.
+     * This is immutable.
      * </p>
      */
-    @Getter(lazy=true)
-    private static final List<ResourceProvider> defaultResourceProviders=Collections.unmodifiableList(initResourceProviders());
-/*** END. ***/
+    @Getter(lazy = true)
+    private static final List<ResourceProvider> defaultResourceProviders = Collections.unmodifiableList(initResourceProviders());
+
+    /*** END. ***/
 
     public ResourceProvider createResourceProvider(ClassLoader classLoader) {
         return null;  //TO-DO: Fix!
@@ -78,6 +79,4 @@ public class ResourceProviders {
     public ResourceProvider createResourceProviderForBoundClass(Class<?> clazz) {
         return createResourceProvider(clazz.getClassLoader());
     }
-
-    public Resource
 }

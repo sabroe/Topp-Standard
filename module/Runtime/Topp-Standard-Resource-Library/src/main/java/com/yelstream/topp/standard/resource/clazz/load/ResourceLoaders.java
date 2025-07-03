@@ -21,7 +21,7 @@ package com.yelstream.topp.standard.resource.clazz.load;
 
 import com.yelstream.topp.standard.resource.clazz.ClassLoaders;
 import com.yelstream.topp.standard.resource.clazz.Modules;
-import com.yelstream.topp.standard.resource.io.source.InputSource;
+import com.yelstream.topp.standard.resource.io.source.Source;
 import lombok.experimental.UtilityClass;
 
 import java.net.URI;
@@ -79,7 +79,7 @@ public class ResourceLoaders {
                                                              String name,
                                                              UnaryOperator<URI> uriTransformer,
                                                              UnaryOperator<URL> urlTransformer,
-                                                             Supplier<InputSource> readableSupplier) {
+                                                             Supplier<Source> readableSupplier) {
         ;
         return null;
     }
