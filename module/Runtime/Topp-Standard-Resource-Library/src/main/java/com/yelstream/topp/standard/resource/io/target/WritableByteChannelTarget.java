@@ -17,52 +17,41 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.io.source;
+package com.yelstream.topp.standard.resource.io.target;
 
 import lombok.AllArgsConstructor;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UncheckedIOException;
-import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.Channels;
+import java.nio.channels.WritableByteChannel;
 import java.util.function.Supplier;
 
 /**
- * Default implementation of {@link InputStream}.
+ * Target based on access to {@link WritableByteChannel}.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-06-27
+ * @since 2025-07-02
  */
 @AllArgsConstructor(staticName="of")
-final class DefaultInputSource implements InputSource {
+final class WritableByteChannelTarget implements Target {
     /**
-     * Supplier of input-streams.
+     * Supplier of writable byte-channels.
      * <p>
      *     Note that usages catch {@link UncheckedIOException}.
      * </p>
      */
-    private final Supplier<InputStream> streamSupplier;
-
-    /**
-     * Supplier of readable byte-channels.
-     * <p>
-     *     Note that usages catch {@link UncheckedIOException}.
-     * </p>
-     */
-    private final Supplier<ReadableByteChannel> channelSupplier;
+    private final Supplier<WritableByteChannel> channelSupplier;
 
     @Override
-    public InputStream openStream() throws IOException {
-        try {
-            return streamSupplier.get();
-        } catch (UncheckedIOException ex) {
-            throw new IOException("Failure to create stream!",ex);
-        }
-
+    public OutputStream openStream() throws IOException {
+        WritableByteChannel channel=openChannel();
+        return channel==null?null:Channels.newOutputStream(channel);
     }
 
     @Override
-    public ReadableByteChannel openChannel() throws IOException {
+    public WritableByteChannel openChannel() throws IOException {
         try {
             return channelSupplier.get();
         } catch (UncheckedIOException ex) {

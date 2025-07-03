@@ -17,34 +17,34 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.io.target;
+package com.yelstream.topp.standard.resource.io.source;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.channels.WritableByteChannel;
+import java.io.InputStream;
+import java.nio.channels.ReadableByteChannel;
 
 /**
- * Target of writable, binary output data.
+ * Source of readable, binary input data.
  * <p>
  *     Note that {@link #openStream()} and {@link #openChannel()} represent different access methods,
  *     hence only one of these are to be used at a time.
  * </p>
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-01
+ * @since 2025-06-26
  */
-public interface OutputTarget {
+public interface Source {
     /**
      * Creates a new stream to read data.
      * @return Stream to read data.
      * @throws IOException Thrown in case of I/O error.
      */
-    OutputStream openStream() throws IOException;
+    InputStream openStream() throws IOException;
 
     /**
      * Creates a new channel to read data.
      * @return Channel to read data.
      * @throws IOException Thrown in case of I/O error.
      */
-    WritableByteChannel openChannel() throws IOException;
+    ReadableByteChannel openChannel() throws IOException;
 }

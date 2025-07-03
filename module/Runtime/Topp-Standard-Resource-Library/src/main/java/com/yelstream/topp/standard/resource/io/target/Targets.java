@@ -31,86 +31,86 @@ import java.nio.channels.WritableByteChannel;
 import java.util.function.Supplier;
 
 /**
- * Utility addressing instances of {@link OutputTarget}.
+ * Utility addressing instances of {@link Target}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-02
  */
 @UtilityClass
-public class OutputTargets {
+public class Targets {
     /**
-     * Creates an output target.
+     * Creates a target.
      * @param streamSupplier Factory of output-streams.
      * @param channelSupplier Factory of writable byte-channels.
      * @return Writable target.
      */
-    public static OutputTarget createOutputTarget(Supplier<OutputStream> streamSupplier,
-                                                  Supplier<WritableByteChannel> channelSupplier) {
-        return DefaultOutputTarget.of(streamSupplier,channelSupplier);
+    public static Target createTarget(Supplier<OutputStream> streamSupplier,
+                                      Supplier<WritableByteChannel> channelSupplier) {
+        return DefaultTarget.of(streamSupplier,channelSupplier);
     }
 
     /**
-     * Creates an output target whose content can be written through an output-stream.
+     * Creates a target whose content can be written through an output-stream.
      * @param streamSupplier Factory of output-streams.
      * @return Writable target.
      */
-    public static OutputTarget createOutputTargetByStream(Supplier<OutputStream> streamSupplier) {
-        return OutputStreamOutputTarget.of(streamSupplier);
+    public static Target createTargetByStream(Supplier<OutputStream> streamSupplier) {
+        return OutputStreamTarget.of(streamSupplier);
     }
 
     /**
-     * Creates an output target whose content can be written through a readable byte-channel.
+     * Creates a target whose content can be written through a readable byte-channel.
      * @param channelSupplier Factory of readable byte-channels.
      * @return Readable source.
      */
-    public static OutputTarget createOutputTargetByChannel(Supplier<WritableByteChannel> channelSupplier) {
-        return WritableByteChannelOutputTarget.of(channelSupplier);
+    public static Target createTargetByChannel(Supplier<WritableByteChannel> channelSupplier) {
+        return WritableByteChannelTarget.of(channelSupplier);
     }
 
     /**
-     * Creates an output target whose content can be written through a URL-connection.
+     * Creates a target whose content can be written through a URL-connection.
      * @param connectionSupplier Factory of URL-connections.
      * @return Readable source.
      */
-    public static OutputTarget createOutputTargetByConnection(Supplier<URLConnection> connectionSupplier) {
-        return createOutputTargetByStream(() -> {
+    public static Target createTargetByConnection(Supplier<URLConnection> connectionSupplier) {
+        return createTargetByStream(() -> {
             try {
                 URLConnection connection=connectionSupplier.get();
                 return connection.getOutputStream();
             } catch (IOException ex) {
-                throw new UncheckedIOException("Failure to create output-target from URL-connection!",ex);
+                throw new UncheckedIOException("Failure to create target from URL-connection!",ex);
             }
         });
     }
 
     /**
-     * Creates an output target whose content is referenced by a URL.
+     * Creates a target whose content is referenced by a URL.
      * @param url Reference to content.
      * @return Readable source.
      */
-    public static OutputTarget createOutputTarget(URL url) {
-        return createOutputTargetByConnection(() -> {
+    public static Target createTarget(URL url) {
+        return createTargetByConnection(() -> {
             try {
                 return url.openConnection();
             } catch (IOException ex) {
-                throw new UncheckedIOException("Failure to create output-target from URL; URL is '%s'!".formatted(url),ex);
+                throw new UncheckedIOException("Failure to create target from URL; URL is '%s'!".formatted(url),ex);
             }
         });
     }
 
     /**
-     * Creates an output target whose content is referenced by a URL.
+     * Creates a target whose content is referenced by a URL.
      * @param url Reference to content.
      * @param proxy Connection proxy.
      * @return Readable source.
      */
-    public static OutputTarget createOutputTarget(URL url,
-                                                  Proxy proxy) {
-        return createOutputTargetByConnection(() -> {
+    public static Target createTarget(URL url,
+                                      Proxy proxy) {
+        return createTargetByConnection(() -> {
             try {
                 return url.openConnection(proxy);
             } catch (IOException ex) {
-                throw new UncheckedIOException("Failure to create output-target from URL and proxy; URL is '%s', proxy is '%s'!".formatted(url,proxy),ex);
+                throw new UncheckedIOException("Failure to create target from URL and proxy; URL is '%s', proxy is '%s'!".formatted(url,proxy),ex);
             }
         });
     }

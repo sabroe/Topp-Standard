@@ -19,9 +19,9 @@
 
 package com.yelstream.topp.standard.resource.content;
 
-import com.yelstream.topp.standard.resource.io.source.InputSource;
-import com.yelstream.topp.standard.resource.io.source.InputSources;
-import com.yelstream.topp.standard.resource.io.target.OutputTarget;
+import com.yelstream.topp.standard.resource.io.source.Source;
+import com.yelstream.topp.standard.resource.io.source.Sources;
+import com.yelstream.topp.standard.resource.io.target.Target;
 import com.yelstream.topp.standard.resource.clazz.load.ResourceLoader;
 import com.yelstream.topp.standard.resource.name.Location;
 import com.yelstream.topp.standard.resource.name.Locations;
@@ -76,13 +76,13 @@ final class ResourceLoaderItem implements Item {
     }
 
     @Override
-    public InputSource readable() {
-        return InputSources.createInputSource(()->resourceLoader.getResourceAsStream(location.getName()),
-                                              ()->resourceLoader.getResourceAsChannel(location.getName()));
+    public Source readable() {
+        return Sources.createSource(()->resourceLoader.getResourceAsStream(location.getName()),
+                                    ()->resourceLoader.getResourceAsChannel(location.getName()));
     }
 
     @Override
-    public OutputTarget writable() {
+    public Target writable() {
 //        return OutputTargets.createTargetSource(classLoader,name);
         return null;
     }
