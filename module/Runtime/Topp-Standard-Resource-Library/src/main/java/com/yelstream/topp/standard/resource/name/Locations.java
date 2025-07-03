@@ -105,4 +105,11 @@ public class Locations {
         String normalizedName=normalizeName(name,container);
         return SimpleLocation.of(normalizedName);
     }
+
+
+    public static Location createLocation(ClassLoader classLoader,
+                                          String name) {
+        return null;  //TO-DO: !
+    }
+
 }

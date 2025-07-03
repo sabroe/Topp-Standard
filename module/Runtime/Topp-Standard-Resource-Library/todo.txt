@@ -11,3 +11,22 @@
 -- Reference to other solutions of this same type
 -- Tests, just very basic
 -- Code-coverage
+
+jar:file:/path/to/myfile.zip!/resource.txt
+jar:classpath:/myfile.jar!/com/example/MyClass.class
+jar:jar:<outer-url>!/<inner-zip>!/<resource> (ZIP inside ZIP)
+jar:jar:file:/path/to/outer.zip!/inner.zip!/resource.txt
+
+import java.net.URL;
+import java.io.InputStream;
+
+public class NestedZipExample {
+    public static void main(String[] args) throws Exception {
+        URL url = new URL("jar:jar:file:/path/to/outer.zip!/inner.zip!/resource.txt");
+        try (InputStream is = url.openStream()) {
+            byte[] content = is.readAllBytes();
+            System.out.println(new String(content));
+        }
+    }
+}
+
