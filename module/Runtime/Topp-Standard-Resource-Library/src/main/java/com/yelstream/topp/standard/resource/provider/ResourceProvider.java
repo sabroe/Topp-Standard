@@ -20,7 +20,9 @@
 package com.yelstream.topp.standard.resource.provider;
 
 import com.yelstream.topp.standard.resource.Resource;
+import com.yelstream.topp.standard.resource.index.ResourceIndex;
 import com.yelstream.topp.standard.resource.name.Locations;
+import com.yelstream.topp.standard.resource.util.ListInlet;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -46,18 +48,14 @@ public interface ResourceProvider {
     /**
      *
      */
-    String getScheme();
+    String getScheme();  //TO-DO: Abandon this; a resource-provider is logical access! Resource/Item has scheme!?
 
     /**
      *
      */
-    Stream<String> resourceNames(String name);
+    ResourceIndex getIndex();
 
-    /**
-     *
-     */
-    Stream<Resource> resources(String name);
-
+/*** BEGIN: ResourceLookup ? ***/
     /**
      *
      */
@@ -66,35 +64,13 @@ public interface ResourceProvider {
     /**
      *
      */
-    default List<String> getResourceNames(String name) {
-        return resourceNames(name).toList();
-    }
+    ListInlet<Resource> resources(String name);
 
     /**
      *
      */
-    default List<Resource> getResources(String name) {
-        return resources(name).toList();
-    }
-
-    /**
-     *
-     */
-    default Stream<String> resourceNames() {
-        return resourceNames(Locations.ROOT_CONTAINER_NAME);
-    }
-
-    /**
-     *
-     */
-    default Stream<Resource> resources() {
+    default ListInlet<Resource> resources() {
         return resources(Locations.ROOT_CONTAINER_NAME);
     }
-
-    /**
-     *
-     */
-    default List<Resource> getResources() {
-        return getResources(Locations.ROOT_CONTAINER_NAME);
-    }
+/*** END: ResourceLookup ? ***/
 }

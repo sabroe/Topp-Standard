@@ -31,6 +31,7 @@ module com.yelstream.topp.standard.resource {
     exports com.yelstream.topp.standard.resource;
     exports com.yelstream.topp.standard.resource.clazz;
     exports com.yelstream.topp.standard.resource.content;
+    exports com.yelstream.topp.standard.resource.index;
     exports com.yelstream.topp.standard.resource.io.source;
     exports com.yelstream.topp.standard.resource.io.target;
     exports com.yelstream.topp.standard.resource.name;
