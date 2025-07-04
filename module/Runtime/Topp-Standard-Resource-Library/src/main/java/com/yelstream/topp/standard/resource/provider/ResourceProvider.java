@@ -22,10 +22,7 @@ package com.yelstream.topp.standard.resource.provider;
 import com.yelstream.topp.standard.resource.Resource;
 import com.yelstream.topp.standard.resource.index.ResourceIndex;
 import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.resource.util.ListInlet;
-
-import java.util.List;
-import java.util.stream.Stream;
+import com.yelstream.topp.standard.resource.util.ListOutlet;
 
 /**
  * Provides resources.
@@ -64,12 +61,12 @@ public interface ResourceProvider {
     /**
      *
      */
-    ListInlet<Resource> resources(String name);
+    ListOutlet<Resource> resources(String name);
 
     /**
      *
      */
-    default ListInlet<Resource> resources() {
+    default ListOutlet<Resource> resources() {
         return resources(Locations.ROOT_CONTAINER_NAME);
     }
 /*** END: ResourceLookup ? ***/
