@@ -27,5 +27,5 @@ import java.util.Collection;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-public interface CollectionOutlet<T, C extends Collection<T>> extends Outlet<T,C> {
+public interface CollectionOutlet<T> extends BaseCollectionOutlet<T,Collection<T>> {
 }

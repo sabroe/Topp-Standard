@@ -27,5 +27,5 @@ import java.util.Collection;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-public interface CollectionInlet<T> extends BaseCollectionInlet<T,Collection<T>> {
+public interface BaseCollectionOutlet<T,C extends Collection<T>> extends Outlet<T,C> {
 }

@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.resource.util;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -27,5 +27,5 @@ import java.util.Collection;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-public interface CollectionInlet<T> extends BaseCollectionInlet<T,Collection<T>> {
+public class SetOutlet {
 }
