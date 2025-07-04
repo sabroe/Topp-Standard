@@ -21,6 +21,7 @@ package com.yelstream.topp.standard.resource.util;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -44,4 +45,15 @@ public class Outlets {
     public static <X> ListOutlet<X> createListOutletFromStream(Supplier<Stream<X>> streamSupplier) {
         return DefaultListOutlet.ofStream(streamSupplier);
     }
+
+
+
+    public static <X,C extends Collection<X>, O extends Outlet<X,C>> O createOutlet(Supplier<List<X>> listSupplier) {
+        return DefaultListOutlet.ofList(listSupplier);
+    }
+
+    public static <X> ListOutlet<X> createListOutletFromStream(Supplier<Stream<X>> streamSupplier) {
+        return DefaultListOutlet.ofStream(streamSupplier);
+    }
+
 }

@@ -27,5 +27,5 @@ import java.util.List;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-public interface ListInlet<X> extends CollectionInlet<X,List<X>> {
+public interface ListInlet<X> extends BaseCollectionInlet<X,List<X>> {
 }
