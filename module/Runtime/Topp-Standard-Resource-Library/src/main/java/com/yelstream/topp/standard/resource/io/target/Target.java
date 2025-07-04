@@ -29,6 +29,9 @@ import java.nio.channels.WritableByteChannel;
  *     Note that {@link #openStream()} and {@link #openChannel()} represent different access methods,
  *     hence only one of these are to be used at a time.
  * </p>
+ * <p>
+ *     This is a dual-access interface.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-01
