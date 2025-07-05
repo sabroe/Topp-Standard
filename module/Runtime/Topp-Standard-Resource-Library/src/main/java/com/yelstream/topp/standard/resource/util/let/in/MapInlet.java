@@ -17,9 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util;
+package com.yelstream.topp.standard.resource.util.let.in;
 
-import java.util.Collection;
+import java.util.Map;
 
 /**
  *
@@ -27,5 +27,5 @@ import java.util.Collection;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-public interface CollectionOutlet<T> extends BaseCollectionOutlet<T,Collection<T>> {
+public interface MapInlet<K,V> extends SubMapInlet<K,V, Map<K,V>> {
 }

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util;
+package com.yelstream.topp.standard.resource.util.let.out;
 
 import java.util.Collection;
 
@@ -27,5 +27,5 @@ import java.util.Collection;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-public interface BaseCollectionInlet<T,C extends Collection<T>> extends Inlet<T,C> {
+public interface CollectionOutlet<T> extends SubCollectionOutlet<T, Collection<T>> {
 }

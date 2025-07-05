@@ -17,10 +17,15 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.resource.util.let.out;
+
+import java.util.Map;
+
 /**
- * Dual-access collections.
+ *
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-package com.yelstream.topp.standard.resource.util;
+public interface SubMapOutlet<K, V, R extends Map<K,V>> extends Outlet<Map.Entry<K,V>,R> {
+}

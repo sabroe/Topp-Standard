@@ -38,4 +38,6 @@ module com.yelstream.topp.standard.resource {
     exports com.yelstream.topp.standard.resource.provider;
     exports com.yelstream.topp.standard.resource.resolve;
     exports com.yelstream.topp.standard.resource.clazz.load;
+    exports com.yelstream.topp.standard.resource.util.let.in;
+    exports com.yelstream.topp.standard.resource.util.let.out;
 }

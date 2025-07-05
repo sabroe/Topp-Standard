@@ -17,11 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.index;
+package com.yelstream.topp.standard.resource.util.let.in;
 
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.resource.util.let.out.ListOutlet;
+import java.util.stream.Stream;
 
 /**
  *
@@ -29,17 +27,9 @@ import com.yelstream.topp.standard.resource.util.let.out.ListOutlet;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-public interface ResourceIndex {
+public interface Inlet<T,R> {
 
-    /**
-     *
-     */
-    ListOutlet<Location> locations(String name);
+    void stream(Stream<T> stream);
 
-    /**
-     *
-     */
-    default ListOutlet<Location> locations() {
-        return locations(Locations.ROOT_CONTAINER_NAME);
-    }
+    void set(R r);
 }

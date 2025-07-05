@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util;
+package com.yelstream.topp.standard.resource.util.let.out;
 
 import java.util.List;
 
@@ -27,5 +27,5 @@ import java.util.List;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-public class MapOutlet {
+public interface SubListOutlet<T, R extends List<T>> extends SubCollectionOutlet<T,R> {
 }

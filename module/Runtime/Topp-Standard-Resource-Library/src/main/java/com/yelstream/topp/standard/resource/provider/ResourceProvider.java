@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.resource.provider;
 import com.yelstream.topp.standard.resource.Resource;
 import com.yelstream.topp.standard.resource.index.ResourceIndex;
 import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.resource.util.ListOutlet;
+import com.yelstream.topp.standard.resource.util.let.out.ListOutlet;
 
 /**
  * Provides resources.
@@ -66,8 +66,6 @@ public interface ResourceProvider {
     /**
      *
      */
-    default ListOutlet<Resource> resources() {
-        return resources(Locations.ROOT_CONTAINER_NAME);
-    }
+    ListOutlet<Resource> resources();  //resources(Locations.ROOT_CONTAINER_NAME);
 /*** END: ResourceLookup ? ***/
 }
