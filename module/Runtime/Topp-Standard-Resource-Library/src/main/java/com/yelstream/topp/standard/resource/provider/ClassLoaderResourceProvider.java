@@ -20,6 +20,8 @@
 package com.yelstream.topp.standard.resource.provider;
 
 import com.yelstream.topp.standard.resource.Resource;
+import com.yelstream.topp.standard.resource.index.ResourceIndex;
+import com.yelstream.topp.standard.resource.util.let.out.ListOutlet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -55,7 +57,7 @@ public final class ClassLoaderResourceProvider implements ResourceProvider {
      *
      */
     @Override
-    public Stream<String> resourceNames(String name) {
+    public ResourceIndex getIndex() {
         return null;  //TO-DO: Fix!
     }
 
@@ -63,7 +65,15 @@ public final class ClassLoaderResourceProvider implements ResourceProvider {
      *
      */
     @Override
-    public Stream<Resource> resources(String name) {
+    public ListOutlet<Resource> resources() {
+        return null;  //TO-DO: Fix!
+    }
+
+    /**
+     *
+     */
+    @Override
+    public ListOutlet<Resource> resources(String name) {
         return null;  //TO-DO: Fix!
     }
 

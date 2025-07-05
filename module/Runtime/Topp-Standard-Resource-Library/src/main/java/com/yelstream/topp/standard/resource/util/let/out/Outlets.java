@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util;
+package com.yelstream.topp.standard.resource.util.let.out;
 
 import lombok.experimental.UtilityClass;
 
@@ -47,13 +47,5 @@ public class Outlets {
     }
 
 
-
-    public static <X,C extends Collection<X>, O extends Outlet<X,C>> O createOutlet(Supplier<List<X>> listSupplier) {
-        return DefaultListOutlet.ofList(listSupplier);
-    }
-
-    public static <X> ListOutlet<X> createListOutletFromStream(Supplier<Stream<X>> streamSupplier) {
-        return DefaultListOutlet.ofStream(streamSupplier);
-    }
 
 }

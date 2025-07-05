@@ -20,12 +20,12 @@
 package com.yelstream.topp.standard.resource.provider;
 
 import com.yelstream.topp.standard.resource.Resource;
+import com.yelstream.topp.standard.resource.index.ResourceIndex;
+import com.yelstream.topp.standard.resource.util.let.out.ListOutlet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 /**
  * Proxy for instances of {@link ResourceProvider}.
@@ -75,16 +75,8 @@ public final class ProxyResourceProvider implements ResourceProvider {
      *
      */
     @Override
-    public Stream<String> resourceNames(String name) {
-        return getResourceProvider().resourceNames(name);
-    }
-
-    /**
-     *
-     */
-    @Override
-    public Stream<Resource> resources(String name) {
-        return getResourceProvider().resources(name);
+    public ResourceIndex getIndex() {
+        return getResourceProvider().getIndex();
     }
 
     /**
@@ -95,45 +87,20 @@ public final class ProxyResourceProvider implements ResourceProvider {
         return getResourceProvider().getResource(name);
     }
 
-
     /**
      *
      */
     @Override
-    public List<String> getResourceNames(String name) {
-        return getResourceProvider().getResourceNames(name);
+    public ListOutlet<Resource> resources(String name) {
+        return getResourceProvider().resources(name);
     }
 
     /**
      *
      */
     @Override
-    public List<Resource> getResources(String name) {
-        return getResourceProvider().getResources(name);
-    }
-
-    /**
-     *
-     */
-    @Override
-    public Stream<String> resourceNames() {
-        return getResourceProvider().resourceNames();
-    }
-
-    /**
-     *
-     */
-    @Override
-    public Stream<Resource> resources() {
+    public ListOutlet<Resource> resources() {
         return getResourceProvider().resources();
-    }
-
-    /**
-     *
-     */
-    @Override
-    public List<Resource> getResources() {
-        return getResourceProvider().getResources();
     }
 
     /**

@@ -17,15 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util;
-
-import java.util.List;
-
 /**
- *
+ * Dual-access collections for writing.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-public class SetOutlet {
-}
+package com.yelstream.topp.standard.resource.util.let.in;

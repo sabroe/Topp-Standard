@@ -17,13 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util;
+package com.yelstream.topp.standard.resource.util.let.out;
 
-import lombok.experimental.UtilityClass;
-
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
+import java.util.Collection;
 
 /**
  *
@@ -31,15 +27,5 @@ import java.util.stream.Stream;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-@UtilityClass
-public class Inlets {
-
-
-    public static <X> ListInlet<X> ofList(Consumer<List<X>> listConsumer) {
-        return DefaultListInlet.ofList(listConsumer);
-    }
-
-    public static <X> ListInlet<X> ofStream(Consumer<Stream<X>> streamConsumer) {
-        return DefaultListInlet.ofStream(streamConsumer);
-    }
+public interface SubCollectionOutlet<T,R extends Collection<T>> extends Outlet<T,R> {
 }

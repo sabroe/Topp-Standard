@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util;
+package com.yelstream.topp.standard.resource.util.let.out;
 
 import java.util.stream.Stream;
 
@@ -28,8 +28,15 @@ import java.util.stream.Stream;
  * @since 2025-07-04
  */
 public interface Outlet<T,R> {
-
+    /**
+     *
+     * @return
+     */
     Stream<T> stream();
 
+    /**
+     *
+     * @return
+     */
     R get();
 }

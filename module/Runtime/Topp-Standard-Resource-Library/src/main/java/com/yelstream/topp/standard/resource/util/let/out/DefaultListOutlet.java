@@ -17,12 +17,13 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util;
+package com.yelstream.topp.standard.resource.util.let.out;
 
 import lombok.AllArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -33,34 +34,34 @@ import java.util.stream.Stream;
  */
 @lombok.Builder(builderClassName="Builder")
 @AllArgsConstructor(staticName="of")
-final class DefaultListInlet<X> implements ListInlet<X> {
+final class DefaultListOutlet<X> implements ListOutlet<X> {
     /**
-     * Stream-consumer.
+     * Stream-supplier.
      */
-    private final Consumer<Stream<X>> streamConsumer;
+    private final Supplier<Stream<X>> streamSupplier;
 
     /**
-     * List-consumer.
+     * List-supplier.
      */
-    private final Consumer<List<X>> listConsumer;
+    private final Supplier<List<X>> listSupplier;
 
     @Override
-    public void stream(Stream<X> stream) {
-        streamConsumer.accept(stream);
+    public Stream<X> stream() {
+        return streamSupplier.get();
     }
 
     @Override
-    public void set(List<X> list) {
-        listConsumer.accept(list);
+    public List<X> get() {
+        return listSupplier.get();
     }
 
-    public static <X> DefaultListInlet<X> ofList(Consumer<List<X>> listConsumer) {
-        return of(stream->listConsumer.accept(stream.toList()),
-                  listConsumer);
+    public static <X> DefaultListOutlet<X> ofList(Supplier<List<X>> listSupplier) {
+        return of(()->listSupplier.get().stream(),
+                  ()->Collections.unmodifiableList(listSupplier.get()));
     }
 
-    public static <X> DefaultListInlet<X> ofStream(Consumer<Stream<X>> streamConsumer) {
-        return of(streamConsumer,
-                  list->streamConsumer.accept(list.stream()));
+    public static <X> DefaultListOutlet<X> ofStream(Supplier<Stream<X>> streamSupplier) {
+        return of(streamSupplier,
+                  ()->streamSupplier.get().toList());
     }
 }

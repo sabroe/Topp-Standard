@@ -17,9 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util;
+package com.yelstream.topp.standard.resource.util.let.in;
 
-import java.util.stream.Stream;
+import java.util.Collection;
 
 /**
  *
@@ -27,9 +27,5 @@ import java.util.stream.Stream;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-public interface Inlet<T,R> {
-
-    void stream(Stream<T> stream);
-
-    void set(R r);
+public interface CollectionInlet<T> extends SubCollectionInlet<T, Collection<T>> {
 }

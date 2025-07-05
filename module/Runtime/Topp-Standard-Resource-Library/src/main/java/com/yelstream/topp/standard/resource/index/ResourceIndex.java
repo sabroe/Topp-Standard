@@ -21,10 +21,7 @@ package com.yelstream.topp.standard.resource.index;
 
 import com.yelstream.topp.standard.resource.name.Location;
 import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.resource.util.ListOutlet;
-
-import java.util.List;
-import java.util.stream.Stream;
+import com.yelstream.topp.standard.resource.util.let.out.ListOutlet;
 
 /**
  *
