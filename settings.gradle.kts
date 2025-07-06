@@ -33,9 +33,9 @@ include("module:Configuration:Topp-Standard-MicroProfile-Config-Library")
 include("module:Configuration:Topp-Standard-SmallRye-Config-Library")
 include("module:Configuration:Topp-Standard-Quarkus-Config-Library")
 
-include("module:Data:Demo:Airport-LHR-HAL-CIM-Schema-Library")
-//include("module:Data:Demo:Airport-LHR-HAL-CIM-JAXB-Library")
-//include("module:Data:Demo:Airport-LHR-IO-Demo-Library")
+//include("module:Data:Demo:Airport-LHR-HAL-CIM-Schema-Library")
+////include("module:Data:Demo:Airport-LHR-HAL-CIM-JAXB-Library")
+////include("module:Data:Demo:Airport-LHR-IO-Demo-Library")
 
 include("module:Network:Topp-Standard-Network-Tooling-Library")
 
