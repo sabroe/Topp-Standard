@@ -18,7 +18,7 @@
  */
 
 /**
- * Dual-access collections for writing.
+ * Dual-access inlets for writing collections.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04

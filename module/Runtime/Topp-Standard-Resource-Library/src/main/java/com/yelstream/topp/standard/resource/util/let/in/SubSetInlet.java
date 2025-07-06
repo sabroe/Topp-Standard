@@ -28,4 +28,5 @@ import java.util.Set;
  * @since 2025-07-04
  */
 public interface SubSetInlet<T, R extends Set<T>> extends SubCollectionInlet<T,R> {
+    //Empty!
 }

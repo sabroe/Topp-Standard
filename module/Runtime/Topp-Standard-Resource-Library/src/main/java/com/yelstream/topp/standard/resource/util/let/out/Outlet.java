@@ -22,21 +22,81 @@ package com.yelstream.topp.standard.resource.util.let.out;
 import java.util.stream.Stream;
 
 /**
- *
+ * Dual-access interface for accessing collection content by reading.
+ * <p>
+ *     Access can be done in one of two ways:
+ * </p>
+ * <ol>
+ *     <li>
+ *         Consuming a collection directly.
+ *         <br/>
+ *         This is offline and eager.
+ *     </li>
+ *     <li>
+ *         Consuming data through a stream.
+ *         <br/>
+ *         This is online and lazy.
+ *     </li>
+ * </ol>
+ * <p>
+ *     Conventional interface:
+ * </p>
+ * <pre>
+ *     interface ResourceProvider {
+ *         Stream&lt;X&gt; getResourcesAsStream();
+ *         List&lt;X&gt; getResourcesAsList();
+ *     }
+ * </pre>
+ * <p>
+ *     Replacement interface:
+ * </p>
+ * <pre>
+ *     interface ResourceProvider {
+ *         ListOutlet&lt;X&gt; resources();
+ *     }
+ * </pre>
+ * <p>
+ *     Usages of this replacement interface:
+ * </p>
+ * <pre>
+ *     ResourceProvider provider=...
+ *     ...
+ *     List&lt;Resource&gt; resourceList=provider.resources().get();
+ *     ...
+ *     try (Stream&lt;Resource&gt; resourceStream=provider.resources().stream()) {
+ *         ...
+ *     }
+ * </pre>
+ * <p>
+ *     Only one of {@link #get()} and {@link #stream()} are to be called.
+ * </p>
+ * @param <T> Type of element accessed.
+ * @param <R> Type of collection of elements for direct offline access, usually a collection of elements.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
 public interface Outlet<T,R> {
     /**
-     *
-     * @return
+     * Gets elements as an online, lazy stream.
+     * <p>
+     *     In this context, take care to close the stream, which are auto-closable,
+     *     and may have an action tied to their close operation:
+     * </p>
+     * <pre>
+     *     try (Stream&lt;Resource&gt; stream=provider.resources().stream()) {
+     *         ...
+     *     }
+     * </pre>
+     * @return Stream of elements.
+     *         <br/>
+     *         This stream may or may not be live.
      */
     Stream<T> stream();
 
     /**
-     *
-     * @return
+     * Gets elements as an offline, eager collection.
+     * @return Collection of elements.
      */
     R get();
 }

@@ -53,14 +53,4 @@ final class DefaultListInlet<X> implements ListInlet<X> {
     public void set(List<X> list) {
         listConsumer.accept(list);
     }
-
-    public static <X> DefaultListInlet<X> ofList(Consumer<List<X>> listConsumer) {
-        return of(stream->listConsumer.accept(stream.toList()),
-                  listConsumer);
-    }
-
-    public static <X> DefaultListInlet<X> ofStream(Consumer<Stream<X>> streamConsumer) {
-        return of(streamConsumer,
-                  list->streamConsumer.accept(list.stream()));
-    }
 }

@@ -24,7 +24,7 @@ import com.yelstream.topp.standard.resource.name.Location;
 import lombok.experimental.UtilityClass;
 
 /**
- * Utility addressing instances of {@code #Location}
+ * Utility addressing instances of {@code Item}
  * and classloader resource names in general.
  *
  * @author Morten Sabroe Mortensen

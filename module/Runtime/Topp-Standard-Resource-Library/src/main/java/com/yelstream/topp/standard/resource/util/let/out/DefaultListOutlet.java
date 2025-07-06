@@ -21,7 +21,6 @@ package com.yelstream.topp.standard.resource.util.let.out;
 
 import lombok.AllArgsConstructor;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -53,15 +52,5 @@ final class DefaultListOutlet<X> implements ListOutlet<X> {
     @Override
     public List<X> get() {
         return listSupplier.get();
-    }
-
-    public static <X> DefaultListOutlet<X> ofList(Supplier<List<X>> listSupplier) {
-        return of(()->listSupplier.get().stream(),
-                  ()->Collections.unmodifiableList(listSupplier.get()));
-    }
-
-    public static <X> DefaultListOutlet<X> ofStream(Supplier<Stream<X>> streamSupplier) {
-        return of(streamSupplier,
-                  ()->streamSupplier.get().toList());
     }
 }

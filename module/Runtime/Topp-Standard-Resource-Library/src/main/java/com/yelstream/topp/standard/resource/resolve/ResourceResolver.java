@@ -22,10 +22,6 @@ package com.yelstream.topp.standard.resource.resolve;
 import com.yelstream.topp.standard.resource.Resource;
 import com.yelstream.topp.standard.resource.name.Location;
 
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
 /**
  * Provides access to a related group of resources.
  * <p>

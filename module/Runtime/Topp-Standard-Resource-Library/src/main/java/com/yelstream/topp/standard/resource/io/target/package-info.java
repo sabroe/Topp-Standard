@@ -18,7 +18,7 @@
  */
 
 /**
- *
+ * Dual-access writing of binary output data.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-01

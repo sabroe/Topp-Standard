@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.resource.content;
 import lombok.experimental.UtilityClass;
 
 /**
- * Utility addressing instances of {@code #Capability}.
+ * Utility addressing instances of {@code Capability}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-01

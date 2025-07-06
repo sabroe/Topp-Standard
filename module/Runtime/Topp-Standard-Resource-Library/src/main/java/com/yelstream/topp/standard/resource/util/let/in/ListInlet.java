@@ -28,4 +28,5 @@ import java.util.List;
  * @since 2025-07-04
  */
 public interface ListInlet<T> extends SubListInlet<T,List<T>> {
+    //Empty!
 }

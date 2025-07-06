@@ -21,13 +21,17 @@ package com.yelstream.topp.standard.resource.util.let.out;
 
 import lombok.experimental.UtilityClass;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- *
+ * Utilities addressing instances of {@link Outlet}.
+ * <p>
+ *     The contained methods for creating outlets are not intended for direct usage;
+ *     use the separate factory package for this purpose.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
@@ -36,15 +40,21 @@ import java.util.stream.Stream;
 public class Outlets {
 
 
-
-
-    public static <X> ListOutlet<X> createListOutletFromList(Supplier<List<X>> listSupplier) {
-        return DefaultListOutlet.ofList(listSupplier);
+    public static <X> ListOutlet<X> createListOutlet(Supplier<Stream<X>> streamSupplier,
+                                                     Supplier<List<X>> listSupplier) {
+        Objects.requireNonNull(streamSupplier);
+        Objects.requireNonNull(listSupplier);
+        return DefaultListOutlet.of(streamSupplier,listSupplier);
     }
 
-    public static <X> ListOutlet<X> createListOutletFromStream(Supplier<Stream<X>> streamSupplier) {
-        return DefaultListOutlet.ofStream(streamSupplier);
+
+    public static <X,R extends List<X>> SubListOutlet<X,R> createSubListOutlet(Supplier<Stream<X>> streamSupplier,
+                                                                               Supplier<R> listSupplier) {
+        Objects.requireNonNull(streamSupplier);
+        Objects.requireNonNull(listSupplier);
+        return DefaultSubListOutlet.of(streamSupplier,listSupplier);
     }
+
 
 
 
