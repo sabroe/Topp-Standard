@@ -28,4 +28,5 @@ import java.util.Collection;
  * @since 2025-07-04
  */
 public interface SubCollectionOutlet<T,R extends Collection<T>> extends Outlet<T,R> {
+    //Empty!
 }

@@ -28,4 +28,5 @@ import java.util.Map;
  * @since 2025-07-04
  */
 public interface SubMapOutlet<K, V, R extends Map<K,V>> extends Outlet<Map.Entry<K,V>,R> {
+    //Empty!
 }

@@ -18,7 +18,7 @@
  */
 
 /**
- * Addresses naming of resources, usually hierarchical.
+ * Naming of resources.
  * <p>
  *     The concepts applied:
  * </p>

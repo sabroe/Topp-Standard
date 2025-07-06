@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.resource.name;
+package com.yelstream.topp.standard.resource.name;
 
 import com.yelstream.topp.standard.resource.name.Locations;
 import org.junit.jupiter.api.Assertions;

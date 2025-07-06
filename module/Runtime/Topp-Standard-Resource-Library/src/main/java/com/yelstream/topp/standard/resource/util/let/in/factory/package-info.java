@@ -17,16 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util.let.in;
-
-import java.util.Collection;
-
 /**
- *
+ * Creation of dual-access inlets.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-04
+ * @since 2025-07-07
  */
-public interface CollectionInlet<T> extends SubCollectionInlet<T, Collection<T>> {
-    //Empty!
-}
+package com.yelstream.topp.standard.resource.util.let.in.factory;

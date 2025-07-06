@@ -18,7 +18,7 @@
  */
 
 /**
- *
+ * Selections of resources relative to providers and their indexes.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-29

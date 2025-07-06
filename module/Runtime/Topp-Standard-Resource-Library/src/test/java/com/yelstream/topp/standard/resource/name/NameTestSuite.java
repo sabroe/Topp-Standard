@@ -17,16 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util.let.in;
+package com.yelstream.topp.standard.resource.name;
 
-import java.util.Collection;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
- *
+ * Test suite for {@code com.yelstream.topp.standard.load.resource.name}.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-04
+ * @version 1.0
+ * @since 2025-07-01
  */
-public interface CollectionInlet<T> extends SubCollectionInlet<T, Collection<T>> {
-    //Empty!
+@Suite
+@SelectClasses({LocationsTest.class})
+class NameTestSuite {
 }

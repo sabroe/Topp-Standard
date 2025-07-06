@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.resource.name;
 import lombok.experimental.UtilityClass;
 
 /**
- * Utility addressing instances of {@code #Location}
+ * Utility addressing instances of {@code Location}
  * and classloader resource names in general.
  *
  * @author Morten Sabroe Mortensen

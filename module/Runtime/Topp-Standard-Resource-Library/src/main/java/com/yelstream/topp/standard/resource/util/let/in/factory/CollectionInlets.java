@@ -17,16 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util.let.in;
+package com.yelstream.topp.standard.resource.util.let.in.factory;
 
-import java.util.Collection;
+import lombok.experimental.UtilityClass;
 
 /**
- *
+ * Creation of {@link CollectionInlet} instances.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-04
+ * @since 2025-07-07
  */
-public interface CollectionInlet<T> extends SubCollectionInlet<T, Collection<T>> {
-    //Empty!
+@UtilityClass
+public class CollectionInlets {
+
+    //WIP!:
+
 }

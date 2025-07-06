@@ -22,11 +22,14 @@ package com.yelstream.topp.standard.resource.index;
 import lombok.experimental.UtilityClass;
 
 /**
- *
+ * Utility addressing instances of {@link ResourceIndex}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
 @UtilityClass
 public class ResourceIndexes {
+
+    //WIP!
+
 }

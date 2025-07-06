@@ -18,7 +18,7 @@
  */
 
 /**
- * Dual-access collections for reading.
+ * Dual-access outlets for reading collections.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04

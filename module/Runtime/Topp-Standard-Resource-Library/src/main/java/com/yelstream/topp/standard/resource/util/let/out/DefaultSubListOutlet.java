@@ -17,16 +17,40 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.util.let.in;
+package com.yelstream.topp.standard.resource.util.let.out;
 
-import java.util.Collection;
+import lombok.AllArgsConstructor;
+
+import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  *
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-04
+ * @since 2025-07-05
  */
-public interface CollectionInlet<T> extends SubCollectionInlet<T, Collection<T>> {
-    //Empty!
+@lombok.Builder(builderClassName="Builder")
+@AllArgsConstructor(staticName="of")
+final class DefaultSubListOutlet<X,R extends List<X>> implements SubListOutlet<X,R> {
+    /**
+     * Stream-supplier.
+     */
+    private final Supplier<Stream<X>> streamSupplier;
+
+    /**
+     * List-supplier.
+     */
+    private final Supplier<R> listSupplier;
+
+    @Override
+    public Stream<X> stream() {
+        return streamSupplier.get();
+    }
+
+    @Override
+    public R get() {
+        return listSupplier.get();
+    }
 }

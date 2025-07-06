@@ -19,14 +19,38 @@
 
 package com.yelstream.topp.standard.resource.util.let.in;
 
-import java.util.Collection;
+import lombok.AllArgsConstructor;
+
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  *
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-04
+ * @since 2025-07-05
  */
-public interface CollectionInlet<T> extends SubCollectionInlet<T, Collection<T>> {
-    //Empty!
+@lombok.Builder(builderClassName="Builder")
+@AllArgsConstructor(staticName="of")
+final class DefaultSubListInlet<X,R extends List<X>> implements SubListInlet<X,R> {
+    /**
+     * Stream-consumer.
+     */
+    private final Consumer<Stream<X>> streamConsumer;
+
+    /**
+     * List-consumer.
+     */
+    private final Consumer<R> listConsumer;
+
+    @Override
+    public void stream(Stream<X> stream) {
+        streamConsumer.accept(stream);
+    }
+
+    @Override
+    public void set(R list) {
+        listConsumer.accept(list);
+    }
 }

@@ -24,7 +24,7 @@ import com.yelstream.topp.standard.resource.name.Locations;
 import com.yelstream.topp.standard.resource.util.let.out.ListOutlet;
 
 /**
- *
+ * Index of resources.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04

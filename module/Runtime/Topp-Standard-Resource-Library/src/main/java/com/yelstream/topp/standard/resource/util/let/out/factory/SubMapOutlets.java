@@ -17,19 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.resource.name;
+package com.yelstream.topp.standard.resource.util.let.out.factory;
 
-import org.junit.platform.suite.api.SelectClasses;
-import org.junit.platform.suite.api.Suite;
+import lombok.experimental.UtilityClass;
 
 /**
- * Test suite for {@code com.yelstream.topp.standard.load.resource.name}.
+ * Creation of {@link SubMapOutlet} instances using abstract map types.
  *
  * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2025-07-01
+ * @since 2025-07-07
  */
-@Suite
-@SelectClasses({LocationsTest.class})
-class NameTestSuite {
+@UtilityClass
+public class SubMapOutlets {
+
+    //WIP!:
+
 }

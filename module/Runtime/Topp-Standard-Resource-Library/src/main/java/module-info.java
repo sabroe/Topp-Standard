@@ -40,4 +40,11 @@ module com.yelstream.topp.standard.resource {
     exports com.yelstream.topp.standard.resource.clazz.load;
     exports com.yelstream.topp.standard.resource.util.let.in;
     exports com.yelstream.topp.standard.resource.util.let.out;
+    exports com.yelstream.topp.standard.resource.util.let.in.factory;
+    exports com.yelstream.topp.standard.resource.util.let.out.factory;
+    exports com.yelstream.topp.standard.load.clazz.scan;
+    exports com.yelstream.topp.standard.load.clazz.scan.factory;
+    exports com.yelstream.topp.standard.load.clazz.scan.impl;
+    exports com.yelstream.topp.standard.load.clazz.util.file;
+    exports com.yelstream.topp.standard.load.clazz.util.jar;
 }

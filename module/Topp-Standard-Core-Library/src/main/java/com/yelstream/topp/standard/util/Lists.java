@@ -79,7 +79,7 @@ public class Lists {
     /**
      * Creates a list from a {@link Spliterator} instance.
      * <p>
-     *     Note that the create list is always a copy, it is not immutable, and it may contain {@code null} elements.
+     *     Note that the created list is always a copy, it is not immutable, and it may contain {@code null} elements.
      * </p>
      * @param spliterator Spliterator.
      * @return Created list.
@@ -96,7 +96,7 @@ public class Lists {
     /**
      * Creates a list of elements.
      * <p>
-     *     Note that the create list is always a copy, it is not immutable, and it may contain {@code null} elements.
+     *     Note that the created list is always a copy, it is not immutable, and it may contain {@code null} elements.
      *     The last contrary to {@link List#of(Object[])}.
      * </p>
      * @param elements Elements.
@@ -111,7 +111,7 @@ public class Lists {
     /**
      * Creates a list of elements.
      * <p>
-     *     Note that the create list is always a copy, it is not immutable, and it may contain {@code null} elements.
+     *     Note that the created list is always a copy, it is not immutable, and it may contain {@code null} elements.
      *     The last contrary to {@link List#of(Object[])}.
      * </p>
      * @param elements Elements.
@@ -199,5 +199,13 @@ public class Lists {
 
     public static <T> List<T> nonNull(List<T> list) {
         return filter(list,Objects::nonNull);
+    }
+
+    public static <T> List<T> immutableCopyOf(List<T> list) {
+        return list==null?null:java.util.List.copyOf(list);
+    }
+
+    public static <T> List<T> mutableCopyOf(List<T> list) {
+        return list==null?null:new ArrayList<>(list);
     }
 }

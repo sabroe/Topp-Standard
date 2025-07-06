@@ -18,7 +18,7 @@
  */
 
 /**
- *
+ * Providing resources in logical groupings.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
