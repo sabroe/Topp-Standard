@@ -18,7 +18,7 @@
  */
 
 /**
- * Topp Standard Loader Library addressing basics of class- and resource-loading.
+ * Topp Standard Resource Library addressing basics of resource discovery and resource content access.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
