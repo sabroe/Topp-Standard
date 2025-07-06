@@ -20,7 +20,7 @@
 import com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
 
 /**
- * Topp Standard Apache POI Document Library contributing with utilities for Apache POI.
+ * Topp Standard W3C XML Signature Library addresses usages of W3C XML Signature Schema.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-16

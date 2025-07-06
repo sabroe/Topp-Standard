@@ -67,6 +67,25 @@ plugins.withType(MavenPublishPlugin) {  //https://docs.gradle.org/current/usergu
             maven {
                 /*
                  * Note:
+                 *     Setup applicable for the global Maven Central Repository located on "central.sonatype.org".
+                 *     To approve the publishing using the Nexus Repository Manager, access --
+                 *         NO! NO! NO! NO! https://s01.oss.sonatype.org/#stagingRepositories
+                 *         https://central.sonatype.com/publishing/deployments
+                 *     To verify the first stages of approval, access --
+                 *         https://repo1.maven.org/maven2/com/yelstream/topp/
+                 *         https://repo1.maven.org/maven2/io/github/sabroe/topp/
+                 */
+//                name = 'ossrh-staging-api'
+                name = 'Central'
+                url = 'https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/'
+                credentials {
+                    username = project.properties['centralUsername']
+                    password = project.properties['centralPassword']
+                }
+            }
+            maven {//DEPRECATED AS OF JUNE 30TH 2025!
+                /*
+                 * Note:
                  *     Setup applicable for the global GitHub located on "github.com".
                  *     To approve the publishing using the Nexus Repository Manager, access --
                  *         https://s01.oss.sonatype.org/#stagingRepositories
