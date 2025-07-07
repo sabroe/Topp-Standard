@@ -17,10 +17,7 @@
  * limitations under the License.
  */
 
-/**
- *
- *
- * @author Morten Sabroe Mortensen
- * @since 2025-07-01
- */
-package com.yelstream.topp.standard.resource.content;
+package com.yelstream.topp.standard.resource.net.name;
+
+public class SchemeRegister {
+}

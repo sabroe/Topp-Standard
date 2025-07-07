@@ -17,26 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.content;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
- *
- * <p>
- *     This is immutable.
- * </p>
+ * Handler-factories for URI schemes/URL protocols.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-01
+ * @since 2025-07-07
  */
-@Getter
-@lombok.Builder(builderClassName="Builder")
-@AllArgsConstructor(staticName="of")
-final class SimpleCapability implements Capability {
-    private final boolean existing;
-    private final boolean readable;
-    private final boolean writable;
-    private final boolean traversable;
-}
+package com.yelstream.topp.standard.resource.net.handler.factory;
