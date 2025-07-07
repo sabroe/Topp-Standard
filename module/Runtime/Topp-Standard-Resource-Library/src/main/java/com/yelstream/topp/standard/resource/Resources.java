@@ -21,8 +21,8 @@ package com.yelstream.topp.standard.resource;
 
 import com.yelstream.topp.standard.resource.clazz.ClassLoaders;
 import com.yelstream.topp.standard.resource.clazz.load.ResourceLoader;
-import com.yelstream.topp.standard.resource.content.Item;
-import com.yelstream.topp.standard.resource.content.Items;
+import com.yelstream.topp.standard.resource.item.Item;
+import com.yelstream.topp.standard.resource.item.Items;
 import com.yelstream.topp.standard.resource.name.Location;
 import com.yelstream.topp.standard.resource.name.Locations;
 import lombok.experimental.UtilityClass;

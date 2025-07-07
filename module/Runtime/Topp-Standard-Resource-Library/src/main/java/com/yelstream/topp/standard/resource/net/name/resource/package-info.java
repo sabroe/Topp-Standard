@@ -17,30 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource;
-
-import com.yelstream.topp.standard.resource.item.Item;
-import com.yelstream.topp.standard.resource.name.Location;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
- * Simple resource.
+ * Handling of a URI scheme/URL protocol referring to provided resources.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-01
+ * @since 2025-07-07
  */
-@Getter
-@lombok.Builder(builderClassName="Builder")
-@AllArgsConstructor(staticName="of")
-final class SimpleResource implements Resource {
-    /**
-     * Location.
-     */
-    private final Location location;
-
-    /**
-     * Item.
-     */
-    private final Item item;
-}
+package com.yelstream.topp.standard.resource.net.name.resource;

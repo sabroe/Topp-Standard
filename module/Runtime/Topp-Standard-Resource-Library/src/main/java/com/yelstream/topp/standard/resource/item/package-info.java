@@ -17,30 +17,13 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.content;
-
-import com.yelstream.topp.standard.resource.clazz.load.ResourceLoader;
-import com.yelstream.topp.standard.resource.name.Location;
-import lombok.experimental.UtilityClass;
-
 /**
- * Utility addressing instances of {@code Item}
- * and classloader resource names in general.
+ * Resource content representation.
+ * <p>
+ *     The main entity is {@link com.yelstream.topp.standard.resource.item.Item}.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-01
  */
-@UtilityClass
-public class Items {
-
-    public static Item createItem(Location location,
-                                  ClassLoader classLoader) {
-        return ClassLoaderItem.of(classLoader,location);
-    }
-
-    public static Item createItem(Location location,
-                                  ResourceLoader resourceLoader) {
-        return ResourceLoaderItem.of(resourceLoader,location);
-    }
-
-}
+package com.yelstream.topp.standard.resource.item;

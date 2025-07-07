@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.content;
+package com.yelstream.topp.standard.resource.item;
 
 import com.yelstream.topp.standard.resource.io.source.Source;
 import com.yelstream.topp.standard.resource.io.source.Sources;

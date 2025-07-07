@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.content;
+package com.yelstream.topp.standard.resource.item;
 
 import com.yelstream.topp.standard.resource.io.source.Source;
 import com.yelstream.topp.standard.resource.io.target.Target;
@@ -26,7 +26,7 @@ import java.net.URI;
 import java.net.URL;
 
 /**
- *
+ * Resource data item.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-01

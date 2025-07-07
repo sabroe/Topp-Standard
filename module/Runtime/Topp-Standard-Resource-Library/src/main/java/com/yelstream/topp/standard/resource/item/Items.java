@@ -17,30 +17,30 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource;
+package com.yelstream.topp.standard.resource.item;
 
-import com.yelstream.topp.standard.resource.item.Item;
+import com.yelstream.topp.standard.resource.clazz.load.ResourceLoader;
 import com.yelstream.topp.standard.resource.name.Location;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.experimental.UtilityClass;
 
 /**
- * Simple resource.
+ * Utility addressing instances of {@code Item}
+ * and classloader resource names in general.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-01
  */
-@Getter
-@lombok.Builder(builderClassName="Builder")
-@AllArgsConstructor(staticName="of")
-final class SimpleResource implements Resource {
-    /**
-     * Location.
-     */
-    private final Location location;
+@UtilityClass
+public class Items {
 
-    /**
-     * Item.
-     */
-    private final Item item;
+    public static Item createItem(Location location,
+                                  ClassLoader classLoader) {
+        return ClassLoaderItem.of(classLoader,location);
+    }
+
+    public static Item createItem(Location location,
+                                  ResourceLoader resourceLoader) {
+        return ResourceLoaderItem.of(resourceLoader,location);
+    }
+
 }

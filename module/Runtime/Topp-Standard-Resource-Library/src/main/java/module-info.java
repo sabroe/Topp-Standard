@@ -30,7 +30,7 @@ module com.yelstream.topp.standard.resource {
     uses com.yelstream.topp.standard.resource.provider.ResourceProvider;
     exports com.yelstream.topp.standard.resource;
     exports com.yelstream.topp.standard.resource.clazz;
-    exports com.yelstream.topp.standard.resource.content;
+    exports com.yelstream.topp.standard.resource.item;
     exports com.yelstream.topp.standard.resource.index;
     exports com.yelstream.topp.standard.resource.io.source;
     exports com.yelstream.topp.standard.resource.io.target;

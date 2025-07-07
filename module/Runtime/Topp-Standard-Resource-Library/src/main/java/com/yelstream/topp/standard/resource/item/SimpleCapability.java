@@ -17,15 +17,16 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource;
+package com.yelstream.topp.standard.resource.item;
 
-import com.yelstream.topp.standard.resource.item.Item;
-import com.yelstream.topp.standard.resource.name.Location;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * Simple resource.
+ *
+ * <p>
+ *     This is immutable.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-01
@@ -33,14 +34,9 @@ import lombok.Getter;
 @Getter
 @lombok.Builder(builderClassName="Builder")
 @AllArgsConstructor(staticName="of")
-final class SimpleResource implements Resource {
-    /**
-     * Location.
-     */
-    private final Location location;
-
-    /**
-     * Item.
-     */
-    private final Item item;
+final class SimpleCapability implements Capability {
+    private final boolean existing;
+    private final boolean readable;
+    private final boolean writable;
+    private final boolean traversable;
 }

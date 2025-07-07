@@ -17,30 +17,38 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource;
+package com.yelstream.topp.standard.resource.net.handler.factory;
 
-import com.yelstream.topp.standard.resource.item.Item;
-import com.yelstream.topp.standard.resource.name.Location;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.net.URLStreamHandler;
+import java.util.function.Supplier;
+
 /**
- * Simple resource.
+ * Simple factory of handlers for known protocols.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-01
+ * @since 2025-07-07
  */
-@Getter
-@lombok.Builder(builderClassName="Builder")
 @AllArgsConstructor(staticName="of")
-final class SimpleResource implements Resource {
+final class SimpleURLStreamHandlerFactory implements NamedURLStreamHandlerFactory {
     /**
-     * Location.
+     * Protocol name.
      */
-    private final Location location;
+    @Getter
+    private final String protocol;
 
     /**
-     * Item.
+     * Factory of handlers;
      */
-    private final Item item;
+    private final Supplier<URLStreamHandler> handlerSupplier;
+
+    @Override
+    public URLStreamHandler createURLStreamHandler(String protocol) {
+        if (!this.protocol.equals(protocol)) {
+            return null;
+        }
+        return handlerSupplier.get();
+    }
 }
