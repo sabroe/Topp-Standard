@@ -26,7 +26,7 @@
 module com.yelstream.topp.standard.resource {
     requires static lombok;
     requires org.slf4j;
-    requires java.xml;
+    requires com.yelstream.topp.standard.load;
     uses com.yelstream.topp.standard.resource.provider.ResourceProvider;
     exports com.yelstream.topp.standard.resource;
     exports com.yelstream.topp.standard.resource.clazz;
@@ -47,4 +47,7 @@ module com.yelstream.topp.standard.resource {
     exports com.yelstream.topp.standard.load.clazz.scan.impl;
     exports com.yelstream.topp.standard.load.clazz.util.file;
     exports com.yelstream.topp.standard.load.clazz.util.jar;
+    exports com.yelstream.topp.standard.resource.net.name;
+    exports com.yelstream.topp.standard.resource.net.handler;
+    exports com.yelstream.topp.standard.resource.net.handler.factory;
 }

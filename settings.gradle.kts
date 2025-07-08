@@ -39,8 +39,6 @@ include("module:Configuration:Topp-Standard-Quarkus-Config-Library")
 
 include("module:Network:Topp-Standard-Network-Tooling-Library")
 
-include("module:Runtime:Topp-Standard-Resource-Library")
-
 include("module:Topp-Standard-Annotator-Library")
 
 include("module:Build:Topp-Standard-Gradle-Contribution-Library")
@@ -70,6 +68,8 @@ include("module:Text:Topp-Standard-Text-Manifestation-Library")
 include("module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library")
 include("module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library")
 
+include("module:Core:Topp-Standard-Loader-Library")
+include("module:Core:Topp-Standard-Resource-Library")
 include("module:Core:Topp-Standard-Core-Language-Library")
 include("module:Core:Topp-Standard-Core-Network-Library")
 include("module:Core:Topp-Standard-Core-IO-Library")
