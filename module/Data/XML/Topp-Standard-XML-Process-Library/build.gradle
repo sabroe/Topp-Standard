@@ -26,5 +26,5 @@ plugins {
 }
 
 dependencies {
-    api project(':module:Runtime:Topp-Standard-Resource-Library')
+    api project(':module:Core:Topp-Standard-Resource-Library')
 }
