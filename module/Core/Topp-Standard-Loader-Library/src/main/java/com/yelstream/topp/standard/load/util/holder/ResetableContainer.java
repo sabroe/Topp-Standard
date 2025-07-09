@@ -17,13 +17,28 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.contain;
+package com.yelstream.topp.standard.load.util.holder;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@AllArgsConstructor(staticName="of")
-final class SimpleContainer<X> implements Container<X> {
-    @Getter
-    private final X item;
+/**
+ * Container that supports resetting its item.
+ * <p>
+ * Allows clearing the cached item, enabling re-computation on next access.
+ * </p>
+ * <p>
+ *     This is thread-safe.
+ * </p>
+ *
+ * @param <X> Type of the item held.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-07-09
+ */public interface ResetableContainer<X> extends Container<X> {
+    /**
+     * Resets the container, clearing the cached item.
+     * <p>
+     * The next call to {@link #getItem()} recomputes the item.
+     * </p>
+     */
+    void reset();
 }

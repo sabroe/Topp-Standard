@@ -17,17 +17,35 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.load.util.holder;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.function.Supplier;
+
 /**
- * Topp Standard Loader Library addressing basics of class and service-loading.
+ * A container for a lazily initialized item.
+ * <p>
+ * Computes the item on first access using a provided supplier and caches it for subsequent access.
+ * Thread-safe for concurrent access.
+ * </p>
+ *
+ * @param <X> Type of the item held.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-08
- */
-module com.yelstream.topp.standard.load {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.load.clazz;
-    exports com.yelstream.topp.standard.load.instance;
-    exports com.yelstream.topp.standard.load.service;
-    exports com.yelstream.topp.standard.load.util.holder;
+ * @version 1.0
+ * @since 2025-07-09
+ */@AllArgsConstructor(staticName="of")
+final class LazyContainer<X> implements Container<X> {
+    /**
+     * Item-supplier.
+     */
+    private final Supplier<X> itemSupplier;
+
+    /**
+     * Item, lazily
+     */
+    @Getter(lazy=true)
+    private final X item=itemSupplier.get();
 }

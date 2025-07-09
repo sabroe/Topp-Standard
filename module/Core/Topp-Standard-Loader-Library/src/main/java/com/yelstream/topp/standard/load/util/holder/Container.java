@@ -17,8 +17,28 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.contain;
+package com.yelstream.topp.standard.load.util.holder;
 
-public interface ResetableContainer<X> extends Container<X> {
-    void reset();
+/**
+ * A container for a single item, supporting lazy initialization.
+ * <p>
+ * Holds an item, which may be computed on first access to optimize resource usage.
+ * The item is typically cached after creation for subsequent access.
+ * </p>
+ * <p>
+ *     This is thread-safe.
+ * </p>
+ *
+ * @param <X> Type of the item held.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-07-09
+ */
+public interface Container<X> {
+    /**
+     * Retrieves the contained item, computing it lazily if not initialized.
+     * @return Contained item.
+     */
+    X getItem();
 }
