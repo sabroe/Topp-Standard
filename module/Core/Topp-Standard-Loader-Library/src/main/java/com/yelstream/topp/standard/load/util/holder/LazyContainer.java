@@ -44,7 +44,7 @@ final class LazyContainer<X> implements Container<X> {
     private final Supplier<X> itemSupplier;
 
     /**
-     * Item, lazily
+     * Item, created on-demand.
      */
     @Getter(lazy=true)
     private final X item=itemSupplier.get();

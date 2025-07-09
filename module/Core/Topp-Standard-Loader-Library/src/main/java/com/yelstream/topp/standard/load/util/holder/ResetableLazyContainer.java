@@ -41,8 +41,14 @@ import java.util.function.Supplier;
  * @since 2025-07-09
  */@AllArgsConstructor(staticName="of")
 final class ResetableLazyContainer<X> implements ResetableContainer<X> {
+    /**
+     * Item-supplier.
+     */
     private final Supplier<X> itemSupplier;
 
+    /**
+     * Item, created on-demand.
+     */
     private final AtomicReference<X> itemHolder=new AtomicReference<>();
 
     @Override
