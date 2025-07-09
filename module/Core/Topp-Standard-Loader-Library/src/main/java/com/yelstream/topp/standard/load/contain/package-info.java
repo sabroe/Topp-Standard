@@ -17,17 +17,4 @@
  * limitations under the License.
  */
 
-/**
- * Topp Standard Loader Library addressing basics of class and service-loading.
- *
- * @author Morten Sabroe Mortensen
- * @since 2025-07-08
- */
-module com.yelstream.topp.standard.load {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.load.clazz;
-    exports com.yelstream.topp.standard.load.contain;
-    exports com.yelstream.topp.standard.load.service;
-    exports com.yelstream.topp.standard.load.instance;
-}
+package com.yelstream.topp.standard.load.contain;

@@ -17,36 +17,26 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.instance;
+package com.yelstream.topp.standard.load.contain;
 
-import com.yelstream.topp.standard.load.service.ServiceLoaders;
 import lombok.experimental.UtilityClass;
 
-import java.util.List;
 import java.util.function.Supplier;
 
-/**
- * Utility addressing instances of {@link InstanceLoader}.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2025-07-08
- */
 @UtilityClass
-public class InstanceLoaders {
+public class Containers {
 
-
-
-    /**
-     *
-     * @param instanceClass
-     * @return
-     * @param <I> Type of instance loaded.
-     */
-    public static <I> InstanceLoader<I> forClass(Class<I> instanceClass) {
-        Supplier<List<I>> supplier=()->ServiceLoaders.loadServices(instanceClass);
-        InstanceLoader<I> loader=InstanceLoader.of();
-        loader.getRegistry().add(supplier);
-        return loader;
+    public static <X> Container<X> createContainer(X item) {
+        return SimpleContainer.of(item);
     }
+
+    public static <X> Container<X> createContainer(Supplier<X> itemSupplier) {
+        return LazyContainer.of(itemSupplier);
+    }
+
+    public static <X> ResetableContainer<X> createResetableContainer(Supplier<X> itemSupplier) {
+        return ResetableLazyContainer.of(itemSupplier);
+    }
+
+
 }
