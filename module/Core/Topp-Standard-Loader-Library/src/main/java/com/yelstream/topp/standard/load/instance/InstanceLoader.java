@@ -52,34 +52,52 @@ import java.util.function.Supplier;
 @AllArgsConstructor(staticName="of")
 public class InstanceLoader<I> {
     /**
-     * Manages the list of suppliers providing instances.
+     * Registry for suppliers providing lists of instances.
      */
     @AllArgsConstructor(access=AccessLevel.PRIVATE)
-    public static class SupplierRegistry<I> {  //TODO: Consider getting rid of this wrapping!
+    public static class SupplierRegistry<I> {
+        /**
+         * Suppliers of items.
+         */
         @Getter(AccessLevel.PRIVATE)
         private final List<Supplier<List<I>>> suppliers=new CopyOnWriteArrayList<>();
 
+        /**
+         * Adds a supplier of instance lists.
+         *@param supplier Supplier of instance lists.
+         */
         public void add(Supplier<List<I>> supplier) {
             if (supplier!=null) {
                 suppliers.add(supplier);
             }
         }
 
+        /**
+         * Clears all registered suppliers.
+         */
         public void clear() {
             suppliers.clear();
         }
     }
 
+    /**
+     * Creates instances.
+     * This runs through all suppliers.
+     * @return Created instances.
+     */
     private List<I> createInstances() {
         return registry.getSuppliers().stream().flatMap(supplier->supplier.get().stream()).filter(Objects::nonNull).toList();
     }
 
     /**
-     *
+     * Registered suppliers.
      */
     @Getter
     private final SupplierRegistry<I> registry=new SupplierRegistry<>();
 
+    /**
+     * Contained and held instances.
+     */
     private final ResetableContainer<List<I>> instancesContainer=Containers.createResetableContainer(()-> Collections.unmodifiableList(createInstances()));
 
     public List<I> getInstances() {
@@ -87,15 +105,15 @@ public class InstanceLoader<I> {
     }
 
     /**
-     * 
+     * Resets the cached instances, enabling re-computation on next access.
      */
     public void reset() {
         instancesContainer.reset();
     }
 
     /**
-     * Gets the first instance, if available.
-     * @return First instance or null if none exist.
+     * Retrieves the first available instance, if any.
+     * @return First instance, or empty if none exist.
      */
     public Optional<I> getFirstInstance() {
         return getInstances().stream().findFirst();
