@@ -34,17 +34,23 @@ import java.util.function.Supplier;
  */
 @UtilityClass
 public class InstanceLoaders {
-
-
-
     /**
-     *
-     * @param instanceClass
-     * @return
+     * Creates an instance-loader.
+     * @return Created instance-loader.
      * @param <I> Type of instance loaded.
      */
-    public static <I> InstanceLoader<I> forClass(Class<I> instanceClass) {
-        Supplier<List<I>> supplier=()->ServiceLoaders.loadServices(instanceClass);
+    public static <I> InstanceLoader<I> emptyLoader() {
+        return InstanceLoader.of();
+    }
+
+    /**
+     * Creates an instance-loader.
+     * @param serviceClass Class to be found through service-locators.
+     * @return Created instance-loader.
+     * @param <I> Type of instance loaded.
+     */
+    public static <I> InstanceLoader<I> forClass(Class<I> serviceClass) {
+        Supplier<List<I>> supplier=()->ServiceLoaders.loadServices(serviceClass);
         InstanceLoader<I> loader=InstanceLoader.of();
         loader.getRegistry().add(supplier);
         return loader;
