@@ -46,6 +46,7 @@ public class InstanceLoaders {
     public static <I> InstanceLoader<I> forClass(Class<I> instanceClass) {
         Supplier<List<I>> supplier=()->ServiceLoaders.loadServices(instanceClass);
         InstanceLoader<I> loader=InstanceLoader.of();
-        return loader.getRegistry().add(supplier);
+        loader.getRegistry().add(supplier);
+        return loader;
     }
 }

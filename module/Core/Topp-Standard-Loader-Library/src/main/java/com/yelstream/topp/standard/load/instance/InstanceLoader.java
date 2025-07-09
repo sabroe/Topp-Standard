@@ -19,6 +19,8 @@
 
 package com.yelstream.topp.standard.load.instance;
 
+import com.yelstream.topp.standard.load.contain.Containers;
+import com.yelstream.topp.standard.load.contain.ResetableContainer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -53,62 +55,42 @@ public class InstanceLoader<I> {
      * Manages the list of suppliers providing instances.
      */
     @AllArgsConstructor(access=AccessLevel.PRIVATE)
-    public class SupplierRegistry {
+    public static class SupplierRegistry<I> {  //TODO: Consider getting rid of this wrapping!
         @Getter(AccessLevel.PRIVATE)
         private final List<Supplier<List<I>>> suppliers=new CopyOnWriteArrayList<>();
 
-        public InstanceLoader<I> add(Supplier<List<I>> supplier) {
+        public void add(Supplier<List<I>> supplier) {
             if (supplier!=null) {
                 suppliers.add(supplier);
             }
-            return InstanceLoader.this;
         }
 
-        public InstanceLoader<I>  clear() {
+        public void clear() {
             suppliers.clear();
-            return InstanceLoader.this;
         }
+    }
+
+    private List<I> createInstances() {
+        return registry.getSuppliers().stream().flatMap(supplier->supplier.get().stream()).filter(Objects::nonNull).toList();
     }
 
     /**
      *
      */
     @Getter
-    private final SupplierRegistry registry=new SupplierRegistry();
+    private final SupplierRegistry<I> registry=new SupplierRegistry<>();
 
-    private List<I> createInstances() {
-        return registry.getSuppliers().stream().flatMap(supplier->supplier.get().stream()).filter(Objects::nonNull).toList();
-    }
+    private final ResetableContainer<List<I>> instancesContainer=Containers.createResetableContainer(()-> Collections.unmodifiableList(createInstances()));
 
-    private final List<I> innerInstances=new CopyOnWriteArrayList<>();
-
-    @SuppressWarnings("java:S1117")
-    private List<I> refreshInnerInstances() {
-        List<I> instances=createInstances();
-        innerInstances.clear();
-        innerInstances.addAll(instances);
-        return innerInstances;
-    }
-
-    @SuppressWarnings("java:S1117")
-    private List<I> createImmutableInstances() {
-        return Collections.unmodifiableList(refreshInnerInstances());
+    public List<I> getInstances() {
+        return instancesContainer.getItem();
     }
 
     /**
-     * Default instances.
-     * <p>
-     * This is immutable.
-     * </p>
+     *
      */
-    @Getter(lazy=true)
-    private final List<I> instances=createImmutableInstances();
-
-    /**
-     * Reloads instances from the current suppliers, updating the cache.
-     */
-    public synchronized void reload() {
-        refreshInnerInstances();
+    public void reset() {
+        instancesContainer.reset();
     }
 
     /**
