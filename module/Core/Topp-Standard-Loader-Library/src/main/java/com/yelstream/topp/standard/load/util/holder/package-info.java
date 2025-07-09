@@ -17,8 +17,11 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.contain;
-
-public interface Container<X> {
-    X getItem();
-}
+/**
+ * Utility for creating container instances.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-07-09
+ */
+package com.yelstream.topp.standard.load.util.holder;

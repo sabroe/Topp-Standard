@@ -17,26 +17,47 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.contain;
+package com.yelstream.topp.standard.load.util.holder;
 
 import lombok.experimental.UtilityClass;
 
 import java.util.function.Supplier;
 
+/**
+ * Utility for creating container instances.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-07-09
+ */
 @UtilityClass
 public class Containers {
-
+    /**
+     * Creates a container with a pre-computed item.
+     * @param <X> Type of the item.
+     * @param item Item to hold.
+     * @return Container holding the item.
+     */
     public static <X> Container<X> createContainer(X item) {
         return SimpleContainer.of(item);
     }
 
-    public static <X> Container<X> createContainer(Supplier<X> itemSupplier) {
+    /**
+     * Creates a container for a lazily initialized item.
+     *
+     * @param <X> Type of the item.
+     * @param itemSupplier Supplier to compute the item.
+     * @return Container for the lazily initialized item.
+     */    public static <X> Container<X> createContainer(Supplier<X> itemSupplier) {
         return LazyContainer.of(itemSupplier);
     }
 
-    public static <X> ResetableContainer<X> createResetableContainer(Supplier<X> itemSupplier) {
+    /**
+     * Creates a resettable container for a lazily initialized item.
+     * @param <X> Type of the item.
+     * @param itemSupplier Supplier to compute the item.
+     * @return Created, resettable container for the lazily initialized item.
+     */    public static <X> ResetableContainer<X> createResetableContainer(Supplier<X> itemSupplier) {
         return ResetableLazyContainer.of(itemSupplier);
     }
-
-
 }

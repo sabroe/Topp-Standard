@@ -17,14 +17,29 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.contain;
+package com.yelstream.topp.standard.load.util.holder;
 
 import lombok.AllArgsConstructor;
 
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
-@AllArgsConstructor(staticName="of")
+/**
+ * Resettable container for a lazily initialized item.
+ * <p>
+ * Computes the item on first access using a provided supplier, caches it,
+ * and allows resetting to trigger re-computation.
+ * </p>
+ * <p>
+ *     This is thread-safe.
+ * </p>
+ *
+ * @param <X> Type of the item held.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-07-09
+ */@AllArgsConstructor(staticName="of")
 final class ResetableLazyContainer<X> implements ResetableContainer<X> {
     private final Supplier<X> itemSupplier;
 
