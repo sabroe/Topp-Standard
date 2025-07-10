@@ -36,7 +36,7 @@ public class Containers {
      * Creates a container with a pre-computed item.
      * @param <X> Type of the item.
      * @param item Item to hold.
-     * @return Container holding the item.
+     * @return Created container.
      */
     public static <X> Container<X> createContainer(X item) {
         return SimpleContainer.of(item);
@@ -47,7 +47,7 @@ public class Containers {
      *
      * @param <X> Type of the item.
      * @param itemSupplier Supplier to compute the item.
-     * @return Container for the lazily initialized item.
+     * @return Created container.
      */
     public static <X> Container<X> createContainer(Supplier<X> itemSupplier) {
         return LazyContainer.of(itemSupplier);
@@ -57,7 +57,7 @@ public class Containers {
      * Creates a resettable container for a lazily initialized item.
      * @param <X> Type of the item.
      * @param itemSupplier Supplier to compute the item.
-     * @return Created, resettable container for the lazily initialized item.
+     * @return Created container.
      */
     public static <X> ResettableContainer<X> createResettableContainer(Supplier<X> itemSupplier) {
         return ResettableLazyContainer.of(itemSupplier);
