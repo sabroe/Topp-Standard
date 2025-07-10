@@ -19,26 +19,17 @@
 
 package com.yelstream.topp.standard.load.util.holder;
 
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+
 /**
- * A container for a single item, supporting lazy initialization.
- * <p>
- *     Holds an item, which may be computed on first access to optimize resource usage.
- *     The item is typically cached after creation for subsequent access.
- * </p>
- * <p>
- *     This is thread-safe.
- * </p>
- *
- * @param <X> Type of the item held.
+ * Test suite for {@code com.yelstream.topp.standard.load.util.holder}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-07-09
+ * @since 2025-07-10
  */
-public interface Container<X> {
-    /**
-     * Retrieves the contained item, computing it lazily if not initialized.
-     * @return Contained item.
-     */
-    X getItem();
+@Suite
+@SelectClasses({ContainerTest.class, ResetableContainerTest.class, ContainersTest.class})
+class HolderTestSuite {
 }

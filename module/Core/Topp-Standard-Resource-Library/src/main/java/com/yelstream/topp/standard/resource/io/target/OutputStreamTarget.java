@@ -30,6 +30,10 @@ import java.util.function.Supplier;
 
 /**
  * OTarget based on access to {@link OutputStream}.
+ * <p>
+ *     Note that this creates a {@link WritableByteChannel} from a {@link OutputStream}
+ *     without applying additional buffering in between.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-02

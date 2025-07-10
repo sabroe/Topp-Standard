@@ -20,10 +20,9 @@
 package com.yelstream.topp.standard.load.util.holder;
 
 /**
- * A container for a single item, supporting lazy initialization.
+ * Container that supports resetting its item.
  * <p>
- *     Holds an item, which may be computed on first access to optimize resource usage.
- *     The item is typically cached after creation for subsequent access.
+ *     Allows clearing the cached item, enabling re-computation on next access.
  * </p>
  * <p>
  *     This is thread-safe.
@@ -34,11 +33,12 @@ package com.yelstream.topp.standard.load.util.holder;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-07-09
- */
-public interface Container<X> {
+ */public interface ResettableContainer<X> extends Container<X> {
     /**
-     * Retrieves the contained item, computing it lazily if not initialized.
-     * @return Contained item.
+     * Resets the container, clearing the cached item.
+     * <p>
+     * The next call to {@link #getItem()} recomputes the item.
+     * </p>
      */
-    X getItem();
+    void reset();
 }
