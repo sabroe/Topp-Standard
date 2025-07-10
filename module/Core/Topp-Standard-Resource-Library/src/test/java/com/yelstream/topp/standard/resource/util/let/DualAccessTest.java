@@ -13,7 +13,10 @@ import org.junit.jupiter.api.Test;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class DualAccessTest {
@@ -30,7 +33,7 @@ public class DualAccessTest {
             return ListOutlets.of(()->x.stream(),()->x);
         }
 
-        public void resources(Consumer<ListInlet<E>> resources) {  //TO-DO: Make method content a one-liner!
+        public void resources(Consumer<ListInlet<E>> resources) {
             resources.accept(ListInlets.byList(l->x=l));
         }
     }
@@ -48,7 +51,7 @@ public class DualAccessTest {
             return ListOutlets.of(x::stream,()->x);
         }
 
-        public void resources(Consumer<ListInlet<E>> resources) {  //TO-DO: Make method content a one-liner!
+        public void resources(Consumer<ListInlet<E>> resources) {
             resources.accept(ListInlets.byList(l->{ x.clear(); x.addAll(l); }));
         }
     }
@@ -66,12 +69,33 @@ public class DualAccessTest {
             return ListOutlets.of(x::stream,()->x);
         }
 
-        public void resources(Consumer<ListInlet<E>> resources) {  //TO-DO: Make method content a one-liner!
+        public void resources(Consumer<ListInlet<E>> resources) {
             resources.accept(ListInlets.byList(l->{ x.clear(); x.addAll(l); }));
         }
 
         public static <E> UnmodifiableListProvider<E> of(List<E> x) {
             return new UnmodifiableListProvider<>(Collections.unmodifiableList(x));
+        }
+    }
+
+    /**
+     *
+     * @param <E> Type of element.
+     */
+    @AllArgsConstructor(staticName="of")
+    public static class StreamListProvider<E> {
+        @Getter
+        private Supplier<Stream<E>> streamSupplier;
+
+        @Getter
+        private Consumer<Stream<E>> streamConsumer;
+
+        public ListOutlet<E> resources() {
+            return ListOutlets.byStream(streamSupplier);
+        }
+
+        public void resources(Consumer<ListInlet<E>> resources) {
+            resources.accept(ListInlets.byStream(stream->streamConsumer.accept(stream)));
         }
     }
 
@@ -149,5 +173,53 @@ public class DualAccessTest {
         }
 
         Assertions.assertEquals(x1,provider.getX());
+    }
+
+    /**
+     * Tests reading and writing with a live stream, never accumulating the stream-content.
+     */
+    @Test
+    void readAndWriteWithLiveStream() {
+        final int COUNT = 10_000;  //Note: Runs 100_000_000 in ~3 seconds.
+        final int MIN_VALUE = 1;
+        final int MAX_VALUE = 1+COUNT;
+
+        AtomicInteger sourceNumber=new AtomicInteger(MIN_VALUE);
+        Supplier<Stream<String>> streamSupplier=()->{  //TO-DO: Consider solidifying this as a generic utility!
+            Supplier<String> generator=()->String.valueOf(sourceNumber.getAndIncrement());
+            return Stream.generate(generator).limit(COUNT);
+        };
+
+        AtomicInteger callcount=new AtomicInteger();
+        Consumer<Stream<String>> veryfyingStreamConsumer=stream->{  //TO-DO: Consider solidifying this as a generic utility!
+            AtomicInteger expected = new AtomicInteger(MIN_VALUE);
+            stream.forEachOrdered(value -> {
+                try {
+                    int number = Integer.parseInt(value);
+                    if (number < MIN_VALUE || number > MAX_VALUE) {
+                        throw new IllegalArgumentException(
+                                String.format("Value '%s' is outside the range [%d, %d].", value, MIN_VALUE, MAX_VALUE));
+                    }
+                    int expectedValue = expected.getAndIncrement();
+                    if (number != expectedValue) {
+                        throw new IllegalArgumentException(
+                                String.format("Value '%s' does not match expected sequence value '%d'.", value, expectedValue));
+                    }
+                } catch (NumberFormatException ex) {
+                    throw new IllegalArgumentException(
+                            String.format("Value '%s' is not a valid integer.", value), ex);
+                }
+                //System.out.println(value);
+                callcount.incrementAndGet();
+            });
+        };
+
+        StreamListProvider<String> provider=StreamListProvider.of(streamSupplier,veryfyingStreamConsumer);
+
+        try (Stream<String> stream=provider.resources().stream()) {  //Note: Read as a stream!
+            provider.resources(in -> in.stream(stream));  //Note: Write as a stream!
+        }
+
+        Assertions.assertEquals(COUNT,callcount.get());
     }
 }

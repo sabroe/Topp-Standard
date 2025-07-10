@@ -19,14 +19,13 @@
 
 package com.yelstream.topp.standard.resource.util.let.in.factory;
 
-import com.yelstream.topp.standard.resource.util.let.in.ListInlet;
 import com.yelstream.topp.standard.resource.util.let.in.Inlets;
+import com.yelstream.topp.standard.resource.util.let.in.ListInlet;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
