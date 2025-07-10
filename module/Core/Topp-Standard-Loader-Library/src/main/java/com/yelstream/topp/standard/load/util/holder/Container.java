@@ -22,8 +22,8 @@ package com.yelstream.topp.standard.load.util.holder;
 /**
  * A container for a single item, supporting lazy initialization.
  * <p>
- * Holds an item, which may be computed on first access to optimize resource usage.
- * The item is typically cached after creation for subsequent access.
+ *     Holds an item, which may be computed on first access to optimize resource usage.
+ *     The item is typically cached after creation for subsequent access.
  * </p>
  * <p>
  *     This is thread-safe.

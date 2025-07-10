@@ -20,7 +20,7 @@
 package com.yelstream.topp.standard.load.instance;
 
 import com.yelstream.topp.standard.load.util.holder.Containers;
-import com.yelstream.topp.standard.load.util.holder.ResetableContainer;
+import com.yelstream.topp.standard.load.util.holder.ResettableContainer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -98,7 +98,7 @@ public class InstanceLoader<I> {
     /**
      * Contained and held instances.
      */
-    private final ResetableContainer<List<I>> instancesContainer=Containers.createResetableContainer(()-> Collections.unmodifiableList(createInstances()));
+    private final ResettableContainer<List<I>> instancesContainer=Containers.createResettableContainer(()->Collections.unmodifiableList(createInstances()));
 
     public List<I> getInstances() {
         return instancesContainer.getItem();

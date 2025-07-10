@@ -30,6 +30,10 @@ import java.util.function.Supplier;
 
 /**
  * Source based on access to {@link InputStream}.
+ * <p>
+ *     Note that this creates a {@link ReadableByteChannel} from a {@link InputStream}
+ *     without applying additional buffering in between.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26

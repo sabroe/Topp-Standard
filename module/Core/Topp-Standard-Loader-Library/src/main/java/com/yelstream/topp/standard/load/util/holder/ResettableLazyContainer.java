@@ -27,8 +27,8 @@ import java.util.function.Supplier;
 /**
  * Resettable container for a lazily initialized item.
  * <p>
- * Computes the item on first access using a provided supplier, caches it,
- * and allows resetting to trigger re-computation.
+ *     Computes the item on first access using a provided supplier, caches it,
+ *     and allows resetting to trigger re-computation.
  * </p>
  * <p>
  *     This is thread-safe.
@@ -40,7 +40,7 @@ import java.util.function.Supplier;
  * @version 1.0
  * @since 2025-07-09
  */@AllArgsConstructor(staticName="of")
-final class ResetableLazyContainer<X> implements ResetableContainer<X> {
+final class ResettableLazyContainer<X> implements ResettableContainer<X> {
     /**
      * Item-supplier.
      */

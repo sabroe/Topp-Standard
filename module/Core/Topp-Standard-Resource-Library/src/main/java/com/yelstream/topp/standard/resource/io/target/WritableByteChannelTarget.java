@@ -30,6 +30,10 @@ import java.util.function.Supplier;
 
 /**
  * Target based on access to {@link WritableByteChannel}.
+ * <p>
+ *     Note that this creates a {@link OutputStream} from a {@link WritableByteChannel}
+ *     without applying additional buffering in between.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-02

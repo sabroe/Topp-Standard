@@ -48,7 +48,8 @@ public class Containers {
      * @param <X> Type of the item.
      * @param itemSupplier Supplier to compute the item.
      * @return Container for the lazily initialized item.
-     */    public static <X> Container<X> createContainer(Supplier<X> itemSupplier) {
+     */
+    public static <X> Container<X> createContainer(Supplier<X> itemSupplier) {
         return LazyContainer.of(itemSupplier);
     }
 
@@ -57,7 +58,8 @@ public class Containers {
      * @param <X> Type of the item.
      * @param itemSupplier Supplier to compute the item.
      * @return Created, resettable container for the lazily initialized item.
-     */    public static <X> ResetableContainer<X> createResetableContainer(Supplier<X> itemSupplier) {
-        return ResetableLazyContainer.of(itemSupplier);
+     */
+    public static <X> ResettableContainer<X> createResettableContainer(Supplier<X> itemSupplier) {
+        return ResettableLazyContainer.of(itemSupplier);
     }
 }

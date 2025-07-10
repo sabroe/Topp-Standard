@@ -27,8 +27,10 @@ import java.util.function.Supplier;
 /**
  * A container for a lazily initialized item.
  * <p>
- * Computes the item on first access using a provided supplier and caches it for subsequent access.
- * Thread-safe for concurrent access.
+ *     Computes the item on first access using a provided supplier and caches it for subsequent access.
+ * </p>
+ * <p>
+ *     This is thread-safe.
  * </p>
  *
  * @param <X> Type of the item held.
