@@ -19,11 +19,15 @@
 
 package com.yelstream.topp.standard.resource.net.handler.factory;
 
+import com.yelstream.topp.standard.load.instance.InstanceLoader;
+import com.yelstream.topp.standard.load.instance.InstanceLoaders;
+import com.yelstream.topp.standard.resource.provider.ResourceProvider;
 import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLStreamHandler;
+import java.util.List;
 import java.util.function.Supplier;
 import java.net.URLStreamHandlerFactory;
 
@@ -35,6 +39,15 @@ import java.net.URLStreamHandlerFactory;
  */
 @UtilityClass
 public class URLStreamHandlerFactories {
+    /**
+     *
+     */
+    private static final InstanceLoader<URLStreamHandlerFactory> loader= InstanceLoaders.forClass(URLStreamHandlerFactory.class);
+
+    public static URLStreamHandlerFactory getURLStreamHandlerFactory() {
+        return ChainURLStreamHandlerFactory.of(loader.getInstances());
+    }
+
     /**
      * Creates a factory for a handler of a known protocol.
      * @param protocol Protocol.
