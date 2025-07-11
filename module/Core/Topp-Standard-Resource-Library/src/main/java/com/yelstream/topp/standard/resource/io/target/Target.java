@@ -36,12 +36,13 @@ import java.nio.channels.WritableByteChannel;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-01
  */
-public interface Target {
+public interface Target extends BaseTarget<OutputStream,WritableByteChannel,Target> {
     /**
      * Creates a new stream to read data.
      * @return Stream to read data.
      * @throws IOException Thrown in case of I/O error.
      */
+    @Override
     OutputStream openStream() throws IOException;
 
     /**
@@ -49,5 +50,6 @@ public interface Target {
      * @return Channel to read data.
      * @throws IOException Thrown in case of I/O error.
      */
+    @Override
     WritableByteChannel openChannel() throws IOException;
 }
