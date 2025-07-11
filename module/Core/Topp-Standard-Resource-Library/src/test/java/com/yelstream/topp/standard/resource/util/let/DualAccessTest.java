@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class DualAccessTest {
