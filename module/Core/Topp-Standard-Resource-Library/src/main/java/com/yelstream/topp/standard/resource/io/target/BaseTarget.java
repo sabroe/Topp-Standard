@@ -26,30 +26,37 @@ import java.nio.channels.WritableByteChannel;
 /**
  * Target of writable, binary output data.
  * <p>
+ *     This is self-referential and is not supposed for direct usage unless the self-referential generic type is bound.
+ * </p>
+ * <p>
  *     Note that {@link #openStream()} and {@link #openChannel()} represent different access methods,
  *     hence only one of these are to be used at a time.
  * </p>
  * <p>
  *     This is a dual-access interface.
  * </p>
+ * @param <S> Type of output-stream.
+ * @param <C> Type of writable byte-channel.
+ *            <p>
+ *                Could e.g. be {@link java.nio.channels.GatheringByteChannel}.
+ *            </p>
+ * @param <B> Self-referential type.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-01
+ * @since 2025-07-11
  */
-public interface Target extends BaseTarget<OutputStream,WritableByteChannel,Target> {
+public interface BaseTarget<S extends OutputStream,C extends WritableByteChannel,B extends BaseTarget<S,C,B>> {
     /**
      * Creates a new stream to read data.
      * @return Stream to read data.
      * @throws IOException Thrown in case of I/O error.
      */
-    @Override
-    OutputStream openStream() throws IOException;
+    S openStream() throws IOException;
 
     /**
      * Creates a new channel to read data.
      * @return Channel to read data.
      * @throws IOException Thrown in case of I/O error.
      */
-    @Override
-    WritableByteChannel openChannel() throws IOException;
+    C openChannel() throws IOException;
 }

@@ -17,14 +17,17 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.io.target;
+package com.yelstream.topp.standard.resource.io.source;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.channels.WritableByteChannel;
+import java.io.InputStream;
+import java.nio.channels.ReadableByteChannel;
 
 /**
- * Target of writable, binary output data.
+ * Base for a source of readable, binary input data.
+ * <p>
+ *     This is self-referential and is not supposed for direct usage unless the self-referential generic type is bound.
+ * </p>
  * <p>
  *     Note that {@link #openStream()} and {@link #openChannel()} represent different access methods,
  *     hence only one of these are to be used at a time.
@@ -32,24 +35,28 @@ import java.nio.channels.WritableByteChannel;
  * <p>
  *     This is a dual-access interface.
  * </p>
+ * @param <S> Type of input-stream.
+ * @param <C> Type of readable byte-channel.
+ *            <p>
+ *                Could e.g. be {@link java.nio.channels.ScatteringByteChannel}.
+ *            </p>
+ * @param <B> Self-referential type.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-01
+ * @since 2025-07-11
  */
-public interface Target extends BaseTarget<OutputStream,WritableByteChannel,Target> {
+public interface BaseSource<S extends InputStream,C extends ReadableByteChannel,B extends BaseSource<S,C,B>> {
     /**
      * Creates a new stream to read data.
      * @return Stream to read data.
      * @throws IOException Thrown in case of I/O error.
      */
-    @Override
-    OutputStream openStream() throws IOException;
+    S openStream() throws IOException;
 
     /**
      * Creates a new channel to read data.
      * @return Channel to read data.
      * @throws IOException Thrown in case of I/O error.
      */
-    @Override
-    WritableByteChannel openChannel() throws IOException;
+    C openChannel() throws IOException;
 }

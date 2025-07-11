@@ -36,12 +36,13 @@ import java.nio.channels.ReadableByteChannel;
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
-public interface Source {
+public interface Source extends BaseSource<InputStream,ReadableByteChannel,Source> {
     /**
      * Creates a new stream to read data.
      * @return Stream to read data.
      * @throws IOException Thrown in case of I/O error.
      */
+    @Override
     InputStream openStream() throws IOException;
 
     /**
@@ -49,5 +50,6 @@ public interface Source {
      * @return Channel to read data.
      * @throws IOException Thrown in case of I/O error.
      */
+    @Override
     ReadableByteChannel openChannel() throws IOException;
 }
