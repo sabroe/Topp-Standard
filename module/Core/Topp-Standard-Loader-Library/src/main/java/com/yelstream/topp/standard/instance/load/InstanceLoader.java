@@ -73,6 +73,16 @@ public class InstanceLoader<I> {
         }
 
         /**
+         * Removes a supplier of instance lists.
+         *@param supplier Supplier of instance lists.
+         */
+        public void remove(Supplier<List<I>> supplier) {
+            if (supplier!=null) {
+                suppliers.remove(supplier);
+            }
+        }
+
+        /**
          * Clears all registered suppliers.
          */
         public void clear() {

@@ -17,4 +17,10 @@
  * limitations under the License.
  */
 
+/**
+ * URL stream handler provider specifics.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-07-12
+ */
 package com.yelstream.topp.standard.net.resource.location.handler.provider;

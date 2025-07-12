@@ -21,12 +21,15 @@ package com.yelstream.topp.standard.net.resource.location.handler.factory;
 
 import com.yelstream.topp.standard.instance.load.InstanceLoader;
 import com.yelstream.topp.standard.instance.load.InstanceLoaders;
+import lombok.Getter;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -35,14 +38,34 @@ import java.util.function.Supplier;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-07
  */
+@Slf4j
 @UtilityClass
 public class URLStreamHandlerFactories {
     /**
-     *
+     * Loader and registry of all known URL stream handler factories.
+     * <p>
+     *     Note that it is possible to address the suppliers of this registry, eventually reset the cached entries.
+     * </p>
      */
+    @Getter
     private static final InstanceLoader<URLStreamHandlerFactory> loader=InstanceLoaders.forClass(URLStreamHandlerFactory.class);
 
-    public static URLStreamHandlerFactory getURLStreamHandlerFactory() {
+    /**
+     * Creates a new {@code URLStreamHandler} instance with the specified protocol.
+     * @param protocol The protocol ("{@code ftp}", "{@code http}", "{@code nntp}", etc.).
+     * @return A {@code URLStreamHandler} for the specific protocol,
+     *         or {@code null} if this factory cannot create a handler for the specific protocol.
+     * @see java.net.URLStreamHandlerFactory
+     */
+    public static URLStreamHandler createURLStreamHandler(String protocol) {
+        return loader.getInstances().stream().map(factory->factory.createURLStreamHandler(protocol)).filter(Objects::nonNull).findFirst().orElse(null);
+    }
+
+    /**
+     * Creates a URL stream handler factory wrapping all registered factories.
+     * @return Factory wrapping all registered factories.
+     */
+    public static URLStreamHandlerFactory createURLStreamHandlerFactory() {
         return ChainURLStreamHandlerFactory.of(loader.getInstances());
     }
 
@@ -52,8 +75,8 @@ public class URLStreamHandlerFactories {
      * @param handlerSupplier Factory of handlers for the protocol-.
      * @return Created factory.
      */
-    public static NamedURLStreamHandlerFactory createURLStreamHandlerFactory(String protocol,
-                                                                             Supplier<URLStreamHandler> handlerSupplier) {
+    public static NamedURLStreamHandlerFactory createNamedURLStreamHandlerFactory(String protocol,
+                                                                                  Supplier<URLStreamHandler> handlerSupplier) {
         return SimpleURLStreamHandlerFactory.of(protocol,handlerSupplier);
     }
 

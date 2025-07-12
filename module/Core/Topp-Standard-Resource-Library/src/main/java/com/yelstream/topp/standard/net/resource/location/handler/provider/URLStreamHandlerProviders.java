@@ -19,5 +19,15 @@
 
 package com.yelstream.topp.standard.net.resource.location.handler.provider;
 
+import lombok.experimental.UtilityClass;
+
+/**
+ * Utility addressing instances of {@link java.net.spi.URLStreamHandlerProvider}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-07-12
+ */
+@UtilityClass
 public class URLStreamHandlerProviders {
+    //Empty!
 }
