@@ -21,6 +21,17 @@ package com.yelstream.topp.standard.load.clazz.util.file;
 
 import lombok.experimental.UtilityClass;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.channels.FileChannel;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+
 /**
  *
  *
@@ -34,5 +45,57 @@ public class FileURIs {
      */
     public static final String SCHEME="file";
 
+    public static boolean isSchemeFile(URI uri) {
+        return SCHEME.equalsIgnoreCase(uri.getScheme());
+    }
 
+    public static void requireSchemeFile(URI uri) {
+        if (isSchemeFile(uri)) {
+            throw new IllegalArgumentException("Failure to verify URI scheme; URI is '%s'!".formatted(uri));
+        }
+    }
+
+    public static URL toURL(URI uri) {  //TO-DO: Move to more generic utility!
+        try {
+            return uri.toURL();
+        } catch (MalformedURLException ex) {
+            throw new IllegalStateException("Failure to convert URI to URL; actual URI is '%s'!".formatted(uri));
+        }
+    }
+
+    public static URL toFileURL(URI uri) {
+        requireSchemeFile(uri);
+        return toURL(uri);
+    }
+
+    /**
+     * Gets the file path referred by a URI.
+     * @param uri URI.
+     * @return File path.
+     */
+    public static Path toPath(URI uri) {
+        requireSchemeFile(uri);
+        return Paths.get(uri);
+    }
+
+    /**
+     * Gets the file-channel for the file path referred by a URI.
+     * @param uri URI.
+     * @param options Options for hos to open the file.
+     * @return File-channel.
+     */
+    public static FileChannel openFileChannel(URI uri,
+                                              OpenOption... options) throws IOException {
+        Path path=toPath(uri);
+        return FileChannel.open(path,options);
+    }
+
+    /**
+     * Gets the file-channel for the file path referred by a URI.
+     * @param uri URI.
+     * @return File-channel.
+     */
+    public static FileChannel openFileChannel(URI uri) throws IOException {
+        return openFileChannel(uri,StandardOpenOption.READ);
+    }
 }

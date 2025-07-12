@@ -30,6 +30,6 @@ import org.junit.platform.suite.api.Suite;
  * @since 2025-07-10
  */
 @Suite
-@SelectClasses({ContainerTest.class, ResetableContainerTest.class, ContainersTest.class})
+@SelectClasses({ContainerTest.class, ResettableContainerTest.class, ContainersTest.class})
 class HolderTestSuite {
 }
