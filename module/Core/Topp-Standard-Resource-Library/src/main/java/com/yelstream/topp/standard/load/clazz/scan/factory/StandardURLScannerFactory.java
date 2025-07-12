@@ -21,8 +21,7 @@ package com.yelstream.topp.standard.load.clazz.scan.factory;
 
 import com.yelstream.topp.standard.load.clazz.scan.impl.FileURLScanner;
 import com.yelstream.topp.standard.load.clazz.scan.impl.JARURLScanner;
-import com.yelstream.topp.standard.load.clazz.util.file.FileURLs;
-import com.yelstream.topp.standard.load.clazz.util.jar.JARURLs;
+import com.yelstream.topp.standard.net.uni.location.StandardProtocol;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -43,8 +42,8 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})
 public enum StandardURLScannerFactory {
-    File(URLScannerFactory.of(FileURLs.PROTOCOL, FileURLScanner::new)),
-    JAR(URLScannerFactory.of(JARURLs.PROTOCOL, JARURLScanner::new));
+    File(URLScannerFactory.of(StandardProtocol.File.getProtocol().getName(), FileURLScanner::new)),
+    JAR(URLScannerFactory.of(StandardProtocol.JAR.getProtocol().getName(), JARURLScanner::new));
 
     //TO-DO: Consider adding scanner for ZIP file content!
 

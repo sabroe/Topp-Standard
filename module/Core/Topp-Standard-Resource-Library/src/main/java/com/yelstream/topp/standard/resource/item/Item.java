@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.resource.item;
 
-import com.yelstream.topp.standard.resource.io.source.Source;
-import com.yelstream.topp.standard.resource.io.target.Target;
+import com.yelstream.topp.standard.io.dual.source.Source;
+import com.yelstream.topp.standard.io.dual.target.Target;
 
 import java.net.URI;
 import java.net.URL;

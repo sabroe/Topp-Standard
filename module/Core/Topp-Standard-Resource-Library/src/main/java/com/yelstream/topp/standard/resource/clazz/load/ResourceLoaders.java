@@ -21,7 +21,7 @@ package com.yelstream.topp.standard.resource.clazz.load;
 
 import com.yelstream.topp.standard.resource.clazz.ClassLoaders;
 import com.yelstream.topp.standard.resource.clazz.Modules;
-import com.yelstream.topp.standard.resource.io.source.Source;
+import com.yelstream.topp.standard.io.dual.source.Source;
 import lombok.experimental.UtilityClass;
 
 import java.net.URI;
