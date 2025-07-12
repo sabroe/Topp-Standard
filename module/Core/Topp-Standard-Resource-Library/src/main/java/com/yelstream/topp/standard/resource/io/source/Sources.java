@@ -27,6 +27,7 @@ import java.io.UncheckedIOException;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.channels.Pipe;
 import java.nio.channels.ReadableByteChannel;
 import java.util.function.Supplier;
 
@@ -55,16 +56,58 @@ public class Sources {
      * @return Readable source.
      */
     public static Source createSourceByStream(Supplier<InputStream> streamSupplier) {
-        return InputStreamSource.of(streamSupplier);
+        return DefaultSource.ofStream(streamSupplier);
+    }
+
+    /**
+     * Creates a source whose content can be read through a writable byte-channel.
+     * @param channelSupplier Factory of readable byte-channels.
+     * @return Readable source.
+     */
+    public static Source createSourceByChannel(Supplier<ReadableByteChannel> channelSupplier) {
+        return DefaultSource.ofChannel(channelSupplier);
+    }
+
+    /**
+     * Creates a source.
+     * @param streamSupplier Factory of input-streams.
+     * @param channelSupplier Factory of readable byte-channels.
+     * @return Readable source.
+     * @param <S> Type of input-stream.
+     * @param <C> Type of readable byte-channel.
+     */
+    public static <S extends InputStream,C extends ReadableByteChannel> AnySource<S,C> createAnySource(Supplier<S> streamSupplier,
+                                                                                                       Supplier<C> channelSupplier) {
+        return DefaultAnySource.of(streamSupplier,channelSupplier);
+    }
+
+    /**
+     * Creates a source whose content can be read through an input-stream.
+     * @param streamSupplier Factory of input-streams.
+     * @return Readable source.
+     * @param <S> Type of input-stream.
+     */
+    public static <S extends InputStream> StreamSource<S> createStreamSource(Supplier<S> streamSupplier) {
+        return DefaultStreamSource.of(streamSupplier);
     }
 
     /**
      * Creates a source whose content can be read through a readable byte-channel.
      * @param channelSupplier Factory of readable byte-channels.
      * @return Readable source.
+     * @param <C> Type of readable byte-channel.
      */
-    public static Source createSourceByChannel(Supplier<ReadableByteChannel> channelSupplier) {
-        return ReadableByteChannelSource.of(channelSupplier);
+    public static <C extends ReadableByteChannel> ChannelSource<C> createChannelSource(Supplier<C> channelSupplier) {
+        return DefaultChannelSource.of(channelSupplier);
+    }
+
+    /**
+     * Creates a source whose content can be read through a pipe.
+     * @param pipe Pipe.
+     * @return Readable source.
+     */
+    public static ChannelSource<Pipe.SourceChannel> createChannelSource(Pipe pipe) {
+        return createChannelSource(pipe::source);
     }
 
     /**

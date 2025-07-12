@@ -17,45 +17,46 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.io.source;
+package com.yelstream.topp.standard.resource.io.target;
 
 import lombok.AllArgsConstructor;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
 import java.util.function.Supplier;
 
 /**
- * Source based on access to {@link ReadableByteChannel}.
+ * Target based on access to {@link WritableByteChannel}.
  * <p>
- *     Note that this creates a {@link InputStream} from a {@link ReadableByteChannel}
+ *     Note that this creates a {@link OutputStream} from a {@link WritableByteChannel}
  *     without applying additional buffering in between.
  * </p>
+ * @param <C> Type of writable byte-channel.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-06-26
+ * @since 2025-07-02
  */
 @AllArgsConstructor(staticName="of")
-final class ReadableByteChannelSource implements Source {
+final class DefaultChannelTarget<C extends WritableByteChannel> implements ChannelTarget<C> {
     /**
-     * Supplier of readable byte-channels.
+     * Supplier of writable byte-channels.
      * <p>
      *     Note that usages catch {@link UncheckedIOException}.
      * </p>
      */
-    private final Supplier<ReadableByteChannel> channelSupplier;
+    private final Supplier<C> channelSupplier;
 
     @Override
-    public InputStream openStream() throws IOException {
-        ReadableByteChannel channel=openChannel();
-        return channel==null?null:Channels.newInputStream(channel);
+    public OutputStream openStream() throws IOException {
+        WritableByteChannel channel=openChannel();
+        return channel==null?null:Channels.newOutputStream(channel);
     }
 
     @Override
-    public ReadableByteChannel openChannel() throws IOException {
+    public C openChannel() throws IOException {
         try {
             return channelSupplier.get();
         } catch (UncheckedIOException ex) {

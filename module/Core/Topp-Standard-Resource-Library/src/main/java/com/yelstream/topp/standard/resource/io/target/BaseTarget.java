@@ -26,9 +26,6 @@ import java.nio.channels.WritableByteChannel;
 /**
  * Target of writable, binary output data.
  * <p>
- *     This is self-referential and is not supposed for direct usage unless the self-referential generic type is bound.
- * </p>
- * <p>
  *     Note that {@link #openStream()} and {@link #openChannel()} represent different access methods,
  *     hence only one of these are to be used at a time.
  * </p>
@@ -40,12 +37,11 @@ import java.nio.channels.WritableByteChannel;
  *            <p>
  *                Could e.g. be {@link java.nio.channels.GatheringByteChannel}.
  *            </p>
- * @param <B> Self-referential type.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-11
  */
-public interface BaseTarget<S extends OutputStream,C extends WritableByteChannel,B extends BaseTarget<S,C,B>> {
+public interface BaseTarget<S extends OutputStream,C extends WritableByteChannel> {
     /**
      * Creates a new stream to read data.
      * @return Stream to read data.

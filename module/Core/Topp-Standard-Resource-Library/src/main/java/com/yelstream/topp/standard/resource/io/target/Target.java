@@ -36,7 +36,7 @@ import java.nio.channels.WritableByteChannel;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-01
  */
-public interface Target extends BaseTarget<OutputStream,WritableByteChannel,Target> {
+public interface Target extends AnyTarget<OutputStream,WritableByteChannel>, StreamTarget<OutputStream>, ChannelTarget<WritableByteChannel> {
     /**
      * Creates a new stream to read data.
      * @return Stream to read data.

@@ -19,9 +19,11 @@
 
 package com.yelstream.topp.standard.resource.io.target;
 
+import com.yelstream.topp.standard.resource.io.source.StreamSource;
 import lombok.AllArgsConstructor;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.nio.channels.Channels;
@@ -34,28 +36,28 @@ import java.util.function.Supplier;
  *     Note that this creates a {@link WritableByteChannel} from a {@link OutputStream}
  *     without applying additional buffering in between.
  * </p>
+ * @param <S> Type of output-stream.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-02
  */
 @AllArgsConstructor(staticName="of")
-final class OutputStreamTarget implements Target {
+final class DefaultStreamTarget<S extends OutputStream> implements StreamTarget<S> {
     /**
      * Supplier of output-streams.
      * <p>
      *     Note that usages catch {@link UncheckedIOException}.
      * </p>
      */
-    private final Supplier<OutputStream> streamSupplier;
+    private final Supplier<S> streamSupplier;
 
     @Override
-    public OutputStream openStream() throws IOException {
+    public S openStream() throws IOException {
         try {
             return streamSupplier.get();
         } catch (UncheckedIOException ex) {
             throw new IOException("Failure to create stream!",ex);
         }
-
     }
 
     @Override
