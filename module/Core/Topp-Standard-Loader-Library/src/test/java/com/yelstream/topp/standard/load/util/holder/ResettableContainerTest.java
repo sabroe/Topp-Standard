@@ -19,5 +19,5 @@
 
 package com.yelstream.topp.standard.load.util.holder;
 
-public class ResetableContainerTest {
+public class ResettableContainerTest {
 }

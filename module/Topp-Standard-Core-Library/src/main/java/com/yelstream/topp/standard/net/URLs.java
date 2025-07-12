@@ -17,19 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.load.util.holder;
+package com.yelstream.topp.standard.net;
 
-import org.junit.platform.suite.api.SelectClasses;
-import org.junit.platform.suite.api.Suite;
+import lombok.experimental.UtilityClass;
+
+import java.net.URL;
 
 /**
- * Test suite for {@code com.yelstream.topp.standard.load.util.holder}.
+ * Utility addressing instances of {@link URL}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-07-10
+ * @since 2025-07-12
  */
-@Suite
-@SelectClasses({ContainerTest.class, ResettableContainerTest.class, ContainersTest.class})
-class HolderTestSuite {
+@UtilityClass
+public class URLs {
 }

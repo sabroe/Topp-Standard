@@ -53,7 +53,7 @@ public class URLStreamHandlerFactories {
      * @return Created factory.
      */
     public static NamedURLStreamHandlerFactory createURLStreamHandlerFactory(String protocol,
-                                                                      Supplier<URLStreamHandler> handlerSupplier) {
+                                                                             Supplier<URLStreamHandler> handlerSupplier) {
         return SimpleURLStreamHandlerFactory.of(protocol,handlerSupplier);
     }
 

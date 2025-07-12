@@ -22,9 +22,12 @@ package com.yelstream.topp.standard.load.clazz.util.file;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -43,23 +46,56 @@ public class FileURLs {
      */
     public static final String PROTOCOL="file";
 
-    public static boolean matches(URL url) {
-        return url.getProtocol().equals(PROTOCOL);
+    public static boolean isProtocolFile(URL url) {
+        return PROTOCOL.equalsIgnoreCase(url.getProtocol());
     }
 
-    public static void requireMatch(URL url) {
-        if (!matches(url)) {
-            throw new IllegalArgumentException("Failure to match URL; URL protocol does not indicate a file URL, actual URL is '%s'!".formatted(url));
+    public static void requireProtocolFile(URL url) {
+        if (isProtocolFile(url)) {
+            throw new IllegalArgumentException("Failure to verify URL protocol; URL is '%s'!".formatted(url));
         }
     }
 
-    public static Path toFileSystemPath(URL url) {
-        requireMatch(url);
+    public static URI toURI(URL url) {  //TO-DO: Move to more generic utility!
         try {
-            return Path.of(url.toURI());
+            return url.toURI();
         } catch (URISyntaxException ex) {
-            throw new IllegalStateException("Failure to obtain file system path; actual URL is '%s'!".formatted(url));
+            throw new IllegalStateException("Failure to convert URL to URI; actual URL is '%s'!".formatted(url));
         }
+    }
+
+    public static URI toFileURI(URL url) {
+        requireProtocolFile(url);
+        return toURI(url);
+    }
+
+    /**
+     * Gets the file path referred by a URL.
+     * @param url URL.
+     * @return File path.
+     */
+    public static Path toPath(URL url) {
+        return FileURIs.toPath(toFileURI(url));
+    }
+
+    /**
+     * Gets the file-channel for the file path referred by a URL.
+     * @param url URL.
+     * @param options Options for hos to open the file.
+     * @return File-channel.
+     */
+    public static FileChannel openFileChannel(URL url,
+                                              OpenOption... options) throws IOException {
+        return FileURIs.openFileChannel(toFileURI(url),options);
+    }
+
+    /**
+     * Gets the file-channel for the file path referred by a URL.
+     * @param url URL.
+     * @return File-channel.
+     */
+    public static FileChannel openFileChannel(URL url) throws IOException {
+        return FileURIs.openFileChannel(toFileURI(url));
     }
 
     public static String normalizePath(String path) {
@@ -85,8 +121,8 @@ public class FileURLs {
     private static List<String> findResources(String normalizedPath,
                                               URL resource,
                                               UnaryOperator<Stream<Path>> streamOperator) throws IOException {
-        requireMatch(resource);
-        Path fileSystemPath=toFileSystemPath(resource);
+        requireProtocolFile(resource);
+        Path fileSystemPath=toPath(resource);
         String fileSeparator=fileSystemPath.getFileSystem().getSeparator();
         return streamOperator.apply(Files.walk(fileSystemPath))
                 .filter(path -> Files.isRegularFile(path) || Files.isDirectory(path))
@@ -110,5 +146,4 @@ public class FileURLs {
         String normalizedPath=normalizePath(path);
         return findResources(normalizedPath,resource,UnaryOperator.identity());
     }
-
 }
