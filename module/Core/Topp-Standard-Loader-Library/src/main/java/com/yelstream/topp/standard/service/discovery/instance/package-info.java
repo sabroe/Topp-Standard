@@ -17,29 +17,16 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.index;
-
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.collect.let.out.ListOutlet;
-
 /**
- * Index of resources.
+ * Instance loading.
+ * <p>
+ *     May be used to implement the internals of e.g.
+ *     specific service objects to be handled by {@link java.util.ServiceLoader},
+ *     chain a list of {@link java.net.URLStreamHandlerFactory}/{@link java.net.spi.URLStreamHandlerProvider}
+ *     into a single instance, a chain-of-responsibility construction.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-04
+ * @since 2025-07-08
  */
-public interface ResourceIndex {
-
-    /**
-     *
-     */
-    ListOutlet<Location> locations(String name);
-
-    /**
-     *
-     */
-    default ListOutlet<Location> locations() {
-        return locations(Locations.ROOT_CONTAINER_NAME);
-    }
-}
+package com.yelstream.topp.standard.service.discovery.instance;

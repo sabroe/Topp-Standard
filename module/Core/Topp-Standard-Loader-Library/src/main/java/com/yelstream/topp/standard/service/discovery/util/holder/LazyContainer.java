@@ -17,29 +17,37 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.index;
+package com.yelstream.topp.standard.service.discovery.util.holder;
 
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.collect.let.out.ListOutlet;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.function.Supplier;
 
 /**
- * Index of resources.
+ * A container for a lazily initialized item.
+ * <p>
+ *     Computes the item on first access using a provided supplier and caches it for subsequent access.
+ * </p>
+ * <p>
+ *     This is thread-safe.
+ * </p>
+ *
+ * @param <X> Type of the item held.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-04
- */
-public interface ResourceIndex {
+ * @version 1.0
+ * @since 2025-07-09
+ */@AllArgsConstructor(staticName="of")
+final class LazyContainer<X> implements Container<X> {
+    /**
+     * Item-supplier.
+     */
+    private final Supplier<X> itemSupplier;
 
     /**
-     *
+     * Item, created on-demand.
      */
-    ListOutlet<Location> locations(String name);
-
-    /**
-     *
-     */
-    default ListOutlet<Location> locations() {
-        return locations(Locations.ROOT_CONTAINER_NAME);
-    }
+    @Getter(lazy=true)
+    private final X item=itemSupplier.get();
 }

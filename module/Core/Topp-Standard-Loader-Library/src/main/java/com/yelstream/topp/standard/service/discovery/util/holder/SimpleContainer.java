@@ -17,29 +17,29 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.index;
+package com.yelstream.topp.standard.service.discovery.util.holder;
 
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.collect.let.out.ListOutlet;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
- * Index of resources.
+ * Container holding a pre-computed item.
+ * <p>
+ *     This is thread-safe.
+ * </p>
+ *
+ * @param <X> Type of the item held.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-04
+ * @version 1.0
+ * @since 2025-07-09
  */
-public interface ResourceIndex {
-
+@SuppressWarnings("LombokGetterMayBeUsed")
+@AllArgsConstructor(staticName="of")
+final class SimpleContainer<X> implements Container<X> {
     /**
-     *
+     * Item held.
      */
-    ListOutlet<Location> locations(String name);
-
-    /**
-     *
-     */
-    default ListOutlet<Location> locations() {
-        return locations(Locations.ROOT_CONTAINER_NAME);
-    }
+    @Getter
+    private final X item;
 }

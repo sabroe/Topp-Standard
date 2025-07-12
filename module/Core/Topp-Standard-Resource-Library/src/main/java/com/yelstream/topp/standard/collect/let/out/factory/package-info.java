@@ -17,29 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.index;
-
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.collect.let.out.ListOutlet;
-
 /**
- * Index of resources.
+ * Creation of dual-access outlets.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-04
+ * @since 2025-07-07
  */
-public interface ResourceIndex {
-
-    /**
-     *
-     */
-    ListOutlet<Location> locations(String name);
-
-    /**
-     *
-     */
-    default ListOutlet<Location> locations() {
-        return locations(Locations.ROOT_CONTAINER_NAME);
-    }
-}
+package com.yelstream.topp.standard.collect.let.out.factory;

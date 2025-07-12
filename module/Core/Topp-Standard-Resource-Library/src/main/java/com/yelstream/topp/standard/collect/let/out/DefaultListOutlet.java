@@ -17,29 +17,40 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.index;
+package com.yelstream.topp.standard.collect.let.out;
 
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.collect.let.out.ListOutlet;
+import lombok.AllArgsConstructor;
+
+import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
- * Index of resources.
+ *
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-04
  */
-public interface ResourceIndex {
+@lombok.Builder(builderClassName="Builder")
+@AllArgsConstructor(staticName="of")
+final class DefaultListOutlet<X> implements ListOutlet<X> {
+    /**
+     * Stream-supplier.
+     */
+    private final Supplier<Stream<X>> streamSupplier;
 
     /**
-     *
+     * List-supplier.
      */
-    ListOutlet<Location> locations(String name);
+    private final Supplier<List<X>> listSupplier;
 
-    /**
-     *
-     */
-    default ListOutlet<Location> locations() {
-        return locations(Locations.ROOT_CONTAINER_NAME);
+    @Override
+    public Stream<X> stream() {
+        return streamSupplier.get();
+    }
+
+    @Override
+    public List<X> get() {
+        return listSupplier.get();
     }
 }

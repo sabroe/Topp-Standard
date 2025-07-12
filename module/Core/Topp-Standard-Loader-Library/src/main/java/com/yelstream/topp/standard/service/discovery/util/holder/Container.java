@@ -17,29 +17,28 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.index;
-
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.collect.let.out.ListOutlet;
+package com.yelstream.topp.standard.service.discovery.util.holder;
 
 /**
- * Index of resources.
+ * A container for a single item, supporting lazy initialization.
+ * <p>
+ *     Holds an item, which may be computed on first access to optimize resource usage.
+ *     The item is typically cached after creation for subsequent access.
+ * </p>
+ * <p>
+ *     This is thread-safe.
+ * </p>
+ *
+ * @param <X> Type of the item held.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-04
+ * @version 1.0
+ * @since 2025-07-09
  */
-public interface ResourceIndex {
-
+public interface Container<X> {
     /**
-     *
+     * Retrieves the contained item, computing it lazily if not initialized.
+     * @return Contained item.
      */
-    ListOutlet<Location> locations(String name);
-
-    /**
-     *
-     */
-    default ListOutlet<Location> locations() {
-        return locations(Locations.ROOT_CONTAINER_NAME);
-    }
+    X getItem();
 }

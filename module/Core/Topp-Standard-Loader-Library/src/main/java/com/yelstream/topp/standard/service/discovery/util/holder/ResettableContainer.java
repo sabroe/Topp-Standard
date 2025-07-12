@@ -17,29 +17,28 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.index;
-
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.collect.let.out.ListOutlet;
+package com.yelstream.topp.standard.service.discovery.util.holder;
 
 /**
- * Index of resources.
+ * Container that supports resetting its item.
+ * <p>
+ *     Allows clearing the cached item, enabling re-computation on next access.
+ * </p>
+ * <p>
+ *     This is thread-safe.
+ * </p>
+ *
+ * @param <X> Type of the item held.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-04
- */
-public interface ResourceIndex {
-
+ * @version 1.0
+ * @since 2025-07-09
+ */public interface ResettableContainer<X> extends Container<X> {
     /**
-     *
+     * Resets the container, clearing the cached item.
+     * <p>
+     * The next call to {@link #getItem()} recomputes the item.
+     * </p>
      */
-    ListOutlet<Location> locations(String name);
-
-    /**
-     *
-     */
-    default ListOutlet<Location> locations() {
-        return locations(Locations.ROOT_CONTAINER_NAME);
-    }
+    void reset();
 }

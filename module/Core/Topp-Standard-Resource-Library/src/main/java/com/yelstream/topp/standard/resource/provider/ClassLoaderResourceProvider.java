@@ -21,12 +21,9 @@ package com.yelstream.topp.standard.resource.provider;
 
 import com.yelstream.topp.standard.resource.Resource;
 import com.yelstream.topp.standard.resource.index.ResourceIndex;
-import com.yelstream.topp.standard.resource.util.let.out.ListOutlet;
+import com.yelstream.topp.standard.collect.let.out.ListOutlet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Classloader based resource provider.
