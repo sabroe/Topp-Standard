@@ -21,7 +21,7 @@ package com.yelstream.topp.standard.load.clazz.scan.factory;
 
 import com.yelstream.topp.standard.load.clazz.scan.impl.FileURLScanner;
 import com.yelstream.topp.standard.load.clazz.scan.impl.JARURLScanner;
-import com.yelstream.topp.standard.net.uni.location.StandardProtocol;
+import com.yelstream.topp.standard.net.resource.location.StandardProtocol;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

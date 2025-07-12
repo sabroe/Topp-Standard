@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.resource.clazz;
 
-import com.yelstream.topp.standard.net.uni.location.FileURLs;
-import com.yelstream.topp.standard.net.uni.location.JarURLs;
+import com.yelstream.topp.standard.net.resource.location.FileURLs;
+import com.yelstream.topp.standard.net.resource.location.JarURLs;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
