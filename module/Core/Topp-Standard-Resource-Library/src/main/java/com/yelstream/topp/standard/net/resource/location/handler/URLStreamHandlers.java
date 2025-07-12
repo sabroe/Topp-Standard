@@ -30,30 +30,16 @@ import java.net.URLStreamHandler;
  */
 @UtilityClass
 public class URLStreamHandlers {
-
-
-    /*
-     * System.setProperty("java.protocol.handler.pkgs", "your.package.name");  //Semantics?
-     *
-     * Place the MemURLStreamHandler in a package like your.package.name.protocols.mem,
-     * and the JVM will automatically discover it for URLs starting with "mem:".   <- Garbage?
+    /**
+     * Name of system property used for configuration of packages with protocols.
+     * <p>
+     *     Given a value like "my.package.name",
+     *     place the "XXXURLStreamHandler" in the package "my.package.name.protocols.xxx",
+     *     and the JVM will automatically discover it for URLs starting with "xxx:".
+     * </p>
+     * <p>
+     *     Configuration like this is a legacy feature; use {@link java.net.spi.URLStreamHandlerProvider} services.
+     * </p>
      */
-
-/*
-    public static void main(String[] args) throws Exception {
-        // Register the handler
-        URL.setURLStreamHandlerFactory(protocol ->
-                "mem".equalsIgnoreCase(protocol) ? new MemURLStreamHandler() : null);
-
-        // Add some test data
-        MemURLStreamHandler.put("test.txt", "Hello, in-memory world!".getBytes());
-
-        // Test the URL
-        URL url = new URL("mem:/test.txt");
-        try (InputStream is = url.openStream()) {
-            System.out.println(new String(is.readAllBytes()));
-        }
-    }
-*/
-
+    public static final String PROTOCOL_HANDLER_PACKAGES_SYSTEM_PROPERTY_NAME="java.protocol.handler.pkgs";
 }

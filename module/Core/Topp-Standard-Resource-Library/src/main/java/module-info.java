@@ -27,6 +27,7 @@ module com.yelstream.topp.standard.resource {
     requires static lombok;
     requires org.slf4j;
     requires com.yelstream.topp.standard.load;
+    uses com.yelstream.topp.standard.net.resource.location.handler.provider.spi.CentralURLStreamHandlerProvider;
     uses com.yelstream.topp.standard.resource.provider.ResourceProvider;
     exports com.yelstream.topp.standard.collect.let.in;
     exports com.yelstream.topp.standard.collect.let.out;
