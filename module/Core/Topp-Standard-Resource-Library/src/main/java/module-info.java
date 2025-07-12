@@ -28,6 +28,10 @@ module com.yelstream.topp.standard.resource {
     requires org.slf4j;
     requires com.yelstream.topp.standard.load;
     uses com.yelstream.topp.standard.resource.provider.ResourceProvider;
+    exports com.yelstream.topp.standard.collect.let.in;
+    exports com.yelstream.topp.standard.collect.let.out;
+    exports com.yelstream.topp.standard.collect.let.in.factory;
+    exports com.yelstream.topp.standard.collect.let.out.factory;
     exports com.yelstream.topp.standard.io.dual.source;
     exports com.yelstream.topp.standard.io.dual.target;
     exports com.yelstream.topp.standard.load.clazz.scan;
@@ -43,10 +47,6 @@ module com.yelstream.topp.standard.resource {
     exports com.yelstream.topp.standard.resource.provider;
     exports com.yelstream.topp.standard.resource.resolve;
     exports com.yelstream.topp.standard.resource.clazz.load;
-    exports com.yelstream.topp.standard.resource.util.let.in;
-    exports com.yelstream.topp.standard.resource.util.let.out;
-    exports com.yelstream.topp.standard.resource.util.let.in.factory;
-    exports com.yelstream.topp.standard.resource.util.let.out.factory;
     exports com.yelstream.topp.standard.resource.net.name;
     exports com.yelstream.topp.standard.resource.net.handler;
     exports com.yelstream.topp.standard.resource.net.handler.factory;

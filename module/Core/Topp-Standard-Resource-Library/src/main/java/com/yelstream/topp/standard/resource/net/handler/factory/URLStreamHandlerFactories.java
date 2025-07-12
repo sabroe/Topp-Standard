@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.resource.net.handler.factory;
 
-import com.yelstream.topp.standard.load.instance.InstanceLoader;
-import com.yelstream.topp.standard.load.instance.InstanceLoaders;
+import com.yelstream.topp.standard.service.discovery.instance.InstanceLoader;
+import com.yelstream.topp.standard.service.discovery.instance.InstanceLoaders;
 import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.Field;

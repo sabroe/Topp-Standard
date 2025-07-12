@@ -1,9 +1,9 @@
 package com.yelstream.topp.standard.resource.util.let;
 
-import com.yelstream.topp.standard.resource.util.let.in.ListInlet;
-import com.yelstream.topp.standard.resource.util.let.in.factory.ListInlets;
-import com.yelstream.topp.standard.resource.util.let.out.ListOutlet;
-import com.yelstream.topp.standard.resource.util.let.out.factory.ListOutlets;
+import com.yelstream.topp.standard.collect.let.in.ListInlet;
+import com.yelstream.topp.standard.collect.let.in.factory.ListInlets;
+import com.yelstream.topp.standard.collect.let.out.ListOutlet;
+import com.yelstream.topp.standard.collect.let.out.factory.ListOutlets;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
