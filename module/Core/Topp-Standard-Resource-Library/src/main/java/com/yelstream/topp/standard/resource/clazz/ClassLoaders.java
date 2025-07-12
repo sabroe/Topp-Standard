@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.resource.clazz;
 
-import com.yelstream.topp.standard.load.clazz.util.file.FileURLs;
-import com.yelstream.topp.standard.load.clazz.util.jar.JARURLs;
+import com.yelstream.topp.standard.net.uni.location.FileURLs;
+import com.yelstream.topp.standard.net.uni.location.JarURLs;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
@@ -230,7 +230,7 @@ System.out.println("RESOURCE URL #2: "+resource);
 
         return
             switch (resource.getProtocol()) {  //TO-DO: Use URL-scanners, please!
-                case "jar" -> JARURLs.findResources(normalizedPath,resource);
+                case "jar" -> JarURLs.findResources(normalizedPath,resource);
                 case "file" -> FileURLs.findResources(normalizedPath,resource);
                 default -> null;
             };
