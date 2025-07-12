@@ -26,9 +26,6 @@ import java.nio.channels.ReadableByteChannel;
 /**
  * Base for a source of readable, binary input data.
  * <p>
- *     This is self-referential and is not supposed for direct usage unless the self-referential generic type is bound.
- * </p>
- * <p>
  *     Note that {@link #openStream()} and {@link #openChannel()} represent different access methods,
  *     hence only one of these are to be used at a time.
  * </p>
@@ -40,12 +37,11 @@ import java.nio.channels.ReadableByteChannel;
  *            <p>
  *                Could e.g. be {@link java.nio.channels.ScatteringByteChannel}.
  *            </p>
- * @param <B> Self-referential type.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-11
  */
-public interface BaseSource<S extends InputStream,C extends ReadableByteChannel,B extends BaseSource<S,C,B>> {
+public interface BaseSource<S extends InputStream,C extends ReadableByteChannel> {
     /**
      * Creates a new stream to read data.
      * @return Stream to read data.

@@ -27,6 +27,7 @@ import java.io.UncheckedIOException;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.channels.Pipe;
 import java.nio.channels.WritableByteChannel;
 import java.util.function.Supplier;
 
@@ -55,22 +56,64 @@ public class Targets {
      * @return Writable target.
      */
     public static Target createTargetByStream(Supplier<OutputStream> streamSupplier) {
-        return OutputStreamTarget.of(streamSupplier);
+        return DefaultTarget.ofStream(streamSupplier);
     }
 
     /**
      * Creates a target whose content can be written through a readable byte-channel.
      * @param channelSupplier Factory of readable byte-channels.
-     * @return Readable source.
+     * @return Writable target.
      */
     public static Target createTargetByChannel(Supplier<WritableByteChannel> channelSupplier) {
-        return WritableByteChannelTarget.of(channelSupplier);
+        return DefaultTarget.ofChannel(channelSupplier);
+    }
+
+    /**
+     * Creates a target.
+     * @param streamSupplier Factory of output-streams.
+     * @param channelSupplier Factory of writable byte-channels.
+     * @return Writable target.
+     * @param <S> Type of output-stream.
+     * @param <C> Type of writable byte-channel.
+     */
+    public static <S extends OutputStream,C extends WritableByteChannel> AnyTarget<S,C> createAnyTarget(Supplier<S> streamSupplier,
+                                                                                                        Supplier<C> channelSupplier) {
+        return DefaultAnyTarget.of(streamSupplier,channelSupplier);
+    }
+
+    /**
+     * Creates a target whose content can be written through an output-stream.
+     * @param streamSupplier Factory of output-streams.
+     * @return Writable target.
+     * @param <S> Type of output-stream.
+     */
+    public static <S extends OutputStream> StreamTarget<S> createStreamTarget(Supplier<S> streamSupplier) {
+        return DefaultStreamTarget.of(streamSupplier);
+    }
+
+    /**
+     * Creates a target whose content can be written through a writable byte-channel.
+     * @param channelSupplier Factory of writable byte-channels.
+     * @return Writable target.
+     * @param <C> Type of writable byte-channel.
+     */
+    public static <C extends WritableByteChannel> ChannelTarget<C> createChannelTarget(Supplier<C> channelSupplier) {
+        return DefaultChannelTarget.of(channelSupplier);
+    }
+
+    /**
+     * Creates a target whose content can be written through a pipe.
+     * @param pipe Pipe.
+     * @return Writable target.
+     */
+    public static ChannelTarget<Pipe.SinkChannel> createChannelTarget(Pipe pipe) {
+        return createChannelTarget(pipe::sink);
     }
 
     /**
      * Creates a target whose content can be written through a URL-connection.
      * @param connectionSupplier Factory of URL-connections.
-     * @return Readable source.
+     * @return Writable target.
      */
     public static Target createTargetByConnection(Supplier<URLConnection> connectionSupplier) {
         return createTargetByStream(() -> {
@@ -86,7 +129,7 @@ public class Targets {
     /**
      * Creates a target whose content is referenced by a URL.
      * @param url Reference to content.
-     * @return Readable source.
+     * @return Writable target.
      */
     public static Target createTarget(URL url) {
         return createTargetByConnection(() -> {
@@ -102,7 +145,7 @@ public class Targets {
      * Creates a target whose content is referenced by a URL.
      * @param url Reference to content.
      * @param proxy Connection proxy.
-     * @return Readable source.
+     * @return Writable target.
      */
     public static Target createTarget(URL url,
                                       Proxy proxy) {

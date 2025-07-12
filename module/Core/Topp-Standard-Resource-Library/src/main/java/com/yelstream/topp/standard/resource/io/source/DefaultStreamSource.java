@@ -17,49 +17,51 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.io.target;
+package com.yelstream.topp.standard.resource.io.source;
 
 import lombok.AllArgsConstructor;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.channels.Channels;
-import java.nio.channels.WritableByteChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.util.function.Supplier;
 
 /**
- * Target based on access to {@link WritableByteChannel}.
+ * Default implementation of a stream source.
  * <p>
- *     Note that this creates a {@link OutputStream} from a {@link WritableByteChannel}
+ *     Note that this creates a {@link ReadableByteChannel} from a {@link InputStream}
  *     without applying additional buffering in between.
  * </p>
+ * @param <S> Type of input-stream.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-02
+ * @since 2025-06-26
  */
 @AllArgsConstructor(staticName="of")
-final class WritableByteChannelTarget implements Target {
+final class DefaultStreamSource<S extends InputStream> implements StreamSource<S> {
     /**
-     * Supplier of writable byte-channels.
+     * Supplier of input-streams.
      * <p>
      *     Note that usages catch {@link UncheckedIOException}.
      * </p>
      */
-    private final Supplier<WritableByteChannel> channelSupplier;
+    private final Supplier<S> streamSupplier;
 
     @Override
-    public OutputStream openStream() throws IOException {
-        WritableByteChannel channel=openChannel();
-        return channel==null?null:Channels.newOutputStream(channel);
+    public S openStream() throws IOException {
+        try {
+            return streamSupplier.get();
+        } catch (UncheckedIOException ex) {
+            throw new IOException("Failure to create stream!",ex);
+        }
+
     }
 
     @Override
-    public WritableByteChannel openChannel() throws IOException {
-        try {
-            return channelSupplier.get();
-        } catch (UncheckedIOException ex) {
-            throw new IOException("Failure to create channel!",ex);
-        }
+    public ReadableByteChannel openChannel() throws IOException {
+        InputStream stream=openStream();
+        return stream==null?null:Channels.newChannel(stream);
     }
 }

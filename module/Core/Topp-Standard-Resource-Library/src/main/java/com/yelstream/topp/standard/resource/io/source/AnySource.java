@@ -17,14 +17,14 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.io.target;
+package com.yelstream.topp.standard.resource.io.source;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.channels.WritableByteChannel;
+import java.io.InputStream;
+import java.nio.channels.ReadableByteChannel;
 
 /**
- * Target of writable, binary output data.
+ * Source of readable, binary input data.
  * <p>
  *     Note that {@link #openStream()} and {@link #openChannel()} represent different access methods,
  *     hence only one of these are to be used at a time.
@@ -32,21 +32,19 @@ import java.nio.channels.WritableByteChannel;
  * <p>
  *     This is a dual-access interface.
  * </p>
- * @param <S> Type of output-stream.
- * @param <C> Type of writable byte-channel.
- *            <p>
- *                Could e.g. be {@link java.nio.channels.GatheringByteChannel}.
- *            </p>
+ * @param <S> Type of input-stream.
+ * @param <C> Type of readable byte-channel.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-11
+ * @since 2025-07-12
  */
-public interface BaseTarget<S extends OutputStream,C extends WritableByteChannel> {
+public interface AnySource<S extends InputStream,C extends ReadableByteChannel> extends BaseSource<S,C> {
     /**
      * Creates a new stream to read data.
      * @return Stream to read data.
      * @throws IOException Thrown in case of I/O error.
      */
+    @Override
     S openStream() throws IOException;
 
     /**
@@ -54,5 +52,6 @@ public interface BaseTarget<S extends OutputStream,C extends WritableByteChannel
      * @return Channel to read data.
      * @throws IOException Thrown in case of I/O error.
      */
+    @Override
     C openChannel() throws IOException;
 }

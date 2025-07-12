@@ -34,19 +34,17 @@ import java.nio.channels.WritableByteChannel;
  * </p>
  * @param <S> Type of output-stream.
  * @param <C> Type of writable byte-channel.
- *            <p>
- *                Could e.g. be {@link java.nio.channels.GatheringByteChannel}.
- *            </p>
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-11
+ * @since 2025-07-12
  */
-public interface BaseTarget<S extends OutputStream,C extends WritableByteChannel> {
+public interface AnyTarget<S extends OutputStream,C extends WritableByteChannel> extends BaseTarget<OutputStream,WritableByteChannel> {
     /**
      * Creates a new stream to read data.
      * @return Stream to read data.
      * @throws IOException Thrown in case of I/O error.
      */
+    @Override
     S openStream() throws IOException;
 
     /**
@@ -54,5 +52,6 @@ public interface BaseTarget<S extends OutputStream,C extends WritableByteChannel
      * @return Channel to read data.
      * @throws IOException Thrown in case of I/O error.
      */
+    @Override
     C openChannel() throws IOException;
 }

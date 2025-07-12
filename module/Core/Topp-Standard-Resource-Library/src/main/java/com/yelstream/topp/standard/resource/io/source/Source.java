@@ -36,7 +36,7 @@ import java.nio.channels.ReadableByteChannel;
  * @author Morten Sabroe Mortensen
  * @since 2025-06-26
  */
-public interface Source extends BaseSource<InputStream,ReadableByteChannel,Source> {
+public interface Source extends AnySource<InputStream,ReadableByteChannel>, StreamSource<InputStream>, ChannelSource<ReadableByteChannel> {
     /**
      * Creates a new stream to read data.
      * @return Stream to read data.

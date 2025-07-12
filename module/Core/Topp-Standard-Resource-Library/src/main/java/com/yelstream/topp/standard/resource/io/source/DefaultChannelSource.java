@@ -29,60 +29,38 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.function.Supplier;
 
 /**
- * Default implementation of {@link Source}.
+ * Default implementation of a channel source.
+ * <p>
+ *     Note that this creates a {@link InputStream} from a {@link ReadableByteChannel}
+ *     without applying additional buffering in between.
+ * </p>
+ * @param <C> Type of readable byte-channel.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-06-27
+ * @since 2025-06-26
  */
 @AllArgsConstructor(staticName="of")
-final class DefaultSource implements Source {
-    /**
-     * Supplier of input-streams.
-     * <p>
-     *     Note that usages catch {@link UncheckedIOException}.
-     * </p>
-     */
-    private final Supplier<InputStream> streamSupplier;
-
+final class DefaultChannelSource<C extends ReadableByteChannel> implements ChannelSource<C> {
     /**
      * Supplier of readable byte-channels.
      * <p>
      *     Note that usages catch {@link UncheckedIOException}.
      * </p>
      */
-    private final Supplier<ReadableByteChannel> channelSupplier;
+    private final Supplier<C> channelSupplier;
 
     @Override
     public InputStream openStream() throws IOException {
-        try {
-            return streamSupplier.get();
-        } catch (UncheckedIOException ex) {
-            throw new IOException("Failure to create stream!",ex);
-        }
+        ReadableByteChannel channel=openChannel();
+        return channel==null?null:Channels.newInputStream(channel);
     }
 
     @Override
-    public ReadableByteChannel openChannel() throws IOException {
+    public C openChannel() throws IOException {
         try {
             return channelSupplier.get();
         } catch (UncheckedIOException ex) {
             throw new IOException("Failure to create channel!",ex);
         }
-    }
-
-    public static DefaultSource ofStream(Supplier<InputStream> streamSupplier) {
-        Supplier<ReadableByteChannel> channelSupplier=()->{
-            InputStream stream=streamSupplier.get();
-            return stream==null?null:Channels.newChannel(stream);
-        };
-        return of(streamSupplier,channelSupplier);
-    }
-
-    public static DefaultSource ofChannel(Supplier<ReadableByteChannel> channelSupplier) {
-        Supplier<InputStream> streamSupplier=()->{
-            ReadableByteChannel channel=channelSupplier.get();
-            return channel==null?null:Channels.newInputStream(channel);
-        };
-        return of(streamSupplier,channelSupplier);
     }
 }
