@@ -17,17 +17,28 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.instance.util.holder;
+
 /**
- * Topp Standard Loader Library addressing basics of class and service-loading.
+ * Container that supports resetting its item.
+ * <p>
+ *     Allows clearing the cached item, enabling re-computation on next access.
+ * </p>
+ * <p>
+ *     This is thread-safe.
+ * </p>
+ *
+ * @param <X> Type of the item held.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-08
- */
-module com.yelstream.topp.standard.load {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.clazz.load;
-    exports com.yelstream.topp.standard.instance.load;
-    exports com.yelstream.topp.standard.instance.util.holder;
-    exports com.yelstream.topp.standard.service.load;
+ * @version 1.0
+ * @since 2025-07-09
+ */public interface ResettableContainer<X> extends Container<X> {
+    /**
+     * Resets the container, clearing the cached item.
+     * <p>
+     * The next call to {@link #getItem()} recomputes the item.
+     * </p>
+     */
+    void reset();
 }

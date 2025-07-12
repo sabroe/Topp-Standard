@@ -18,16 +18,10 @@
  */
 
 /**
- * Topp Standard Loader Library addressing basics of class and service-loading.
+ * Utilities for creating and containing abstract instances.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-08
+ * @version 1.0
+ * @since 2025-07-09
  */
-module com.yelstream.topp.standard.load {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.clazz.load;
-    exports com.yelstream.topp.standard.instance.load;
-    exports com.yelstream.topp.standard.instance.util.holder;
-    exports com.yelstream.topp.standard.service.load;
-}
+package com.yelstream.topp.standard.instance.util.holder;

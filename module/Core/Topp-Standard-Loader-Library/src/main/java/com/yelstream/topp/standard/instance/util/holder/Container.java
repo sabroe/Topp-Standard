@@ -17,17 +17,28 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.instance.util.holder;
+
 /**
- * Topp Standard Loader Library addressing basics of class and service-loading.
+ * A container for a single item, supporting lazy initialization.
+ * <p>
+ *     Holds an item, which may be computed on first access to optimize resource usage.
+ *     The item is typically cached after creation for subsequent access.
+ * </p>
+ * <p>
+ *     This is thread-safe.
+ * </p>
+ *
+ * @param <X> Type of the item held.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-08
+ * @version 1.0
+ * @since 2025-07-09
  */
-module com.yelstream.topp.standard.load {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.clazz.load;
-    exports com.yelstream.topp.standard.instance.load;
-    exports com.yelstream.topp.standard.instance.util.holder;
-    exports com.yelstream.topp.standard.service.load;
+public interface Container<X> {
+    /**
+     * Retrieves the contained item, computing it lazily if not initialized.
+     * @return Contained item.
+     */
+    X getItem();
 }

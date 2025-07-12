@@ -17,17 +17,29 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.instance.util.holder;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
- * Topp Standard Loader Library addressing basics of class and service-loading.
+ * Container holding a pre-computed item.
+ * <p>
+ *     This is thread-safe.
+ * </p>
+ *
+ * @param <X> Type of the item held.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-08
+ * @version 1.0
+ * @since 2025-07-09
  */
-module com.yelstream.topp.standard.load {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.clazz.load;
-    exports com.yelstream.topp.standard.instance.load;
-    exports com.yelstream.topp.standard.instance.util.holder;
-    exports com.yelstream.topp.standard.service.load;
+@SuppressWarnings("LombokGetterMayBeUsed")
+@AllArgsConstructor(staticName="of")
+final class SimpleContainer<X> implements Container<X> {
+    /**
+     * Item held.
+     */
+    @Getter
+    private final X item;
 }

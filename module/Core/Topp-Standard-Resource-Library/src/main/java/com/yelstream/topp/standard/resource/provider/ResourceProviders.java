@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.resource.provider;
 
-import com.yelstream.topp.standard.service.discovery.instance.InstanceLoader;
-import com.yelstream.topp.standard.service.discovery.instance.InstanceLoaders;
+import com.yelstream.topp.standard.instance.load.InstanceLoader;
+import com.yelstream.topp.standard.instance.load.InstanceLoaders;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 

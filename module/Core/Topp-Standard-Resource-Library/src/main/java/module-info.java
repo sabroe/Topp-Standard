@@ -37,8 +37,10 @@ module com.yelstream.topp.standard.resource {
     exports com.yelstream.topp.standard.load.clazz.scan;
     exports com.yelstream.topp.standard.load.clazz.scan.factory;
     exports com.yelstream.topp.standard.load.clazz.scan.impl;
-    exports com.yelstream.topp.standard.net.uni.identification;
-    exports com.yelstream.topp.standard.net.uni.location;
+    exports com.yelstream.topp.standard.net.resource.identification;
+    exports com.yelstream.topp.standard.net.resource.location;
+    exports com.yelstream.topp.standard.net.resource.location.handler;
+    exports com.yelstream.topp.standard.net.resource.location.handler.factory;
     exports com.yelstream.topp.standard.resource;
     exports com.yelstream.topp.standard.resource.clazz;
     exports com.yelstream.topp.standard.resource.item;
@@ -48,6 +50,4 @@ module com.yelstream.topp.standard.resource {
     exports com.yelstream.topp.standard.resource.resolve;
     exports com.yelstream.topp.standard.resource.clazz.load;
     exports com.yelstream.topp.standard.resource.net.name;
-    exports com.yelstream.topp.standard.resource.net.handler;
-    exports com.yelstream.topp.standard.resource.net.handler.factory;
 }

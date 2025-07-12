@@ -17,17 +17,30 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.net.resource.identification;
+
+import lombok.experimental.UtilityClass;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
 /**
- * Topp Standard Loader Library addressing basics of class and service-loading.
+ * Utility addressing instances of {@link URI}.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-08
+ * @since 2025-07-12
  */
-module com.yelstream.topp.standard.load {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.clazz.load;
-    exports com.yelstream.topp.standard.instance.load;
-    exports com.yelstream.topp.standard.instance.util.holder;
-    exports com.yelstream.topp.standard.service.load;
+@UtilityClass
+public class URIs {
+
+
+    public static URL toURL(URI uri) {
+        try {
+            return uri.toURL();
+        } catch (MalformedURLException ex) {
+            throw new IllegalStateException("Failure to convert URI to URL; actual URI is '%s'!".formatted(uri));
+        }
+    }
+
 }

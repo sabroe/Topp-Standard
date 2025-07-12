@@ -17,17 +17,29 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.net.resource.location.handler.factory;
+
+import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
+
 /**
- * Topp Standard Loader Library addressing basics of class and service-loading.
+ * Factory of URL-handlers for a single, known protocol.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-08
+ * @since 2025-07-07
  */
-module com.yelstream.topp.standard.load {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.clazz.load;
-    exports com.yelstream.topp.standard.instance.load;
-    exports com.yelstream.topp.standard.instance.util.holder;
-    exports com.yelstream.topp.standard.service.load;
+public interface NamedURLStreamHandlerFactory extends URLStreamHandlerFactory {
+    /**
+     * Gets the protocol name.
+     * @return Protocol name.
+     */
+    String getProtocol();
+
+    /**
+     * Creates a handler for the protocol.
+     * @return Created handler.
+     */
+    default URLStreamHandler createURLStreamHandler() {
+        return createURLStreamHandler(getProtocol());
+    }
 }

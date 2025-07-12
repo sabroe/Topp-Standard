@@ -18,16 +18,15 @@
  */
 
 /**
- * Topp Standard Loader Library addressing basics of class and service-loading.
+ * Instance loading.
+ * <p>
+ *     May be used to implement the internals of e.g.
+ *     specific service objects to be handled by {@link java.util.ServiceLoader},
+ *     chain a list of {@link java.net.URLStreamHandlerFactory}/{@link java.net.spi.URLStreamHandlerProvider}
+ *     into a single instance, a chain-of-responsibility construction.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-08
  */
-module com.yelstream.topp.standard.load {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.clazz.load;
-    exports com.yelstream.topp.standard.instance.load;
-    exports com.yelstream.topp.standard.instance.util.holder;
-    exports com.yelstream.topp.standard.service.load;
-}
+package com.yelstream.topp.standard.instance.load;

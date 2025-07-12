@@ -17,10 +17,8 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.resource.clazz;
+package com.yelstream.topp.standard.clazz.load;
 
-import com.yelstream.topp.standard.net.resource.location.FileURLs;
-import com.yelstream.topp.standard.net.resource.location.JarURLs;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
@@ -137,33 +135,6 @@ public class ClassLoaders {
 
 
 
-    private static final String RESOURCE_PATH = "XSD/HAL/CIM/4.9.0";
-//    private static final String RESOURCE_PATH = "";
-
-    public static void testScan(Class<?> clazz) throws IOException {
-        ClassLoader classLoader = clazz.getClassLoader();
-
-        System.out.println("ClassLoader.getResource(\"\"):                             "+classLoader.getResource(""));
-        System.out.println("ClassLoader.getResources(\"\"):                            "+Collections.list(classLoader.getResources("")));
-        System.out.println("ClassLoader.getResource(\"/\"):                            "+classLoader.getResource("/"));
-        System.out.println("clazz.getProtectionDomain().getCodeSource().getLocation(): "+clazz.getProtectionDomain().getCodeSource().getLocation());
-
-        List<String> resources = findResources(clazz, RESOURCE_PATH);
-        if (resources.isEmpty()) {
-            System.out.println("No resources found at: " + RESOURCE_PATH);
-        } else {
-            System.out.println(resources.size());
-
-            List<String> filteredResources=resources.stream().filter(name->classLoader.getResource(name)!=null).toList();
-
-            System.out.println(filteredResources.size());
-
-            resources.forEach(r->System.out.println(r
-                    +" -- "+(classLoader.getResource(r)!=null)
-                    +" -- "+(classLoader.getResourceAsStream(r)!=null)
-            ));
-        }
-    }
 
 
     public static List<String> findResources(Class<?> clazz,
@@ -228,11 +199,14 @@ try {
 
 System.out.println("RESOURCE URL #2: "+resource);
 
+return null;
+/*
         return
             switch (resource.getProtocol()) {  //TO-DO: Use URL-scanners, please!
-                case "jar" -> JarURLs.findResources(normalizedPath,resource);
+                case "jar" -> JARURLs.findResources(normalizedPath,resource);
                 case "file" -> FileURLs.findResources(normalizedPath,resource);
                 default -> null;
             };
+*/
     }
 }

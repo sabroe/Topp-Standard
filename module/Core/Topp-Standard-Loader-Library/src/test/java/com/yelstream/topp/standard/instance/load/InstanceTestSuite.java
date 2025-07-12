@@ -17,17 +17,19 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.instance.load;
+
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+
 /**
- * Topp Standard Loader Library addressing basics of class and service-loading.
+ * Test suite for {@code com.yelstream.topp.standard.load.instance}.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-08
+ * @version 1.0
+ * @since 2025-07-10
  */
-module com.yelstream.topp.standard.load {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.clazz.load;
-    exports com.yelstream.topp.standard.instance.load;
-    exports com.yelstream.topp.standard.instance.util.holder;
-    exports com.yelstream.topp.standard.service.load;
+@Suite
+@SelectClasses({InstanceLoaderTest.class,InstanceLoadersTest.class})
+class InstanceTestSuite {
 }
