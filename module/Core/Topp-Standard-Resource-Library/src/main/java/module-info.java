@@ -29,6 +29,7 @@ module com.yelstream.topp.standard.resource {
     requires com.yelstream.topp.standard.collection.stream;
     requires com.yelstream.topp.standard.system.load;
     requires java.xml;
+    requires com.yelstream.topp.standard.io.dual;
     uses com.yelstream.topp.standard.net.resource.location.handler.provider.spi.CentralURLStreamHandlerProvider;
     uses com.yelstream.topp.standard.resource.provider.ResourceProvider;
     exports com.yelstream.topp.standard.load.clazz.scan;
