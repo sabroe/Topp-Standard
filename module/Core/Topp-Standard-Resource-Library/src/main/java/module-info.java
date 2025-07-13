@@ -28,17 +28,12 @@ module com.yelstream.topp.standard.resource {
     requires org.slf4j;
     requires com.yelstream.topp.standard.collection.stream;
     requires com.yelstream.topp.standard.system.load;
-    requires java.xml;
+    requires com.yelstream.topp.standard.net.resource;
     requires com.yelstream.topp.standard.io.dual;
-    uses com.yelstream.topp.standard.net.resource.location.handler.provider.spi.CentralURLStreamHandlerProvider;
     uses com.yelstream.topp.standard.resource.provider.ResourceProvider;
     exports com.yelstream.topp.standard.load.clazz.scan;
     exports com.yelstream.topp.standard.load.clazz.scan.factory;
     exports com.yelstream.topp.standard.load.clazz.scan.impl;
-    exports com.yelstream.topp.standard.net.resource.identification;
-    exports com.yelstream.topp.standard.net.resource.location;
-    exports com.yelstream.topp.standard.net.resource.location.handler;
-    exports com.yelstream.topp.standard.net.resource.location.handler.factory;
     exports com.yelstream.topp.standard.resource;
     exports com.yelstream.topp.standard.resource.item;
     exports com.yelstream.topp.standard.resource.index;

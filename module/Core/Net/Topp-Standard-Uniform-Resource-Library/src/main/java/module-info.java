@@ -17,17 +17,18 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    api project(':module:Core:Collection:Topp-Standard-Stream-Collection-Library')
-    api project(':module:Core:System:Topp-Standard-System-Loader-Library')
-    api project(':module:Core:IO:Topp-Standard-Dual-Access-IO-Library')
-    api project(':module:Core:Net:Topp-Standard-Uniform-Resource-Library')
+/**
+ * Topp Standard Uniform Resource Library addressing URI and URL handling.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-07-13
+ */
+module com.yelstream.topp.standard.net.resource {
+    requires static lombok;
+    requires org.slf4j;
+    requires com.yelstream.topp.standard.system.load;
+    exports com.yelstream.topp.standard.net.resource.identification;
+    exports com.yelstream.topp.standard.net.resource.location;
+    exports com.yelstream.topp.standard.net.resource.location.handler;
+    exports com.yelstream.topp.standard.net.resource.location.handler.factory;
 }
