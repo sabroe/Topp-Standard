@@ -24,6 +24,7 @@ import lombok.experimental.UtilityClass;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLStreamHandler;
 
 /**
  * Utility addressing instances of {@link URI}.
@@ -42,5 +43,15 @@ public class URIs {
             throw new IllegalStateException("Failure to convert URI to URL; actual URI is '%s'!".formatted(uri));
         }
     }
+
+    public static URL toURL(URI uri,
+                            URLStreamHandler handler) {
+        try {
+            return URL.of(uri,handler);
+        } catch (MalformedURLException ex) {
+            throw new IllegalStateException("Failure to convert URI to URL; actual URI is '%s'!".formatted(uri));
+        }
+    }
+
 
 }

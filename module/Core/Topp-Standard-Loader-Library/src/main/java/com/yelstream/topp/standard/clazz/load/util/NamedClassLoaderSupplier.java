@@ -17,18 +17,39 @@
  * limitations under the License.
  */
 
+package com.yelstream.topp.standard.clazz.load.util;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.function.Supplier;
+
 /**
- * Topp Standard Loader Library addressing basics of class and service-loading.
+ * Named supplier of a classloader.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-08
+ * @since 2025-07-13
  */
-module com.yelstream.topp.standard.load {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.clazz.load;
-    exports com.yelstream.topp.standard.instance.load;
-    exports com.yelstream.topp.standard.instance.util.holder;
-    exports com.yelstream.topp.standard.service.load;
-    exports com.yelstream.topp.standard.clazz.load.util;
+@AllArgsConstructor(staticName="of")
+@SuppressWarnings("LombokGetterMayBeUsed")
+public final class NamedClassLoaderSupplier {
+    /**
+     * Name of supplier.
+     */
+    @Getter
+    private final String name;
+
+    /**
+     * Source of classloader.
+     */
+    @Getter
+    private final Supplier<ClassLoader> classLoaderSupplier;
+
+    /**
+     * Gets the classloader.
+     * @return Classloader.
+     */
+    public ClassLoader getClassLoader() {
+        return classLoaderSupplier.get();
+    }
 }

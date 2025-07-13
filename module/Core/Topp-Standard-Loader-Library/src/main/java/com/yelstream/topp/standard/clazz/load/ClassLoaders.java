@@ -29,6 +29,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Utility addressing {@link ClassLoader} instances.
@@ -38,13 +39,35 @@ import java.util.List;
  */
 @UtilityClass
 public class ClassLoaders {
+    /**
+     * Gets the "platform" classloader.
+     * <p>
+     *     Loads classes and resources from platform-specific JDK modules (e.g., java.sql, java.xml)
+     *     that are not part of the boot classloader’s core modules (e.g., java.base).
+     *     Limited to JDK platform modules not loaded by the boot classloader.
+     *     It does not include application-specific classes or modules unless explicitly configured.
+     * </p>
+     * @return Classloader.
+     */
     public static ClassLoader getPlatformClassLoader() {
         return ClassLoader.getPlatformClassLoader();
     }
 
+    /**
+     * Gets the "System" classloader.
+     * <p>
+     *     Loads application classes and resources from the classpath or module path specified at runtime
+     *     (e.g., via -cp, --class-path, or --module-path).
+     *     Includes application-specific modules (e.g., com.example.myapp), automatic modules,
+     *     and non-modular JARs on the classpath, plus any classes not handled by the boot or platform classloaders.
+     *     It encompasses all application code and dependencies not covered by the boot or platform classloaders.
+     * </p>
+     * @return Classloader.
+     */
     public static ClassLoader getSystemClassLoader() {
         return ClassLoader.getSystemClassLoader();
     }
+
 
     public static ClassLoader getModuleClassLoader(Module module) {
         return module.getClassLoader();
@@ -52,6 +75,10 @@ public class ClassLoaders {
 
     public static ClassLoader getModuleClassLoader(Class<?> clazz) {
         return getModuleClassLoader(clazz.getModule());
+    }
+
+    public static ClassLoader getModuleClassLoader(String moduleName) {
+        return ModuleLayer.boot().findModule(moduleName).stream().map(Module::getClassLoader).filter(Objects::nonNull).findFirst().orElse(null);
     }
 
     /**
