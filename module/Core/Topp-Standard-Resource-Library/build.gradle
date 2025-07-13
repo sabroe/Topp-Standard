@@ -26,5 +26,5 @@ plugins {
 }
 
 dependencies {
-    api project(':module:Core:Topp-Standard-Loader-Library')
+    api project(':module:Core:System:Topp-Standard-System-Loader-Library')
 }

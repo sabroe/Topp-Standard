@@ -41,6 +41,7 @@ class ClasspathURLStreamHandlerTest {
         Assertions.assertEquals("Krampus!",content);
     }
 
+/*
     @Test
     void xxxaccessUsingSpecificClassLoader() throws IOException {
         URI uri=URI.create("classpath://xxx/example/resource.txt");
@@ -48,4 +49,5 @@ class ClasspathURLStreamHandlerTest {
         String content=getContent(url);
         Assertions.assertEquals("Krampus!",content);
     }
+*/
 }

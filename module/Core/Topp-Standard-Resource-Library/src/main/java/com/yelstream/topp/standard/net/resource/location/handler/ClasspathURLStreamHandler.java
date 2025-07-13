@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.net.resource.location.handler;
 
-import com.yelstream.topp.standard.clazz.load.util.StandardClassLoader;
+import com.yelstream.topp.standard.system.clazz.util.StandardClassLoader;
 import com.yelstream.topp.standard.net.resource.location.Protocol;
 import com.yelstream.topp.standard.net.resource.location.connection.URLConnections;
 import com.yelstream.topp.standard.resource.clazz.ClassLoaders;
