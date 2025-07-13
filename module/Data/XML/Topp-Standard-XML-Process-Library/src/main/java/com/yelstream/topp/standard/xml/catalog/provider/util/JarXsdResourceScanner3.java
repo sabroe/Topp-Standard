@@ -2,7 +2,7 @@ package com.yelstream.topp.standard.xml.catalog.provider.util;
 
 import com.yelstream.topp.standard.resource.item.Item;
 import com.yelstream.topp.standard.resource.Resource;
-import com.yelstream.topp.standard.resource.name.Location;
+import com.yelstream.topp.standard.system.load.name.Location;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

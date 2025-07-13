@@ -20,7 +20,7 @@
 package com.yelstream.topp.standard.resource.item;
 
 import com.yelstream.topp.standard.resource.clazz.load.ResourceLoader;
-import com.yelstream.topp.standard.resource.name.Location;
+import com.yelstream.topp.standard.system.load.name.Location;
 import lombok.experimental.UtilityClass;
 
 /**

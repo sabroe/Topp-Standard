@@ -26,15 +26,11 @@
 module com.yelstream.topp.standard.resource {
     requires static lombok;
     requires org.slf4j;
-    requires com.yelstream.topp.standard.system;
+    requires com.yelstream.topp.standard.collection.stream;
+    requires com.yelstream.topp.standard.system.load;
+    requires java.xml;
     uses com.yelstream.topp.standard.net.resource.location.handler.provider.spi.CentralURLStreamHandlerProvider;
     uses com.yelstream.topp.standard.resource.provider.ResourceProvider;
-    exports com.yelstream.topp.standard.collect.let.in;
-    exports com.yelstream.topp.standard.collect.let.out;
-    exports com.yelstream.topp.standard.collect.let.in.factory;
-    exports com.yelstream.topp.standard.collect.let.out.factory;
-    exports com.yelstream.topp.standard.io.dual.source;
-    exports com.yelstream.topp.standard.io.dual.target;
     exports com.yelstream.topp.standard.load.clazz.scan;
     exports com.yelstream.topp.standard.load.clazz.scan.factory;
     exports com.yelstream.topp.standard.load.clazz.scan.impl;
@@ -43,10 +39,8 @@ module com.yelstream.topp.standard.resource {
     exports com.yelstream.topp.standard.net.resource.location.handler;
     exports com.yelstream.topp.standard.net.resource.location.handler.factory;
     exports com.yelstream.topp.standard.resource;
-    exports com.yelstream.topp.standard.resource.clazz;
     exports com.yelstream.topp.standard.resource.item;
     exports com.yelstream.topp.standard.resource.index;
-    exports com.yelstream.topp.standard.resource.name;
     exports com.yelstream.topp.standard.resource.provider;
     exports com.yelstream.topp.standard.resource.resolve;
     exports com.yelstream.topp.standard.resource.clazz.load;
