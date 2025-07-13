@@ -217,8 +217,15 @@ class URIsTest {
     void schemaJDBC(String uri) throws URISyntaxException {
         URI uri1=new URI(uri);
         URIs.Builder builder=URIs.builder();
+//String modifiedUri = uri.replace("jdbc:sqlserver://", "sqlserver://");
+//builder.uri(new URI(modifiedUri));
         builder.uri(uri1);
+//builder.scheme("jdbc:sqlserver");
         URI uri2=builder.build();
+System.out.println("Scheme: "+uri2.getScheme());
+System.out.println("SchemeSpecificPart: "+uri2.getSchemeSpecificPart());
+System.out.println("RawSchemeSpecificPart: "+uri2.getRawSchemeSpecificPart());
+        Assertions.assertEquals("jdbc:sqlserver",uri2.getScheme());
 
         Assertions.assertEquals(uri1,uri2);
         Assertions.assertEquals(uri,uri2.toString());

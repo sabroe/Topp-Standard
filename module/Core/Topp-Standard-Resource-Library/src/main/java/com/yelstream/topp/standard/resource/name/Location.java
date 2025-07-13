@@ -51,37 +51,32 @@ public interface Location {
     /**
      * Gets the name of a resource.
      * <p>
-     * If classloader based, this is applicable to {@link ClassLoader#getResource(String)}.
+     *     If classloader based, this is applicable to {@link ClassLoader#getResource(String)}.
      * </p>
-     *
      * @return Resource name.
      */
     String getName();
 
     /**
      * Normalizes this location.
-     *
      * @return Normalized location.
      */
     Location normalize();
 
     /**
      * Gets an indication if this location refers to a content resource.
-     *
      * @return Indicates if this location refers to a content resource.
      */
     boolean isContent();
 
     /**
      * Gets an indication if this location refers to a container resource.
-     *
      * @return Indicates if this location refers to a container resource.
      */
     boolean isContainer();
 
     /**
      * Gets an indication if this location refers to the root container resource.
-     *
      * @return Indicates if this location refers to the root container resource.
      */
     boolean isContainerRoot();

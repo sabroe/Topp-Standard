@@ -100,7 +100,7 @@ public class Locations {
      * @return Created location.
      *         The name of this is always normalized.
      */
-    public static Location createLocation(String name,
+            public static Location createLocation(String name,
                                           boolean container) {
         String normalizedName=normalizeName(name,container);
         return SimpleLocation.of(normalizedName);
