@@ -19,9 +19,9 @@
 
 package com.yelstream.topp.standard.resource.index;
 
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.name.Locations;
-import com.yelstream.topp.standard.collect.let.out.ListOutlet;
+import com.yelstream.topp.standard.system.load.name.Location;
+import com.yelstream.topp.standard.system.load.name.Locations;
+import com.yelstream.topp.standard.collection.stream.let.out.ListOutlet;
 
 /**
  * Index of resources.

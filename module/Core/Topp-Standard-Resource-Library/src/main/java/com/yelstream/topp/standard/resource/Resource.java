@@ -20,7 +20,7 @@
 package com.yelstream.topp.standard.resource;
 
 import com.yelstream.topp.standard.resource.item.Item;
-import com.yelstream.topp.standard.resource.name.Location;
+import com.yelstream.topp.standard.system.load.name.Location;
 
 /**
  * Resource.

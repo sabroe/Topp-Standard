@@ -20,7 +20,7 @@
 package com.yelstream.topp.standard.resource.resolve;
 
 import com.yelstream.topp.standard.resource.Resource;
-import com.yelstream.topp.standard.resource.name.Location;
+import com.yelstream.topp.standard.system.load.name.Location;
 
 /**
  * Provides access to a related group of resources.

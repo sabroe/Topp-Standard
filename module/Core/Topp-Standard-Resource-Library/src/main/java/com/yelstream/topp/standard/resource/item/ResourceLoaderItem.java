@@ -23,8 +23,8 @@ import com.yelstream.topp.standard.io.dual.source.Source;
 import com.yelstream.topp.standard.io.dual.source.Sources;
 import com.yelstream.topp.standard.io.dual.target.Target;
 import com.yelstream.topp.standard.resource.clazz.load.ResourceLoader;
-import com.yelstream.topp.standard.resource.name.Location;
-import com.yelstream.topp.standard.resource.name.Locations;
+import com.yelstream.topp.standard.system.load.name.Location;
+import com.yelstream.topp.standard.system.load.name.Locations;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

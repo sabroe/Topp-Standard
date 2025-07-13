@@ -36,9 +36,10 @@
 module com.yelstream.topp.standard.xml.process {
     requires static lombok;
     requires org.slf4j;
-    uses com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
     requires transitive java.xml;
+    uses com.yelstream.topp.standard.xml.catalog.provider.CatalogProvider;
     requires com.yelstream.topp.standard.resource;
+    requires com.yelstream.topp.standard.system.load;
     exports com.yelstream.topp.standard.dom.ls;
     exports com.yelstream.topp.standard.xml.catalog;
     exports com.yelstream.topp.standard.xml.catalog.provider;
