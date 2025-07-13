@@ -30,4 +30,5 @@ module com.yelstream.topp.standard.load {
     exports com.yelstream.topp.standard.instance.load;
     exports com.yelstream.topp.standard.instance.util.holder;
     exports com.yelstream.topp.standard.service.load;
+    exports com.yelstream.topp.standard.clazz.load.util;
 }

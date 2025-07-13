@@ -19,11 +19,15 @@
 
 package com.yelstream.topp.standard.net.resource.location;
 
+import com.yelstream.topp.standard.net.resource.identification.URIs;
+import com.yelstream.topp.standard.net.resource.location.handler.ClasspathURLStreamHandler;
 import lombok.experimental.UtilityClass;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLStreamHandler;
 
 /**
  * Utility addressing instances of {@link URL}.
@@ -43,6 +47,23 @@ public class URLs {
         }
     }
 
+    private static URL of(URI uri,
+                          URLStreamHandler handler) throws MalformedURLException {
+        return URL.of(uri,handler);
+    }
+
+    private static URL of(URL url,
+                          URLStreamHandler handler) throws MalformedURLException {
+        URI uri=toURI(url);
+        return URL.of(uri,handler);
+    }
+
+
+    private static URL of(String uriText,
+                          URLStreamHandler handler) throws MalformedURLException {
+        URI uri=URI.create(uriText);
+        return URL.of(uri,handler);
+    }
 
 
 }
