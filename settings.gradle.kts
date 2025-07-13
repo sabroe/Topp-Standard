@@ -81,7 +81,7 @@ include("module:Core:Topp-Standard-Core-Collection-Library")
 
 include("module:Core:Collection:Topp-Standard-Stream-Collection-Library")
 include("module:Core:System:Topp-Standard-System-Loader-Library")
-//include("module:Core:IO:Topp-Standard-Dual-Access-IO-Library")
+include("module:Core:IO:Topp-Standard-Dual-Access-IO-Library")
 //include("module:Core:Net:Topp-Standard-Uniform-Resource-Library")
 
 //include("module:Core:Collection:Topp-Standard-Instance-Discovery-Collection-Library")
