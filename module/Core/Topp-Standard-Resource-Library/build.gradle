@@ -29,4 +29,5 @@ dependencies {
     api project(':module:Core:Collection:Topp-Standard-Stream-Collection-Library')
     api project(':module:Core:System:Topp-Standard-System-Loader-Library')
     api project(':module:Core:IO:Topp-Standard-Dual-Access-IO-Library')
+    api project(':module:Core:Net:Topp-Standard-Uniform-Resource-Library')
 }
