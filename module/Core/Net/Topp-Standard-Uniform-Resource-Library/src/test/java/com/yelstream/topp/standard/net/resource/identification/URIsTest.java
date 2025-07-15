@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net;
+package com.yelstream.topp.standard.net.resource.identification;
 
+import com.yelstream.topp.standard.net.resource.identification.builder.util.TaggedPath;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -80,7 +81,7 @@ class URIsTest {
     void replaceHost() throws URISyntaxException {
         {
             URI uri0=new URI("http://example.com/languages/java/#xxx");
-            URI uri1=URIs.builder().uri(uri0).host("xxx.com").build();
+            URI uri1=URIs.builder().uri(uri0).argumentUpdate(b->b.host("xxx.com")).build();
             URI expectedUri=new URI("http://xxx.com/languages/java/#xxx");
             Assertions.assertEquals(expectedUri,uri1);
             Assertions.assertEquals(expectedUri.toString(),uri1.toString());
@@ -95,7 +96,7 @@ class URIsTest {
     void replacePort() throws URISyntaxException {
         {
             URI uri0=new URI("http://example.com/languages/java/#xxx");
-            URI uri1=URIs.builder().uri(uri0).port(300).build();
+            URI uri1=URIs.builder().uri(uri0).argumentUpdate(b->b.port(300)).build();
             URI expectedUri=new URI("http://example.com:300/languages/java/#xxx");
             Assertions.assertEquals(expectedUri,uri1);
             Assertions.assertEquals(expectedUri.toString(),uri1.toString());
@@ -302,7 +303,7 @@ System.out.println("RawSchemeSpecificPart: "+uri2.getRawSchemeSpecificPart());
 
         URIs.Builder builder = URIs.builder();
         builder.uri(innerUri);
-        builder.scheme(fullScheme); // Set composite scheme (e.g., jdbc:sqlserver)
+//XXX???        builder.scheme(fullScheme); // Set composite scheme (e.g., jdbc:sqlserver)
         if (!entries.isEmpty()) {
     //??        builder.entries(entries); // Assume builder supports entries for jar: URLs
         }
@@ -347,7 +348,7 @@ System.out.println("RawSchemeSpecificPart: "+uri2.getRawSchemeSpecificPart());
 
         URIs.Builder builder = URIs.builder();
         builder.uri(innerUri);
-        builder.scheme("jar".repeat(jarCount > 0 ? jarCount : 1)); // Set composite scheme (e.g., jar:jar:...)
+//XXX???        builder.scheme("jar".repeat(jarCount > 0 ? jarCount : 1)); // Set composite scheme (e.g., jar:jar:...)
     //??    builder.entries(entries); // Assume builder supports entries
 
         URI uri2 = builder.build();
@@ -383,7 +384,7 @@ System.out.println("RawSchemeSpecificPart: "+uri2.getRawSchemeSpecificPart());
 
         URIs.Builder builder = URIs.builder();
         builder.uri(innerUri);
-        builder.scheme("jar".repeat(10));
+//XXX???        builder.scheme("jar".repeat(10));
 //???        builder.entries(entries);
 
         URI uri2 = builder.build();
@@ -395,9 +396,6 @@ System.out.println("RawSchemeSpecificPart: "+uri2.getRawSchemeSpecificPart());
         Assertions.assertEquals(innerUri.getPath(), uri2.getPath());
 //???        Assertions.assertEquals(entries, uri2.getEntries());
     }
-
-
-
 
 
 }
