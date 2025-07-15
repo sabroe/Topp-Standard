@@ -19,11 +19,32 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler;
 
+import com.yelstream.topp.standard.net.resource.identification.Scheme;
+import com.yelstream.topp.standard.net.resource.identification.util.URIArgument;
+import com.yelstream.topp.standard.net.resource.identification.util.URIConstructor;
+
+import java.net.URI;
+
 /**
  *
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-15
  */
-public class URISchemeHandler {
+public interface URISchemeHandler {
+
+    Scheme getScheme();
+
+    boolean isRegular();
+
+    URIArgument postConstruct(URIArgument argument);
+
+    URI create(URIArgument argument,
+               URIConstructor constructor);
+
+    boolean hasInnerURI();
+
+    URI getInnerURI();
+    URIArgument getInnerURIArgument();
+
 }

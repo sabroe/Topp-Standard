@@ -236,36 +236,9 @@ if (constructor==null) {
             return this;
         }
 
-        private static void onNotEmpty(String value, Consumer<String> consumer) {  //TO-DO: Consider location!
-            if (value!=null && !value.isEmpty()) {
-                consumer.accept(value);
-            }
-        }
-
-        private static void onCondition(int value,
-                                        IntPredicate condition,
-                                        IntConsumer consumer) {  //TO-DO: Consider location!
-            if (condition.test(value)) {
-                consumer.accept(value);
-            }
-        }
-
-        private static <E> void onNotNull(E value, Consumer<E> consumer) {  //TO-DO: Consider location!
-            if (value!=null) {
-                consumer.accept(value);
-            }
-        }
-
-        private static void onEmpty(String value, Runnable runnable) {  //TO-DO: Consider location!
-            if (value==null || value.isEmpty()) {
-                runnable.run();
-            }
-        }
-
-        private static <E> void onNull(E value, Runnable runnable) {  //TO-DO: Consider location!
-            if (value==null) {
-                runnable.run();
-            }
+        public Builder segmentedPathUpdate(Consumer<SegmentedPath> consumer) {
+            argumentUpdate(b->b.segmentedPathUpdate(consumer));
+            return this;
         }
     }
 }
