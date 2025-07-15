@@ -104,7 +104,7 @@ public class URIArgument {
     @SuppressWarnings("java:S1118")
     public static class Builder {
         public Builder uri(URI uri) {
-            parsable(uri.toString());
+//TODO: ??            parsable(uri.toString());
             scheme(uri.getScheme());
             schemeSpecificPart(uri.getSchemeSpecificPart());
             authority(uri.getAuthority());

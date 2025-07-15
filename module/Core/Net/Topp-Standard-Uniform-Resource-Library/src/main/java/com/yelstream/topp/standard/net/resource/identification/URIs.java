@@ -25,6 +25,7 @@ import com.yelstream.topp.standard.net.resource.identification.builder.util.Tagg
 import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
 import com.yelstream.topp.standard.net.resource.identification.util.URIArgument;
 import com.yelstream.topp.standard.net.resource.identification.util.URIConstructor;
+import com.yelstream.topp.standard.net.resource.identification.util.URIConstructors;
 import lombok.experimental.UtilityClass;
 
 import java.net.MalformedURLException;
@@ -93,6 +94,15 @@ public class URIs {
     private static URI create(URIArgument argument,
                               URIConstructor constructor,
                               URISchemeHandler handler) throws URISyntaxException {
+
+        constructor=URIConstructors.selectByApplicability(argument);
+if (constructor==null) {
+    System.out.println("--- NO CONSTRUCTOR!");
+    System.out.println("   Argument:"+argument);
+    System.out.println("---");
+    System.out.println();
+}
+
         URI uri = constructor.create(argument);
         return uri;
     }
