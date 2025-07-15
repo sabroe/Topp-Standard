@@ -20,13 +20,13 @@
 package com.yelstream.topp.standard.net.resource.identification.util;
 
 import com.yelstream.topp.standard.net.resource.identification.builder.util.MappedQuery;
+import com.yelstream.topp.standard.net.resource.identification.builder.util.SegmentedPath;
 import com.yelstream.topp.standard.net.resource.identification.builder.util.TaggedPath;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.net.URI;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -91,15 +91,29 @@ public class URIArgument {
      */
     private final String fragment;
 
-
+    /**
+     * Gets the path as a tagged path.
+     * @return Tagged path.
+     */
     public TaggedPath taggedPath() {
         return TaggedPath.ofFullPath(path);
     }
 
+    /**
+     * Gets the query as a mapped query.
+     * @return Mapped query.
+     */
     public MappedQuery mappedQuery() {
         return MappedQuery.of(query);
     }
 
+    /**
+     * Gets the path as a segmented path.
+     * @return Segmented path.
+     */
+    public SegmentedPath segmentedPath() {
+        return null;  //TO-DO: Fix!
+    }
 
     @SuppressWarnings("java:S1118")
     public static class Builder {
@@ -117,12 +131,22 @@ public class URIArgument {
             return this;
         }
 
-
-
+        /**
+         * Gets the current path as a tagged path.
+         * <p>
+         *     Note that this does not provide access to changing the path.
+         * </p>
+         * @return Tagged path.
+         */
         public TaggedPath taggedPath() {
             return TaggedPath.ofFullPath(path);
         }
 
+        /**
+         * Sets the current path from a tagged path.
+         * @param taggedPath Tagged path.
+         * @return This builder.
+         */
         public Builder taggedPath(TaggedPath taggedPath) {
             path(taggedPath.toFullPath());
             return this;
@@ -146,21 +170,33 @@ public class URIArgument {
             return this;
         }
 
-
-
+        /**
+         * Updates the current path as mapped through a tagged path.
+         * @param consumer Consumer updating the tagged path.
+         * @return This builder.
+         */
         public Builder taggedPathUpdate(Consumer<TaggedPath> consumer) {
             TaggedPath taggedPath=taggedPath();
             consumer.accept(taggedPath);
             return taggedPath(taggedPath);
         }
 
-
-
-
+        /**
+         * Gets the current query as a mapped query.
+         * <p>
+         *     Note that this does not provide access to changing the query.
+         * </p>
+         * @return Mapped query.
+         */
         public MappedQuery mappedQuery() {
             return MappedQuery.of(query);
         }
 
+        /**
+         * Sets the current query from a mapped query.
+         * @param mappedQuery Mapped query.
+         * @return This builder.
+         */
         public Builder mappedQuery(MappedQuery mappedQuery) {
             query(mappedQuery.formatAsString());
             return this;
@@ -172,6 +208,37 @@ public class URIArgument {
             consumer.accept(mappedQuery);
             return mappedQuery(mappedQuery);
         }
+
+
+
+
+        /**
+         * Gets the current path as a segmented path.
+         * <p>
+         *     Note that this does not provide access to changing the path.
+         * </p>
+         * @return Segmented path.
+         */
+        public SegmentedPath segmentedPath() {
+            return null;  //TO-DO: Fix!
+        }
+
+        /**
+         * Sets the current path from a segmented path.
+         * @param segmentedPath Segmented path.
+         * @return This builder.
+         */
+        public Builder segmentedPath(SegmentedPath segmentedPath) {
+            //TO-DO: Fix!
+            return this;
+        }
+
+        public Builder segmentedPathUpdate(Consumer<SegmentedPath> consumer) {
+            SegmentedPath segmentedPath=segmentedPath();
+            consumer.accept(segmentedPath);
+            return segmentedPath(segmentedPath);
+        }
+
 
 
     }
