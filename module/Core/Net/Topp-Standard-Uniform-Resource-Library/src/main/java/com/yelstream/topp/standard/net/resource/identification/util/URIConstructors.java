@@ -21,8 +21,10 @@ package com.yelstream.topp.standard.net.resource.identification.util;
 
 import lombok.experimental.UtilityClass;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Utility addressing instances of {@link URIConstructor}.
@@ -32,26 +34,37 @@ import java.util.Objects;
  */
 @UtilityClass
 public class URIConstructors {
+
+    public static Stream<URIConstructor> streamByTrial(URIArgument argument) {
+        Objects.requireNonNull(argument);
+        return StandardURIConstructor.streamValues().filter(e -> {
+            try {
+                URI uri=e.construct(argument);
+                return uri!=null;
+            } catch (URISyntaxException ex) {
+                //Empty!
+                //TO-DO: Consider logging this. SLF4J!
+                return false;
+            }
+        }).map(StandardURIConstructor::getConstructor);
+    }
+
     /**
      * Selects a URI constructor by trial and error.
      * <p>
      *     Tries each constructor in {@link StandardURIConstructor} until one succeeds.
      * </p>
-     * @param arguments The URI arguments to test.
+     * @param argument The URI arguments to test.
      * @return The first {@link URIConstructor} that successfully constructs a URI, or null if none succeed.
      */
-    public static URIConstructor selectByTrial(URIArgument arguments) {
-        Objects.requireNonNull(arguments);
-        for (StandardURIConstructor constructor : StandardURIConstructor.values()) {
-            try {
-                constructor.construct(arguments);
-                return constructor::construct;
-            } catch (URISyntaxException ex) {
-                //Empty!
-                //TO-DO: Consider logging this. SLF4J!
-            }
-        }
-        return null;
+    public static URIConstructor selectByTrial(URIArgument argument) {
+        Objects.requireNonNull(argument);
+        return streamByTrial(argument).findFirst().orElse(null);
+    }
+
+    public static Stream<URIConstructor> streamByApplicability(URIArgument argument) {
+        Objects.requireNonNull(argument);
+        return StandardURIConstructor.streamByApplicability(argument).map(StandardURIConstructor::getConstructor);
     }
 
     /**
@@ -59,16 +72,11 @@ public class URIConstructors {
      * <p>
      *     Uses predicates defined in {@link }StandardURIConstructor} to choose the best-fit constructor.
      * </p>
-     * @param arguments The URI arguments to analyze.
+     * @param argument The URI arguments to analyze.
      * @return The best-fit {@link URIConstructor}, or null if no suitable constructor is found.
      */
-    public static URIConstructor selectByApplicability(URIArgument arguments) {
-        Objects.requireNonNull(arguments);
-        for (StandardURIConstructor constructor : StandardURIConstructor.values()) {
-            if (constructor.isApplicable(arguments)) {
-                return constructor::construct;
-            }
-        }
-        return null;
+    public static URIConstructor selectByApplicability(URIArgument argument) {
+        Objects.requireNonNull(argument);
+        return streamByApplicability(argument).findFirst().orElse(null);
     }
 }

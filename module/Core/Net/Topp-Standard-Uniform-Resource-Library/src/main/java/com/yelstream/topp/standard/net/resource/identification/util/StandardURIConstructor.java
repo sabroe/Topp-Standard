@@ -24,7 +24,10 @@ import lombok.Getter;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  *
@@ -83,8 +86,7 @@ public enum StandardURIConstructor {
     FullAuthority(a -> new URI(a.getScheme(),a.getUserInfo(),a.getHost(),a.getPort(),a.getPath(),a.getQuery(),a.getFragment()),
             a ->
                     a.getScheme() != null &&
-                    a.getHost() != null &&
-                    a.getAuthority() == null
+                    (a.getUserInfo()!=null || a.getHost() != null || a.getPort()!=-1)
     ),
 
     /**
@@ -93,12 +95,12 @@ public enum StandardURIConstructor {
      *     Uses: {@link java.net.URI#URI(String, String, String, String)}
      * </p>
      */
-    SimpleHost(a -> new URI(a.getScheme(),a.getHost(),a.getPath(),a.getFragment()),
+    SimpleHostOrPath(a -> new URI(a.getScheme(),a.getHost(),a.getPath(),a.getFragment()),
             a ->
-                    a.getScheme() != null &&
+                    //a.getScheme() != null &&
                     a.getUserInfo() == null &&
-                    a.getHost() != null &&
-                    a.getAuthority() == null &&
+                    (a.getHost() != null || a.getPath()!=null) &&
+                    //a.getAuthority() == null &&
                     a.getPort() == -1 &&
                     a.getQuery() == null
     ),
@@ -113,9 +115,7 @@ public enum StandardURIConstructor {
             a ->
                     a.getScheme() != null &&
                     a.getAuthority() != null &&
-                    a.getUserInfo() == null &&
-                    a.getHost() == null &&
-                    a.getPort() == -1
+                    (a.getUserInfo()==null && a.getHost()==null && a.getPort()==-1)
     );
 
     @Getter
@@ -142,4 +142,14 @@ public enum StandardURIConstructor {
     public boolean isApplicable(URIArgument arguments) {
         return applicability.test(arguments);
     }
+
+    public static Stream<StandardURIConstructor> streamValues() {
+        return Arrays.stream(values());
+    }
+
+    public static Stream<StandardURIConstructor> streamByApplicability(URIArgument argument) {
+        Objects.requireNonNull(argument);
+        return streamValues().filter(e->e.isApplicable(argument));
+    }
+
 }
