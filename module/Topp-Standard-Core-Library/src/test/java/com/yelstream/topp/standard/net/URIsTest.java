@@ -27,6 +27,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Test of {@link URIs}.
@@ -201,6 +205,39 @@ class URIsTest {
         Assertions.assertEquals(uri,uri2.toString());
     }
 
+    @Test
+    void verifyURISchemeJar() {
+        String uriText="jar:jar:file:///outer.jar!/inner.jar!/resource.txt";
+        URI uri=URI.create(uriText);
+
+        Assertions.assertEquals("jar",uri.getScheme());
+        Assertions.assertEquals("jar:file:///outer.jar!/inner.jar!/resource.txt",uri.getSchemeSpecificPart());
+        Assertions.assertEquals(null,uri.getPath());
+    }
+//    public static final String JMX_SERVICE_URL = "service:jmx:rmi:///jndi/rmi://localhost:10224/jmxrmi";
+
+    @Test
+    void verifyURISchemeService() {
+        String uriText="service:jmx:rmi:///jndi/rmi://localhost:10224/jmxrmi";
+        URI uri=URI.create(uriText);
+
+        Assertions.assertEquals("service",uri.getScheme());
+        Assertions.assertEquals("jmx:rmi:///jndi/rmi://localhost:10224/jmxrmi",uri.getSchemeSpecificPart());
+        Assertions.assertEquals(null,uri.getPath());
+    }
+
+    @Test
+    void verifyURISchemeJdbc() {
+        String uriText="jdbc:sqlserver://localhost:1433;databaseName=database1;user=user1;password=password1;encrypt=true;trustServerCertificate=false";
+        URI uri=URI.create(uriText);
+
+        Assertions.assertEquals("jdbc",uri.getScheme());
+        Assertions.assertEquals("sqlserver://localhost:1433;databaseName=database1;user=user1;password=password1;encrypt=true;trustServerCertificate=false",uri.getSchemeSpecificPart());
+        Assertions.assertEquals(null,uri.getPath());
+    }
+
+
+
     /**
      * Tests the matching, parsing and rebuilding of URIs with the non-standard scheme "jdbc:sqlserver".
      * @throws URISyntaxException Thrown in case of URI syntax error.
@@ -241,4 +278,126 @@ System.out.println("RawSchemeSpecificPart: "+uri2.getRawSchemeSpecificPart());
     public static final String JMX_SERVICE_URL = "service:jmx:rmi:///jndi/rmi://localhost:10224/jmxrmi";
     public static final String BROKER_URL = "tcp://localhost:61616";
 */
+
+
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "jdbc:sqlserver://localhost:1433",
+            "jar:jar:file:///path/to/outer.jar!/inner.jar!/resource.txt",
+            "custom:foo:bar://example.com/path"
+    })
+    void todo_schemaComposite(String uri) throws URISyntaxException {
+        // Split the scheme and inner URI
+        String[] schemeParts = uri.split(":", 3); // Split on first two colons
+        String fullScheme = schemeParts.length > 1 ? schemeParts[0] + ":" + schemeParts[1] : schemeParts[0];
+        String innerUriStr = schemeParts.length > 2 ? schemeParts[2] : schemeParts[1];
+
+        // Handle jar-specific !/ entries if present
+        String[] uriParts = innerUriStr.split("!/");
+        String baseUri = uriParts[0];
+        List<String> entries = uriParts.length > 1 ? Arrays.asList(uriParts).subList(1, uriParts.length) : Collections.emptyList();
+
+        URI innerUri = new URI(baseUri);
+
+        URIs.Builder builder = URIs.builder();
+        builder.uri(innerUri);
+        builder.scheme(fullScheme); // Set composite scheme (e.g., jdbc:sqlserver)
+        if (!entries.isEmpty()) {
+    //??        builder.entries(entries); // Assume builder supports entries for jar: URLs
+        }
+
+        URI uri2 = builder.build();
+
+        Assertions.assertEquals(uri, uri2.toString());
+        Assertions.assertEquals(fullScheme, uri2.getScheme());
+        Assertions.assertEquals(innerUri.getHost(), uri2.getHost());
+        Assertions.assertEquals(innerUri.getPort(), uri2.getPort());
+        Assertions.assertEquals(innerUri.getPath(), uri2.getPath());
+        if (!entries.isEmpty()) {
+    //??        Assertions.assertEquals(entries, uri2.getEntries());
+        }
+    }
+
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "jar:file:///path/to/outer.jar!/com/example/MyClass.class",
+            "jar:jar:file:///path/to/outer.jar!/middle.jar!/inner.jar!/com/example/MyClass.class",
+            "jar:jar:jar:jar:jar:jar:jar:jar:jar:jar:file:///path/to/outer.jar!/jar1.jar!/jar2.jar!/jar3.jar!/jar4.jar!/jar5.jar!/jar6.jar!/jar7.jar!/jar8.jar!/jar9.jar!/com/example/MyClass.class"
+    })
+    void todo_schemaNestedJar(String uri) throws URISyntaxException {
+        // Parse nested JAR URL
+        List<String> entries = new ArrayList<>();
+        String currentUri = uri;
+        String fileUri = uri;
+        int jarCount = 0;
+
+        // Extract nested entries
+        while (currentUri.startsWith("jar:")) {
+            int separatorIndex = currentUri.indexOf("!/");
+            if (separatorIndex == -1) break;
+            entries.add(currentUri.substring(separatorIndex + 2));
+            currentUri = currentUri.substring(4, separatorIndex); // Remove "jar:" and entry
+            fileUri = currentUri;
+            jarCount++;
+        }
+
+        URI innerUri = new URI(fileUri);
+
+        URIs.Builder builder = URIs.builder();
+        builder.uri(innerUri);
+        builder.scheme("jar".repeat(jarCount > 0 ? jarCount : 1)); // Set composite scheme (e.g., jar:jar:...)
+    //??    builder.entries(entries); // Assume builder supports entries
+
+        URI uri2 = builder.build();
+
+        Assertions.assertEquals(uri, uri2.toString());
+        Assertions.assertEquals("jar".repeat(jarCount > 0 ? jarCount : 1), uri2.getScheme());
+        Assertions.assertEquals(innerUri.getHost(), uri2.getHost());
+        Assertions.assertEquals(innerUri.getPort(), uri2.getPort());
+        Assertions.assertEquals(innerUri.getPath(), uri2.getPath());
+//??        Assertions.assertEquals(entries, uri2.getEntries()); // Assume getEntries() exists
+    }
+
+
+    @Test
+    void todo_schemaDeeplyNestedJar() throws URISyntaxException {
+        StringBuilder uri = new StringBuilder("jar:".repeat(10));
+        uri.append("file:///path/to/outer.jar");
+        for (int i = 1; i <= 9; i++) {
+            uri.append("!/jar").append(i).append(".jar");
+        }
+        uri.append("!/com/example/MyClass.class");
+
+        String uriStr = uri.toString();
+        List<String> entries = new ArrayList<>();
+        String currentUri = uriStr;
+        for (int i = 0; i < 10; i++) {
+            int separatorIndex = currentUri.indexOf("!/");
+            entries.add(currentUri.substring(separatorIndex + 2));
+            currentUri = currentUri.substring(4, separatorIndex);
+        }
+
+        URI innerUri = new URI(currentUri);
+
+        URIs.Builder builder = URIs.builder();
+        builder.uri(innerUri);
+        builder.scheme("jar".repeat(10));
+//???        builder.entries(entries);
+
+        URI uri2 = builder.build();
+
+        Assertions.assertEquals(uriStr, uri2.toString());
+        Assertions.assertEquals("jar".repeat(10), uri2.getScheme());
+        Assertions.assertEquals(innerUri.getHost(), uri2.getHost());
+        Assertions.assertEquals(innerUri.getPort(), uri2.getPort());
+        Assertions.assertEquals(innerUri.getPath(), uri2.getPath());
+//???        Assertions.assertEquals(entries, uri2.getEntries());
+    }
+
+
+
+
+
 }
