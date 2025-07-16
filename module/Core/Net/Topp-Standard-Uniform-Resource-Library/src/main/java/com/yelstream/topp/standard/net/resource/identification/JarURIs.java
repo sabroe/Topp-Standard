@@ -19,11 +19,141 @@
 
 package com.yelstream.topp.standard.net.resource.identification;
 
+import com.yelstream.topp.standard.net.resource.identification.scheme.Scheme;
+import com.yelstream.topp.standard.net.resource.identification.scheme.StandardScheme;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+import lombok.experimental.UtilityClass;
+
+import java.net.URI;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Utilities for JAR-specific URIs.
+ * <p>
+ *     JAR URIs are that of a JAR URL: {@code jar:<url>!/{entry}}.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-06-29
  */
+@UtilityClass
 public class JarURIs {
+    /**
+     * Separator within JAR URL of the form {@code jar:<url>!/{entry}}.
+     */
+    public static final String SEPARATOR="!/";
+
+    /**
+     * String format for JAR URL.
+     */
+    public static final String JAR_URL_FORMAT="%1s:%2s"+SEPARATOR+"%3s";
+
+    /**
+     * Regular expression for JAR URL.
+     */
+    public static final String JAR_URL_REGEX=
+        "(?<scheme>[a-zA-Z][a-zA-Z0-9+.-]*):" +  //Scheme: Any valid URI scheme.
+        "(?<url>.*?!(?!.*!/))" +                 //URL: Anything up to the last "!/".
+        Pattern.quote(SEPARATOR) +               //Separator: "!/" (escaped).
+        "(?<entry>(?:(?!#!/).)*)?";              //Entry: optional, no "!/", no "?".
+
+    /**
+     *
+     */
+    @Getter
+    @ToString
+    @AllArgsConstructor(staticName="of")
+    public static final class SplitURI {
+        private final String scheme;
+        private final String url;
+        private final String entry;
+
+        public static SplitURI of(URI uri) {
+            StandardScheme.JAR.getScheme().requireMatch(uri);
+            Pattern pattern=Pattern.compile(JAR_URL_REGEX);
+            Matcher matcher=pattern.matcher(uri.toString());
+            if (!matcher.matches()) {
+                throw new IllegalStateException();
+            }
+            String scheme=matcher.group("scheme");
+            String url=matcher.group("url");
+            String entry=matcher.group("entry");
+
+            return of(scheme,url,entry);
+        }
+    }
+
+    public String create(String scheme, String url, String entry) {
+        Objects.requireNonNull(scheme);
+        Objects.requireNonNull(url);
+        return String.format(JAR_URL_FORMAT,scheme,url,entry==null?"":entry);
+    }
+
+    @lombok.Builder(builderClassName="Builder")
+    private String createByBuilder(String scheme, String url, String entry, String xxx) {
+        return create(scheme,url,entry);
+    }
+
+    @SuppressWarnings({"unused","FieldMayBeFinal"})
+    public static class Builder {
+        private String scheme=StandardScheme.JAR.getScheme().getName();
+
+        public Builder scheme(String scheme) {
+            this.scheme=scheme;
+            return this;
+        }
+
+        public Builder scheme(Scheme scheme) {
+            return scheme(scheme.getName());
+        }
+
+        public Builder url(String url) {
+            this.url=url;
+            return this;
+        }
+
+        public Builder url(URI url) {
+            return url(url.toString());
+        }
+
+        public Builder entry(String entry) {
+            this.entry=entry;
+            return this;
+        }
+
+        public Builder entry(URI entry) {
+            URIs.requirePathOnly(entry);
+            return entry(entry.getPath());
+        }
+
+        public URI buildURL() {
+            return URI.create(build());
+        }
+
+        public SplitURI buildSplitURL() {
+            return SplitURI.of(buildURL());
+        }
+
+        public static Builder of(SplitURI splitURI) {
+            return builder().scheme(splitURI.getScheme()).url(splitURI.url).entry(splitURI.getScheme());
+        }
+
+        public static Builder of(URI uri) {
+            StandardScheme.JAR.getScheme().requireMatch(uri);
+            Pattern pattern=Pattern.compile(JAR_URL_REGEX);
+            Matcher matcher=pattern.matcher(uri.toString());
+            if (!matcher.matches()) {
+                throw new IllegalStateException();
+            }
+            String scheme=matcher.group("scheme");
+            String url=matcher.group("url");
+            String entry=matcher.group("entry");
+
+            return builder().scheme(scheme).url(url).entry(entry);
+        }
+    }
 }

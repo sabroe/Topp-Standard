@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.net.resource.location;
 
+import com.yelstream.topp.standard.net.resource.location.protocol.StandardProtocol;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;

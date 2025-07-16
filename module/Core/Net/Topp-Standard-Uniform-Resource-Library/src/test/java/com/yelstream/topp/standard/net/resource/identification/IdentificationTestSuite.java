@@ -31,7 +31,8 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
-    URIsTest.class
+    URIsTest.class,
+    JarURIsTest.class
 })
 class IdentificationTestSuite {
 }

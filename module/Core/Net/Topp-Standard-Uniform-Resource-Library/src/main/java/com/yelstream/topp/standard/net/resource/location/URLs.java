@@ -19,8 +19,6 @@
 
 package com.yelstream.topp.standard.net.resource.location;
 
-import com.yelstream.topp.standard.net.resource.identification.URIs;
-import com.yelstream.topp.standard.net.resource.location.handler.ClasspathURLStreamHandler;
 import lombok.experimental.UtilityClass;
 
 import java.net.MalformedURLException;

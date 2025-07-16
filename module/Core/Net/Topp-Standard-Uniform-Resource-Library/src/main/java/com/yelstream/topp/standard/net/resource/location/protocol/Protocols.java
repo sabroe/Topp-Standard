@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.location;
+package com.yelstream.topp.standard.net.resource.location.protocol;
 
 import lombok.experimental.UtilityClass;
 

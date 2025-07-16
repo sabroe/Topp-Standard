@@ -17,23 +17,16 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification;
+package com.yelstream.topp.standard.net.resource.identification.scheme;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.experimental.UtilityClass;
 
 /**
- * Standard schemes.
+ * Utility addressing instances of {@link Scheme}.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-12
  */
-@AllArgsConstructor
-@SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})
-public enum StandardScheme {
-    File(Scheme.of("file")),
-    JAR(Scheme.of("jar"));
-
-    @Getter
-    private final Scheme scheme;
+@UtilityClass
+public class Schemes {
 }

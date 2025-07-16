@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler;
 
-import com.yelstream.topp.standard.net.resource.identification.Scheme;
+import com.yelstream.topp.standard.net.resource.identification.scheme.Scheme;
 import com.yelstream.topp.standard.net.resource.identification.util.URIArgument;
 import com.yelstream.topp.standard.net.resource.identification.util.URIConstructor;
 
