@@ -20,6 +20,7 @@
 package com.yelstream.topp.standard.net.resource.identification.scheme;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.net.MalformedURLException;
@@ -36,6 +37,7 @@ import java.net.URL;
  * @since 2025-07-12
  */
 @SuppressWarnings("LombokGetterMayBeUsed")
+@EqualsAndHashCode
 @AllArgsConstructor(staticName="of")
 public final class Scheme {
     /**
@@ -61,5 +63,9 @@ public final class Scheme {
         } catch (MalformedURLException ex) {
             throw new IllegalStateException("Failure to convert URI to URL; actual URI is '%s'!".formatted(uri));
         }
+    }
+
+    public static Scheme of(URI uri) {
+        return of(uri.getScheme());
     }
 }

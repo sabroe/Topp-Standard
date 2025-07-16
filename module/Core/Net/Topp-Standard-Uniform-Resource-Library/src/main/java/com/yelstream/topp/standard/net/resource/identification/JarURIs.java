@@ -50,16 +50,18 @@ public class JarURIs {
     /**
      * String format for JAR URL.
      */
-    public static final String JAR_URL_FORMAT="%1s:%2s"+SEPARATOR+"%3s";
+    public static final String JAR_URL_FORMAT="%1$s:%2$s"+SEPARATOR+"%3$s";
 
     /**
      * Regular expression for JAR URL.
      */
     public static final String JAR_URL_REGEX=
-        "(?<scheme>[a-zA-Z][a-zA-Z0-9+.-]*):" +  //Scheme: Any valid URI scheme.
-        "(?<url>.*?!(?!.*!/))" +                 //URL: Anything up to the last "!/".
-        Pattern.quote(SEPARATOR) +               //Separator: "!/" (escaped).
-        "(?<entry>(?:(?!#!/).)*)?";              //Entry: optional, no "!/", no "?".
+        "^"+
+        "(?<scheme>[a-zA-Z][a-zA-Z0-9+.-]*):"+
+        "(?<url>.+)"+
+        Pattern.quote(SEPARATOR)+
+        "(?<entry>[^!]+)?"+
+        "$";
 
     /**
      *
@@ -88,13 +90,13 @@ public class JarURIs {
     }
 
     public String create(String scheme, String url, String entry) {
-        Objects.requireNonNull(scheme);
-        Objects.requireNonNull(url);
+        Objects.requireNonNull(scheme,"Failure to create URI; scheme is not set!");
+        Objects.requireNonNull(url,"Failure to create URI; inner URL is not set!");
         return String.format(JAR_URL_FORMAT,scheme,url,entry==null?"":entry);
     }
 
     @lombok.Builder(builderClassName="Builder")
-    private String createByBuilder(String scheme, String url, String entry, String xxx) {
+    private String createByBuilder(String scheme, String url, String entry) {
         return create(scheme,url,entry);
     }
 
@@ -126,7 +128,7 @@ public class JarURIs {
         }
 
         public Builder entry(URI entry) {
-            URIs.requirePathOnly(entry);
+            StandardURIPredicate.IsPathOnly.requireMatch(entry);
             return entry(entry.getPath());
         }
 
@@ -139,7 +141,7 @@ public class JarURIs {
         }
 
         public static Builder of(SplitURI splitURI) {
-            return builder().scheme(splitURI.getScheme()).url(splitURI.url).entry(splitURI.getScheme());
+            return builder().scheme(splitURI.getScheme()).url(splitURI.url).entry(splitURI.getEntry());
         }
 
         public static Builder of(URI uri) {

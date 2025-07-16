@@ -19,11 +19,15 @@
 
 package com.yelstream.topp.standard.net.resource.identification;
 
+import com.yelstream.topp.standard.net.resource.identification.scheme.StandardScheme;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Standard URI predicate.
@@ -34,13 +38,31 @@ import java.util.function.Predicate;
 @AllArgsConstructor
 @SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})
 public enum StandardURIPredicate {
-    StandardScheme(uri->true),  //TO-DO: Fix!
-    PathOnly(uri->true),  //TO-DO: Fix!
-    Regular(uri->true),  //TO-DO: Fix!
-    NonRegular(uri->true);  //TO-DO: Fix!
+    HasStandardScheme(uri->uri!=null && StandardScheme.match(uri)!=null),
+    IsPathOnly(uri->uri!=null && uri.getPath()!=null && URI.create(uri.getPath()).equals(uri)),
+    IsRegular(uri->true),  //TO-DO: Fix!
+    IsNonRegular(uri->true);  //TO-DO: Fix!
 
     @Getter
-    private final Predicate<URI> predicte;
+    private final Predicate<URI> predicate;
 
-    //TO-DO: isMatch(URI)!
+    public boolean matches(URI uri) {
+        Objects.requireNonNull(uri);
+        return predicate.test(uri);
+    }
+
+    public void requireMatch(URI uri) {
+        if (!matches(uri)) {
+            throw new IllegalArgumentException("Failure to verify URI predicate; predicate is '%s', URI is '%s'!".formatted(this.name(),uri));
+        }
+    }
+
+    public static Stream<StandardURIPredicate> streamValues() {
+        return Arrays.stream(values());
+    }
+
+    public static Stream<Predicate<URI>> streamByPredicate(URI uri) {
+        Objects.requireNonNull(uri);
+        return streamValues().map(StandardURIPredicate::getPredicate);
+    }
 }
