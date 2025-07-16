@@ -51,15 +51,15 @@ class JarURIsTest {
         Assertions.assertEquals(expected, result);
 
         JarURIs.Builder builder = JarURIs.builder()
-                .scheme("jar")
-                .url("file:/my.jar")
-                .entry("com/example/MyClass.class");
+            .scheme("jar")
+            .url("file:/my.jar")
+            .entry("com/example/MyClass.class");
         Assertions.assertEquals(expected, builder.build());
 
         builder = JarURIs.builder()
-                .scheme(StandardScheme.JAR.getScheme())
-                .url(URI.create("file:/my.jar"))
-                .entry(URI.create("com/example/MyClass.class"));
+            .scheme(StandardScheme.JAR.getScheme())
+            .url(URI.create("file:/my.jar"))
+            .entry(URI.create("com/example/MyClass.class"));
         Assertions.assertEquals(expected, builder.build());
         Assertions.assertEquals(URI.create(expected), builder.buildURL());
     }
@@ -72,15 +72,15 @@ class JarURIsTest {
         Assertions.assertEquals(expected, result);
 
         JarURIs.Builder builder = JarURIs.builder()
-                .scheme("jar")
-                .url(innerUrl)
-                .entry("com/example/MyClass.class");
+            .scheme("jar")
+            .url(innerUrl)
+            .entry("com/example/MyClass.class");
         Assertions.assertEquals(expected, builder.build());
 
         builder = JarURIs.builder()
-                .scheme(StandardScheme.JAR.getScheme())
-                .url(URI.create("jar:file:/my.jar!/inner.jar"))
-                .entry(URI.create("com/example/MyClass.class"));
+            .scheme(StandardScheme.JAR.getScheme())
+            .url(URI.create("jar:file:/my.jar!/inner.jar"))
+            .entry(URI.create("com/example/MyClass.class"));
         Assertions.assertEquals(expected, builder.build());
         Assertions.assertEquals(URI.create(expected), builder.buildURL());
     }
@@ -93,15 +93,15 @@ class JarURIsTest {
         Assertions.assertEquals(expected, result);
 
         JarURIs.Builder builder = JarURIs.builder()
-                .scheme("jar")
-                .url(innerUrl)
-                .entry("com/example/MyClass.class");
+            .scheme("jar")
+            .url(innerUrl)
+            .entry("com/example/MyClass.class");
         Assertions.assertEquals(expected, builder.build());
 
         builder = JarURIs.builder()
-                .scheme(StandardScheme.JAR.getScheme())
-                .url(URI.create("jar:jar:file:/my.jar!/inner.jar!/core.jar"))
-                .entry(URI.create("com/example/MyClass.class"));
+            .scheme(StandardScheme.JAR.getScheme())
+            .url(URI.create("jar:jar:file:/my.jar!/inner.jar!/core.jar"))
+            .entry(URI.create("com/example/MyClass.class"));
         Assertions.assertEquals(expected, builder.build());
         Assertions.assertEquals(URI.create(expected), builder.buildURL());
     }
@@ -113,13 +113,13 @@ class JarURIsTest {
         Assertions.assertEquals(expected, result);
 
         JarURIs.Builder builder = JarURIs.builder()
-                .scheme("jar")
-                .url("file:/my.jar");
+            .scheme("jar")
+            .url("file:/my.jar");
         Assertions.assertEquals(expected, builder.build());
 
         builder = JarURIs.builder()
-                .scheme(StandardScheme.JAR.getScheme())
-                .url(URI.create("file:/my.jar"));
+            .scheme(StandardScheme.JAR.getScheme())
+            .url(URI.create("file:/my.jar"));
         Assertions.assertEquals(expected, builder.build());
         Assertions.assertEquals(URI.create(expected), builder.buildURL());
     }
@@ -265,9 +265,9 @@ class JarURIsTest {
         String url = "jar:file:/my.jar!/com/example/MyClass.class";
         Assertions.assertTrue(url.matches(JarURIs.JAR_URL_REGEX));
         JarURIs.Builder builder = JarURIs.builder()
-                .scheme("jar")
-                .url("file:/my.jar")
-                .entry("com/example/MyClass.class");
+            .scheme("jar")
+            .url("file:/my.jar")
+            .entry("com/example/MyClass.class");
         JarURIs.SplitURI splitURI = builder.buildSplitURL();
         Assertions.assertEquals("jar", splitURI.getScheme());
         Assertions.assertEquals("file:/my.jar", splitURI.getUrl());
