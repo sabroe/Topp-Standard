@@ -22,6 +22,10 @@ package com.yelstream.topp.standard.net.resource.location.protocol;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.net.URL;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 /**
  * Standard protocol.
  *
@@ -36,4 +40,24 @@ public enum StandardProtocol {
 
     @Getter
     private final Protocol protocol;
+
+    public boolean matches(URL url) {
+        return protocol.matches(url);
+    }
+
+    public void requireMatch(URL url) {
+        protocol.requireMatch(url);
+    }
+
+    public static Stream<StandardProtocol> streamValues() {
+        return Arrays.stream(values());
+    }
+
+    public static Stream<Protocol> streamByProtocol() {
+        return streamValues().map(StandardProtocol::getProtocol);
+    }
+
+    public static StandardProtocol match(URL url) {
+        return streamValues().filter(e->e.matches(url)).findFirst().orElse(null);
+    }
 }

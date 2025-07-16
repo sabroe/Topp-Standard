@@ -20,6 +20,7 @@
 package com.yelstream.topp.standard.net.resource.location.protocol;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.net.URI;
@@ -36,6 +37,7 @@ import java.net.URL;
  * @since 2025-07-12
  */
 @SuppressWarnings("LombokGetterMayBeUsed")
+@EqualsAndHashCode
 @AllArgsConstructor(staticName="of")
 public final class Protocol {
     /**
@@ -61,5 +63,9 @@ public final class Protocol {
         } catch (URISyntaxException ex) {
             throw new IllegalStateException("Failure to convert URL to URI; actual URL is '%s'!".formatted(url));
         }
+    }
+
+    public static Protocol of(URL url) {
+        return of(url.getProtocol());
     }
 }
