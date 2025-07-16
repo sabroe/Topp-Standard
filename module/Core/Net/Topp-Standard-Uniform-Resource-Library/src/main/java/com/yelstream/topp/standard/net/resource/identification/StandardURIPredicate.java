@@ -38,10 +38,63 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})
 public enum StandardURIPredicate {
-    HasStandardScheme(uri->uri!=null && StandardScheme.match(uri)!=null),
-    IsPathOnly(uri->uri!=null && uri.getPath()!=null && URI.create(uri.getPath()).equals(uri)),
-    IsRegular(uri->true),  //TO-DO: Fix!
-    IsNonRegular(uri->true);  //TO-DO: Fix!
+    /**
+     * Tests if the URI has a standard scheme as defined by StandardScheme.
+     */
+    HasStandardScheme(uri -> uri != null && StandardScheme.match(uri) != null),
+
+    /**
+     * Tests if the URI is relative and consists only of a path (no query, fragment, or authority).
+     */
+    IsPathOnly(uri -> uri != null && !uri.isAbsolute() && uri.getPath() != null && uri.getQuery() == null && uri.getFragment() == null && uri.getAuthority() == null),
+
+    /**
+     * Tests if the URI is opaque (e.g., mailto:user@example.com).
+     */
+    IsOpaque(uri -> uri != null && uri.isOpaque()),
+
+    /**
+     * Tests if the URI is hierarchical (not opaque).
+     */
+    IsHierarchical(uri -> uri != null && !uri.isOpaque()),
+
+    /**
+     * Tests if the URI is absolute (has a scheme).
+     */
+    IsAbsolute(uri -> uri != null && uri.isAbsolute()),
+
+    /**
+     * Tests if the URI is relative (no scheme).
+     */
+    IsRelative(uri -> uri != null && !uri.isAbsolute()),
+
+/*
+    */
+/**
+     * Tests if the URI has a standard scheme and is considered regular.
+     *//*
+
+    IsRegular(uri -> uri != null && StandardScheme.match(uri) != null),
+*/
+
+/*
+    */
+/**
+     * Tests if the URI has a non-standard scheme (e.g., jar:, jdbc:).
+     *//*
+
+    IsNonRegular(uri -> uri != null && StandardScheme.match(uri) == null),
+*/
+
+    /**
+     * Tests if the URI has a valid authority (e.g., host or user info).
+     */
+    HasAuthority(uri -> uri != null && !uri.isOpaque() && uri.getAuthority() != null),
+
+    /**
+     * Tests if the URI has a non-empty host.
+     */
+    HasValidHost(uri -> uri != null && !uri.isOpaque() && uri.getHost() != null && !uri.getHost().isEmpty());
 
     @Getter
     private final Predicate<URI> predicate;
