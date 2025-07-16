@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.net.resource.identification;
 
+import com.yelstream.topp.standard.net.resource.identification.scheme.StandardScheme;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;

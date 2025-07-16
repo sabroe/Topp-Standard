@@ -19,14 +19,28 @@
 
 package com.yelstream.topp.standard.net.resource.identification;
 
-import lombok.experimental.UtilityClass;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.net.URI;
+import java.util.function.Predicate;
 
 /**
- * Utility addressing instances of {@link Scheme}.
+ * Standard URI predicate.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-12
+ * @since 2025-07-16
  */
-@UtilityClass
-public class Schemes {
+@AllArgsConstructor
+@SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})
+public enum StandardURIPredicate {
+    StandardScheme(uri->true),  //TO-DO: Fix!
+    PathOnly(uri->true),  //TO-DO: Fix!
+    Regular(uri->true),  //TO-DO: Fix!
+    NonRegular(uri->true);  //TO-DO: Fix!
+
+    @Getter
+    private final Predicate<URI> predicte;
+
+    //TO-DO: isMatch(URI)!
 }

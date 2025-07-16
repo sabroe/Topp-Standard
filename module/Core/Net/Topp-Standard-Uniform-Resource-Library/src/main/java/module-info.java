@@ -38,4 +38,6 @@ module com.yelstream.topp.standard.net.resource {
     exports com.yelstream.topp.standard.net.resource.location.handler.factory;
     exports com.yelstream.topp.standard.net.resource.location.handler.provider;
     exports com.yelstream.topp.standard.net.resource.location.handler.provider.spi;
+    exports com.yelstream.topp.standard.net.resource.identification.scheme;
+    exports com.yelstream.topp.standard.net.resource.location.protocol;
 }

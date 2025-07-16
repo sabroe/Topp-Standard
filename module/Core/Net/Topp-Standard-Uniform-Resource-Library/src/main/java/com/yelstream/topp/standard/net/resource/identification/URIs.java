@@ -34,8 +34,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import java.util.function.Consumer;
-import java.util.function.IntConsumer;
-import java.util.function.IntPredicate;
 
 /**
  * Utility addressing instances of {@link URI}.
@@ -64,8 +62,15 @@ public class URIs {
         }
     }
 
+    public static boolean isPathOnly(URI uri) {
+        return URI.create(uri.getPath()).equals(uri);  //TO-DO: Create "StandardURIPredicate", holding "Predicate<URI>"!?
+    }
 
-
+    public static void requirePathOnly(URI uri) {
+        if (!isPathOnly(uri)) {
+            throw new IllegalStateException("Failure to verify URI as a 'path only' URI; URI is '%s'!".formatted(uri));
+        }
+    }
 
     /**
      * Creates a URI.

@@ -17,44 +17,23 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.location;
+package com.yelstream.topp.standard.net.resource.identification.scheme;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.net.URI;
-import java.net.URL;
-
 /**
- * URL protocol name.
- * <p>
- *     This is immutable.
- * </p>
+ * Standard schemes.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-12
  */
-@SuppressWarnings("LombokGetterMayBeUsed")
-@AllArgsConstructor(staticName="of")
-public final class Protocol {
-    /**
-     * Protocol name.
-     */
+@AllArgsConstructor
+@SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})
+public enum StandardScheme {
+    File(Scheme.of("file")),
+    JAR(Scheme.of("jar"));
+
     @Getter
-    private final String name;
-
-    public boolean matches(URL url) {
-        return name.equalsIgnoreCase(url.getProtocol());
-    }
-
-    public void requireMatch(URL url) {
-        if (!matches(url)) {
-            throw new IllegalArgumentException("Failure to verify URL protocol; URL is '%s'!".formatted(url));
-        }
-    }
-
-    public URI toURI(URL url) {
-        requireMatch(url);
-        return URLs.toURI(url);
-    }
+    private final Scheme scheme;
 }

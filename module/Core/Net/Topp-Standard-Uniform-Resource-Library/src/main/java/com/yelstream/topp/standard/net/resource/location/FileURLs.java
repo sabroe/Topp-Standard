@@ -20,6 +20,7 @@
 package com.yelstream.topp.standard.net.resource.location;
 
 import com.yelstream.topp.standard.net.resource.identification.FileURIs;
+import com.yelstream.topp.standard.net.resource.location.protocol.StandardProtocol;
 import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class FileURLs {
      * @return File path.
      */
     public static Path toPath(URL url) {
-        URI uri=StandardProtocol.File.getProtocol().toURI(url);
+        URI uri= StandardProtocol.File.getProtocol().toURI(url);
         return FileURIs.toPath(uri);
     }
 

@@ -17,16 +17,17 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification;
+package com.yelstream.topp.standard.net.resource.location.protocol;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
- * URI scheme name.
+ * URL protocol name.
  * <p>
  *     This is immutable.
  * </p>
@@ -36,25 +37,29 @@ import java.net.URL;
  */
 @SuppressWarnings("LombokGetterMayBeUsed")
 @AllArgsConstructor(staticName="of")
-public final class Scheme {
+public final class Protocol {
     /**
-     * Scheme name.
+     * Protocol name.
      */
     @Getter
     private final String name;
 
-    public boolean matches(URI uri) {
-        return name.equalsIgnoreCase(uri.getScheme());
+    public boolean matches(URL url) {
+        return name.equalsIgnoreCase(url.getProtocol());
     }
 
-    public void requireMatch(URI uri) {
-        if (!matches(uri)) {
-            throw new IllegalArgumentException("Failure to verify URI scheme; URI is '%s'!".formatted(uri));
+    public void requireMatch(URL url) {
+        if (!matches(url)) {
+            throw new IllegalArgumentException("Failure to verify URL protocol; URL is '%s'!".formatted(url));
         }
     }
 
-    public URL toURL(URI uri) {
-        requireMatch(uri);
-        return URIs.toURL(uri);
+    public URI toURI(URL url) {
+        requireMatch(url);
+        try {
+            return url.toURI();
+        } catch (URISyntaxException ex) {
+            throw new IllegalStateException("Failure to convert URL to URI; actual URL is '%s'!".formatted(url));
+        }
     }
 }

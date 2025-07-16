@@ -21,7 +21,7 @@ package com.yelstream.topp.standard.net.resource.location.handler;
 
 import com.yelstream.topp.standard.system.load.clazz.ClassLoaders;
 import com.yelstream.topp.standard.system.load.clazz.util.StandardClassLoader;
-import com.yelstream.topp.standard.net.resource.location.Protocol;
+import com.yelstream.topp.standard.net.resource.location.protocol.Protocol;
 import com.yelstream.topp.standard.net.resource.location.connection.URLConnections;
 import com.yelstream.topp.standard.system.load.name.Locations;
 import lombok.AllArgsConstructor;

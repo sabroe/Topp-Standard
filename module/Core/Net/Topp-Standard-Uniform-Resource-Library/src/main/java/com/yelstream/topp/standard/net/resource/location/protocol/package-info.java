@@ -17,22 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification;
-
-import org.junit.platform.suite.api.SelectClasses;
-import org.junit.platform.suite.api.Suite;
-
 /**
- * Test suite for {@code com.yelstream.topp.standard.net}.
+ * URL protocol handling.
  *
  * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-06-07
+ * @since 2025-07-16
  */
-@Suite
-@SelectClasses({
-    URIsTest.class,
-    JarURIsTest.class
-})
-class IdentificationTestSuite {
-}
+package com.yelstream.topp.standard.net.resource.location.protocol;
