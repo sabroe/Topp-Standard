@@ -21,6 +21,7 @@ package com.yelstream.topp.standard.net.resource.identification;
 
 import com.yelstream.topp.standard.net.resource.identification.scheme.Scheme;
 import com.yelstream.topp.standard.net.resource.identification.scheme.StandardScheme;
+import com.yelstream.topp.standard.net.resource.identification.util.StandardURIPredicate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

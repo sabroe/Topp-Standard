@@ -19,13 +19,13 @@
 
 package com.yelstream.topp.standard.net.resource.identification;
 
-import com.yelstream.topp.standard.net.resource.identification.builder.util.MappedQuery;
-import com.yelstream.topp.standard.net.resource.identification.builder.util.SegmentedPath;
-import com.yelstream.topp.standard.net.resource.identification.builder.util.TaggedPath;
+import com.yelstream.topp.standard.net.resource.identification.query.MappedQuery;
+import com.yelstream.topp.standard.net.resource.identification.path.SegmentedPath;
+import com.yelstream.topp.standard.net.resource.identification.path.TaggedPath;
 import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
-import com.yelstream.topp.standard.net.resource.identification.util.URIArgument;
-import com.yelstream.topp.standard.net.resource.identification.util.URIConstructor;
-import com.yelstream.topp.standard.net.resource.identification.util.URIConstructors;
+import com.yelstream.topp.standard.net.resource.identification.build.URIArgument;
+import com.yelstream.topp.standard.net.resource.identification.build.URIConstructor;
+import com.yelstream.topp.standard.net.resource.identification.build.URIConstructors;
 import lombok.experimental.UtilityClass;
 
 import java.net.MalformedURLException;

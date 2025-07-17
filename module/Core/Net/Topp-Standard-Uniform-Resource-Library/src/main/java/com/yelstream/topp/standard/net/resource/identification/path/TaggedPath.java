@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.builder.util;
+package com.yelstream.topp.standard.net.resource.identification.path;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,9 +26,9 @@ import lombok.experimental.Accessors;
 /**
  * Associates (path,tag) as present in a Docker name.
  * <p>
- *   Given a Docker name like
- *   {@code nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0}
- *   this associates ({@code /yelstream.com/topp/application/docker-intelligence},{@code 1.0.0}).
+ *     Given a Docker name like
+ *     {@code nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0}
+ *     this associates ({@code /yelstream.com/topp/application/docker-intelligence},{@code 1.0.0}).
  * </p>
  * <p>
  *     This is immutable.
@@ -42,7 +42,7 @@ import lombok.experimental.Accessors;
 @Accessors(fluent=true)
 @lombok.Builder(builderClassName="Builder",toBuilder=true)
 @AllArgsConstructor(staticName="of")
-public class TaggedPath {
+public final class TaggedPath {
     /**
      * Path.
      * <p>

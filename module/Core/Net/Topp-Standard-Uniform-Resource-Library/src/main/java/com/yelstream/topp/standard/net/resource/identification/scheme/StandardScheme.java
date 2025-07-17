@@ -36,7 +36,9 @@ import java.util.stream.Stream;
 @SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})
 public enum StandardScheme {
     File(Scheme.of("file")),
-    JAR(Scheme.of("jar"));
+    JAR(Scheme.of("jar")),
+    HTTP(Scheme.of("http")),
+    HTTPS(Scheme.of("https"));
 
     @Getter
     private final Scheme scheme;

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.util;
+package com.yelstream.topp.standard.net.resource.identification.build;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

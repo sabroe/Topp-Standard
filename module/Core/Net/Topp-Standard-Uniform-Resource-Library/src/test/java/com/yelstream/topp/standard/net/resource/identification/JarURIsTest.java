@@ -20,6 +20,7 @@
 package com.yelstream.topp.standard.net.resource.identification;
 
 import com.yelstream.topp.standard.net.resource.identification.scheme.StandardScheme;
+import com.yelstream.topp.standard.net.resource.identification.util.StandardURIPredicate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

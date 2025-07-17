@@ -17,11 +17,11 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.util;
+package com.yelstream.topp.standard.net.resource.identification.build;
 
-import com.yelstream.topp.standard.net.resource.identification.builder.util.MappedQuery;
-import com.yelstream.topp.standard.net.resource.identification.builder.util.SegmentedPath;
-import com.yelstream.topp.standard.net.resource.identification.builder.util.TaggedPath;
+import com.yelstream.topp.standard.net.resource.identification.query.MappedQuery;
+import com.yelstream.topp.standard.net.resource.identification.path.SegmentedPath;
+import com.yelstream.topp.standard.net.resource.identification.path.TaggedPath;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
