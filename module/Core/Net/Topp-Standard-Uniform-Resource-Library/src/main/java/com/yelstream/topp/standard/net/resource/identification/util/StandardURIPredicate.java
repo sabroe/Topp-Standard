@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification;
+package com.yelstream.topp.standard.net.resource.identification.util;
 
 import com.yelstream.topp.standard.net.resource.identification.scheme.StandardScheme;
 import lombok.AllArgsConstructor;
@@ -41,32 +41,32 @@ public enum StandardURIPredicate {
     /**
      * Tests if the URI has a standard scheme as defined by StandardScheme.
      */
-    HasStandardScheme(uri -> uri != null && StandardScheme.match(uri) != null),
+    HasStandardScheme(uri -> uri!=null && StandardScheme.match(uri)!=null),
 
     /**
      * Tests if the URI is relative and consists only of a path (no query, fragment, or authority).
      */
-    IsPathOnly(uri -> uri != null && !uri.isAbsolute() && uri.getPath() != null && uri.getQuery() == null && uri.getFragment() == null && uri.getAuthority() == null),
+    IsPathOnly(uri -> uri!=null && !uri.isAbsolute() && uri.getPath()!=null && uri.getQuery()==null && uri.getFragment()==null && uri.getAuthority()==null),
 
     /**
      * Tests if the URI is opaque (e.g., mailto:user@example.com).
      */
-    IsOpaque(uri -> uri != null && uri.isOpaque()),
+    IsOpaque(uri -> uri!=null && uri.isOpaque()),
 
     /**
      * Tests if the URI is hierarchical (not opaque).
      */
-    IsHierarchical(uri -> uri != null && !uri.isOpaque()),
+    IsHierarchical(uri -> uri!=null && !uri.isOpaque()),
 
     /**
      * Tests if the URI is absolute (has a scheme).
      */
-    IsAbsolute(uri -> uri != null && uri.isAbsolute()),
+    IsAbsolute(uri -> uri!=null && uri.isAbsolute()),
 
     /**
      * Tests if the URI is relative (no scheme).
      */
-    IsRelative(uri -> uri != null && !uri.isAbsolute()),
+    IsRelative(uri -> uri!=null && !uri.isAbsolute()),
 
 /*
     */
@@ -89,12 +89,17 @@ public enum StandardURIPredicate {
     /**
      * Tests if the URI has a valid authority (e.g., host or user info).
      */
-    HasAuthority(uri -> uri != null && !uri.isOpaque() && uri.getAuthority() != null),
+    HasAuthority(uri -> uri!=null && !uri.isOpaque() && uri.getAuthority()!=null),
 
     /**
      * Tests if the URI has a non-empty host.
      */
-    HasValidHost(uri -> uri != null && !uri.isOpaque() && uri.getHost() != null && !uri.getHost().isEmpty());
+    HasValidHost(uri -> uri!=null && !uri.isOpaque() && uri.getHost()!=null && !uri.getHost().isEmpty()),
+
+    /**
+     * Tests if the URI has a path containing a colon, indicating a tag (e.g., :latest, :1.0.0), as found in docker URIs.
+     */
+    IsPathTagged(uri -> uri!=null && uri.getPath()!=null && !uri.getPath().isEmpty() && uri.getPath().contains(":"));
 
     @Getter
     private final Predicate<URI> predicate;

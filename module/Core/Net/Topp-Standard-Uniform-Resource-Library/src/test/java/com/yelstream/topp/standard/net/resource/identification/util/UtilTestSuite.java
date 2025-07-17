@@ -17,34 +17,21 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.handler;
+package com.yelstream.topp.standard.net.resource.identification.util;
 
-import com.yelstream.topp.standard.net.resource.identification.scheme.Scheme;
-import com.yelstream.topp.standard.net.resource.identification.build.URIArgument;
-import com.yelstream.topp.standard.net.resource.identification.build.URIConstructor;
-
-import java.net.URI;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
- *
+ * Test suite for {@code com.yelstream.topp.standard.net.resource.identification.util}.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-15
+ * @version 1.0
+ * @since 2024-06-17
  */
-public interface URISchemeHandler {
-
-    Scheme getScheme();
-
-    boolean isRegular();
-
-    URIArgument postConstruct(URIArgument argument);
-
-    URI create(URIArgument argument,
-               URIConstructor constructor);
-
-    boolean hasInnerURI();
-
-    URI getInnerURI();
-    URIArgument getInnerURIArgument();
-
+@Suite
+@SelectClasses({
+        StandardURIPredicateTest.class
+})
+class UtilTestSuite {
 }

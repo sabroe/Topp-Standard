@@ -17,34 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.handler;
-
-import com.yelstream.topp.standard.net.resource.identification.scheme.Scheme;
-import com.yelstream.topp.standard.net.resource.identification.build.URIArgument;
-import com.yelstream.topp.standard.net.resource.identification.build.URIConstructor;
-
-import java.net.URI;
-
 /**
  *
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-15
  */
-public interface URISchemeHandler {
-
-    Scheme getScheme();
-
-    boolean isRegular();
-
-    URIArgument postConstruct(URIArgument argument);
-
-    URI create(URIArgument argument,
-               URIConstructor constructor);
-
-    boolean hasInnerURI();
-
-    URI getInnerURI();
-    URIArgument getInnerURIArgument();
-
-}
+package com.yelstream.topp.standard.net.resource.identification.build;

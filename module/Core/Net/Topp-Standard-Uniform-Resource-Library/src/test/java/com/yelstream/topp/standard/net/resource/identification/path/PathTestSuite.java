@@ -17,31 +17,22 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.util;
+package com.yelstream.topp.standard.net.resource.identification.path;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
- *
+ * Test suite for {@code com.yelstream.topp.standard.net.resource.identification.path}.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-15
+ * @version 1.0
+ * @since 2024-07-17
  */
-@FunctionalInterface
-public interface URIConstructor {
-    /**
-     *
-     * @param arguments
-     * @return
-     */
-    URI construct(URIArgument arguments) throws URISyntaxException;
-
-    default URI create(URIArgument arguments) {
-        try {
-            return construct(arguments);
-        } catch (URISyntaxException ex) {
-            throw new IllegalArgumentException("Failure to create URI; arguments are '%s'!".formatted(arguments),ex);
-        }
-    }
+@Suite
+@SelectClasses({
+        SegmentedPathTest.class,
+        TaggedPathTest.class
+})
+class PathTestSuite {
 }

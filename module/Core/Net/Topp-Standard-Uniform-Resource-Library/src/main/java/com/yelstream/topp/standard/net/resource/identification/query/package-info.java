@@ -17,4 +17,4 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.builder;
+package com.yelstream.topp.standard.net.resource.identification.query;

@@ -17,16 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.builder;
+package com.yelstream.topp.standard.net.resource.identification.path;
 
-import java.net.URI;
-
-/**
- * Utility addressing instances of {@link URI}.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-06-05
- */
-public class URIBuilder {
+public class TaggedPathTest {
 }

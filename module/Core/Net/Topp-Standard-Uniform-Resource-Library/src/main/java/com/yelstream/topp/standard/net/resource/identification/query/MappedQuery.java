@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.builder.util;
+package com.yelstream.topp.standard.net.resource.identification.query;
 
 import java.util.ArrayList;
 import java.util.HashMap;

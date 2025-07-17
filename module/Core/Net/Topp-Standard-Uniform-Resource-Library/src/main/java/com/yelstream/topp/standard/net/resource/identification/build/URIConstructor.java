@@ -17,13 +17,31 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.builder.util;
+package com.yelstream.topp.standard.net.resource.identification.build;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  *
+ *
  * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-06-09
+ * @since 2025-07-15
  */
-public class SegmentedPath {
+@FunctionalInterface
+public interface URIConstructor {
+    /**
+     *
+     * @param arguments
+     * @return
+     */
+    URI construct(URIArgument arguments) throws URISyntaxException;
+
+    default URI create(URIArgument arguments) {
+        try {
+            return construct(arguments);
+        } catch (URISyntaxException ex) {
+            throw new IllegalArgumentException("Failure to create URI; arguments are '%s'!".formatted(arguments),ex);
+        }
+    }
 }

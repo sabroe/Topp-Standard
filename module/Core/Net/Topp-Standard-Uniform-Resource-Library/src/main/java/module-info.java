@@ -28,11 +28,11 @@ module com.yelstream.topp.standard.net.resource {
     requires org.slf4j;
     requires com.yelstream.topp.standard.system.load;
     exports com.yelstream.topp.standard.net.resource.identification;
-    exports com.yelstream.topp.standard.net.resource.identification.util;
-    exports com.yelstream.topp.standard.net.resource.identification.builder;
-    exports com.yelstream.topp.standard.net.resource.identification.builder.util;
+    exports com.yelstream.topp.standard.net.resource.identification.build;
     exports com.yelstream.topp.standard.net.resource.identification.handler;
     exports com.yelstream.topp.standard.net.resource.identification.handler.factory;
+    exports com.yelstream.topp.standard.net.resource.identification.path;
+    exports com.yelstream.topp.standard.net.resource.identification.query;
     exports com.yelstream.topp.standard.net.resource.location;
     exports com.yelstream.topp.standard.net.resource.location.handler;
     exports com.yelstream.topp.standard.net.resource.location.handler.factory;
@@ -40,4 +40,5 @@ module com.yelstream.topp.standard.net.resource {
     exports com.yelstream.topp.standard.net.resource.location.handler.provider.spi;
     exports com.yelstream.topp.standard.net.resource.identification.scheme;
     exports com.yelstream.topp.standard.net.resource.location.protocol;
+    exports com.yelstream.topp.standard.net.resource.identification.util;
 }
