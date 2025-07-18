@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.net.resource.identification;
 
+import com.yelstream.topp.standard.net.resource.identification.build.URIArgument;
 import com.yelstream.topp.standard.net.resource.identification.path.TaggedPath;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -81,7 +82,7 @@ class URIsTest {
     void replaceHost() throws URISyntaxException {
         {
             URI uri0=new URI("http://example.com/languages/java/#xxx");
-            URI uri1=URIs.builder().uri(uri0).argumentUpdate(b->b.host("xxx.com")).build();
+            URI uri1=URIs.builder().argument(URIArgument.builder().uri(uri0).host("xxx.com").build()).build();
             URI expectedUri=new URI("http://xxx.com/languages/java/#xxx");
             Assertions.assertEquals(expectedUri,uri1);
             Assertions.assertEquals(expectedUri.toString(),uri1.toString());
@@ -96,7 +97,7 @@ class URIsTest {
     void replacePort() throws URISyntaxException {
         {
             URI uri0=new URI("http://example.com/languages/java/#xxx");
-            URI uri1=URIs.builder().uri(uri0).argumentUpdate(b->b.port(300)).build();
+            URI uri1=URIs.builder().argument(URIArgument.builder().uri(uri0).port(300).build()).build();
             URI expectedUri=new URI("http://example.com:300/languages/java/#xxx");
             Assertions.assertEquals(expectedUri,uri1);
             Assertions.assertEquals(expectedUri.toString(),uri1.toString());
@@ -156,22 +157,22 @@ class URIsTest {
         {
             String uriText="docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence:1.0.0";
             URI uri=new URI(uriText);
-            URIs.Builder builder=URIs.Builder.fromURI(uri);
+            URIArgument argument=URIArgument.of(uri);
 
-            TaggedPath taggedPath=builder.taggedPath();
+            TaggedPath taggedPath=argument.taggedPath();
 
-            Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.path());
-            Assertions.assertEquals("1.0.0",taggedPath.tag());
+            Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.getPath());
+            Assertions.assertEquals("1.0.0",taggedPath.getTag());
         }
         {
             String uriText="docker://nexus.yelstream.com:5000/yelstream.com/topp/application/docker-intelligence";
             URI uri=new URI(uriText);
-            URIs.Builder builder=URIs.Builder.fromURI(uri);
+            URIArgument argument=URIArgument.of(uri);
 
-            TaggedPath taggedPath=builder.taggedPath();
+            TaggedPath taggedPath=argument.taggedPath();
 
-            Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.path());
-            Assertions.assertNull(taggedPath.tag());
+            Assertions.assertEquals("/yelstream.com/topp/application/docker-intelligence",taggedPath.getPath());
+            Assertions.assertNull(taggedPath.getTag());
         }
     }
 

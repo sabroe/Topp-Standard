@@ -129,6 +129,23 @@ public final class SegmentedPath {
      * @return The URI path string, respecting absolute and container flags.
      */
     public String toPath() {
+        return formatPath(elements,absolute,container);
+    }
+
+    /**
+     * Converts the segmented path to a URI.
+     * @return Created URI.
+     * @throws IllegalArgumentException Thrown in case of the URI being invalid.
+     */
+    public URI toURI() {
+        URI uri=URI.create(toPath());
+        StandardURIPredicate.IsPathOnly.requireMatch(uri);  //Note: Safety check for now; should not be necessary!
+        return uri;
+    }
+
+    private static String formatPath(List<String> elements,
+                                     boolean absolute,
+                                     boolean container) {
         if (elements.isEmpty()) {
             if (absolute && container) {
                 return "/";
@@ -144,17 +161,6 @@ public final class SegmentedPath {
             path.append("/");
         }
         return path.toString();
-    }
-
-    /**
-     * Converts the segmented path to a URI.
-     * @return Created URI.
-     * @throws IllegalArgumentException Thrown in case of the URI being invalid.
-     */
-    public URI toURI() {
-        URI uri=URI.create(toPath());
-        StandardURIPredicate.IsPathOnly.requireMatch(uri);  //Note: Safety check for now; should not be necessary!
-        return uri;
     }
 
     /**

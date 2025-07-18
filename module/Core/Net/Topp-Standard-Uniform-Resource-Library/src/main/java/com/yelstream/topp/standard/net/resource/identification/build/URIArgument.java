@@ -19,15 +19,14 @@
 
 package com.yelstream.topp.standard.net.resource.identification.build;
 
-import com.yelstream.topp.standard.net.resource.identification.query.MappedQuery;
 import com.yelstream.topp.standard.net.resource.identification.path.SegmentedPath;
 import com.yelstream.topp.standard.net.resource.identification.path.TaggedPath;
+import com.yelstream.topp.standard.net.resource.identification.query.MappedQuery;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.net.URI;
-import java.util.function.Consumer;
 
 /**
  * Unified set of all possible URI constructor arguments.
@@ -96,7 +95,7 @@ public class URIArgument {
      * @return Tagged path.
      */
     public TaggedPath taggedPath() {
-        return TaggedPath.ofFullPath(path);
+        return TaggedPath.ofPath(path);
     }
 
     /**
@@ -112,7 +111,7 @@ public class URIArgument {
      * @return Segmented path.
      */
     public SegmentedPath segmentedPath() {
-        return null;  //TO-DO: Fix!
+        return SegmentedPath.ofPath(path);
     }
 
     @SuppressWarnings("java:S1118")
@@ -132,64 +131,13 @@ public class URIArgument {
         }
 
         /**
-         * Gets the current path as a tagged path.
-         * <p>
-         *     Note that this does not provide access to changing the path.
-         * </p>
-         * @return Tagged path.
-         */
-        public TaggedPath taggedPath() {
-            return TaggedPath.ofFullPath(path);
-        }
-
-        /**
          * Sets the current path from a tagged path.
          * @param taggedPath Tagged path.
          * @return This builder.
          */
         public Builder taggedPath(TaggedPath taggedPath) {
-            path(taggedPath.toFullPath());
+            path(taggedPath.toPath());
             return this;
-        }
-
-        public String tag() {
-            return taggedPath().tag();
-        }
-
-        public Builder tag(String tag) {
-            taggedPath(taggedPath().tag(tag));
-            return this;
-        }
-
-        public String untaggedPath() {
-            return TaggedPath.ofFullPath(path).path();
-        }
-
-        public Builder untaggedPath(String path) {
-            taggedPath(taggedPath().path(path));
-            return this;
-        }
-
-        /**
-         * Updates the current path as mapped through a tagged path.
-         * @param consumer Consumer updating the tagged path.
-         * @return This builder.
-         */
-        public Builder taggedPathUpdate(Consumer<TaggedPath> consumer) {
-            TaggedPath taggedPath=taggedPath();
-            consumer.accept(taggedPath);
-            return taggedPath(taggedPath);
-        }
-
-        /**
-         * Gets the current query as a mapped query.
-         * <p>
-         *     Note that this does not provide access to changing the query.
-         * </p>
-         * @return Mapped query.
-         */
-        public MappedQuery mappedQuery() {
-            return MappedQuery.of(query);
         }
 
         /**
@@ -202,45 +150,15 @@ public class URIArgument {
             return this;
         }
 
-
-        public Builder mappedQueryUpdate(Consumer<MappedQuery> consumer) {
-            MappedQuery mappedQuery=mappedQuery();
-            consumer.accept(mappedQuery);
-            return mappedQuery(mappedQuery);
-        }
-
-
-
-
-        /**
-         * Gets the current path as a segmented path.
-         * <p>
-         *     Note that this does not provide access to changing the path.
-         * </p>
-         * @return Segmented path.
-         */
-        public SegmentedPath segmentedPath() {
-            return null;  //TO-DO: Fix!
-        }
-
         /**
          * Sets the current path from a segmented path.
          * @param segmentedPath Segmented path.
          * @return This builder.
          */
         public Builder segmentedPath(SegmentedPath segmentedPath) {
-            //TO-DO: Fix!
+            path(segmentedPath.toPath());
             return this;
         }
-
-        public Builder segmentedPathUpdate(Consumer<SegmentedPath> consumer) {
-            SegmentedPath segmentedPath=segmentedPath();
-            consumer.accept(segmentedPath);
-            return segmentedPath(segmentedPath);
-        }
-
-
-
     }
 
     public static URIArgument of(URI uri) {
