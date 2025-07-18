@@ -19,13 +19,10 @@
 
 package com.yelstream.topp.standard.net.resource.identification;
 
-import com.yelstream.topp.standard.net.resource.identification.query.MappedQuery;
-import com.yelstream.topp.standard.net.resource.identification.path.SegmentedPath;
-import com.yelstream.topp.standard.net.resource.identification.path.TaggedPath;
-import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
 import com.yelstream.topp.standard.net.resource.identification.build.URIArgument;
 import com.yelstream.topp.standard.net.resource.identification.build.URIConstructor;
 import com.yelstream.topp.standard.net.resource.identification.build.URIConstructors;
+import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
 import lombok.experimental.UtilityClass;
 
 import java.net.MalformedURLException;
@@ -65,22 +62,15 @@ public class URIs {
     /**
      * Creates a URI.
      * <p>
-     * The creation is on the premises of the existing constructors of {@link URI} and Lombok.
+     * The creation is on the premises of the existing constructors of {@link URI}.
      * </p>
      * <p>
      * For another example of a builder, with a different purpose of supporting REST, consider taking a look at the
      * <a href="https://jakarta.ee/specifications/restful-ws/4.0/apidocs/jakarta.ws.rs/jakarta/ws/rs/core/uribuilder">Jakarta JAX-RS UriBuilder</a>.
      * </p>
-     *
-     * @param scheme             Scheme.
-     * @param schemeSpecificPart Scheme specific part.
-     * @param authority          Authority.
-     * @param userInfo           User info.
-     * @param host               Host.
-     * @param port               Port.
-     * @param path               Path.
-     * @param query              Query.
-     * @param fragment           Fragment.
+     * @param argument Argument.
+     * @param constructor Constructor.
+     * @param handler Handler.
      * @return Created URI.
      * @throws URISyntaxException Thrown in case of URI syntax error.
      */
@@ -112,13 +102,6 @@ if (constructor==null) {
             constructor(null);
             handler(null);
             postCreate();
-            return this;
-        }
-
-        public Builder argumentUpdate(Consumer<URIArgument.Builder> consumer) {
-            URIArgument.Builder builder=argument.toBuilder();
-            consumer.accept(builder);
-            argument(builder.build());
             return this;
         }
 
@@ -158,82 +141,7 @@ if (constructor==null) {
         }
 
         public static Builder fromPath(String path) {
-            return builder().argumentUpdate(b->b.path(path));  //TO-DO: From path from scratch!
-        }
-
-        public TaggedPath taggedPath() {
-            return argument.taggedPath();
-        }
-
-/* TODO: Fix!
-        public Builder taggedPath(TaggedPath taggedPath) {
-            path(taggedPath.toFullPath());
-            return this;
-        }
-*/
-
-/* TODO: Fix!
-        public String tag() {
-            return taggedPath().tag();
-        }
-*/
-
-/* TODO: Fix!
-        public Builder tag(String tag) {
-            taggedPath(taggedPath().tag(tag));
-            return this;
-        }
-*/
-
-/* TODO: Fix!
-        public String untaggedPath() {
-            return TaggedPath.ofFullPath(path).path();
-        }
-*/
-
-/* TODO: Fix!
-        public Builder untaggedPath(String path) {
-            taggedPath(taggedPath().path(path));
-            return this;
-        }
-*/
-
-        public Builder taggedPathUpdate(Consumer<TaggedPath> consumer) {
-            argumentUpdate(b->b.taggedPathUpdate(consumer));
-            return this;
-        }
-
-
-/* TODO: Fix!
-        public MappedQuery mappedQuery() {
-            return MappedQuery.of(query);
-        }
-*/
-
-/* TODO: Fix!
-        public Builder mappedQuery(MappedQuery mappedQuery) {
-            query(mappedQuery.formatAsString());
-            return this;
-        }
-*/
-
-        public Builder mappedQueryUpdate(Consumer<MappedQuery> consumer) {
-            argumentUpdate(b->b.mappedQueryUpdate(consumer));
-            return this;
-        }
-
-        public SegmentedPath segmentedPath() {
-            return null;  //TO-DO: Fix!
-        }
-
-        public Builder segmentedPath(SegmentedPath segmentedPath) {
-            //TO-DO: Fix!
-            return this;
-        }
-
-        public Builder segmentedPathUpdate(Consumer<SegmentedPath> consumer) {
-            argumentUpdate(b->b.segmentedPathUpdate(consumer));
-            return this;
+            return builder().argument(URIArgument.builder().path(path).build());
         }
     }
 }
