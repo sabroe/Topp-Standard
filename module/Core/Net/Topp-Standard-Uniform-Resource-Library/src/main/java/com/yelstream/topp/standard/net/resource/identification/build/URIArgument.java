@@ -146,7 +146,7 @@ public class URIArgument {
          * @return This builder.
          */
         public Builder mappedQuery(MappedQuery mappedQuery) {
-            query(mappedQuery.formatAsString());
+            query(mappedQuery.toQuery());
             return this;
         }
 
