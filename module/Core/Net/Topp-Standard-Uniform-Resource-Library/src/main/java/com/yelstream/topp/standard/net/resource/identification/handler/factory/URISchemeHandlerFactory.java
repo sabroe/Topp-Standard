@@ -19,11 +19,19 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler.factory;
 
+import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
+
 /**
  *
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-15
  */
-public class URISchemeHandlerFactory {
+public interface URISchemeHandlerFactory {
+    /**
+     *
+     * @param scheme
+     * @return
+     */
+    URISchemeHandler createURISchemeHandler(String scheme);
 }

@@ -30,6 +30,9 @@ import java.net.URI;
 
 /**
  * Unified set of all possible URI constructor arguments.
+ * <p>
+ *     This is immutable.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-15

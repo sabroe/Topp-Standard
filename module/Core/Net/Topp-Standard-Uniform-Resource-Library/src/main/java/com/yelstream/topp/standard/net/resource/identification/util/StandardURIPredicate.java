@@ -99,7 +99,21 @@ public enum StandardURIPredicate {
     /**
      * Tests if the URI has a path containing a colon, indicating a tag (e.g., :latest, :1.0.0), as found in docker URIs.
      */
-    IsPathTagged(uri -> uri!=null && uri.getPath()!=null && !uri.getPath().isEmpty() && uri.getPath().contains(":"));
+    IsPathTagged(uri -> uri!=null && uri.getPath()!=null && !uri.getPath().isEmpty() && uri.getPath().contains(":")),
+
+    /**
+     * Tests if the URI is irregular, i.e., has a non-standard scheme and is either opaque or has a non-standard authority.
+     * <p>
+     *     Examples of irregular URIs:
+     *     <ul>
+     *         <li>{@code jdbc:sqlserver://localhost:1433} (opaque, non-standard scheme)</li>
+     *         <li>{@code sqlserver://localhost:1433;databaseName=database1} (hierarchical, non-standard scheme and authority)</li>
+     *     </ul>
+     * </p>
+     */
+    IsIrregular(uri -> uri != null && !HasStandardScheme.predicate.test(uri) &&
+            (uri.isOpaque() || (uri.getAuthority() != null && uri.getAuthority().contains(";"))));
+
 
     @Getter
     private final Predicate<URI> predicate;

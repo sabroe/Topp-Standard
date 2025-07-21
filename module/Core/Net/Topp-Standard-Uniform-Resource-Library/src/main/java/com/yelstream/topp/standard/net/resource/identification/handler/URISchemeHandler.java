@@ -19,11 +19,13 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler;
 
-import com.yelstream.topp.standard.net.resource.identification.scheme.Scheme;
 import com.yelstream.topp.standard.net.resource.identification.build.URIArgument;
 import com.yelstream.topp.standard.net.resource.identification.build.URIConstructor;
+import com.yelstream.topp.standard.net.resource.identification.scheme.Scheme;
 
 import java.net.URI;
+import java.util.Properties;
+import java.util.function.UnaryOperator;
 
 /**
  *
@@ -33,18 +35,21 @@ import java.net.URI;
  */
 public interface URISchemeHandler {
 
-    Scheme getScheme();
+    Scheme getScheme();  //TO-DO: Consider this; may not be sane to tie this handler to one specific, named scheme!
 
-    boolean isRegular();
+    Trait getTrait();
 
-    URIArgument postConstruct(URIArgument argument);
+    String getEntry(URIArgument argument);
+    Properties getProperties(URIArgument argument);
+    String getTag(URIArgument argument);
+    String getInnerURI(URIArgument argument);
 
-    URI create(URIArgument argument,
-               URIConstructor constructor);
 
-    boolean hasInnerURI();
+    UnaryOperator<URIArgument> getArgumentCorrectionOperator();
 
-    URI getInnerURI();
-    URIArgument getInnerURIArgument();
+    URIConstructor getConstructor();
+
+    URI create(URIArgument argument);
+
 
 }

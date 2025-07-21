@@ -25,5 +25,5 @@ package com.yelstream.topp.standard.net.resource.identification.handler;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-15
  */
-public abstract class JarURISchemeHandler implements NonRegularURISchemeHandler {
+public abstract class JarURISchemeHandler {
 }

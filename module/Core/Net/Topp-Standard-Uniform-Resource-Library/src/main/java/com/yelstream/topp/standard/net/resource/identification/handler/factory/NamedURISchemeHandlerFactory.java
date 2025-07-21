@@ -19,11 +19,26 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler.factory;
 
+import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
+
 /**
  *
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-15
+ * @since 2025-07-21
  */
-public class NamedURISchemeHandlerFactory {
+public interface NamedURISchemeHandlerFactory extends URISchemeHandlerFactory {
+    /**
+     * Gets the scheme name.
+     * @return Scheme name.
+     */
+    String getScheme();
+
+    /**
+     * Creates a handler for the scheme.
+     * @return Created handler.
+     */
+    default URISchemeHandler createURISchemeHandler() {
+        return createURISchemeHandler(getScheme());
+    }
 }

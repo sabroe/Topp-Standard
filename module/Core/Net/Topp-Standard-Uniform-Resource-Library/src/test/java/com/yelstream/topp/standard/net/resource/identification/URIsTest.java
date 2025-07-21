@@ -255,6 +255,8 @@ class URIsTest {
     )
     void schemaJDBC(String uri) throws URISyntaxException {
         URI uri1=new URI(uri);
+URIArgument a=URIArgument.of(uri1);
+URIArgument b=URIArgument.of(URI.create(a.getSchemeSpecificPart()));
         URIs.Builder builder=URIs.builder();
 //String modifiedUri = uri.replace("jdbc:sqlserver://", "sqlserver://");
 //builder.uri(new URI(modifiedUri));
@@ -399,4 +401,13 @@ System.out.println("RawSchemeSpecificPart: "+uri2.getRawSchemeSpecificPart());
     }
 
 
+    /*
+    service:jmx:jmxmp://localhost:8004
+    service:jmx:iiop://localhost:1300/jndi/iiop://localhost:1300/jmxbean
+
+    service:jmx:<vendor-protocol>://...
+    service:jmx:t3://localhost:7001/jndi/weblogic.management.mbeanservers.runtime
+    service:jmx:iiop://localhost:1300/jndi/iiop://localhost:1300/jmxbean
+
+     */
 }
