@@ -20,18 +20,35 @@
 package com.yelstream.topp.standard.net.resource.identification.handler.factory;
 
 import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.function.Supplier;
 
 /**
  *
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-15
+ * @since 2025-07-21
  */
-public interface URISchemeHandlerFactory {
+@AllArgsConstructor(staticName="of")
+final class SimpleURISchemeHandlerFactory implements NamedURISchemeHandlerFactory {
     /**
-     *
-     * @param scheme
-     * @return
+     * Scheme name.
      */
-    URISchemeHandler createURISchemeHandler(String scheme);
+    @Getter
+    private final String scheme;
+
+    /**
+     * Factory of handlers;
+     */
+    private final Supplier<URISchemeHandler> handlerSupplier;
+
+    @Override
+    public URISchemeHandler createURISchemeHandler(String scheme) {
+        if (!this.scheme.equals(scheme)) {
+            return null;
+        }
+        return handlerSupplier.get();
+    }
 }

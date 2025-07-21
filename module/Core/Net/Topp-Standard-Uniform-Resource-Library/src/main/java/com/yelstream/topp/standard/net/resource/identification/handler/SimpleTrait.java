@@ -19,11 +19,45 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
+ * Simple {@link Trait} implementation.
  *
+ * <p>
+ *     This is immutable.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-15
+ * @since 2025-07-20
  */
-public interface NonRegularURISchemeHandler extends URISchemeHandler {
+@Getter
+@lombok.Builder(builderClassName="Builder")
+@AllArgsConstructor(staticName="of")
+final class SimpleTrait implements Trait {
+    /**
+     *
+     */
+    private final boolean regular;
+
+    /**
+     *
+     */
+    private final boolean withEntry;
+
+    /**
+     *
+     */
+    private final boolean withProperties;
+
+    /**
+     *
+     */
+    private final boolean withTag;
+
+    /**
+     *
+     */
+    private final boolean withInnerURI;
 }

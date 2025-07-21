@@ -158,4 +158,32 @@ class StandardURIPredicateTest {
             // Expected
         }
     }
+
+
+
+    @Test
+    void testJdbcOpaqueURI() throws URISyntaxException {
+        URI uri = createURI("jdbc:sqlserver://localhost:1433");
+//        Assertions.assertTrue(StandardURIPredicate.NonRegular.matches(uri));
+        Assertions.assertTrue(StandardURIPredicate.IsOpaque.matches(uri));
+//        Assertions.assertTrue(StandardURIPredicate.IsNonRegular.matches(uri));
+        Assertions.assertFalse(StandardURIPredicate.HasStandardScheme.matches(uri));
+        Assertions.assertFalse(StandardURIPredicate.IsHierarchical.matches(uri));
+        Assertions.assertFalse(StandardURIPredicate.HasAuthority.matches(uri));
+        Assertions.assertFalse(StandardURIPredicate.HasValidHost.matches(uri));
+        Assertions.assertEquals("jdbc", uri.getScheme());
+        Assertions.assertEquals("sqlserver://localhost:1433", uri.getSchemeSpecificPart());
+    }
+
+    @Test
+    void testJdbcWithParameters() throws URISyntaxException {
+        URI uri = createURI("jdbc:sqlserver://localhost:1433;databaseName=database1");
+//        Assertions.assertTrue(StandardURIPredicate.NonRegular.matches(uri));
+        Assertions.assertTrue(StandardURIPredicate.IsOpaque.matches(uri));
+//        Assertions.assertTrue(StandardURIPredicate.IsNonRegular.matches(uri));
+        Assertions.assertFalse(StandardURIPredicate.HasStandardScheme.matches(uri));
+        Assertions.assertFalse(StandardURIPredicate.HasAuthority.matches(uri));
+        Assertions.assertEquals("jdbc", uri.getScheme());
+        Assertions.assertEquals("sqlserver://localhost:1433;databaseName=database1", uri.getSchemeSpecificPart());
+    }
 }
