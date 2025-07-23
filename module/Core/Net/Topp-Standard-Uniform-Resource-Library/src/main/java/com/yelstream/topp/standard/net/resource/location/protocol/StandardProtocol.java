@@ -24,6 +24,7 @@ import lombok.Getter;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -85,6 +86,7 @@ public enum StandardProtocol {
      *         This may be {@code null}.
      */
     public static StandardProtocol match(URL url) {
+        Objects.requireNonNull(url);
         return streamValues().filter(e->e.matches(url)).findFirst().orElse(null);
     }
 }

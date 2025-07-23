@@ -25,6 +25,7 @@ import lombok.Getter;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -32,7 +33,7 @@ import java.util.stream.Stream;
 /**
  * Standard URI predicate.
  * <p>
- *     The predicate tests for a recognizable construction or formatting in a specific, concrete {@link URI} instance.
+ *     This contains a predicate which tests for a recognizable feature on a concrete {@link URI} instance.
  * </p>
  *
  * @author Morten Sabroe Mortensen
@@ -108,26 +109,60 @@ public enum StandardURIPredicate {
      */
     IsNonRegular(HasEntrySeparator.predicate.or(HasPropertySeparator.predicate).or(IsPathTagged.predicate));
 
+    /**
+     * Predicate.
+     * <p>
+     *     Tests for a recognizable feature on a concrete {@link URI} instance.
+     * </p>
+     */
     @Getter
     private final Predicate<URI> predicate;
 
+    /**
+     * Indicates, if a URI is matched.
+     * @param uri Matched URI.
+     * @return Indicates match.
+     */
     public boolean matches(URI uri) {
         Objects.requireNonNull(uri);
         return predicate.test(uri);
     }
 
+    /**
+     * Requires that a URI is matched.
+     * @param uri Matched URI.
+     * @throws IllegalArgumentException Thrown in case of illegal argument.
+     */
     public void requireMatch(URI uri) {
         if (!matches(uri)) {
             throw new IllegalArgumentException("Failure to verify URI predicate; predicate is '%s', URI is '%s'!".formatted(this.name(),uri));
         }
     }
 
+    /**
+     * Streams all values.
+     * @return Stream of all values.
+     */
     public static Stream<StandardURIPredicate> streamValues() {
         return Arrays.stream(values());
     }
 
-    public static Stream<Predicate<URI>> streamByPredicate(URI uri) {
-        Objects.requireNonNull(uri);
+    /**
+     * Streams all predicates.
+     * @return Stream of all predicates.
+     */
+    public static Stream<Predicate<URI>> streamByPredicate() {
         return streamValues().map(StandardURIPredicate::getPredicate);
+    }
+
+    /**
+     * Finds the values matching a URI.
+     * @param uri URI to match.
+     * @return Matched values.
+     *         This may be {@code null}.
+     */
+    public static List<StandardURIPredicate> match(URI uri) {
+        Objects.requireNonNull(uri);
+        return streamValues().filter(e->e.matches(uri)).toList();
     }
 }

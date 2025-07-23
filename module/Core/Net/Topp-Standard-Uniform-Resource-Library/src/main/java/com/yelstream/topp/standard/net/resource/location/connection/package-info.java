@@ -17,4 +17,10 @@
  * limitations under the License.
  */
 
+/**
+ * Stream connectivity.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-07-13
+ */
 package com.yelstream.topp.standard.net.resource.location.connection;
