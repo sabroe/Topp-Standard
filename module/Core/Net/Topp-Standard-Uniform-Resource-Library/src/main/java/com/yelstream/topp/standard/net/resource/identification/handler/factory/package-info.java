@@ -18,7 +18,7 @@
  */
 
 /**
- *
+ * Factories for scheme handlers.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-15

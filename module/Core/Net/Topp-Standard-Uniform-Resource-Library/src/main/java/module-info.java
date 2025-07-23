@@ -31,6 +31,7 @@ module com.yelstream.topp.standard.net.resource {
     exports com.yelstream.topp.standard.net.resource.identification.build;
     exports com.yelstream.topp.standard.net.resource.identification.handler;
     exports com.yelstream.topp.standard.net.resource.identification.handler.factory;
+    exports com.yelstream.topp.standard.net.resource.identification.handler.provider;
     exports com.yelstream.topp.standard.net.resource.identification.path;
     exports com.yelstream.topp.standard.net.resource.identification.query;
     exports com.yelstream.topp.standard.net.resource.location;

@@ -20,6 +20,7 @@
 package com.yelstream.topp.standard.net.resource.identification.build;
 
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -32,9 +33,17 @@ import java.util.stream.Stream;
  * @author Morten Sabroe Mortensen
  * @since 2025-07-15
  */
+@Slf4j
 @UtilityClass
 public class URIConstructors {
-
+    /**
+     * Creates a stream of constructors operational upon a set of arguments.
+     * <p>
+     *     This is done by trial-and-error in a brute force manner.
+     * </p>
+     * @param argument Set of arguments.
+     * @return Created stream.
+     */
     public static Stream<URIConstructor> streamByTrial(URIArgument argument) {
         Objects.requireNonNull(argument);
         return StandardURIConstructor.streamValues().filter(e -> {
@@ -42,8 +51,7 @@ public class URIConstructors {
                 URI uri=e.construct(argument);
                 return uri!=null;
             } catch (URISyntaxException ex) {
-                //Empty!
-                //TO-DO: Consider logging this. SLF4J!
+                log.atDebug().setMessage("Failure to match standard constructor; standard constructor is '{}'!").addArgument(e.name()).setCause(ex).log();
                 return false;
             }
         }).map(StandardURIConstructor::getConstructor);
@@ -62,6 +70,14 @@ public class URIConstructors {
         return streamByTrial(argument).findFirst().orElse(null);
     }
 
+    /**
+     * Creates a stream of constructors applicable upon a set of arguments.
+     * <p>
+     *     This is done by evaluation of the provided set of arguments.
+     * </p>
+     * @param argument Set of arguments.
+     * @return Created stream.
+     */
     public static Stream<URIConstructor> streamByApplicability(URIArgument argument) {
         Objects.requireNonNull(argument);
         return StandardURIConstructor.streamByApplicability(argument).map(StandardURIConstructor::getConstructor);
@@ -70,7 +86,7 @@ public class URIConstructors {
     /**
      * Selects a URI constructor based on the provided arguments.
      * <p>
-     *     Uses predicates defined in {@link }StandardURIConstructor} to choose the best-fit constructor.
+     *     Uses predicates defined in {@link StandardURIConstructor} to choose the best-fit constructor.
      * </p>
      * @param argument The URI arguments to analyze.
      * @return The best-fit {@link URIConstructor}, or null if no suitable constructor is found.

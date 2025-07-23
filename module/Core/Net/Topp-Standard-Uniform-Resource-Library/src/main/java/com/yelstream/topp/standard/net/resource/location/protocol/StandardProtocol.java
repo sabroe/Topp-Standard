@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 /**
- * Standard protocol.
+ * Standard, named protocol.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-12
@@ -38,25 +38,52 @@ public enum StandardProtocol {
     File(Protocol.of("file")),
     JAR(Protocol.of("jar"));
 
+    /**
+     * Protocol.
+     */
     @Getter
     private final Protocol protocol;
 
+    /**
+     * Indicates, if a URL is matched.
+     * @param url Matched URL.
+     * @return Indicates match.
+     */
     public boolean matches(URL url) {
         return protocol.matches(url);
     }
 
+    /**
+     * Requires that a URL is matched.
+     * @param url Matched URL.
+     * @throws IllegalArgumentException Thrown in case of illegal argument.
+     */
     public void requireMatch(URL url) {
         protocol.requireMatch(url);
     }
 
+    /**
+     * Streams all values.
+     * @return Stream of all values.
+     */
     public static Stream<StandardProtocol> streamValues() {
         return Arrays.stream(values());
     }
 
+    /**
+     * Streams all protocols.
+     * @return Stream of all protocols.
+     */
     public static Stream<Protocol> streamByProtocol() {
         return streamValues().map(StandardProtocol::getProtocol);
     }
 
+    /**
+     * Finds the value matching a URL.
+     * @param url URL to match.
+     * @return Matched valued.
+     *         This may be {@code null}.
+     */
     public static StandardProtocol match(URL url) {
         return streamValues().filter(e->e.matches(url)).findFirst().orElse(null);
     }

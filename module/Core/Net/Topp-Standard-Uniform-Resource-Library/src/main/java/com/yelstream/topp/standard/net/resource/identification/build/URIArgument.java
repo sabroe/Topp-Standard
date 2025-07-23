@@ -31,6 +31,9 @@ import java.net.URI;
 /**
  * Unified set of all possible URI constructor arguments.
  * <p>
+ *     This is used as the data part in the construction of {@link URI} instances.
+ * </p>
+ * <p>
  *     This is immutable.
  * </p>
  *
@@ -97,7 +100,7 @@ public class URIArgument {
      * Gets the path as a tagged path.
      * @return Tagged path.
      */
-    public TaggedPath taggedPath() {
+    public TaggedPath taggedPath() {  //TO-DO: Move to separate 'URIArguments' utility; keep this clean and clear from "random" helper-utilities!
         return TaggedPath.ofPath(path);
     }
 
@@ -105,7 +108,7 @@ public class URIArgument {
      * Gets the query as a mapped query.
      * @return Mapped query.
      */
-    public MappedQuery mappedQuery() {
+    public MappedQuery mappedQuery() {  //TO-DO: Move to separate 'URIArguments' utility; keep this clean and clear from "random" helper-utilities!
         return MappedQuery.of(query);
     }
 
@@ -113,10 +116,13 @@ public class URIArgument {
      * Gets the path as a segmented path.
      * @return Segmented path.
      */
-    public SegmentedPath segmentedPath() {
+    public SegmentedPath segmentedPath() {  //TO-DO: Move to separate 'URIArguments' utility; keep this clean and clear from "random" helper-utilities!
         return SegmentedPath.ofPath(path);
     }
 
+    /**
+     * Builder of {@code URIArgument} instances.
+     */
     @SuppressWarnings("java:S1118")
     public static class Builder {
         public Builder uri(URI uri) {
@@ -138,7 +144,7 @@ public class URIArgument {
          * @param taggedPath Tagged path.
          * @return This builder.
          */
-        public Builder taggedPath(TaggedPath taggedPath) {
+        public Builder taggedPath(TaggedPath taggedPath) {  //TO-DO: Consider moving this to separate 'URIArguments' utility; keep this clean and clear from "random" helper-utilities!
             path(taggedPath.toPath());
             return this;
         }
@@ -148,7 +154,7 @@ public class URIArgument {
          * @param mappedQuery Mapped query.
          * @return This builder.
          */
-        public Builder mappedQuery(MappedQuery mappedQuery) {
+        public Builder mappedQuery(MappedQuery mappedQuery) {  //TO-DO: Consider moving this to separate 'URIArguments' utility; keep this clean and clear from "random" helper-utilities!
             query(mappedQuery.toQuery());
             return this;
         }
@@ -158,12 +164,17 @@ public class URIArgument {
          * @param segmentedPath Segmented path.
          * @return This builder.
          */
-        public Builder segmentedPath(SegmentedPath segmentedPath) {
+        public Builder segmentedPath(SegmentedPath segmentedPath) {  //TO-DO: Consider moving this to separate 'URIArguments' utility; keep this clean and clear from "random" helper-utilities!
             path(segmentedPath.toPath());
             return this;
         }
     }
 
+    /**
+     * Creates a unified set of arguments from a given URI.
+     * @param uri URI.
+     * @return Created set of arguments.
+     */
     public static URIArgument of(URI uri) {
         return builder().uri(uri).build();
     }

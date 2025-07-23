@@ -30,7 +30,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLStreamHandler;
-import java.util.function.Consumer;
 
 /**
  * Utility addressing instances of {@link URI}.
@@ -40,8 +39,12 @@ import java.util.function.Consumer;
  */
 @UtilityClass
 public class URIs {
-
-
+    /**
+     * Creates a URL from a URI.
+     * @param uri URI.
+     * @return Created URL.
+     * @throws IllegalStateException Thrown in case of illegal argument.
+     */
     public static URL toURL(URI uri) {
         try {
             return uri.toURL();
@@ -50,6 +53,13 @@ public class URIs {
         }
     }
 
+    /**
+     * Creates a URL from a URI.
+     * @param uri URI.
+     * @param handler URL stream handler.
+     * @return Created URL.
+     * @throws IllegalStateException Thrown in case of illegal argument.
+     */
     public static URL toURL(URI uri,
                             URLStreamHandler handler) {
         try {

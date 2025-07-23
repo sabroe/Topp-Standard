@@ -17,4 +17,10 @@
  * limitations under the License.
  */
 
+/**
+ * Utilities addressing the query of URIs.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-07-17
+ */
 package com.yelstream.topp.standard.net.resource.identification.query;

@@ -28,7 +28,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
- * URL protocol name.
+ * Named protocol.
  * <p>
  *     This is immutable.
  * </p>
@@ -46,16 +46,32 @@ public final class Protocol {
     @Getter
     private final String name;
 
+    /**
+     * Indicates, if a URL is matched.
+     * @param url Matched URL.
+     * @return Indicates match.
+     */
     public boolean matches(URL url) {
         return name.equalsIgnoreCase(url.getProtocol());
     }
 
+    /**
+     * Requires that a URL is matched.
+     * @param url Matched URL.
+     * @throws IllegalArgumentException Thrown in case of illegal argument.
+     */
     public void requireMatch(URL url) {
         if (!matches(url)) {
             throw new IllegalArgumentException("Failure to verify URL protocol; URL is '%s'!".formatted(url));
         }
     }
 
+    /**
+     * Creates a URI from a URL while requiring that the URL is matched.
+     * @param url URL.
+     * @return Created URI.
+     * @throws IllegalStateException Thrown in case of illegal argument.
+     */
     public URI toURI(URL url) {
         requireMatch(url);
         try {
@@ -65,6 +81,11 @@ public final class Protocol {
         }
     }
 
+    /**
+     * Creates a protocol from a URL.
+     * @param url URL.
+     * @return Created protocol.
+     */
     public static Protocol of(URL url) {
         return of(url.getProtocol());
     }

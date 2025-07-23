@@ -23,7 +23,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- *
+ * Constructs a URI from a unified set of arguments.
+ * <p>
+ *     This is used as the action part in the construction of {@link URI} instances.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-15
@@ -31,17 +34,25 @@ import java.net.URISyntaxException;
 @FunctionalInterface
 public interface URIConstructor {
     /**
-     *
-     * @param arguments
-     * @return
+     * Constructs a URI.
+     * @param argument Unified set of arguments.
+     *                 This may use the individual arguments in a selective manner.
+     * @return Created URI.
+     * @throws URISyntaxException Thrown in case of syntax error.
      */
-    URI construct(URIArgument arguments) throws URISyntaxException;
+    URI construct(URIArgument argument) throws URISyntaxException;
 
-    default URI create(URIArgument arguments) {
+    /**
+     * Constructs a URI.
+     * @param argument Unified set of arguments.
+     *                 This may use the individual arguments in a selective manner.
+     * @return Created URI.
+     */
+    default URI create(URIArgument argument) {
         try {
-            return construct(arguments);
+            return construct(argument);
         } catch (URISyntaxException ex) {
-            throw new IllegalArgumentException("Failure to create URI; arguments are '%s'!".formatted(arguments),ex);
+            throw new IllegalArgumentException("Failure to create URI; set of arguments are '%s'!".formatted(argument),ex);
         }
     }
 }

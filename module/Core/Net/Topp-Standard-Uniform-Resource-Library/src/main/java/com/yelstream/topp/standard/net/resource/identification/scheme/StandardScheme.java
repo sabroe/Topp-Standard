@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 /**
- * Standard schemes.
+ * Standard, named scheme.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-12
@@ -37,28 +37,55 @@ import java.util.stream.Stream;
 public enum StandardScheme {
     File(Scheme.of("file")),
     JAR(Scheme.of("jar")),
-    HTTP(Scheme.of("http")),
-    HTTPS(Scheme.of("https"));
+    HTTP(Scheme.of("http")),  //TO-DO: Remove this; is not built-in!
+    HTTPS(Scheme.of("https"));  //TO-DO: Remove this; is not built-in!
 
+    /**
+     * Scheme.
+     */
     @Getter
     private final Scheme scheme;
 
+    /**
+     * Indicates, if a URI is matched.
+     * @param uri Matched URI.
+     * @return Indicates match.
+     */
     public boolean matches(URI uri) {
         return scheme.matches(uri);
     }
 
+    /**
+     * Requires that a URI is matched.
+     * @param uri Matched URI.
+     * @throws IllegalArgumentException Thrown in case of illegal argument.
+     */
     public void requireMatch(URI uri) {
         scheme.requireMatch(uri);
     }
 
+    /**
+     * Streams all values.
+     * @return Stream of all values.
+     */
     public static Stream<StandardScheme> streamValues() {
         return Arrays.stream(values());
     }
 
+    /**
+     * Streams all schemes.
+     * @return Stream of all schemes.
+     */
     public static Stream<Scheme> streamByScheme() {
         return streamValues().map(StandardScheme::getScheme);
     }
 
+    /**
+     * Finds the value matching a URI.
+     * @param uri URI to match.
+     * @return Matched valued.
+     *         This may be {@code null}.
+     */
     public static StandardScheme match(URI uri) {
         return streamValues().filter(e->e.matches(uri)).findFirst().orElse(null);
     }

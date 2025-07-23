@@ -18,7 +18,7 @@
  */
 
 /**
- * URL stream handler providers to be registered as services.
+ * Stream handler providers to be registered as services.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-12
