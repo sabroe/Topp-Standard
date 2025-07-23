@@ -24,6 +24,7 @@ import lombok.Getter;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -87,6 +88,7 @@ public enum StandardScheme {
      *         This may be {@code null}.
      */
     public static StandardScheme match(URI uri) {
+        Objects.requireNonNull(uri);
         return streamValues().filter(e->e.matches(uri)).findFirst().orElse(null);
     }
 }

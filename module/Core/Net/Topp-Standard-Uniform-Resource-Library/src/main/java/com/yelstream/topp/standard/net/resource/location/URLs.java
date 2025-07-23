@@ -29,6 +29,9 @@ import java.net.URLStreamHandler;
 
 /**
  * Utility addressing instances of {@link URL}.
+ * <p>
+ *    This is the main entry point for creating {@link URL} instances.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-12
