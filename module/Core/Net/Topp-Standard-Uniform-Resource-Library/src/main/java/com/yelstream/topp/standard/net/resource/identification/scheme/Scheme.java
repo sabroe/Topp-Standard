@@ -28,7 +28,7 @@ import java.net.URI;
 import java.net.URL;
 
 /**
- * URI scheme name.
+ * Named scheme.
  * <p>
  *     This is immutable.
  * </p>
@@ -46,16 +46,32 @@ public final class Scheme {
     @Getter
     private final String name;
 
+    /**
+     * Indicates, if a URI is matched.
+     * @param uri Matched URI.
+     * @return Indicates match.
+     */
     public boolean matches(URI uri) {
         return name.equalsIgnoreCase(uri.getScheme());
     }
 
+    /**
+     * Requires that a URI is matched.
+     * @param uri Matched URI.
+     * @throws IllegalArgumentException Thrown in case of illegal argument.
+     */
     public void requireMatch(URI uri) {
         if (!matches(uri)) {
             throw new IllegalArgumentException("Failure to verify URI scheme; URI is '%s'!".formatted(uri));
         }
     }
 
+    /**
+     * Creates a URL from a URI while requiring that the URI is matched.
+     * @param uri URI.
+     * @return Created URL.
+     * @throws IllegalStateException Thrown in case of illegal argument.
+     */
     public URL toURL(URI uri) {
         requireMatch(uri);
         try {
@@ -65,6 +81,11 @@ public final class Scheme {
         }
     }
 
+    /**
+     * Creates a scheme from a URI.
+     * @param uri URI.
+     * @return Created scheme.
+     */
     public static Scheme of(URI uri) {
         return of(uri.getScheme());
     }

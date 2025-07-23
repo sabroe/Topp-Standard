@@ -30,7 +30,10 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- *
+ * Standard constructor.
+ * <p>
+ *     This maps to a directly applicable, static constructor found upon {@link URI}.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-15
@@ -143,13 +146,21 @@ public enum StandardURIConstructor {
         return applicability.test(arguments);
     }
 
+    /**
+     * Streams all values.
+     * @return Stream of all values.
+     */
     public static Stream<StandardURIConstructor> streamValues() {
         return Arrays.stream(values());
     }
 
+    /**
+     * Streams all standard constructors applicable for a specific set of argument values.
+     * @param argument Set of arguments.
+     * @return Stream of all applicable, standard constructors.
+     */
     public static Stream<StandardURIConstructor> streamByApplicability(URIArgument argument) {
         Objects.requireNonNull(argument);
         return streamValues().filter(e->e.isApplicable(argument));
     }
-
 }

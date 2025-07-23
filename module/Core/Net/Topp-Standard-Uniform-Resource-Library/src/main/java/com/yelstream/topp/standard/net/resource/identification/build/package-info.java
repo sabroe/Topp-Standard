@@ -18,7 +18,7 @@
  */
 
 /**
- *
+ * Support for building URIs.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-15

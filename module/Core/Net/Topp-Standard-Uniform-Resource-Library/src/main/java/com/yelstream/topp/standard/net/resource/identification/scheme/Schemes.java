@@ -29,4 +29,5 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class Schemes {
+    //Empty!
 }

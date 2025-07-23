@@ -17,7 +17,17 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.handler.factory;
+package com.yelstream.topp.standard.net.resource.identification.build;
 
-public class ChainURISchemeHandlerFactory {
+import lombok.experimental.UtilityClass;
+
+/**
+ * Utility addressing instances of {@link URIArgument}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-07-23
+ */
+@UtilityClass
+public class URIArguments {
+    //Empty!
 }

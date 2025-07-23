@@ -31,6 +31,9 @@ import java.util.stream.Stream;
 
 /**
  * Standard URI predicate.
+ * <p>
+ *     The predicate tests for a recognizable construction or formatting in a specific, concrete {@link URI} instance.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-16
@@ -39,7 +42,7 @@ import java.util.stream.Stream;
 @SuppressWarnings({"java:S115","LombokGetterMayBeUsed"})
 public enum StandardURIPredicate {
     /**
-     * Tests if the URI has a standard scheme as defined by StandardScheme.
+     * Tests if the URI has a standard scheme as defined by {@link StandardScheme}.
      */
     HasStandardScheme(uri -> uri!=null && StandardScheme.match(uri)!=null),
 
@@ -49,7 +52,7 @@ public enum StandardURIPredicate {
     IsPathOnly(uri -> uri!=null && !uri.isAbsolute() && uri.getPath()!=null && uri.getQuery()==null && uri.getFragment()==null && uri.getAuthority()==null),
 
     /**
-     * Tests if the URI is opaque (e.g., mailto:user@example.com).
+     * Tests if the URI is opaque (not hierarchical, e.g., mailto:user@example.com).
      */
     IsOpaque(uri -> uri!=null && uri.isOpaque()),
 
@@ -59,32 +62,14 @@ public enum StandardURIPredicate {
     IsHierarchical(uri -> uri!=null && !uri.isOpaque()),
 
     /**
-     * Tests if the URI is absolute (has a scheme).
+     * Tests if the URI is absolute (not relative, has a scheme).
      */
     IsAbsolute(uri -> uri!=null && uri.isAbsolute()),
 
     /**
-     * Tests if the URI is relative (no scheme).
+     * Tests if the URI is relative (not absolute, has no scheme).
      */
     IsRelative(uri -> uri!=null && !uri.isAbsolute()),
-
-/*
-    */
-/**
-     * Tests if the URI has a standard scheme and is considered regular.
-     *//*
-
-    IsRegular(uri -> uri != null && StandardScheme.match(uri) != null),
-*/
-
-/*
-    */
-/**
-     * Tests if the URI has a non-standard scheme (e.g., jar:, jdbc:).
-     *//*
-
-    IsNonRegular(uri -> uri != null && StandardScheme.match(uri) == null),
-*/
 
     /**
      * Tests if the URI has a valid authority (e.g., host or user info).
@@ -97,23 +82,31 @@ public enum StandardURIPredicate {
     HasValidHost(uri -> uri!=null && !uri.isOpaque() && uri.getHost()!=null && !uri.getHost().isEmpty()),
 
     /**
-     * Tests if the URI has a path containing a colon, indicating a tag (e.g., :latest, :1.0.0), as found in docker URIs.
+     * Tests if the URI has an entry, contains {@code !/}, essentially indicating a JAR URL.
      */
-    IsPathTagged(uri -> uri!=null && uri.getPath()!=null && !uri.getPath().isEmpty() && uri.getPath().contains(":")),
+    HasEntrySeparator(uri -> uri!=null && uri.getSchemeSpecificPart()!=null && uri.getSchemeSpecificPart().contains("!/")),
 
     /**
-     * Tests if the URI is irregular, i.e., has a non-standard scheme and is either opaque or has a non-standard authority.
+     * Tests if the URI has properties, contains {@code ;} (e.g., as in a {@ode jdbc} URL).
      * <p>
-     *     Examples of irregular URIs:
+     *     Examples:
      *     <ul>
      *         <li>{@code jdbc:sqlserver://localhost:1433} (opaque, non-standard scheme)</li>
      *         <li>{@code sqlserver://localhost:1433;databaseName=database1} (hierarchical, non-standard scheme and authority)</li>
      *     </ul>
      * </p>
      */
-    IsIrregular(uri -> uri != null && !HasStandardScheme.predicate.test(uri) &&
-            (uri.isOpaque() || (uri.getAuthority() != null && uri.getAuthority().contains(";"))));
+    HasPropertySeparator(uri -> uri != null  && uri.getSchemeSpecificPart()!=null && uri.getSchemeSpecificPart().contains(";")),
 
+    /**
+     * Tests if the URI has a path containing a colon, indicating a tag (e.g., {@code :latest}, {@code :1.0.0}), as found in docker URIs.
+     */
+    IsPathTagged(uri -> uri!=null && uri.getPath()!=null && !uri.getPath().isEmpty() && uri.getPath().contains(":")),
+
+    /**
+     * Tests if the URI is not regular, has a non-standard scheme construction.
+     */
+    IsNonRegular(HasEntrySeparator.predicate.or(HasPropertySeparator.predicate).or(IsPathTagged.predicate));
 
     @Getter
     private final Predicate<URI> predicate;

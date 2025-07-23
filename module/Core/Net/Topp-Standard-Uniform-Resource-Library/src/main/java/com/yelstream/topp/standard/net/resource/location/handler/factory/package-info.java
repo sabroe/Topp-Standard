@@ -18,7 +18,7 @@
  */
 
 /**
- * Handler-factories for URI schemes/URL protocols.
+ * Factories for stream handlers.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-07

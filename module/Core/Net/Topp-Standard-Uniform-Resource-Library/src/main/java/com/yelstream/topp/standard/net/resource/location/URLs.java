@@ -35,8 +35,12 @@ import java.net.URLStreamHandler;
  */
 @UtilityClass
 public class URLs {
-
-
+    /**
+     * Creates a URI from a URL.
+     * @param url URL.
+     * @return Created URI.
+     * @throws IllegalStateException Thrown in case of illegal argument.
+     */
     public static URI toURI(URL url) {
         try {
             return url.toURI();

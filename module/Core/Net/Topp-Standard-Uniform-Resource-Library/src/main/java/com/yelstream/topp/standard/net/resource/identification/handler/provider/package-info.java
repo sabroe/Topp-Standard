@@ -17,7 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.handler.factory;
-
-public class ChainURISchemeHandlerFactory {
-}
+/**
+ * Scheme handler provider specifics.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-07-23
+ */
+package com.yelstream.topp.standard.net.resource.identification.handler.provider;
