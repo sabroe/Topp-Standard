@@ -17,14 +17,18 @@
  * limitations under the License.
  */
 
-tasks.withType(JavaCompile) {
+if (project.plugins.hasPlugin('java')) {
     apply plugin: "checkstyle"
 
+//tasks.withType(JavaCompile) {
+//    apply plugin: "checkstyle"
+
     checkstyle {
-        toolVersion = '10.26.1'  //TODO: Upgrade to 10.21.2, see https://checkstyle.sourceforge.io/
-//        toolVersion = '10.6.0'  //TODO: Upgrade to 10.21.2, see https://checkstyle.sourceforge.io/
+        toolVersion = '10.26.1'  //See https://checkstyle.sourceforge.io/releasenotes.html
         config = resources.text.fromFile(file("${rootProject.projectDir}/config/checkstyle/Yelstream/checkstyle.xml"))
-        sourceSets = project.sourceSets.find{it.name.equals('checkstyle')}!=null?[project.sourceSets['checkstyle']]:project.sourceSets
+//        sourceSets = project.sourceSets.find{it.name.equals('checkstyle')}!=null?[project.sourceSets['checkstyle']]:project.sourceSets
+        def checkstyleSourceSet = project.sourceSets.find { it.name == 'checkstyle' }
+        sourceSets = checkstyleSourceSet ? [checkstyleSourceSet] : project.sourceSets.all
 
         /*
          * Note:

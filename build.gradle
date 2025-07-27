@@ -30,7 +30,7 @@ plugins {
     id "jacoco"
     id "de.obqo.decycle" version "1.2.4" apply false
     id 'org.cyclonedx.bom' version '1.10.0' apply false  //TODO: Upgrade to 2.0.0! See https://plugins.gradle.org/plugin/org.cyclonedx.bom
-    id "com.gorylenko.gradle-git-properties" version "2.4.2" apply false
+    id "com.gorylenko.gradle-git-properties" version "2.5.2" apply false
 }
 
 def fragmentDir = "${rootProject.projectDir}/gradle/fragment"

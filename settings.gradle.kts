@@ -47,9 +47,9 @@ include("module:Management:Topp-Standard-Management-Library")
 
 include("module:Media:Apache:Topp-Standard-Apache-POI-Document-Library")
 
-include("module:Messaging:Apache:Topp-Standard-Apache-ActiveMQ-Classic-Library")
-include("module:Messaging:Apache:Topp-Standard-Apache-ActiveMQ-Artemis-Library")
-include("module:Messaging:Jakarta:Topp-Standard-Jakarta-JMS-Library")
+//TODO! include("module:Messaging:Apache:Topp-Standard-Apache-ActiveMQ-Classic-Library")
+//TODO! include("module:Messaging:Apache:Topp-Standard-Apache-ActiveMQ-Artemis-Library")
+//TODO! include("module:Messaging:Jakarta:Topp-Standard-Jakarta-JMS-Library")
 include("module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library")
 
 include("module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library")
