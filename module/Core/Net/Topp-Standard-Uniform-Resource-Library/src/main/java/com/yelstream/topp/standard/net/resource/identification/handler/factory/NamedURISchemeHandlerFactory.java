@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.net.resource.identification.handler.factory;
 import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
 
 /**
- *
+ * Factory of URI-handlers for a single, known scheme.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-21

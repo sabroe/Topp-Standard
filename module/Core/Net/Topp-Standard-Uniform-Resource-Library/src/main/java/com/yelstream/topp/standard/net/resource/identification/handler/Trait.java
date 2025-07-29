@@ -91,31 +91,4 @@ public interface Trait {
      * @return Indicates, if the scheme has an inner URI.
      */
     boolean isWithInnerURI();
-
-    /**
-     * Indicates, if the URI scheme has a dedicated post-construct operator to be applied upon
-     * {@link com.yelstream.topp.standard.net.resource.identification.build.URIArgument}.
-     * <p>
-     *     This can be to "nudge" or modify certain values.
-     * </p>
-     * @return Indicates, if the scheme has a dedicated post-construct operator.
-     */
-//    boolean hasArgumentOperator();
-
-    /**
-     * Indicates, if the URI scheme has a dedicated constructor.
-     * <p>
-     *     This constructor
-     *     {@link com.yelstream.topp.standard.net.resource.identification.build.URIConstructor}
-     *     creates a {@link java.net.URI} from a
-     *     {@link com.yelstream.topp.standard.net.resource.identification.build.URIArgument}.
-     * </p>
-     * <p>
-     *     This can be to "nudge" or modify certain values.
-     * </p>
-     * @return Indicates, if the scheme has a dedicated constructor.
-     */
-//    boolean hasConstructor();
-
-
 }

@@ -19,5 +19,33 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler.factory;
 
-public class ChainURISchemeHandlerFactory {
+import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
+import lombok.AllArgsConstructor;
+import lombok.Singular;
+
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * Chain-of-responsibility implementation for creating URI scheme handlers.
+ * <p>
+ *     This is immutable.
+ * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-07-28
+ */
+@lombok.Builder(builderClassName="Builder",toBuilder=true)
+@AllArgsConstructor(staticName="of")
+public final class ChainURISchemeHandlerFactory implements URISchemeHandlerFactory {
+    /**
+     * List of factories.
+     */
+    @Singular
+    private final List<URISchemeHandlerFactory> factories;
+
+    @Override
+    public URISchemeHandler createURISchemeHandler(String scheme) {
+        return factories.stream().map(factory->factory.createURISchemeHandler(scheme)).filter(Objects::nonNull).findFirst().orElse(null);
+    }
 }

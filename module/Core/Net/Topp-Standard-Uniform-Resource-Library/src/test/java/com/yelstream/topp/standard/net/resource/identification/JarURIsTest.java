@@ -232,8 +232,8 @@ class JarURIsTest {
     @Test
     void testParsingInvalidScheme() {
         String url = "file:http:/my.jar!/com/example/MyClass.class";
-        Assertions.assertThrows(IllegalArgumentException.class, () -> JarURIs.Builder.of(URI.create(url)));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> JarURIs.SplitURI.of(URI.create(url)));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> JarURIs.createSplitURI(url));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> JarURIs.createSplitURI(url));
     }
 
     @Test

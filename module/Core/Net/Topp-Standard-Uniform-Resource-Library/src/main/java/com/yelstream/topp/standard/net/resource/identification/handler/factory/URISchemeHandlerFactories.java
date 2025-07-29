@@ -19,7 +19,13 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler.factory;
 
+import com.yelstream.topp.standard.net.resource.identification.build.URIArgument;
+import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
+import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandlers;
 import lombok.experimental.UtilityClass;
+
+import java.util.Map;
+import java.util.Optional;
 
 /**
  *
@@ -29,4 +35,15 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class URISchemeHandlerFactories {
+
+    private static final Map<String, URISchemeHandler> SCHEME_HANDLERS = Map.of(
+        "jar", URISchemeHandlers.createURISchemeHandlerForJar(),
+        "file", URISchemeHandlers.createURISchemeHandlerForFile(),
+        "docker", URISchemeHandlers.createURISchemeHandlerForDocker(),
+        "jdbc", URISchemeHandlers.createURISchemeHandlerForJDBC()
+    );
+
+    public static URISchemeHandler getHandler(URIArgument argument) {
+        return Optional.ofNullable(argument.getScheme()).map(SCHEME_HANDLERS::get).orElse(URISchemeHandlers.createURISchemeHandler());
+    }
 }

@@ -21,6 +21,7 @@ package com.yelstream.topp.standard.net.resource.identification.handler;
 
 import com.yelstream.topp.standard.net.resource.identification.build.URIArgument;
 import com.yelstream.topp.standard.net.resource.identification.build.URIConstructor;
+import com.yelstream.topp.standard.net.resource.identification.build.URIConstructors;
 import com.yelstream.topp.standard.net.resource.identification.scheme.Scheme;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,7 +44,7 @@ final class SimpleURISchemeHandler implements URISchemeHandler {
      *
      */
     @Getter
-    private final Scheme scheme;
+    private final Scheme scheme;  //TO-DO: Consider this; may not be sane to tie this handler to one specific, named scheme!
 
     /**
      *
@@ -60,13 +61,13 @@ final class SimpleURISchemeHandler implements URISchemeHandler {
      *
      */
     @Getter
-    private final UnaryOperator<URIArgument> argumentCorrectionOperator;
+    private final UnaryOperator<URIArgument> argumentCorrection;
 
     /**
      *
      */
     @Getter
-    private final URIConstructor constructor;
+    private final Function<URIArgument,URIConstructor> argumentConstructor;
 
     @Override
     public String getEntry(URIArgument argument) {
@@ -89,8 +90,18 @@ final class SimpleURISchemeHandler implements URISchemeHandler {
     }
 
     @Override
-    public URI create(URIArgument argument) {
-        argument=getArgumentCorrectionOperator().apply(argument);
-        return getConstructor().create(argument);
+    public URIArgument getCorrectedArgument(URIArgument argument) {
+        return argumentCorrection.apply(argument);
+    }
+
+    @Override
+    public URIConstructor getConstructor(URIArgument argument) {
+        return argumentConstructor.apply(argument);
+    }
+
+    @SuppressWarnings({"unused","FieldMayBeFinal"})
+    public static class Builder {
+        private UnaryOperator<URIArgument> argumentCorrection=UnaryOperator.identity();
+        private Function<URIArgument,URIConstructor> argumentConstructor=URIConstructors::selectByApplicability;
     }
 }

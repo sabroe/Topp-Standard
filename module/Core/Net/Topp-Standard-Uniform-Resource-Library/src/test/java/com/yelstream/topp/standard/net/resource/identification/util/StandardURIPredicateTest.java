@@ -92,7 +92,7 @@ class StandardURIPredicateTest {
         Assertions.assertFalse(StandardURIPredicate.HasAuthority.matches(uri));
         Assertions.assertFalse(StandardURIPredicate.HasValidHost.matches(uri));
 //        Assertions.assertTrue(StandardURIPredicate.IsNonRegular.matches(uri));
-        Assertions.assertFalse(StandardURIPredicate.HasStandardScheme.matches(uri));
+        Assertions.assertTrue(StandardURIPredicate.HasStandardScheme.matches(uri));
 //        Assertions.assertFalse(StandardURIPredicate.IsRegular.matches(uri));
         Assertions.assertTrue(StandardURIPredicate.IsOpaque.matches(uri));
         Assertions.assertFalse(StandardURIPredicate.IsRelative.matches(uri));
@@ -167,7 +167,7 @@ class StandardURIPredicateTest {
 //        Assertions.assertTrue(StandardURIPredicate.NonRegular.matches(uri));
         Assertions.assertTrue(StandardURIPredicate.IsOpaque.matches(uri));
 //        Assertions.assertTrue(StandardURIPredicate.IsNonRegular.matches(uri));
-        Assertions.assertFalse(StandardURIPredicate.HasStandardScheme.matches(uri));
+        Assertions.assertTrue(StandardURIPredicate.HasStandardScheme.matches(uri));
         Assertions.assertFalse(StandardURIPredicate.IsHierarchical.matches(uri));
         Assertions.assertFalse(StandardURIPredicate.HasAuthority.matches(uri));
         Assertions.assertFalse(StandardURIPredicate.HasValidHost.matches(uri));
@@ -181,7 +181,7 @@ class StandardURIPredicateTest {
 //        Assertions.assertTrue(StandardURIPredicate.NonRegular.matches(uri));
         Assertions.assertTrue(StandardURIPredicate.IsOpaque.matches(uri));
 //        Assertions.assertTrue(StandardURIPredicate.IsNonRegular.matches(uri));
-        Assertions.assertFalse(StandardURIPredicate.HasStandardScheme.matches(uri));
+        Assertions.assertTrue(StandardURIPredicate.HasStandardScheme.matches(uri));
         Assertions.assertFalse(StandardURIPredicate.HasAuthority.matches(uri));
         Assertions.assertEquals("jdbc", uri.getScheme());
         Assertions.assertEquals("sqlserver://localhost:1433;databaseName=database1", uri.getSchemeSpecificPart());

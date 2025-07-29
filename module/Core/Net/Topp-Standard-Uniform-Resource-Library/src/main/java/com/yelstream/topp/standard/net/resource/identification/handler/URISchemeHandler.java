@@ -25,6 +25,7 @@ import com.yelstream.topp.standard.net.resource.identification.scheme.Scheme;
 
 import java.net.URI;
 import java.util.Properties;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 /**
@@ -35,7 +36,9 @@ import java.util.function.UnaryOperator;
  */
 public interface URISchemeHandler {
 
-    Scheme getScheme();  //TO-DO: Consider this; may not be sane to tie this handler to one specific, named scheme!
+    default Scheme getScheme() {  //TO-DO: Consider this; may not be sane to tie this handler to one specific, named scheme!
+        return null;
+    }
 
     Trait getTrait();
 
@@ -45,11 +48,18 @@ public interface URISchemeHandler {
     String getInnerURI(URIArgument argument);
 
 
-    UnaryOperator<URIArgument> getArgumentCorrectionOperator();
+    URIArgument getCorrectedArgument(URIArgument argument);
 
-    URIConstructor getConstructor();
+    URIConstructor getConstructor(URIArgument argument);
 
-    URI create(URIArgument argument);
+    static URI createURI(URIArgument argument,
+                          UnaryOperator<URIArgument> argumentCorrection,
+                          Function<URIArgument,URIConstructor> argumentConstructor) {
+        argument=argumentCorrection.apply(argument);
+        return argumentConstructor.apply(argument).create(argument);
+    }
 
-
+    default URI createURI(URIArgument argument) {
+        return createURI(argument,this::getCorrectedArgument,this::getConstructor);
+    }
 }
