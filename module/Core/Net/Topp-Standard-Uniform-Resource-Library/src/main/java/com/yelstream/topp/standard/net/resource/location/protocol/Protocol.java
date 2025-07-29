@@ -47,12 +47,32 @@ public final class Protocol {
     private final String name;
 
     /**
+     * Indicates, if a named protocol is matched.
+     * @param protocol Matched, named protocol.
+     * @return Indicates match.
+     */
+    public boolean matches(String protocol) {
+        return name.equalsIgnoreCase(protocol);
+    }
+
+    /**
      * Indicates, if a URL is matched.
      * @param url Matched URL.
      * @return Indicates match.
      */
     public boolean matches(URL url) {
-        return name.equalsIgnoreCase(url.getProtocol());
+        return matches(url.getProtocol());
+    }
+
+    /**
+     * Requires that a named protocol is matched.
+     * @param protocol Matched, named protocol.
+     * @throws IllegalArgumentException Thrown in case of illegal argument.
+     */
+    public void requireMatch(String protocol) {
+        if (!matches(protocol)) {
+            throw new IllegalArgumentException("Failure to verify URL protocol; URL protocol is '%s'!".formatted(protocol));
+        }
     }
 
     /**

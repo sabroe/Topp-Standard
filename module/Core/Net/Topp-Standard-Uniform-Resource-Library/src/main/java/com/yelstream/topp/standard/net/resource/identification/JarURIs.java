@@ -65,7 +65,7 @@ public class JarURIs {
         "$";
 
     /**
-     *
+     * Split URI.
      */
     @Getter
     @ToString
@@ -75,19 +75,51 @@ public class JarURIs {
         private final String url;
         private final String entry;
 
-        public static SplitURI of(URI uri) {
-            StandardScheme.JAR.getScheme().requireMatch(uri);
+        /**
+         * Parses a URI.
+         * @param uri Textual URI.
+         * @return Parsed URI.
+         */
+        public static SplitURI of(String uri) {
             Pattern pattern=Pattern.compile(JAR_URL_REGEX);
-            Matcher matcher=pattern.matcher(uri.toString());
+            Matcher matcher=pattern.matcher(uri);
             if (!matcher.matches()) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("Failure to parse URI; URI does not match format, URI is '%s'!".formatted(uri));
             }
             String scheme=matcher.group("scheme");
             String url=matcher.group("url");
             String entry=matcher.group("entry");
-
             return of(scheme,url,entry);
         }
+
+        /**
+         * Parses a URI.
+         * @param uri URI.
+         * @return Parsed URI.
+         */
+        public static SplitURI of(URI uri) {
+            return of(uri.toString());
+        }
+    }
+
+    /**
+     * Creates a split URI.
+     * @param uri Textual URI.
+     * @return Created, split URI.
+     */
+    public static SplitURI createSplitURI(String uri) {
+        SplitURI splitURI=SplitURI.of(uri);
+        StandardScheme.JAR.getScheme().requireMatch(splitURI.getScheme());
+        return splitURI;
+    }
+
+    /**
+     * Creates a split URI.
+     * @param uri URI.
+     * @return Created, split URI.
+     */
+    public static SplitURI createSplitURI(URI uri) {
+        return createSplitURI(uri.toString());
     }
 
     public String create(String scheme, String url, String entry) {
@@ -101,7 +133,7 @@ public class JarURIs {
         return create(scheme,url,entry);
     }
 
-    @SuppressWarnings({"unused","FieldMayBeFinal"})
+    @SuppressWarnings({"unused","FieldMayBeFinal","java:S1450","FieldCanBeLocal"})
     public static class Builder {
         private String scheme=StandardScheme.JAR.getScheme().getName();
 

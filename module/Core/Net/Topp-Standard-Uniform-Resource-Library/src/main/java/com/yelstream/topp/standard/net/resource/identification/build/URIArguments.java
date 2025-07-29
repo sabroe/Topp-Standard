@@ -19,7 +19,13 @@
 
 package com.yelstream.topp.standard.net.resource.identification.build;
 
+import com.yelstream.topp.standard.net.resource.identification.JarURIs;
+import com.yelstream.topp.standard.net.resource.identification.path.TaggedPath;
+import com.yelstream.topp.standard.net.resource.identification.scheme.StandardScheme;
 import lombok.experimental.UtilityClass;
+
+import java.util.Properties;
+import java.util.stream.Stream;
 
 /**
  * Utility addressing instances of {@link URIArgument}.
@@ -29,5 +35,54 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class URIArguments {
-    //Empty!
+    /**
+     *
+     */
+    public static String getEntry(URIArgument argument) {
+        return JarURIs.SplitURI.of(argument.getParsable()).getEntry();
+    }
+
+    /**
+     *
+     */
+    public static URIArgument correctArgumentForFile(URIArgument argument) {
+        StandardScheme.File.requireMatch(argument.getScheme());
+        if (argument.getSchemeSpecificPart().startsWith("//")) {
+            if (argument.getHost()==null) {
+                argument=argument.toBuilder().host("").build();
+            }
+        }
+        return argument;
+    }
+
+    /**
+     *
+     */
+    public static String getTag(URIArgument argument) {
+        return TaggedPath.ofPath(argument.getPath()).getTag();
+    }
+
+    /**
+     *
+     */
+    public static Properties getProperties(URIArgument argument) {
+        //TO-DO: Create something equivalent to JarURIs.SplitURI, but for JDBC-URLs like "jdbc:sqlserver://localhost:1433;databaseName=database1;user=user1;password=password1;encrypt=true;trustServerCertificate=false".
+        String schemeSpecificPart=argument.getSchemeSpecificPart();
+        int index=schemeSpecificPart.indexOf(";");
+        if (index==-1) {
+            return new Properties();
+        }
+        Properties properties=new Properties();
+        String propertiesString=schemeSpecificPart.substring(index+1);
+        Stream.of(propertiesString.split(";"))
+            .map(String::trim)
+            .filter(prop-> !prop.isEmpty())
+            .forEach(prop -> {
+                String[] keyValue=prop.split("=",2);
+                if (keyValue.length==2) {
+                    properties.setProperty(keyValue[0].trim(),keyValue[1].trim());
+                }
+            });
+        return properties;
+    }
 }

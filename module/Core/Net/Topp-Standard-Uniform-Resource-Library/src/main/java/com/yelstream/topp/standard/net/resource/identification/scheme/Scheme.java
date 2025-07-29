@@ -47,12 +47,32 @@ public final class Scheme {
     private final String name;
 
     /**
+     * Indicates, if a named scheme is matched.
+     * @param scheme Named scheme.
+     * @return Indicates match.
+     */
+    public boolean matches(String scheme) {
+        return name.equalsIgnoreCase(scheme);
+    }
+
+    /**
      * Indicates, if a URI is matched.
      * @param uri Matched URI.
      * @return Indicates match.
      */
     public boolean matches(URI uri) {
-        return name.equalsIgnoreCase(uri.getScheme());
+        return matches(uri.getScheme());
+    }
+
+    /**
+     * Requires that a named scheme is matched.
+     * @param scheme Named scheme.
+     * @throws IllegalArgumentException Thrown in case of illegal argument.
+     */
+    public void requireMatch(String scheme) {
+        if (!matches(scheme)) {
+            throw new IllegalArgumentException("Failure to verify URI scheme; URI scheme is '%s'!".formatted(scheme));
+        }
     }
 
     /**

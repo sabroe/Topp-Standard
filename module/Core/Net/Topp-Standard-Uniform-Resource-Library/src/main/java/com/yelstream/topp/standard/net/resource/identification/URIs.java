@@ -23,6 +23,7 @@ import com.yelstream.topp.standard.net.resource.identification.build.URIArgument
 import com.yelstream.topp.standard.net.resource.identification.build.URIConstructor;
 import com.yelstream.topp.standard.net.resource.identification.build.URIConstructors;
 import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
+import com.yelstream.topp.standard.net.resource.identification.handler.factory.URISchemeHandlerFactories;
 import lombok.experimental.UtilityClass;
 
 import java.net.MalformedURLException;
@@ -30,6 +31,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLStreamHandler;
+import java.util.function.Function;
 
 /**
  * Utility addressing instances of {@link URI}.
@@ -82,27 +84,14 @@ public class URIs {
      * <a href="https://jakarta.ee/specifications/restful-ws/4.0/apidocs/jakarta.ws.rs/jakarta/ws/rs/core/uribuilder">Jakarta JAX-RS UriBuilder</a>.
      * </p>
      * @param argument Argument.
-     * @param constructor Constructor.
-     * @param handler Handler.
+     * @param handlerSupplier Handler supplier.
      * @return Created URI.
-     * @throws URISyntaxException Thrown in case of URI syntax error.
      */
     @lombok.Builder(builderClassName="Builder")  //TO-DO: Rename to 'URIBuilder'!
     @SuppressWarnings({"java:S2589", "java:S1066", "ConstantConditions", "unused", "java:S3776", "java:S107"})
     private static URI create(URIArgument argument,
-                              URIConstructor constructor,
-                              URISchemeHandler handler) throws URISyntaxException {
-
-        constructor=URIConstructors.selectByApplicability(argument);
-if (constructor==null) {
-    System.out.println("--- NO CONSTRUCTOR!");
-    System.out.println("   Argument:"+argument);
-    System.out.println("---");
-    System.out.println();
-}
-
-        URI uri = constructor.create(argument);
-        return uri;
+                              Function<URIArgument,URISchemeHandler> handlerSupplier) {
+        return handlerSupplier.apply(argument).createURI(argument);
     }
 
     /**
@@ -110,35 +99,11 @@ if (constructor==null) {
      */
     @SuppressWarnings({"unused", "java:S1450", "FieldCanBeLocal", "UnusedReturnValue", "java:S1066"})
     public static class Builder {
+        private Function<URIArgument,URISchemeHandler> handlerSupplier=URISchemeHandlerFactories::getHandler;
+
         public Builder uri(URI uri) {
             argument(URIArgument.of(uri));
-            constructor(null);
-            handler(null);
-            postCreate();
             return this;
-        }
-
-        /**
-         * Applies state specific fiddling as a post action when all fields have been set.
-         */
-        @SuppressWarnings({"java:S1301", "SwitchStatementWithTooFewBranches"})
-        private void postCreate() {
-            URIArgument a=argument;
-            if (a.getScheme()!=null) {
-                switch (a.getScheme()) {
-                    case "file" -> {
-                        if (a.getSchemeSpecificPart().startsWith("//")) {
-                            if (a.getHost() == null) {
-                                a=a.toBuilder().host("").build();
-                                argument(a);
-                            }
-                        }
-                    }
-                    default -> {
-                        //Ignore!
-                    }
-                }
-            }
         }
 
         public static Builder fromURI(URI uri) {

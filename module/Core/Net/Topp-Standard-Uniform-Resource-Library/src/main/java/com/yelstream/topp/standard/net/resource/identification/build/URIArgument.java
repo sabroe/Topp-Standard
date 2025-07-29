@@ -46,6 +46,11 @@ import java.net.URI;
 @lombok.Builder(builderClassName="Builder",toBuilder=true)
 public class URIArgument {
     /**
+     * Source URI.
+     */
+    private final URI source;
+
+    /**
      * Full, textual URI.
      */
     private final String parsable;
@@ -126,7 +131,8 @@ public class URIArgument {
     @SuppressWarnings("java:S1118")
     public static class Builder {
         public Builder uri(URI uri) {
-//TODO: ??            parsable(uri.toString());
+            source(uri);
+            parsable(uri.toString());
             scheme(uri.getScheme());
             schemeSpecificPart(uri.getSchemeSpecificPart());
             authority(uri.getAuthority());

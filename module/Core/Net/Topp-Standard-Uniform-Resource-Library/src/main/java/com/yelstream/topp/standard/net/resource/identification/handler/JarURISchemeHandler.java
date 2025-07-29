@@ -19,11 +19,19 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler;
 
+import lombok.AllArgsConstructor;
+
 /**
  *
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-15
  */
-public abstract class JarURISchemeHandler {
+//@AllArgsConstructor(staticName="of")
+public final class JarURISchemeHandler extends ProxyURISchemeHandler {
+
+    JarURISchemeHandler() {
+        super(null/*handler*/);
+    }
+
 }

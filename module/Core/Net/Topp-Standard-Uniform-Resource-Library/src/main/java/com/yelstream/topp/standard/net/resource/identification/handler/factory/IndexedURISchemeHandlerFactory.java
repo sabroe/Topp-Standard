@@ -19,5 +19,35 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler.factory;
 
-public class IndexedURISchemeHandlerFactory {
+import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
+import lombok.AllArgsConstructor;
+import lombok.Singular;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Factories indexed by scheme name.
+ * <p>
+ *     This is immutable.
+ * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-07-12
+ */
+@lombok.Builder(builderClassName="Builder",toBuilder=true)
+@AllArgsConstructor(staticName="of")
+public final class IndexedURISchemeHandlerFactory implements URISchemeHandlerFactory {
+    /**
+     * Factories indexed by protocol name.
+     */
+    @Singular
+    private final Map<String,List<URISchemeHandlerFactory>> schemeToFactories;
+
+    @Override
+    public URISchemeHandler createURISchemeHandler(String scheme) {
+        return Optional.ofNullable(schemeToFactories.get(scheme)).orElse(List.of()).stream().map(factory->factory.createURISchemeHandler(scheme)).filter(Objects::nonNull).findFirst().orElse(null);
+    }
 }

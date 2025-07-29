@@ -38,6 +38,7 @@ import java.util.stream.Stream;
 public enum StandardScheme {
     File(Scheme.of("file")),
     JAR(Scheme.of("jar")),
+    JDBC(Scheme.of("jdbc")),
     HTTP(Scheme.of("http")),  //TO-DO: Remove this; is not built-in!
     HTTPS(Scheme.of("https"));  //TO-DO: Remove this; is not built-in!
 
@@ -48,12 +49,32 @@ public enum StandardScheme {
     private final Scheme scheme;
 
     /**
+     * Indicates, if a named scheme is matched.
+     * @param scheme Named scheme.
+     * @return Indicates match.
+     */
+    @SuppressWarnings("java:S2121")
+    public boolean matches(String scheme) {
+        return this.scheme.matches(scheme);
+    }
+
+    /**
      * Indicates, if a URI is matched.
      * @param uri Matched URI.
      * @return Indicates match.
      */
     public boolean matches(URI uri) {
         return scheme.matches(uri);
+    }
+
+    /**
+     * Requires that a named scheme is matched.
+     * @param scheme Named scheme.
+     * @throws IllegalArgumentException Thrown in case of illegal argument.
+     */
+    @SuppressWarnings("java:S2121")
+    public void requireMatch(String scheme) {
+        this.scheme.requireMatch(scheme);
     }
 
     /**

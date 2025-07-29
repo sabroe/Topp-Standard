@@ -17,28 +17,33 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification.handler.factory;
+package com.yelstream.topp.standard.net.resource.identification;
 
-import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
+import com.yelstream.topp.standard.net.resource.identification.scheme.StandardScheme;
+import lombok.experimental.UtilityClass;
+
+import java.net.URI;
 
 /**
- * Factory of URI-handlers for a single, known scheme.
+ * Utilities for JDBC-specific URIs.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-07-21
+ * @since 2025-07-29
  */
-public interface NamedURISchemeHandlerFactory extends URISchemeHandlerFactory {
+@UtilityClass
+public class JdbcURIs {
     /**
-     * Gets the scheme name.
-     * @return Scheme name.
+     * Gets the inner JDBC URL referred by a URI.
+     * @param uri URI.
+     * @return Inner URI.
      */
-    String getScheme();
-
-    /**
-     * Creates a handler for the scheme.
-     * @return Created handler.
-     */
-    default URISchemeHandler createURISchemeHandler() {
-        return createURISchemeHandler(getScheme());
+    public static String toInnerURI(URI uri) {
+        StandardScheme.JDBC.getScheme().requireMatch(uri);
+        String schemeSpecificPart=uri.getSchemeSpecificPart();
+        int index=schemeSpecificPart.indexOf(";");
+        if (index==-1) {
+            return schemeSpecificPart;
+        }
+        return schemeSpecificPart.substring(0,index);
     }
 }
