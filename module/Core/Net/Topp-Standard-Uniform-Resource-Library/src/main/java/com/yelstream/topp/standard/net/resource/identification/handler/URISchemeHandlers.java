@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler;
 
-import com.yelstream.topp.standard.net.resource.identification.JarURIs;
-import com.yelstream.topp.standard.net.resource.identification.JdbcURIs;
+import com.yelstream.topp.standard.net.resource.identification.type.JarURIs;
+import com.yelstream.topp.standard.net.resource.identification.type.JdbcURIs;
 import com.yelstream.topp.standard.net.resource.identification.build.URIArguments;
 import lombok.experimental.UtilityClass;
 

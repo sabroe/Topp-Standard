@@ -42,4 +42,6 @@ module com.yelstream.topp.standard.net.resource {
     exports com.yelstream.topp.standard.net.resource.identification.scheme;
     exports com.yelstream.topp.standard.net.resource.location.protocol;
     exports com.yelstream.topp.standard.net.resource.identification.util;
+    exports com.yelstream.topp.standard.net.resource.identification.type;
+    exports com.yelstream.topp.standard.net.resource.location.type;
 }

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.identification;
+package com.yelstream.topp.standard.net.resource.identification.type;
 
 import com.yelstream.topp.standard.net.resource.identification.scheme.StandardScheme;
 import lombok.experimental.UtilityClass;
