@@ -17,9 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.net.resource.location;
+package com.yelstream.topp.standard.net.resource.location.type;
 
-import com.yelstream.topp.standard.net.resource.identification.FileURIs;
+import com.yelstream.topp.standard.net.resource.identification.type.FileURIs;
 import com.yelstream.topp.standard.net.resource.location.protocol.StandardProtocol;
 import lombok.experimental.UtilityClass;
 

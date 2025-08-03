@@ -20,8 +20,6 @@
 package com.yelstream.topp.standard.net.resource.identification;
 
 import com.yelstream.topp.standard.net.resource.identification.build.URIArgument;
-import com.yelstream.topp.standard.net.resource.identification.build.URIConstructor;
-import com.yelstream.topp.standard.net.resource.identification.build.URIConstructors;
 import com.yelstream.topp.standard.net.resource.identification.handler.URISchemeHandler;
 import com.yelstream.topp.standard.net.resource.identification.handler.factory.URISchemeHandlerFactories;
 import lombok.experimental.UtilityClass;
@@ -97,7 +95,7 @@ public class URIs {
     /**
      * Builder of {@link URI} instances.
      */
-    @SuppressWarnings({"unused", "java:S1450", "FieldCanBeLocal", "UnusedReturnValue", "java:S1066"})
+    @SuppressWarnings({"unused", "java:S1450", "FieldCanBeLocal", "UnusedReturnValue", "java:S1066","FieldMayBeFinal"})
     public static class Builder {
         private Function<URIArgument,URISchemeHandler> handlerSupplier=URISchemeHandlerFactories::getHandler;
 

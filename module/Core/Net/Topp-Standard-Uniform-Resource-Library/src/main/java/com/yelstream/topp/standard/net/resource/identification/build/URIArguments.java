@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.net.resource.identification.build;
 
-import com.yelstream.topp.standard.net.resource.identification.JarURIs;
+import com.yelstream.topp.standard.net.resource.identification.type.JarURIs;
 import com.yelstream.topp.standard.net.resource.identification.path.TaggedPath;
 import com.yelstream.topp.standard.net.resource.identification.scheme.StandardScheme;
 import lombok.experimental.UtilityClass;
