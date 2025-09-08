@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-plugins.withType(JavaPlugin) {  //Note: 'JavaPlugin' includes 'JavaLibraryPlugin'; both intermediate libraries and end-applications are included!
+plugins.withType(JavaPlugin).configureEach {  //Note: 'JavaPlugin' includes 'JavaLibraryPlugin'; both intermediate libraries and end-applications are included!
     logger.debug("[${buildscript.sourceFile.name}]:> Plugins applied: ${plugins*.class.simpleName}")
     def enableFeatureText = custom['feature.junit.enable']?.toString()?.trim()
     def enableFeature = enableFeatureText ? enableFeatureText.toBoolean() : true
@@ -26,7 +26,7 @@ plugins.withType(JavaPlugin) {  //Note: 'JavaPlugin' includes 'JavaLibraryPlugin
     } else {
         dependencies {
             logger.debug("[${buildscript.sourceFile.name}]:> Applying 'testImplementation' dependencies.")
-            testImplementation(platform('org.junit:junit-bom:5.11.4'))
+            testImplementation(platform('org.junit:junit-bom:5.13.4'))  //TODO: 6.0.0-RC2 per 2025-08-25!
             testImplementation 'org.junit.jupiter:junit-jupiter'
             testImplementation 'org.junit.jupiter:junit-jupiter-engine'
             testImplementation 'org.junit.jupiter:junit-jupiter-api'

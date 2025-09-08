@@ -1,9 +1,11 @@
+/*
 plugins {
     id 'java-gradle-plugin' // so we can assign and ID to our plugin
 }
 
 dependencies {
     implementation 'org.ow2.asm:asm:8.0.1'
+//    implementation 'org.ow2.asm:asm:9.8'
 }
 
 repositories {
@@ -19,3 +21,4 @@ gradlePlugin {
         }
     }
 }
+*/

@@ -32,6 +32,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.support.ParameterDeclarations;
 
 import java.text.DecimalFormat;
 import java.time.Duration;
@@ -77,7 +78,7 @@ class DurationWatchesTest {
     static class BlankStringsArgumentsProvider implements ArgumentsProvider {
 
         @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
+        public Stream<? extends Arguments> provideArguments(ParameterDeclarations parameters, ExtensionContext context) {
             return Stream.of(
                 Arguments.of(Duration.ZERO, 20),
                 Arguments.of(Duration.ofNanos(1L * 1000L), 100),

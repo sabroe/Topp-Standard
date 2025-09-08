@@ -17,8 +17,8 @@
  * limitations under the License.
  */
 
-plugins.withType(JavaPlugin) {
-    def defaultEncoding = custom['java.default-encoding']?:'UTF-8'
+plugins.withType(JavaPlugin).configureEach {
+    def defaultEncoding = custom['java.default-encoding'] ?: 'UTF-8'
 
     compileJava {
         options.encoding = defaultEncoding
@@ -37,7 +37,7 @@ plugins.withType(JavaPlugin) {
         def resolvedLanguageVersion = null
         if (toolChainJavaVersionString && toolChainJavaVersionString != "*" && toolChainJavaVersionString != "!") {
             resolvedLanguageVersion = JavaLanguageVersion.of(Integer.parseInt(toolChainJavaVersionString))
-        } else if (toolChainJavaVersionString == "!")  {
+        } else if (toolChainJavaVersionString == "!") {
             def defaultJavaVersion = javaVersionString ? javaVersionString : JavaVersion.VERSION_21.majorVersion
             resolvedLanguageVersion = JavaLanguageVersion.of(Integer.parseInt(defaultJavaVersion))
         }

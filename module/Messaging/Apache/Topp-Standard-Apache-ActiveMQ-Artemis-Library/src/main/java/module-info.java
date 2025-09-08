@@ -32,7 +32,7 @@ module com.yelstream.topp.standard.messaging.apache.activemq.artemis {
     requires static lombok;
     requires org.slf4j;
     requires java.naming;
-//Note: Not for jakarta.jms-api:2.0.3; comes later!    requires jakarta.messaging;
+    requires jakarta.jms.api;
     requires artemis.jms.client;
     exports com.yelstream.topp.standard.messaging.apache.activemq.artemis.jms.client;
 }

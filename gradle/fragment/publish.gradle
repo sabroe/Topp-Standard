@@ -22,18 +22,18 @@
  *     To publish, run the task 'publish'.
  */
 
-plugins.withType(MavenPublishPlugin) {  //https://docs.gradle.org/current/userguide/publishing_maven.html
+plugins.withType(MavenPublishPlugin).configureEach {  //https://docs.gradle.org/current/userguide/publishing_maven.html
     repositories {
         mavenCentral()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url = 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
 
     publishing {
         publications {
             mavenJava(MavenPublication) {
-                groupId = custom['publishing.publication.groupId']?:project.group
+                groupId = custom['publishing.publication.groupId'] ?: project.group
                 artifactId = custom['publishing.publication.artifactId']
-                version = custom['publishing.publication.groupId']?:project.version
+                version = custom['publishing.publication.groupId'] ?: project.version
                 from components.java
                 pom {
                     name = custom['publishing.publication.name']

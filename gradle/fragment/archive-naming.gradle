@@ -23,7 +23,7 @@ logger.info(":> Project name canonicalization: ${projectNameC14N}.")
 def baseNamePrefix = custom['archives.base-name-prefix'] ?: ""
 logger.info(":> Base name prefix: ${baseNamePrefix}.")
 
-plugins.withType(JavaLibraryDistributionPlugin) {
+plugins.withType(JavaLibraryDistributionPlugin).configureEach {
     base {
         archivesName = "${baseNamePrefix}${projectNameC14N}"
     }

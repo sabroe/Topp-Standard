@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-plugins.withType(JavaLibraryPlugin) {  //Note: 'JavaPlugin' includes 'JavaLibraryPlugin'; both intermediate libraries and end-applications are included!
+plugins.withType(JavaLibraryPlugin).configureEach {  //Note: 'JavaPlugin' includes 'JavaLibraryPlugin'; both intermediate libraries and end-applications are included!
     logger.debug("[${buildscript.sourceFile.name}]:> Plugins applied: ${plugins*.class.simpleName}")
     def enableFeatureText = custom['feature.slf4j.enable']?.toString()?.trim()
     def enableFeature = enableFeatureText ? enableFeatureText.toBoolean() : true
@@ -29,7 +29,7 @@ plugins.withType(JavaLibraryPlugin) {  //Note: 'JavaPlugin' includes 'JavaLibrar
             if (configurations.findByName('api')) {
                 //Use 'api' if available (implies java-library plugin is applied)
                 logger.debug("[${buildscript.sourceFile.name}]:> Applying 'api' dependencies.")
-                api 'org.slf4j:slf4j-api:2.0.17'
+                api 'org.slf4j:slf4j-api:2.0.17'  //TODO: 2.1.0-alpha1 per 2024-02-01!
                 api 'org.slf4j:slf4j-ext:2.0.17'
             } else {
                 //Fallback to 'implementation' (implies only java plugin is applied)

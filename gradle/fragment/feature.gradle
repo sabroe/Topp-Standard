@@ -26,7 +26,7 @@ class Feature {
 }
 */
 
-def isFeatureEnabled(featureValue, defaultValue = false) {
+static def isFeatureEnabled(featureValue, defaultValue = false) {
 //    def featureText = custom["${featureName}"]?.toString()?.trim()
     def featureText = featureValue?.toString()?.trim()
     return featureText ? featureText.toBoolean() : defaultValue
