@@ -68,43 +68,21 @@ subprojects {
 }
 
 subprojects {project ->
-    project.plugins.withType(JavaPlugin) {
-//    project.plugins.withId('java') {
-        project.tasks.register("conservativeBuild") {
-            description 'Runs clean and build with warnings enabled, excluding test and javadoc tasks.'
-            group 'build'
+    project.plugins.withType(JavaPlugin).tap {
+        configureEach {
+            project.tasks.register("conservativeBuild") {
+                description = 'Runs clean and build with warnings enabled, excluding test and javadoc tasks, with colored console output.'
+                group = 'build'
 
-            dependsOn project.tasks.named('clean')
-            dependsOn project.tasks.named('build')
+                dependsOn project.tasks.named('clean')
+                dependsOn project.tasks.named('build')
 
-/*
-            project.tasks.named('build').configure {
-                it.setProperty('excludes', ['test', 'javadoc'])
-            }
-*/
-/*
-            doFirst {
-                project.tasks.named('test').configure { it.enabled = false }
-                project.tasks.named('javadoc').configure { it.enabled = false }
-            }
-*/
-/*
-            doFirst {
-                project.tasks.named('test').get().enabled = false
-                project.tasks.named('javadoc').get().enabled = false
-                logger.lifecycle("Disabled test task: ${project.tasks.named('test').get().enabled}")
-                logger.lifecycle("Disabled javadoc task: ${project.tasks.named('javadoc').get().enabled}")
-            }
-*/
-            project.gradle.taskGraph.whenReady { graph ->
-                if (graph.hasTask(project.tasks.conservativeBuild)) {
-                    project.tasks.named('test').get().enabled = false
-                    project.tasks.named('javadoc').get().enabled = false
+                project.gradle.taskGraph.whenReady { graph ->
+                    if (graph.hasTask(project.tasks.conservativeBuild)) {
+                        project.tasks.named('test').get().enabled = false
+                        project.tasks.named('javadoc').get().enabled = false
+                    }
                 }
-            }
-
-            doLast {
-                project.gradle.startParameter.warningMode = org.gradle.api.logging.configuration.WarningMode.All
             }
         }
     }
