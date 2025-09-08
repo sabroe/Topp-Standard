@@ -25,12 +25,13 @@ buildscript {
 }
 
 plugins {
-    id "org.sonarqube" version "5.1.0.4882" apply false  //TODO: Upgrade to 6.0.1.5171! See https://plugins.gradle.org/plugin/org.sonarqube
+    id "org.sonarqube" version "5.1.0.4882" apply false  //See https://plugins.gradle.org/plugin/org.sonarqube
     id "checkstyle"
     id "jacoco"
     id "de.obqo.decycle" version "1.2.4" apply false
-    id 'org.cyclonedx.bom' version '1.10.0' apply false  //TODO: Upgrade to 2.0.0! See https://plugins.gradle.org/plugin/org.cyclonedx.bom
-    id "com.gorylenko.gradle-git-properties" version "2.5.2" apply false
+//    id 'org.cyclonedx.bom' version '3.0.0-alpha-1' apply false  //See https://plugins.gradle.org/plugin/org.cyclonedx.bom
+    id 'org.cyclonedx.bom' version '2.0.0' apply false  //See https://plugins.gradle.org/plugin/org.cyclonedx.bom
+    id "com.gorylenko.gradle-git-properties" version "2.5.3" apply false
 }
 
 def fragmentDir = "${rootProject.projectDir}/gradle/fragment"
@@ -44,6 +45,7 @@ allprojects {
     repositories {
         mavenCentral()
         mavenLocal()
+        maven { url = 'https://projectlombok.org/edge-releases' }
     }
     apply from: "${fragmentDir}/project-report.gradle"
 }
@@ -63,6 +65,49 @@ subprojects {
     apply from: "${fragmentDir}/decycle.gradle"
     apply from: "${fragmentDir}/cyclonedx.gradle"
     apply from: "${fragmentDir}/git-properties.gradle"
+}
+
+subprojects {project ->
+    project.plugins.withType(JavaPlugin) {
+//    project.plugins.withId('java') {
+        project.tasks.register("conservativeBuild") {
+            description 'Runs clean and build with warnings enabled, excluding test and javadoc tasks.'
+            group 'build'
+
+            dependsOn project.tasks.named('clean')
+            dependsOn project.tasks.named('build')
+
+/*
+            project.tasks.named('build').configure {
+                it.setProperty('excludes', ['test', 'javadoc'])
+            }
+*/
+/*
+            doFirst {
+                project.tasks.named('test').configure { it.enabled = false }
+                project.tasks.named('javadoc').configure { it.enabled = false }
+            }
+*/
+/*
+            doFirst {
+                project.tasks.named('test').get().enabled = false
+                project.tasks.named('javadoc').get().enabled = false
+                logger.lifecycle("Disabled test task: ${project.tasks.named('test').get().enabled}")
+                logger.lifecycle("Disabled javadoc task: ${project.tasks.named('javadoc').get().enabled}")
+            }
+*/
+            project.gradle.taskGraph.whenReady { graph ->
+                if (graph.hasTask(project.tasks.conservativeBuild)) {
+                    project.tasks.named('test').get().enabled = false
+                    project.tasks.named('javadoc').get().enabled = false
+                }
+            }
+
+            doLast {
+                project.gradle.startParameter.warningMode = org.gradle.api.logging.configuration.WarningMode.All
+            }
+        }
+    }
 }
 
 /*

@@ -26,8 +26,9 @@ plugins {
 }
 
 dependencies {
-    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.4.1'
-    implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: '5.4.1'
-    implementation group: 'org.apache.poi', name: 'poi-excelant', version: '5.4.1'
+    implementation 'org.apache.poi:poi-ooxml:5.4.1'
+    implementation 'org.apache.poi:poi-scratchpad:5.4.1'
+    implementation 'org.apache.poi:poi-excelant:5.4.1'
+    implementation 'org.apache.commons:commons-lang3:3.18.0'
 //    implementation group: 'fr.opensagres.xdocreport', name: 'fr.opensagres.poi.xwpf.converter.core', version: '2.1.0'
 }

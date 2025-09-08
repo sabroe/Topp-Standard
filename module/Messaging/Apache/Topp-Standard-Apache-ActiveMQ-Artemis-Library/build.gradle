@@ -26,14 +26,41 @@ plugins {
 }
 
 dependencies {
-    api 'jakarta.jms:jakarta.jms-api:2.0.3'  //Yes, not newer 3.0.1; artemis-jms-client:2.41.0 is behind!
-    api 'org.apache.activemq:artemis-jms-client:2.41.0'
+    api 'jakarta.jms:jakarta.jms-api:3.1.0'
+    api('org.apache.activemq:artemis-jms-client:2.42.0') {
+        exclude group: 'org.apache.activemq', module: 'artemis-core-client'
+        exclude group: 'org.apache.activemq', module: 'artemis-commons'
+        exclude group: 'org.apache.activemq', module: 'artemis-selector'
+        exclude group: 'org.slf4j', module: 'slf4j-ext'
+        exclude group: 'org.slf4j', module: 'slf4j-simple'
+    }
+    // Explicitly include for patching
+    implementation 'org.apache.activemq:artemis-core-client:2.42.0'
+    implementation 'org.apache.activemq:artemis-commons:2.42.0'
+    // Replace slf4j-ext with logback-classic
+    implementation 'ch.qos.logback:logback-classic:1.5.12'
+}
 
-    configurations {
-        all*.exclude group: 'org.slf4j', module: 'slf4j-simple'
-        all*.exclude group: 'org.slf4j', module: 'slf4j-ext'
-        all*.exclude group: 'org.apache.activemq', module: 'artemis-commons'
-        all*.exclude group: 'org.apache.activemq', module: 'artemis-core-client'
+configurations {
+    compileClasspath {
+        exclude group: 'org.slf4j', module: 'slf4j-simple'
+        exclude group: 'org.slf4j', module: 'slf4j-ext'
+        exclude group: 'org.apache.activemq', module: 'artemis-selector'
+    }
+    runtimeClasspath {
+        exclude group: 'org.slf4j', module: 'slf4j-simple'
+        exclude group: 'org.slf4j', module: 'slf4j-ext'
+        exclude group: 'org.apache.activemq', module: 'artemis-selector'
+    }
+    testCompileClasspath {
+        exclude group: 'org.slf4j', module: 'slf4j-simple'
+        exclude group: 'org.slf4j', module: 'slf4j-ext'
+        exclude group: 'org.apache.activemq', module: 'artemis-selector'
+    }
+    testRuntimeClasspath {
+        exclude group: 'org.slf4j', module: 'slf4j-simple'
+        exclude group: 'org.slf4j', module: 'slf4j-ext'
+        exclude group: 'org.apache.activemq', module: 'artemis-selector'
     }
 }
 
@@ -42,13 +69,32 @@ java {
 }
 
 tasks.withType(JavaCompile) {
-//    options.compilerArgs += ['--module-path', configurations.runtimeClasspath.asPath]
-    options.compilerArgs += ['--module-path', configurations.compileClasspath.asPath]
+    // Debug: Print the classpath and module path
+    doFirst {
+        println "CompileClasspath JARs: ${configurations.compileClasspath.collect { it.name }.join(', ')}"
+        println "ModulePath: ${configurations.compileClasspath.asPath}"
+    }
+    def patchPath = configurations.compileClasspath
+            .filter { it.name.contains('artemis-core-client-2.42.0') || it.name.contains('artemis-commons-2.42.0') }
+            .collect { it.absolutePath }
+            .join(File.pathSeparator)
+    if (!patchPath.isEmpty()) {
+        println "Patching artemis.jms.client with: ${patchPath}"
+        options.compilerArgs += [
+                '--module-path', configurations.compileClasspath.asPath,
+                '--patch-module', "artemis.jms.client=${patchPath}"
+        ]
+    } else {
+        println "Warning: No matching JARs found for patching artemis-core-client or artemis-commons"
+        options.compilerArgs += [
+                '--module-path', configurations.compileClasspath.asPath
+        ]
+    }
+    options.encoding = 'UTF-8'
+    // Debug: Print compiler args
+    println "Compiler Args: ${options.compilerArgs}"
 }
 
 tasks.withType(Javadoc) {
-//    options.addStringOption('--module-path', configurations.compileClasspath.asPath + ";" + configurations.runtimeClasspath.asPath)
-//    options.addStringOption('--add-modules', 'activemq.client,jakarta.messaging,org.slf4j,lombok')
-//    options.modulePath = sourceSets.main.runtimeClasspath
     options.modulePath = sourceSets.main.compileClasspath
 }

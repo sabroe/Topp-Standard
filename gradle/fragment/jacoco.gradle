@@ -17,10 +17,10 @@
  * limitations under the License.
  */
 
-plugins.withType(JacocoPlugin) {
+plugins.withType(JacocoPlugin).configureEach {
     jacoco {
         toolVersion = "0.8.13"
-//          reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+//      layout.buildDirectory.dir("reports/jacoco")
     }
     test {
         finalizedBy jacocoTestReport // report is always generated after tests run
