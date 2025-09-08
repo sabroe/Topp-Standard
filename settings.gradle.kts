@@ -19,6 +19,8 @@
 
 rootProject.name = "Yelstream Topp Standard Project"
 
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+
 include("module:Topp-Standard-Core-Library")
 // "Topp-Standard-Inject-Library"
 
