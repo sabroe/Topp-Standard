@@ -20,15 +20,7 @@
 package com.yelstream.topp.standard.microprofile.config.provider;
 
 import lombok.experimental.UtilityClass;
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
-import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @UtilityClass
 public class ConfigProviders {

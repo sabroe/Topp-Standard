@@ -27,6 +27,7 @@ import org.eclipse.microprofile.config.ConfigProvider;
 
 @Slf4j
 @AllArgsConstructor
+@SuppressWarnings({"LombokGetterMayBeUsed","java:S115"})
 public enum EclipseVertXHTTPConfigurationOption {
 
     //https://quarkus.io/guides/all-config#quarkus-vertx-http_quarkus-vertx-http-eclipse-vert-x-http

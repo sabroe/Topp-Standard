@@ -43,7 +43,7 @@ public class ClassLoaders {
      * Gets the "platform" classloader.
      * <p>
      *     Loads classes and resources from platform-specific JDK modules (e.g., java.sql, java.xml)
-     *     that are not part of the boot classloader’s core modules (e.g., java.base).
+     *     that are not part of the boot classloader’s core modules (e.g., {@code java.base}).
      *     Limited to JDK platform modules not loaded by the boot classloader.
      *     It does not include application-specific classes or modules unless explicitly configured.
      * </p>

@@ -30,6 +30,7 @@ import lombok.Getter;
  * @since 2024-09-27
  */
 @AllArgsConstructor(staticName="of")
+@SuppressWarnings("LombokGetterMayBeUsed")
 public final class Encoding {
     /**
      *

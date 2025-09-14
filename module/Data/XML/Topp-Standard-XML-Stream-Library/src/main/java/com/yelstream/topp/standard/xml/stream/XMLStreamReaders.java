@@ -21,8 +21,6 @@ package com.yelstream.topp.standard.xml.stream;
 
 import lombok.experimental.UtilityClass;
 
-import javax.xml.stream.XMLInputFactory;
-
 /**
  * Utility addressing instances of {@link XMLStreamReader}.
  * @author Morten Sabroe Mortensen

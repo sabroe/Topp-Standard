@@ -20,9 +20,10 @@
 package com.yelstream.topp.standard.xml.sax;
 
 import lombok.experimental.UtilityClass;
+import org.xml.sax.ErrorHandler;
 
 /**
- * Utilities addressing instances of {@llink ErrorHandler}.
+ * Utilities addressing instances of {@link ErrorHandler}.
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-02-19

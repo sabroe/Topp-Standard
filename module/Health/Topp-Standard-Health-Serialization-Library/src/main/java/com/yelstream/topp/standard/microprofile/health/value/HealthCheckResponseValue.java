@@ -20,15 +20,12 @@
 package com.yelstream.topp.standard.microprofile.health.value;
 
 //import com.yelstream.topp.standard.microprofile.health.HealthCheckResponses;
-import com.yelstream.topp.standard.util.Maps;
-import com.yelstream.topp.standard.util.Optionals;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 //import org.eclipse.microprofile.health.HealthCheckResponse;
 
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Health-check response values applicable for serialization of {@link HealthCheckResponse} instances.

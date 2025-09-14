@@ -1,10 +1,6 @@
 package com.yelstream.topp.standard.lang;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.experimental.UtilityClass;
-
-import java.util.function.Consumer;
 
 @UtilityClass
 public class Copyables {

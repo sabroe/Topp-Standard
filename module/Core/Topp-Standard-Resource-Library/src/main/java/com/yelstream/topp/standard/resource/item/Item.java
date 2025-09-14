@@ -58,7 +58,6 @@ public interface Item {
 
     /**
      *
-     * @return
      */
     Capability capability();
 

@@ -76,7 +76,6 @@ class DurationWatchesTest {
      }
 
     static class BlankStringsArgumentsProvider implements ArgumentsProvider {
-
         @Override
         public Stream<? extends Arguments> provideArguments(ParameterDeclarations parameters, ExtensionContext context) {
             return Stream.of(

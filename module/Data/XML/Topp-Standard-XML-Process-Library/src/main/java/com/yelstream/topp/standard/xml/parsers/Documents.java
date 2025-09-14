@@ -20,9 +20,10 @@
 package com.yelstream.topp.standard.xml.parsers;
 
 import lombok.experimental.UtilityClass;
+import org.w3c.dom.Document;
 
 /**
- * Utilities addressing instances of {@llink Document}.
+ * Utilities addressing instances of {@link Document}.
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-06-19

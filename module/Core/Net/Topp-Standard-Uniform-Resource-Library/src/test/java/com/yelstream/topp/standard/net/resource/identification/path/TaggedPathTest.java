@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 
@@ -61,7 +62,7 @@ class TaggedPathTest {
         Assertions.assertEquals(null, taggedPath.getTag());
         Assertions.assertEquals("", taggedPath.toPath());
         Assertions.assertEquals(URI.create(""), taggedPath.toURI());
-        Assertions.assertEquals(Arrays.asList(), taggedPath.toSegmentedPath().getElements());
+        Assertions.assertEquals(List.of(), taggedPath.toSegmentedPath().getElements());
     }
 
     @Test
@@ -76,7 +77,7 @@ class TaggedPathTest {
         Assertions.assertEquals("1.0.0", taggedPath.getTag());
         Assertions.assertEquals(":1.0.0", taggedPath.toPath());
         Assertions.assertThrows(IllegalArgumentException.class, taggedPath::toURI);
-        Assertions.assertEquals(Arrays.asList(), taggedPath.toSegmentedPath().getElements());
+        Assertions.assertEquals(List.of(), taggedPath.toSegmentedPath().getElements());
     }
 
     @Test

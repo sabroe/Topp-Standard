@@ -88,7 +88,7 @@ public enum StandardURIPredicate {
     HasEntrySeparator(uri -> uri!=null && uri.getSchemeSpecificPart()!=null && uri.getSchemeSpecificPart().contains("!/")),
 
     /**
-     * Tests if the URI has properties, contains {@code ;} (e.g., as in a {@ode jdbc} URL).
+     * Tests if the URI has properties, contains {@code ;} (e.g., as in a {@code jdbc} URL).
      * <p>
      *     Examples:
      *     <ul>

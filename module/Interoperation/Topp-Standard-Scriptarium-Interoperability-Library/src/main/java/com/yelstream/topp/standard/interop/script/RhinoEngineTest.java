@@ -19,8 +19,6 @@
 
 package com.yelstream.topp.standard.interop.script;
 
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ScriptableObject;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 

@@ -33,12 +33,8 @@ import javax.xml.namespace.QName;
 @UtilityClass
 public class JAXBElementFactories {
     /**
-     * XXX
-     * @param name
-     * @param declaredType
-     * @param scope
-     * @return
-,     */
+     *
+     */
     @lombok.Builder(builderClassName="Builder")
     private static <T> JAXBElementFactory<T> createJAXBElementFactory(QName name,
                                                                       Class<T> declaredType,
