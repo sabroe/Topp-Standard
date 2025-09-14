@@ -21,8 +21,10 @@ package com.yelstream.topp.standard.xml.parsers;
 
 import lombok.experimental.UtilityClass;
 
+import javax.xml.parsers.SAXParser;
+
 /**
- * Utilities addressing instances of {@llink SAXParser}.
+ * Utilities addressing instances of {@link SAXParser}.
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-06-19

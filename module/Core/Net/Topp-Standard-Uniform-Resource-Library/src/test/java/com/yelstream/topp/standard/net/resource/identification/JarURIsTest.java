@@ -169,7 +169,7 @@ class JarURIsTest {
         Assertions.assertEquals(url, fromSplit.build());
 
         // Verify inner URL
-        String innerUrl = splitURI.getUrl().substring(0, splitURI.getUrl().length());
+        String innerUrl = splitURI.getUrl();
         JarURIs.SplitURI innerSplit = JarURIs.SplitURI.of(URI.create(innerUrl));
         Assertions.assertEquals("jar", innerSplit.getScheme());
         Assertions.assertEquals("file:/my.jar", innerSplit.getUrl());
@@ -198,21 +198,21 @@ class JarURIsTest {
         Assertions.assertEquals(url, fromSplit.build());
 
         // Verify inner URL (first level)
-        String innerUrl1 = splitURI.getUrl().substring(0, splitURI.getUrl().length());
+        String innerUrl1 = splitURI.getUrl();
         JarURIs.SplitURI innerSplit1 = JarURIs.SplitURI.of(URI.create(innerUrl1));
         Assertions.assertEquals("jar", innerSplit1.getScheme());
         Assertions.assertEquals("jar:file:/my.jar!/inner.jar", innerSplit1.getUrl());
         Assertions.assertEquals("core.jar", innerSplit1.getEntry());
 
         // Verify inner URL (second level)
-        String innerUrl2 = innerSplit1.getUrl().substring(0, innerSplit1.getUrl().length());
+        String innerUrl2 = innerSplit1.getUrl();
         JarURIs.SplitURI innerSplit2 = JarURIs.SplitURI.of(URI.create(innerUrl2));
         Assertions.assertEquals("jar", innerSplit2.getScheme());
         Assertions.assertEquals("file:/my.jar", innerSplit2.getUrl());
         Assertions.assertEquals("inner.jar", innerSplit2.getEntry());
 
         // Verify inner URL (third level)
-        String innerUrl3 = innerSplit2.getUrl().substring(0, innerSplit2.getUrl().length());
+        String innerUrl3 = innerSplit2.getUrl();
         Assertions.assertDoesNotThrow(() -> URI.create(innerUrl3));
         Assertions.assertEquals("file:/my.jar", innerUrl3);
         // Verify entry

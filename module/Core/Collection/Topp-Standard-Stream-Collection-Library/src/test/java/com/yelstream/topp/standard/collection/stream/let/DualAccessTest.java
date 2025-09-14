@@ -53,6 +53,7 @@ public class DualAccessTest {
      * @param <E> Type of element.
      */
     @AllArgsConstructor(staticName="of")
+    @SuppressWarnings("LombokGetterMayBeUsed")
     public static class SimpleListProvider<E> {
         @Getter
         private List<E> x;
@@ -71,6 +72,7 @@ public class DualAccessTest {
      * @param <E> Type of element.
      */
     @AllArgsConstructor(staticName="of")
+    @SuppressWarnings("LombokGetterMayBeUsed")
     public static class ImmutableListProvider<E> {
         @Getter
         private final List<E> x;  //Reference fixed, list itself is modifiable!
@@ -89,6 +91,7 @@ public class DualAccessTest {
      * @param <E> Type of element.
      */
     @AllArgsConstructor(access=AccessLevel.PRIVATE)
+    @SuppressWarnings("LombokGetterMayBeUsed")
     public static class UnmodifiableListProvider<E> {
         @Getter
         private final List<E> x;  //Reference fixed, list itself is unmodifiable!
@@ -111,6 +114,7 @@ public class DualAccessTest {
      * @param <E> Type of element.
      */
     @AllArgsConstructor(staticName="of")
+    @SuppressWarnings("LombokGetterMayBeUsed")
     public static class StreamListProvider<E> {
         @Getter
         private Supplier<Stream<E>> streamSupplier;

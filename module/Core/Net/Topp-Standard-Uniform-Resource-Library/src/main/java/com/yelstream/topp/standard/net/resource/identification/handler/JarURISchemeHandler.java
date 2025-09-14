@@ -19,8 +19,6 @@
 
 package com.yelstream.topp.standard.net.resource.identification.handler;
 
-import lombok.AllArgsConstructor;
-
 /**
  *
  *

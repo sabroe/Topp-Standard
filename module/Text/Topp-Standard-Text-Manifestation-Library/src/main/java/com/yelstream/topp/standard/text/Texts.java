@@ -136,7 +136,7 @@ System.out.println("Group: "+group);
     }
 
     @FunctionalInterface
-    interface MatcherReplacer {
+    public interface MatcherReplacer {
         Function<Function<MatchResult,String>,String> replace(Matcher matcher);
 
         static MatcherReplacer replaceFirst() {
@@ -153,13 +153,11 @@ System.out.println("Group: "+group);
                                 MatcherReplacer matcherReplacer,
                                 MatchReplacer matchReplacer) {
         Matcher matcher=pattern.matcher(text);
-
-        String result=matcherReplacer.replace(matcher).apply(matchReplacer::apply);
-        return result;
+        return matcherReplacer.replace(matcher).apply(matchReplacer::apply);
     }
 
     @FunctionalInterface
-    interface MatchReplacer {
+    public interface MatchReplacer {
         String apply(MatchResult match);
 
         static MatchReplacer identity() {

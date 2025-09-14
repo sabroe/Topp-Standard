@@ -20,7 +20,6 @@
 package com.yelstream.topp.standard.net.tool;
 
 import java.net.*;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Stream;
 

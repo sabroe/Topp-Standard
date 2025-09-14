@@ -31,6 +31,7 @@ import lombok.Getter;
  */
 @lombok.Builder(builderClassName="Builder")
 @AllArgsConstructor(staticName="of")
+@SuppressWarnings("LombokGetterMayBeUsed")
 public final class Carrier {
     /**
      * Content encoding.

@@ -22,7 +22,6 @@ package com.yelstream.topp.standard.microprofile.config.source.describe;
 import lombok.experimental.UtilityClass;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 

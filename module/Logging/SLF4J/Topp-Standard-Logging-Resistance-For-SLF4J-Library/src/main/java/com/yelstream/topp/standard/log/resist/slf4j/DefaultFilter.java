@@ -19,8 +19,6 @@
 
 package com.yelstream.topp.standard.log.resist.slf4j;
 
-import com.yelstream.topp.standard.log.resist.slf4j.filter.Conditional;
-import com.yelstream.topp.standard.log.resist.slf4j.filter.FilterResult;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.slf4j.spi.LoggingEventBuilder;

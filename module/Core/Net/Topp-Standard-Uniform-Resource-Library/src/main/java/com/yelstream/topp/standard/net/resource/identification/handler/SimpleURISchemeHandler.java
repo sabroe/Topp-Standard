@@ -26,7 +26,6 @@ import com.yelstream.topp.standard.net.resource.identification.scheme.Scheme;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.net.URI;
 import java.util.Properties;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;

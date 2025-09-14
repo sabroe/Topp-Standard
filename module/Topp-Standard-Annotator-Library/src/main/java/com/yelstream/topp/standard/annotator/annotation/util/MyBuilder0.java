@@ -19,9 +19,6 @@
 
 package com.yelstream.topp.standard.annotator.annotation.util;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

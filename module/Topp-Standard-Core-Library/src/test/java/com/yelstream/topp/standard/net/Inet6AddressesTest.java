@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class Inet6AddressesTest {
     @Test
     void dummy() {
-        Assertions.assertTrue(1+1==2);
+        Assertions.assertEquals(1 + 1, 2);
 /*
         System.out.println("IP #1: "+InetAddresses.resolve(InetAddresses.StandardAddress.getAllSuppliers()));
         System.out.println("IP #2: "+InetAddresses.resolveDistinct(InetAddresses.StandardAddress.getAllSuppliers()));

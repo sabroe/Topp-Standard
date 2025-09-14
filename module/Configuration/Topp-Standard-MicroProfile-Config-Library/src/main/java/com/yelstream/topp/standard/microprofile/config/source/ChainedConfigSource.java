@@ -26,7 +26,6 @@ import lombok.NonNull;
 import lombok.Singular;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
