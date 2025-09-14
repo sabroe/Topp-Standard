@@ -58,9 +58,9 @@ public final class URLScannerFactory {
     private final Predicate<URL> matcher=null;
 
     /**
-     * Indicated, if a URL can be applied to this scanner.
+     * Verifies that a specified URL can be applied to this scanner.
      * @param url URL.
-     * @return
+     * @return Indicated, if the URL can be applied.
      */
     @SuppressWarnings({"java:S2583","ConstantConditions"})
     public boolean matches(URL url) {
