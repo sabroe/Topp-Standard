@@ -35,10 +35,6 @@ public class QNames {
 
     /**
      *
-     * @param namespaceURI
-     * @param localPart
-     * @param prefix
-     * @return
      */
     @lombok.Builder(builderClassName="Builder")
     private static QName createQName(String namespaceURI,

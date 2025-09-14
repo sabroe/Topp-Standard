@@ -35,7 +35,7 @@ import org.xml.sax.SAXParseException;
 public class BasicErrorHandler implements ErrorHandler {
 
     @FunctionalInterface
-    interface ExceptionHandler {
+    public interface ExceptionHandler {
         void apply(SAXParseException ex) throws SAXException;
     }
 

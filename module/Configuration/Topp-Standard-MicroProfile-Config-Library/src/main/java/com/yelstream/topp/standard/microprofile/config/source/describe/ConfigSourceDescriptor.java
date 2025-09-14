@@ -39,6 +39,7 @@ public class ConfigSourceDescriptor {
     private final Set<String> propertyNames;
     private final Map<String,String> properties;
 
+    @SuppressWarnings({"FieldMayBeFinal","unused"})
     public static class Builder {
         private Set<String> propertyNames=new HashSet<>();
         private Map<String,String> properties=new HashMap<>();

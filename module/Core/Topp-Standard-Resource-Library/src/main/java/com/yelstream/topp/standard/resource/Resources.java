@@ -119,9 +119,6 @@ public class Resources {
 
     /**
      *
-     * @param classLoader
-     * @param name
-     * @return
      */
     public Resource getResource(ClassLoader classLoader,
                                 String name) {

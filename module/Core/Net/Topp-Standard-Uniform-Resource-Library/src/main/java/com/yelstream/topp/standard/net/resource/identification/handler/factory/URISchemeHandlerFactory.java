@@ -30,8 +30,6 @@ import com.yelstream.topp.standard.net.resource.identification.handler.URIScheme
 public interface URISchemeHandlerFactory {
     /**
      *
-     * @param scheme
-     * @return
      */
     URISchemeHandler createURISchemeHandler(String scheme);
 }
