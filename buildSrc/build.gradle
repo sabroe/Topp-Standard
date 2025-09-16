@@ -22,3 +22,74 @@ gradlePlugin {
     }
 }
 */
+
+
+plugins {
+    id 'groovy' // For Groovy-based plugins
+    id 'java-gradle-plugin' // For Gradle plugin development
+//    id 'maven-publish'
+}
+
+group = 'com.example'
+version = '1.0.0' // Version for buildSrc JAR, shared by plugins
+
+gradlePlugin {
+    plugins {
+        featureRoot {
+            id = 'com.example.feature-root'
+            implementationClass = 'com.example.feature.FeatureRootPlugin'
+            displayName = 'Feature Root Plugin'
+            description = 'Aggregates feature plugins for Topp-Standard project'
+        }
+        dependencyManagement {
+            id = 'com.example.dependency-management'
+            implementationClass = 'com.example.depman.DependencyManagementPlugin'
+            displayName = 'Dependency Management Plugin'
+            description = 'Manages default versions and BOMs for Topp-Standard project'
+        }
+        lombokFeature {
+            id = 'com.yelstream.topp.grasp.feature.lombok'
+            implementationClass = 'com.yelstream.topp.grasp.feature.lombok.LombokFeaturePlugin'
+            displayName = 'Yelstream Topp Grasp Lombok Feature Plugin'
+            description = 'Yelstream Topp Grasp Lombok Feature Plugin does xxx'
+        }
+/*
+        slf4jFeature {
+            id = 'com.yelstream.topp.grasp.feature.slf4j'
+            implementationClass = 'com.yelstream.topp.grasp.feature.slf4j.SLF4JFeaturePlugin'
+            displayName = 'Yelstream Topp Grasp SLF4J Feature Plugin'
+            description = 'Yelstream Topp Grasp SLF4J Feature Plugin does xxx'
+        }
+*/
+    }
+}
+
+/*
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            pom {
+                name = 'Topp-Standard Plugins'
+                description = 'Gradle plugins for feature and dependency management in Topp-Standard'
+                url = 'https://github.com/sabroe/Topp-Grasp'
+                licenses {
+                    license {
+                        name = 'Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0'
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        mavenLocal() // Publish to local Maven repository for testing
+        // Add other repositories (e.g., Nexus, Maven Central) as needed
+    }
+}
+*/
+
+dependencies {
+    implementation gradleApi() // Required for Gradle plugin development
+    implementation localGroovy() // For Groovy-based plugins
+}

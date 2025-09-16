@@ -1,0 +1,51 @@
+/*
+ * Project: Topp Grasp
+ * GitHub: https://github.com/sabroe/Topp-Grasp
+ *
+ * Copyright 2022-2025 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+plugins.withType(JavaLibraryPlugin).configureEach {  //Note: 'JavaPlugin' includes 'JavaLibraryPlugin'; both intermediate libraries and end-applications are included!
+    logger.debug("[${buildscript.sourceFile.name}]:> Plugins applied: ${plugins*.class.simpleName}")
+    def enableFeatureText = custom['feature.slf4j.enable']?.toString()?.trim()
+    def enableFeature = enableFeatureText ? enableFeatureText.toBoolean() : true
+    if (!enableFeature) {
+        logger.debug("Feature 'SLF4J' is disabled.")
+    } else {
+
+        apply from: "${buildscript.sourceFile.parent}/slf4j-1.0.0.version.gradle"
+
+        dependencies {
+            logger.debug("[${buildscript.sourceFile.name}]:> Available configurations: ${configurations.names}")
+            if (configurations.findByName('api')) {
+                //Use 'api' if available (implies java-library plugin is applied)
+                logger.debug("[${buildscript.sourceFile.name}]:> Applying 'api' dependencies.")
+                api 'org.slf4j:slf4j-api'
+                api 'org.slf4j:slf4j-ext'
+            } else {
+                //Fallback to 'implementation' (implies only java plugin is applied)
+                logger.debug("[${buildscript.sourceFile.name}]:> Applying 'implementation' dependencies.")
+                implementation 'org.slf4j:slf4j-api'
+                implementation 'org.slf4j:slf4j-ext'
+            }
+
+            //Apply testImplementation only for intermediate libraries
+            if (configurations.findByName('api')) {
+                logger.debug("[${buildscript.sourceFile.name}]:> Applying 'testImplementation' dependencies.")
+                testImplementation 'org.slf4j:slf4j-simple'
+            }
+        }
+    }
+}
