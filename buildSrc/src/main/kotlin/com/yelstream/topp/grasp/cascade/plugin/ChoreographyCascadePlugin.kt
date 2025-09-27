@@ -1,4 +1,24 @@
-import com.yelstream.topp.grasp.cascade.plugin.BuildTime
+/*
+ * Project: Topp Grasp
+ * GitHub: https://github.com/sabroe/Topp-Grasp
+ *
+ * Copyright 2022-2025 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.yelstream.topp.grasp.cascade.plugin
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
@@ -89,6 +109,29 @@ fun Project.loadProperties(file: File): Properties {
     return properties
 }
 
+class PropertyInheritBuilder(private val projectAccessor: (Project) -> Properties,
+                             private val parentAccessor: (Project) -> Properties) {
+    fun inherit(project: Project, properties: Properties) {
+        project.parent?.let { parent ->
+            projectAccessor(project).putAll(parentAccessor(parent))
+        }
+        projectAccessor(project).putAll(properties)
+    }
+    fun inherit(project: Project, fileName: String) {
+        val properties = project.loadProperties(fileName)
+        inherit(project,properties)
+    }
+}
+
+fun Project.inheritPropertiesFromFile(
+    fileName: String,
+    projectAccessor: (Project) -> Properties,
+    parentAccessor: (Project) -> Properties
+) {
+    val builder = PropertyInheritBuilder(projectAccessor, parentAccessor)
+    builder.inherit(this, fileName)
+}
+
 fun Properties.resolvePlaceholders(project: Project, sources: Properties): Properties {
     val resolved = Properties()
 //    val visited = mutableSetOf<String>()
@@ -131,6 +174,12 @@ fun Project.computeStructuralProperties(): Properties {
 }
 
 class ChoreographyCascadePlugin : Plugin<Project> {
+    companion object {
+        const val PROPERTY_NAME_PREFIX = "plugin.choreography-cascade"
+
+        const val ENABLE_PROPERTY_NAME = "enable"
+        const val DEFAULT_DELAY = 100L
+    }
 
     override fun apply(project: Project) {
         initializeExtensions(project)
@@ -139,18 +188,19 @@ class ChoreographyCascadePlugin : Plugin<Project> {
         }
 
         configureProject(project)
-        project.subprojects.forEach { sub ->
+        project.subprojects.forEach { sub ->  //TODO: If project.getProperty("cascade.enable")!=false then do this
             configureProject(sub)
         }
     }
-
-    private fun initializeExtensions(project: Project) {
-        project.extensions.extraProperties["custom"] = Properties()
-        project.extensions.extraProperties["rawModule"] = Properties()
-        project.extensions.extraProperties["nonRootGradle"] = Properties()
-        project.extensions.extraProperties["structural"] = Properties()
-        project.extensions.extraProperties["local"] = Properties()
-    }
+//    companion object {
+        private fun initializeExtensions(project: Project) {
+            project.extensions.extraProperties["custom"] = Properties()
+            project.extensions.extraProperties["rawModule"] = Properties()
+            project.extensions.extraProperties["nonRootGradle"] = Properties()
+            project.extensions.extraProperties["structural"] = Properties()
+            project.extensions.extraProperties["local"] = Properties()
+        }
+//    }
 
     private fun configureProject(project: Project) {
         project.extra["custom"] = Properties()
@@ -166,21 +216,8 @@ class ChoreographyCascadePlugin : Plugin<Project> {
         project.module.setProperty("default.project.group", "com.example")
         project.module.setProperty("default.project.version", ProjectBuildTime.instance.sanitizedBuildTime)
 
-
-
-        val customProps = project.loadProperties("custom.properties")
-        project.parent?.let { parent ->
-            project.custom.putAll(parent.custom)
-        }
-        project.custom.putAll(customProps)
-
-
-
-        val moduleProps = project.loadProperties("module.properties")
-        project.parent?.let { parent ->
-            project.rawModule.putAll(parent.custom)
-        }
-        project.rawModule.putAll(moduleProps)
+        project.inheritPropertiesFromFile("custom.properties",{it.custom},{it.custom})
+        project.inheritPropertiesFromFile("module.properties",{it.rawModule},{it.custom})
 
 
 
@@ -246,7 +283,15 @@ class ChoreographyCascadePlugin : Plugin<Project> {
             }
         }
 
+//        project.setProperty("xxx","yyy")
+//        project.setProperty("feature","yyy")
+        project.extensions.extraProperties.set("xxx","yyy")
+        project.extensions.extraProperties.set("feature","yyy")
+
 //project.logger.error("[${project.name}]:> Properties: ${project.properties}")
+        project.properties.forEach { (key,value) ->
+            project.logger.error("    $key = $value")
+        }
     }
 }
 
