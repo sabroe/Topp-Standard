@@ -53,8 +53,7 @@ gradlePlugin {
 
         create("choreographyCascade") {
             id = "com.yelstream.topp.grasp.choreography-cascade"
-            implementationClass = "ChoreographyCascadePlugin"
-//implementationClass = "com.yelstream.topp.grasp.cascade.plugin.ChoreographyCascadePlugin"
+            implementationClass = "com.yelstream.topp.grasp.cascade.plugin.ChoreographyCascadePlugin"
             displayName = "Yelstream Topp Grasp 'Choreography Cascade' Plugin"
             description = "Orchestrates hierarchical property inheritance with local override choreography."
         }
