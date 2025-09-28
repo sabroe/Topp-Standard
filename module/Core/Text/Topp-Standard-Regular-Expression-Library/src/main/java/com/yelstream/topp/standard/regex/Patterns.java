@@ -54,9 +54,15 @@ public class Patterns {
         return create(regEx,List.of(flags));
     }
 
-    @lombok.Builder(builderClassName="Builder",toBuilder=true)
+    @lombok.Builder(builderClassName="Builder")
     private static Pattern createByBuilder(String regEx,
                                            @lombok.Singular List<Flag> flags) {
         return create(regEx,flags);
+    }
+
+    public static class Builder {
+        public Builder pattern(Pattern pattern) {
+            return regEx(pattern.pattern());  //TO-DO: Add '.flags(...)'; decode the flags, please!
+        }
     }
 }
