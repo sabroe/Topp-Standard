@@ -35,9 +35,9 @@ public interface MatcherReplacer {
     /**
      * Replaces selected occurrences of matched groups using a transformation from {@link MatchResult} to a value.
      * @param matcher The matcher containing matched groups.
-     * @param map A function transforming {@link MatchResult} to a replacement string.
+     * @param replacer Maps a matching position {@link MatchResult} to a replacement string.
      * @return The resulting string after replacements.
      */
     String replace(Matcher matcher,
-                   Function<MatchResult,String> map);
+                   Function<MatchResult,String> replacer);
 }

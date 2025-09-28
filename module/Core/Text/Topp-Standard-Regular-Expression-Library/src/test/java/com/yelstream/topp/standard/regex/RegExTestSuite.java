@@ -30,6 +30,6 @@ import org.junit.platform.suite.api.Suite;
  * @since 2025-09-27
  */
 @Suite
-@SelectClasses({RegExText.class})
+@SelectClasses({MatcherReplacerTest.class})
 class RegExTestSuite {
 }
