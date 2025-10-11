@@ -17,25 +17,34 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.lang;
+package com.yelstream.topp.standard.util.concurrent;
 
-import org.junit.platform.suite.api.SelectClasses;
-import org.junit.platform.suite.api.Suite;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.concurrent.Callable;
 
 /**
- * Test suite for {@code com.yelstream.topp.standard.lang}.
+ * Test of {@link Callables}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-04-24
+ * @since 2025-11-11
  */
-@Suite
-@SelectClasses({
-    ComparablesTest.class,
-    RunnablesTest.class,
-    ServiceLoadersTest.class,
-    StringsTest.class,
-    ExTest.class
-    })
-class LangTestSuite {
+class CallablesTest {
+
+    /**
+     * Test of {@link Callables#requireNonException(Callable)}
+     */
+    @Test
+    void requireNonExceptionTest() {
+        Assertions.assertDoesNotThrow(()-> {
+            Callables.requireNonException(()->0);
+        });
+
+        Assertions.assertThrows(IllegalStateException.class,()-> {
+            Callables.requireNonException(()->{ throw new IOException("Err!"); });
+        });
+    }
 }

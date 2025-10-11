@@ -17,25 +17,14 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.lang;
-
-import org.junit.platform.suite.api.SelectClasses;
-import org.junit.platform.suite.api.Suite;
-
 /**
- * Test suite for {@code com.yelstream.topp.standard.lang}.
+ * Topp Standard Stream Gatherer Library offering utilities addressing stream gatherers.
  *
  * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-04-24
+ * @since 2025-10-07
  */
-@Suite
-@SelectClasses({
-    ComparablesTest.class,
-    RunnablesTest.class,
-    ServiceLoadersTest.class,
-    StringsTest.class,
-    ExTest.class
-    })
-class LangTestSuite {
+module com.yelstream.topp.standard.stream.gatherer {
+    requires static lombok;
+    requires org.slf4j;
+    exports com.yelstream.topp.standard.stream.gatherer;
 }

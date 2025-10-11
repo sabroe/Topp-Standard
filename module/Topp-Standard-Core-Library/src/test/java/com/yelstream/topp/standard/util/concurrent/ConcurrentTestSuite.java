@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.lang;
+package com.yelstream.topp.standard.util.concurrent;
 
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
@@ -27,15 +27,11 @@ import org.junit.platform.suite.api.Suite;
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-04-24
+ * @since 2025-10-11
  */
 @Suite
 @SelectClasses({
-    ComparablesTest.class,
-    RunnablesTest.class,
-    ServiceLoadersTest.class,
-    StringsTest.class,
-    ExTest.class
+    CallablesTest.class
     })
-class LangTestSuite {
+class ConcurrentTestSuite {
 }

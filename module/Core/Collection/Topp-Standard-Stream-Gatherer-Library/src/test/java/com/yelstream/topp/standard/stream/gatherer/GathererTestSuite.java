@@ -17,18 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.lang;
+package com.yelstream.topp.standard.stream.gatherer;
 
-import lombok.experimental.UtilityClass;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
- * Utility addressing instances of {@link Exception}.
+ * Test suite for {@code com.yelstream.topp.standard.stream.gatherer}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-03-09
+ * @since 2025-10-07
  */
-@UtilityClass
-public class Exceptions {
-    //Empty!
+@Suite
+@SelectClasses({GathererTest.class})
+class GathererTestSuite {
 }
