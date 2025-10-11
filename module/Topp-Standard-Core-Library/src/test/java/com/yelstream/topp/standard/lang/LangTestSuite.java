@@ -30,6 +30,12 @@ import org.junit.platform.suite.api.Suite;
  * @since 2024-04-24
  */
 @Suite
-@SelectClasses({ComparablesTest.class,RunnablesTest.class,ServiceLoadersTest.class,StringsTest.class,ExTest.class})
+@SelectClasses({
+    ComparablesTest.class,
+    RunnablesTest.class,
+    ServiceLoadersTest.class,
+    StringsTest.class,
+    ExTest.class
+    })
 class LangTestSuite {
 }
