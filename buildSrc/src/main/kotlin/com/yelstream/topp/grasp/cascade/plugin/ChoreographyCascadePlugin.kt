@@ -228,7 +228,8 @@ class ChoreographyCascadePlugin : Plugin<Project> {
             }
             project.nonRootGradle.putAll(nonRootProps)
             nonRootProps.forEach { (key, value) ->
-                project.setProperty(key.toString(), value)
+//                project.setProperty(key.toString(), value)
+                project.extensions.extraProperties.set(key.toString(), value)
             }
         }
 
@@ -238,13 +239,15 @@ class ChoreographyCascadePlugin : Plugin<Project> {
             val structuralProps = project.computeStructuralProperties()
             project.structural.putAll(structuralProps)
             structuralProps.forEach { (key, value) ->
-                project.setProperty(key.toString(), value)
+  //              project.setProperty(key.toString(), value)
+                project.extensions.extraProperties.set(key.toString(), value)
             }
         }
 
         val localProps = project.loadProperties("local.properties")
         localProps.forEach { (key, value) ->
-            project.setProperty(key.toString(), value)
+  //          project.setProperty(key.toString(), value)
+            project.extensions.extraProperties.set(key.toString(), value)
         }
 
         project.logger.debug("[${project.name}]:> Project properties: ${project.properties.filter { it.key != "parent" && it.key != "rootProject" }}")  // ✅ Fixed: project.logger
@@ -280,29 +283,16 @@ class ChoreographyCascadePlugin : Plugin<Project> {
             if (key.startsWith(keyPrefix)) {
                 val name = key.removePrefix(keyPrefix)
                 project.setProperty(name, value)
+  //              project.extensions.extraProperties.set(name, value)
             }
         }
 
-//        project.setProperty("xxx","yyy")
-//        project.setProperty("feature","yyy")
-        project.extensions.extraProperties.set("xxx","yyy")
-        project.extensions.extraProperties.set("feature","yyy")
-
 //project.logger.error("[${project.name}]:> Properties: ${project.properties}")
+
+/* TO LOG ALL PROPERTIES, CLUMSY WAY:
         project.properties.forEach { (key,value) ->
             project.logger.error("    $key = $value")
         }
-    }
-}
-
-/*
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-
-class ChoreographyCascadePlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-//        project.logger.info("ChoreographyCascadePlugin applied to ${project.name}")
-        project.logger.error("ChoreographyCascadePlugin applied to ${project.name}")
-    }
-}
 */
+    }
+}

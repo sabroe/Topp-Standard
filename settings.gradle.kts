@@ -53,6 +53,7 @@ include("module:Media:Apache:Topp-Standard-Apache-POI-Document-Library")
 //TODO! include("module:Messaging:Apache:Topp-Standard-Apache-ActiveMQ-Artemis-Library")
 //TODO! include("module:Messaging:Jakarta:Topp-Standard-Jakarta-JMS-Library")
 include("module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library")
+include("module:Messaging:LadyBug:Topp-Standard-LadyBug-Library")
 
 include("module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library")
 
@@ -82,6 +83,7 @@ include("module:Core:Topp-Standard-Core-Concurrent-Library")
 include("module:Core:Topp-Standard-Core-Collection-Library")
 
 include("module:Core:Collection:Topp-Standard-Stream-Collection-Library")
+include("module:Core:Collection:Topp-Standard-Stream-Gatherer-Library")
 include("module:Core:System:Topp-Standard-System-Loader-Library")
 include("module:Core:IO:Topp-Standard-Dual-Access-IO-Library")
 include("module:Core:Net:Topp-Standard-Uniform-Resource-Library")

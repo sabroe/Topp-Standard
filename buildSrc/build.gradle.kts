@@ -57,6 +57,13 @@ gradlePlugin {
             displayName = "Yelstream Topp Grasp 'Choreography Cascade' Plugin"
             description = "Orchestrates hierarchical property inheritance with local override choreography."
         }
+
+        create("versionResolution") {
+            id = "com.yelstream.topp.grasp.version-resolution"
+            implementationClass = "com.yelstream.topp.grasp.resolve.plugin.DynamicVersionResolverPlugin"
+            displayName = "Yelstream Topp Grasp 'Version Resolution' Plugin"
+            description = "Resolves module versions in case no other mechanism is in effect."
+        }
     }
 }
 
@@ -88,5 +95,7 @@ publishing {
 dependencies {
     implementation(gradleApi())
     implementation(localGroovy())
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.20")
+//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.20")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.0-Beta1")
+    implementation("org.tomlj:tomlj:1.1.1")
 }

@@ -20,6 +20,12 @@
 package com.yelstream.topp.standard.stream.gatherer;
 
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Gatherer;
 
 /**
  * Utilities addressing instances of {@link java.util.stream.Gatherer}.
@@ -28,6 +34,39 @@ import lombok.experimental.UtilityClass;
  * @version 1.0
  * @since 2025-10-07
  */
+@Slf4j
 @UtilityClass
 public class Gatherers {
+    /**
+     *
+     */
+    public static <T> Gatherer<T, List<T>, List<T>> createPredicateGatherer(Predicate<T> predicate) {
+        return Gatherer.of(
+                ArrayList::new, // Initializer: Empty list
+                (list, element, downstream) -> { // Integrator: Add if predicate passes
+                    if (predicate.test(element)) {
+                        list.add(element);
+                    }
+                    return true; // Continue processing
+                },
+                (left, right) -> { // Combiner: Merge lists
+                    left.addAll(right);
+                    return left;
+                },
+                (list, downstream) -> { // Finisher: Push collected list
+                    downstream.push(list);
+                }
+        );
+    }
+
+    public static void main(String[] args) {
+        log.info("Hello, Gatherers!");
+
+        List<String> input = List.of("a", "abc", "abcd", "abcdef");
+
+        Gatherer<String, ?, List<String>> gatherer = createPredicateGatherer(s -> s.length() > 3);
+
+        List<List<String>> result = input.stream().gather(gatherer).toList();
+        System.out.println(result); // Output: [[abcd, abcdef]]
+    }
 }

@@ -26,4 +26,23 @@ plugins {
 }
 
 dependencies {
+
+//    implementation 'nano-id:nano-id:1.1.0'
+//    implementation 'nano-id:nano-id'
+
+//    implementation 'io.vertx:vertx-core:5.0.4'
+    implementation 'io.vertx:vertx-core'
+
+//    implementation 'org.slf4j:slf4j-simple'
+
+/*
+    constraints {
+        implementation('org.slf4j:slf4j-simple:3.0.117') {
+            because 'Default version set by SLF4JFeaturePlugin'
+            attributes {
+                attribute(Attribute.of('com.example.plugin', String), 'SLF4JFeaturePlugin')
+            }
+        }
+    }
+*/
 }
