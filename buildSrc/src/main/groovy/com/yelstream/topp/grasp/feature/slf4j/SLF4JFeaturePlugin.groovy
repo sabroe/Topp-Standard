@@ -8,30 +8,55 @@ import org.gradle.api.plugins.JavaPlugin
 class SLF4JFeaturePlugin implements Plugin<Project> {
     void apply(Project project) {
         project.plugins.withType(JavaLibraryPlugin).configureEach {  //Note: 'JavaPlugin' includes 'JavaLibraryPlugin'; both intermediate libraries and end-applications are included!
-            logger.debug("[${buildscript.sourceFile.name}]:> Plugins applied: ${plugins*.class.simpleName}")
+            project.logger.debug("[${buildscript.sourceFile.name}]:> Plugins applied: ${plugins*.class.simpleName}")
             def enableFeatureText = custom['feature.slf4j.enable']?.toString()?.trim()
             def enableFeature = enableFeatureText ? enableFeatureText.toBoolean() : true
             if (!enableFeature) {
-                logger.debug("Feature 'SLF4J' is disabled.")
+                project.logger.debug("Feature 'SLF4J' is disabled.")
             } else {
-                dependencies {
-                    logger.debug("[${buildscript.sourceFile.name}]:> Available configurations: ${configurations.names}")
+                project.dependencies {
+                    project.logger.debug("[${buildscript.sourceFile.name}]:> Available configurations: ${configurations.names}")
                     if (configurations.findByName('api')) {
                         //Use 'api' if available (implies java-library plugin is applied)
-                        logger.debug("[${buildscript.sourceFile.name}]:> Applying 'api' dependencies.")
-                        api 'org.slf4j:slf4j-api:2.0.17'  //TODO: 2.1.0-alpha1 per 2024-02-01!
-                        api 'org.slf4j:slf4j-ext:2.0.17'
+                        project.logger.debug("[${buildscript.sourceFile.name}]:> Applying 'api' dependencies.")
+                        api 'org.slf4j:slf4j-api'  //TODO: 2.1.0-alpha1 per 2024-02-01!
+                        api 'org.slf4j:slf4j-ext'
                     } else {
                         //Fallback to 'implementation' (implies only java plugin is applied)
-                        logger.debug("[${buildscript.sourceFile.name}]:> Applying 'implementation' dependencies.")
-                        implementation 'org.slf4j:slf4j-api:2.0.17'
-                        implementation 'org.slf4j:slf4j-ext:2.0.17'
+                        project.logger.debug("[${buildscript.sourceFile.name}]:> Applying 'implementation' dependencies.")
+                        implementation 'org.slf4j:slf4j-api'
+                        implementation 'org.slf4j:slf4j-ext'
                     }
 
                     //Apply testImplementation only for intermediate libraries
                     if (configurations.findByName('api')) {
-                        logger.debug("[${buildscript.sourceFile.name}]:> Applying 'testImplementation' dependencies.")
-                        testImplementation 'org.slf4j:slf4j-simple:2.0.17'
+                        project.logger.debug("[${buildscript.sourceFile.name}]:> Applying 'testImplementation' dependencies.")
+                        testImplementation 'org.slf4j:slf4j-simple'
+                    }
+
+// Apply default versions via constraints only if DynamicVersionResolverPlugin is not present
+//if (!project.plugins.hasPlugin('com.example.dynamic-version-resolver')) {
+//                        project.logger.debug("[${buildscript.sourceFile.name}]:> Applying SLF4J default version constraints (DynamicVersionResolverPlugin not present).")
+                    project.logger.warn("[${buildscript.sourceFile.name}]:> Applying SLF4J default version constraints (DynamicVersionResolverPlugin not present).")
+                    constraints {
+                        implementation('org.slf4j:slf4j-api:2.0.17') {
+                            because 'Default version set by SLF4JFeaturePlugin'
+                            attributes {
+                                attribute(Attribute.of('com.example.plugin', String), 'SLF4JFeaturePlugin')
+                            }
+                        }
+                        implementation('org.slf4j:slf4j-ext:2.0.17') {
+                            because 'Default version set by SLF4JFeaturePlugin'
+                            attributes {
+                                attribute(Attribute.of('com.example.plugin', String), 'SLF4JFeaturePlugin')
+                            }
+                        }
+                        testImplementation('org.slf4j:slf4j-simple:2.0.17') {
+                            because 'Default version set by SLF4JFeaturePlugin'
+                            attributes {
+                                attribute(Attribute.of('com.example.plugin', String), 'SLF4JFeaturePlugin')
+                            }
+                        }
                     }
                 }
             }
