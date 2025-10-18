@@ -42,14 +42,12 @@ gradlePlugin {
             displayName = "Yelstream Topp Grasp Lombok Feature Plugin"
             description = "Yelstream Topp Grasp Lombok Feature Plugin does xxx"
         }
-        /*
         create("slf4jFeature") {
             id = "com.yelstream.topp.grasp.feature.slf4j"
             implementationClass = "com.yelstream.topp.grasp.feature.slf4j.SLF4JFeaturePlugin"
             displayName = "Yelstream Topp Grasp SLF4J Feature Plugin"
             description = "Yelstream Topp Grasp SLF4J Feature Plugin does xxx"
         }
-        */
 
         create("choreographyCascade") {
             id = "com.yelstream.topp.grasp.choreography-cascade"
