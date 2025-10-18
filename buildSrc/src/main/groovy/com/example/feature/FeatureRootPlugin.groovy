@@ -5,16 +5,8 @@ import org.gradle.api.Project
 
 class FeatureRootPlugin implements Plugin<Project> {
     private static final List<String> FEATURE_PLUGINS = [
-            'com.yelstream.topp.grasp.feature.lombok'//,
-            //'com.yelstream.topp.grasp.feature.slf4j'
-
-/*
-            'com.example.slf4j-feature',
-            'com.example.lombok-feature',
-            'com.example.cyclonedx-feature',
-            'com.example.junit-feature'
-*/
-            // Add more feature plugin IDs as you create them
+        'com.yelstream.topp.grasp.feature.lombok',
+        'com.yelstream.topp.grasp.feature.slf4j'
     ]
 
     void apply(Project project) {
@@ -25,7 +17,6 @@ class FeatureRootPlugin implements Plugin<Project> {
         }
 */
 
-        // Dynamically apply all feature plugins by default
         FEATURE_PLUGINS.each { featurePluginId ->
             project.pluginManager.apply(featurePluginId)
         }
