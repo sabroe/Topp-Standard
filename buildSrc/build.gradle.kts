@@ -1,5 +1,6 @@
 plugins {
     `kotlin-dsl`
+    `java-library`
     `groovy-gradle-plugin`
     `java-gradle-plugin`
     // `maven-publish`
@@ -9,6 +10,7 @@ group = "com.example"
 version = "1.0.0"
 
 repositories {
+    mavenCentral()
     gradlePluginPortal()
 }
 
@@ -94,6 +96,6 @@ dependencies {
     implementation(gradleApi())
     implementation(localGroovy())
 //    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.20")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.0-Beta1")
+//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.0-Beta1")
     implementation("org.tomlj:tomlj:1.1.1")
 }

@@ -1,3 +1,4 @@
+
 package com.example.feature
 
 import org.gradle.api.Plugin
@@ -10,13 +11,6 @@ class FeatureRootPlugin implements Plugin<Project> {
     ]
 
     void apply(Project project) {
-        // Apply only to source code modules (exclude BOM subprojects)
-/*
-        if (!project.name.startsWith('module:')) {
-            return
-        }
-*/
-
         FEATURE_PLUGINS.each { featurePluginId ->
             project.pluginManager.apply(featurePluginId)
         }
