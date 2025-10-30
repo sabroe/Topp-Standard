@@ -70,9 +70,7 @@ subprojects {
     apply from: "${fragmentDir}/git-properties.gradle"
 
     apply plugin: "com.example.feature-root"
-project.afterEvaluate {
     apply plugin: "com.yelstream.topp.grasp.version-resolution"
-}
 }
 
 subprojects {project ->

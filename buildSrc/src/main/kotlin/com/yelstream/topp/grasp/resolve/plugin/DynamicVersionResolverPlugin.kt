@@ -2,34 +2,51 @@ package com.yelstream.topp.grasp.resolve.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.Configuration
-import org.gradle.api.artifacts.DependencyResolveDetails
-import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.artifacts.*
+import org.gradle.api.artifacts.dsl.DependencyConstraintHandler
 import org.gradle.api.attributes.Attribute
 import org.gradle.kotlin.dsl.getByType
 import org.slf4j.MarkerFactory
 import org.slf4j.spi.LoggingEventBuilder
 import org.tomlj.Toml
 import org.slf4j.LoggerFactory
+import java.util.function.Consumer
+import java.util.function.UnaryOperator
 
+/**
+ * Gradle plugin for dynamic version resolution.
+ *
+ *
+ */
 class DynamicVersionResolverPlugin : Plugin<Project> {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(DynamicVersionResolverPlugin::class.java)
         private val MARKER_NAME = DynamicVersionResolverPlugin::class.simpleName
         private val MARKER = MarkerFactory.getMarker(MARKER_NAME)
 
+        /**
+         *
+         */
         private fun log(project: Project): org.gradle.api.logging.Logger {
             return project.logger
         }
 
-        private fun log(project: Project, eventBuilderMapper: (org.gradle.api.logging.Logger) -> LoggingEventBuilder) {
+        /**
+         *
+         */
+        private fun log(project: Project,
+                        eventBuilderMapper: (org.gradle.api.logging.Logger) -> LoggingEventBuilder) {
             val logger = log(project)
             val leb = eventBuilderMapper(logger)
             decorateEvent(project,leb)
             leb.log()
         }
 
-        private fun decorateEvent(project: Project, leb: LoggingEventBuilder): Unit {
+        /**
+         *
+         */
+        private fun decorateEvent(project: Project,
+                                  leb: LoggingEventBuilder): Unit {
             leb.addMarker(MARKER)
             leb.addKeyValue("project.name",project.name)
 //            leb.addKeyValue("project.path",project.path)
@@ -40,50 +57,76 @@ class DynamicVersionResolverPlugin : Plugin<Project> {
         log(project) { logger -> logger.atDebug().setMessage("Plugin applied to project; project name is '{}'.").addArgument(project.name) }
         project.afterEvaluate {
             log(project) { logger -> logger.atDebug().setMessage("Plugin applied to project after evaluation.") }
-            val status = project.configurations.all { configuration -> configureResolutionStrategy(project,configuration) }
-            log(project) { logger -> logger.atInfo().setMessage("Configured resolution strategies for all configurations; status for all successful configuration is '{}'.").addArgument(status) }
+            project.configurations.forEach() { configuration -> configureResolutionStrategy(project,configuration) }
         }
     }
 
-    private fun configureResolutionStrategy(project: Project, configuration: Configuration): Boolean {
+    /**
+     *
+     */
+    private fun configureResolutionStrategy(project: Project,
+                                            configuration: Configuration): Unit {
         log(project) { logger -> logger.atDebug().setMessage("Configuration of resolution strategy; project name is '{}', configuration name is '{}'.").addArgument(project.name).addArgument(configuration.name) }
-        return try {
-            configuration.resolutionStrategy.eachDependency {
-                val requested = this.requested
-                val group = requested.group
-                val name = requested.name
-                val requestedVersion = requested.version
-                val targetVersion = this.target.version
-                val constraintInfo = findConstraintInfoDebug(project, configuration, group, name)
-                log(project) { logger -> logger.atDebug().setMessage("Evaluating dependency: ${group}:${name}:${requestedVersion} " +
-                        "(target: ${targetVersion}, constraint: ${constraintInfo?.let { "${it.version} (reason: ${it.reason ?: "none"}, plugin: ${it.pluginAttribute ?: "none"})" } ?: "none"})") }
+        val resolutionStrategy: ResolutionStrategy = configuration.resolutionStrategy
+        resolutionStrategy.eachDependency {
+            val details: DependencyResolveDetails = this
+            configureDependencyResolution(project,configuration,resolutionStrategy,details)
+        }
+    }
 
-                if (needsCustomResolution(this, project, configuration)) {
-                    log(project) { logger -> logger.atDebug().setMessage("Needs custom resolution: ${group}:${name}:${requestedVersion} " +
-                            "(constraint: ${constraintInfo?.let { "${it.version} (reason: ${it.reason ?: "none"}, plugin: ${it.pluginAttribute ?: "none"})" } ?: "none"})") }
-                    val resolvedVersion = resolveFromCustomMechanism(project, group, name)
-                    if (resolvedVersion != null) {
-                        log(project) { logger -> logger.atDebug().setMessage("Applying custom version ${resolvedVersion} for ${group}:${name}, " +
-                                "overriding constraint: ${constraintInfo?.let { "${it.version} (reason: ${it.reason ?: "none"}, plugin: ${it.pluginAttribute ?: "none"})" } ?: "none"}") }
-                        this.useVersion(resolvedVersion)
-                        this.because("Set by DynamicVersionResolverPlugin, overriding constraint: ${constraintInfo?.reason ?: "none"}")
-                    } else {
-                        log(project) { logger -> logger.atDebug().setMessage("No custom version found for ${group}:${name}; leaving unresolved") }
-                    }
-                } else {
-                    log(project) { logger -> logger.atDebug().setMessage("Skipping custom resolution for ${group}:${name}; " +
-                            "version already set: ${targetVersion ?: requestedVersion}, " +
-                            "constraint: ${constraintInfo?.let { "${it.version} (reason: ${it.reason ?: "none"}, plugin: ${it.pluginAttribute ?: "none"})" } ?: "none"}") }
+    /**
+     *
+     */
+    private fun configureDependencyResolution(project: Project,
+                                              configuration: Configuration,
+                                              resolutionStrategy: ResolutionStrategy,
+                                              details: DependencyResolveDetails): Unit {
+        log(project) { logger -> logger.atDebug().setMessage("Configuration of dependency resolution; project name is '{}', configuration name is '{}', detail is '{}'.").addArgument(project.name).addArgument(configuration.name).addArgument(details) }
+        val resolver: Consumer<DependencyResolveDetails>? = resolveDependencyResolution(project,configuration,resolutionStrategy,details)
+        if (resolver != null) {
+            log(project) { logger -> logger.atDebug().setMessage( "Dependency resolution normal, no custom resolution to be applied.") }
+            resolver.accept(details)
+        }
+    }
+
+    /**
+     *
+     */
+    private fun resolveDependencyResolution(project: Project,
+                                            configuration: Configuration,
+                                            resolutionStrategy: ResolutionStrategy,
+                                            details: DependencyResolveDetails): Consumer<DependencyResolveDetails>? {
+        log(project) { logger -> logger.atDebug().setMessage("Configuration of dependency resolution; project name is '{}', configuration name is '{}', detail is '{}'.").addArgument(project.name).addArgument(configuration.name).addArgument(details) }
+        val requested: ModuleVersionSelector = details.requested
+        val target: ModuleVersionSelector = details.target
+
+        val group = requested.group
+        val name = requested.name
+        val requestedVersion = requested.version
+
+        val targetVersion = target.version
+
+        if (needsCustomResolution(project, configuration, details)) {
+            log(project) { logger -> logger.atDebug().setMessage( "Dependency resolution normal, no custom resolution to be applied.") }
+
+            val resolvedVersion = resolveFromCustomMechanism(project, group, name)
+            if (resolvedVersion != null) {
+                return Consumer { x: DependencyResolveDetails ->
+                    this@DynamicVersionResolverPlugin.enforceVersion(x,
+                                                                     resolvedVersion,
+                                                                     String.format("Version enforced by plugin; plugin is '%s', configuration is '%s'.",DynamicVersionResolverPlugin::class.simpleName,configuration.name))
                 }
             }
-            true
-        } catch (ex: Exception) {
-            log(project) { logger -> logger.atError().setMessage("Error configuring resolution strategy for ${configuration.name}").setCause(ex) }
-            false
         }
+        return null
     }
 
-    private fun needsCustomResolution(details: DependencyResolveDetails, project: Project, configuration: Configuration): Boolean {
+    /**
+     *
+     */
+    private fun needsCustomResolution(project: Project,
+                                      configuration: Configuration,
+                                      details: DependencyResolveDetails): Boolean {
         val requestedVersion = details.requested.version
         val targetVersion = details.target.version
         val constraintInfo = findConstraintInfoDebug(project, configuration, details.requested.group, details.requested.name)
@@ -102,14 +145,29 @@ class DynamicVersionResolverPlugin : Plugin<Project> {
                 (requestedVersion.isNullOrEmpty() && targetVersion.isNullOrEmpty())
     }
 
+    /**
+     *
+     */
     private data class ConstraintInfo(val version: String, val reason: String?, val pluginAttribute: String?)
 
-    private fun findConstraintInfoDebug(project: Project, configuration: Configuration, group: String, name: String): ConstraintInfo? {
+    /**
+     *
+     */
+    private fun findConstraintInfoDebug(project: Project,
+                                        configuration: Configuration,
+                                        group: String,
+                                        name: String): ConstraintInfo? {
         log(project) { logger -> logger.atDebug().setMessage("Finding constraints; project name is '{}', configuration name is '{}', group is '{}', name is '{}'.").addArgument(project.name).addArgument(configuration.name).addArgument(group).addArgument(name) }
 
         log(project) { logger -> logger.atDebug().setMessage("Direct set of dependency constraints are '{}'.").addArgument(configuration.dependencyConstraints.stream().map{"("+it.toString()+")"}.toList()) }
         log(project) { logger -> logger.atDebug().setMessage("Complete set of dependency constraints are '{}'.").addArgument(configuration.allDependencyConstraints.stream().map{"("+it.toString()+")"}.toList()) }
 //        log(project) { logger -> logger.atDebug().setMessage("Complete set of dependency constraints are '{}'.").addArgument(configuration.allDependencyConstraints.stream().map{"("+it.group+","+it.name+","+it.version+","+it.reason+","+it.attributes+")"}.toList()) }
+
+        val xxconstraints: DependencyConstraintHandler = project.dependencies.constraints
+
+        val constraints = configuration.allDependencyConstraints.filter { it.group == group && it.name == name }
+log(project) { logger -> logger.atDebug().setMessage("### CONSTRAINTS: ${configuration.name} for $group:$name " + constraints) }
+
 
         val constraint = configuration.allDependencyConstraints.find { it.group == group && it.name == name }
 if (constraint!=null) {
@@ -126,7 +184,12 @@ if (constraint!=null) {
         return null
     }
 
-    private fun resolveFromCustomMechanism(project: Project, group: String, name: String): String? {
+    /**
+     *
+     */
+    private fun resolveFromCustomMechanism(project: Project,
+                                           group: String,
+                                           name: String): String? {
         log(project) { logger -> logger.atDebug().setMessage("Resolving version for $group:$name") }
         // Check Gradle version catalog
         val catalogVersion = try {
@@ -172,6 +235,32 @@ if (constraint!=null) {
         }
         return version
     }
+
+
+    /**
+     *
+     */
+    private fun enforceVersion(details: DependencyResolveDetails,
+                               version: String,
+                               description: String?): Unit {
+        details.useVersion(version)
+        if (description!=null) {
+            details.because(description)
+        }
+    }
+
+    /**
+     *
+     */
+    private fun enforceTarget(details: DependencyResolveDetails,
+                              target: Any,
+                              description: String?): Unit {
+        details.useTarget(target)
+        if (description!=null) {
+            details.because(description)
+        }
+    }
+
 }
 
 /*
@@ -197,18 +286,3 @@ slf4j-simple = "2.1.0-alpha1"
 [dependencies.io.vertx]
 vertx-core = "5.0.4"
  */
-
-
-/*
-tasks.register("inspectConstraints") {
-    doLast {
-        configurations.forEach { config ->
-            println("Configuration: ${config.name}")
-            config.dependencyConstraints.forEach { constraint ->
-                println("${constraint.group}:${constraint.name}:${constraint.version} " +
-                        "(reason: ${constraint.reason}, plugin: ${constraint.attributes.getAttribute(Attribute.of("com.example.plugin", String))})")
-            }
-        }
-    }
-}
-*/
