@@ -95,7 +95,5 @@ publishing {
 dependencies {
     implementation(gradleApi())
     implementation(localGroovy())
-//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.20")
-//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.3.0-Beta1")
     implementation("org.tomlj:tomlj:1.1.1")
 }
