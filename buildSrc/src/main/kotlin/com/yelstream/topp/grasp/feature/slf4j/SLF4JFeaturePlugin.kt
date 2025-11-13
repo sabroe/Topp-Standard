@@ -21,11 +21,16 @@ package com.yelstream.topp.grasp.feature.slf4j
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.attributes.Attribute
 import org.gradle.api.plugins.JavaLibraryPlugin
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.*
 
+/**
+ * SLF4J feature plugin.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-11-13
+ */
 class SLF4JFeaturePlugin : Plugin<Project> {
     override fun apply(project: Project) {
         //Note: 'JavaLibraryPlugin' includes 'JavaPlugin'; both intermediate libraries and end-applications are included!
@@ -46,20 +51,12 @@ class SLF4JFeaturePlugin : Plugin<Project> {
     }
 
     private fun execute(project: Project) {
-
-/*
-        val scriptPath: String = "${project.rootDir}/slf4j-1.0.0.version.gradle"
-        project.apply(mapOf("from" to scriptPath))
-*/
-
         project.dependencies {
             val apiExists = project.configurations.findByName("api") != null
             if (apiExists) {
                 project.logger.debug("Applying 'api' dependencies.")
                 add("api", "org.slf4j:slf4j-api")
                 add("api", "org.slf4j:slf4j-ext")
-//                api("org.slf4j:slf4j-api")
-//                api("org.slf4j:slf4j-ext")
             } else {
                 project.logger.debug("Applying 'implementation' dependencies.")
                 add("implementation", "org.slf4j:slf4j-api")
@@ -72,19 +69,7 @@ class SLF4JFeaturePlugin : Plugin<Project> {
             }
 
             constraints {
-                val reason = "Default version set by SLF4JFeaturePlugin"
-                val attr = Attribute.of("com.example.plugin", String::class.java)
-
-                listOf(
-                    "implementation" to "org.slf4j:slf4j-api:6.0.17",
-                    "implementation" to "org.slf4j:slf4j-ext:6.0.17",
-                    "testImplementation" to "org.slf4j:slf4j-simple:6.0.17"
-                ).forEach { (configurationName, dependencyNotation) ->
-                    add(configurationName, dependencyNotation) {
-                        because(reason)
-                        attributes { attribute(attr, "SLF4JFeaturePlugin") }
-                    }
-                }
+                SLF4JFeatureVersion().applyConstraints(this)
             }
         }
     }
