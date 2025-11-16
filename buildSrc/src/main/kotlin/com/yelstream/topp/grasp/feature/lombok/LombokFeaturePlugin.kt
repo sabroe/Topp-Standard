@@ -17,25 +17,25 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.grasp.feature.slf4j
+package com.yelstream.topp.grasp.feature.lombok
 
 import com.yelstream.topp.grasp.api.Projects
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaLibraryPlugin
-import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.dependencies
 
 /**
- * SLF4J feature plugin.
+ * Lombok feature plugin.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-11-13
+ * @since 2025-11-16
  */
-class SLF4JFeaturePlugin : Plugin<Project> {
+class LombokFeaturePlugin : Plugin<Project> {
     companion object {
-        const val FEATURE_NAME: String = "SLF4J"
-        const val FEATURE_ROOT: String = "feature.slf4j"
+        const val FEATURE_NAME: String = "Lombok"
+        const val FEATURE_ROOT: String = "feature.lombok"
         const val ENABLE_FEATURE: String = "$FEATURE_ROOT.enable"
         const val ENABLE_MAIN_PART_FEATURE: String = "$FEATURE_ROOT.part.main.enable"
         const val ENABLE_TEST_PART_FEATURE: String = "$FEATURE_ROOT.part.test.enable"
@@ -55,29 +55,21 @@ class SLF4JFeaturePlugin : Plugin<Project> {
 
     private fun execute(project: Project) {
         project.dependencies {
-            val apiExists = project.configurations.findByName("api") != null
             if (Projects.enabled(project,ENABLE_MAIN_PART_FEATURE).orElse(true)) {
-                if (apiExists) {
-                    project.logger.debug("Applying 'api' dependencies.")
-                    add("api", "org.slf4j:slf4j-api")
-                    add("api", "org.slf4j:slf4j-ext")
-                } else {
-                    project.logger.debug("Applying 'implementation' dependencies.")
-                    add("implementation", "org.slf4j:slf4j-api")
-                    add("implementation", "org.slf4j:slf4j-ext")
-                }
+                project.logger.debug("Applying 'api' dependencies.")
+                add("compileOnly", "org.projectlombok:lombok")
+                add("annotationProcessor", "org.projectlombok:lombok")
             }
 
             if (Projects.enabled(project,ENABLE_TEST_PART_FEATURE).orElse(true)) {
-                if (apiExists) {
-                    project.logger.debug("Applying 'testImplementation' dependencies.")
-                    add("testImplementation", "org.slf4j:slf4j-simple")
-                }
+                project.logger.debug("Applying 'testImplementation' dependencies.")
+                add("testCompileOnly", "org.projectlombok:lombok")
+                add("testAnnotationProcessor", "org.projectlombok:lombok")
             }
 
             if (Projects.enabled(project,ENABLE_CONSTRAINTS_PART_FEATURE).orElse(true)) {
                 constraints {
-                    SLF4JFeatureVersion.applyConstraints(project,this)
+                    LombokFeatureVersion.applyConstraints(project,this)
                 }
             }
         }

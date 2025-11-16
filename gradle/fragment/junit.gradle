@@ -26,7 +26,8 @@ plugins.withType(JavaPlugin).configureEach {  //Note: 'JavaPlugin' includes 'Jav
     } else {
         dependencies {
             logger.debug("[${buildscript.sourceFile.name}]:> Applying 'testImplementation' dependencies.")
-            testImplementation(platform('org.junit:junit-bom:5.13.4'))  //TODO: 6.0.0-RC2 per 2025-08-25!
+//            testImplementation(platform('org.junit:junit-bom:5.14.1'))  //TODO: 6.0.1 per 2025-10-31!
+            testImplementation(platform('org.junit:junit-bom:6.0.1'))  //TODO: 6.0.1 per 2025-10-31!
             testImplementation 'org.junit.jupiter:junit-jupiter'
             testImplementation 'org.junit.jupiter:junit-jupiter-engine'
             testImplementation 'org.junit.jupiter:junit-jupiter-api'

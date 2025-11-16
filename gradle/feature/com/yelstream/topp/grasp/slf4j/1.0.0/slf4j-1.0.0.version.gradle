@@ -19,8 +19,8 @@
 
 dependencies {
     constraints {
-        api 'org.slf4j:slf4j-api:2.0.17'
-        api 'org.slf4j:slf4j-ext:2.0.17'
-        api 'org.slf4j:slf4j-simple:2.0.17'
+        api 'org.slf4j:slf4j-api:5.0.17'
+        api 'org.slf4j:slf4j-ext:5.0.17'
+        api 'org.slf4j:slf4j-simple:5.0.17'
     }
 }

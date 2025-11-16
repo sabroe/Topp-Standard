@@ -26,17 +26,11 @@ java {
 
 gradlePlugin {
     plugins {
-        create("featureRoot") {
-            id = "com.example.feature-root"
-            implementationClass = "com.example.feature.FeatureRootPlugin"
+        create("rootFeature") {
+            id = "com.yelstream.topp.grasp.feature.root"
+            implementationClass = "com.yelstream.topp.grasp.feature.root.RootFeaturePlugin"
             displayName = "Feature Root Plugin"
             description = "Aggregates feature plugins for Topp-Standard project"
-        }
-        create("dependencyManagement") {
-            id = "com.example.dependency-management"
-            implementationClass = "com.example.depman.DependencyManagementPlugin"
-            displayName = "Dependency Management Plugin"
-            description = "Manages default versions and BOMs for Topp-Standard project"
         }
         create("lombokFeature") {
             id = "com.yelstream.topp.grasp.feature.lombok"
@@ -49,6 +43,12 @@ gradlePlugin {
             implementationClass = "com.yelstream.topp.grasp.feature.slf4j.SLF4JFeaturePlugin"
             displayName = "Yelstream Topp Grasp SLF4J Feature Plugin"
             description = "Yelstream Topp Grasp SLF4J Feature Plugin does xxx"
+        }
+        create("junitFeature") {
+            id = "com.yelstream.topp.grasp.feature.junit"
+            implementationClass = "com.yelstream.topp.grasp.feature.junit.JUnitFeaturePlugin"
+            displayName = "Yelstream Topp Grasp JUnit Feature Plugin"
+            description = "Yelstream Topp Grasp Junit Feature Plugin does xxx"
         }
 
         create("choreographyCascade") {

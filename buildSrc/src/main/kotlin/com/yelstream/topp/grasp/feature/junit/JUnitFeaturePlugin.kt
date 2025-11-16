@@ -17,25 +17,21 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.grasp.feature.slf4j
+package com.yelstream.topp.grasp.feature.junit
 
 import com.yelstream.topp.grasp.api.Projects
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaLibraryPlugin
-import org.gradle.kotlin.dsl.*
+import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.withType
 
-/**
- * SLF4J feature plugin.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2025-11-13
- */
-class SLF4JFeaturePlugin : Plugin<Project> {
+class JUnitFeaturePlugin : Plugin<Project> {
     companion object {
-        const val FEATURE_NAME: String = "SLF4J"
-        const val FEATURE_ROOT: String = "feature.slf4j"
+        const val FEATURE_NAME: String = "Lombok"
+        const val FEATURE_ROOT: String = "feature.junit"
         const val ENABLE_FEATURE: String = "$FEATURE_ROOT.enable"
         const val ENABLE_MAIN_PART_FEATURE: String = "$FEATURE_ROOT.part.main.enable"
         const val ENABLE_TEST_PART_FEATURE: String = "$FEATURE_ROOT.part.test.enable"
@@ -55,29 +51,37 @@ class SLF4JFeaturePlugin : Plugin<Project> {
 
     private fun execute(project: Project) {
         project.dependencies {
-            val apiExists = project.configurations.findByName("api") != null
             if (Projects.enabled(project,ENABLE_MAIN_PART_FEATURE).orElse(true)) {
-                if (apiExists) {
-                    project.logger.debug("Applying 'api' dependencies.")
-                    add("api", "org.slf4j:slf4j-api")
-                    add("api", "org.slf4j:slf4j-ext")
-                } else {
-                    project.logger.debug("Applying 'implementation' dependencies.")
-                    add("implementation", "org.slf4j:slf4j-api")
-                    add("implementation", "org.slf4j:slf4j-ext")
-                }
+                project.logger.debug("Applying 'api' dependencies.")
             }
 
             if (Projects.enabled(project,ENABLE_TEST_PART_FEATURE).orElse(true)) {
-                if (apiExists) {
-                    project.logger.debug("Applying 'testImplementation' dependencies.")
-                    add("testImplementation", "org.slf4j:slf4j-simple")
-                }
+                project.logger.debug("Applying 'testImplementation' dependencies.")
+                add("testImplementation","org.junit.jupiter:junit-jupiter")
+                add("testImplementation", "org.junit.jupiter:junit-jupiter-engine")
+                add("testImplementation", "org.junit.jupiter:junit-jupiter-api")
+                add("testImplementation", "org.junit.jupiter:junit-jupiter-params")
+                add("testImplementation", "org.junit.platform:junit-platform-suite")
+                add("testImplementation", "org.junit.platform:junit-platform-suite-api")
             }
 
             if (Projects.enabled(project,ENABLE_CONSTRAINTS_PART_FEATURE).orElse(true)) {
                 constraints {
-                    SLF4JFeatureVersion.applyConstraints(project,this)
+                    JUnitFeatureVersion.applyConstraints(project,this)
+                }
+            }
+        }
+
+        project.tasks.withType<Test> {
+            if (Projects.enabled(project, ENABLE_TEST_PART_FEATURE).orElse(true)) {
+                useJUnitPlatform()
+
+                testLogging {
+                    events = setOf(TestLogEvent.SKIPPED, TestLogEvent.FAILED)
+                }
+
+                filter {
+                    includeTestsMatching("*TestSuite")
                 }
             }
         }

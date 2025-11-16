@@ -17,36 +17,45 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.grasp.feature.slf4j
+package com.yelstream.topp.grasp.feature.junit
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyConstraintHandler
 import org.gradle.api.attributes.Attribute
+import org.gradle.kotlin.dsl.*
 
 /**
- * SLF4J feature version settings.
+ * JUnit feature version settings.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-11-13
+ * @since 2025-11-16
  */
-class SLF4JFeatureVersion private constructor() {
+class JUnitFeatureVersion private constructor() {
     companion object {
-        const val SLF4J_VERSION = "6.0.17"
+        const val JUNIT_VERSION = "6.0.1"
 
         fun applyConstraints(project: Project,
                              handler: DependencyConstraintHandler) {
-            val reason = "Default version set by SLF4JFeaturePlugin"
+            val reason = "Default version set by JUnitFeaturePlugin"
             val attr = Attribute.of("com.example.plugin", String::class.java)
 
+            project.dependencies.add("testImplementation", project.dependencies.platform("org.junit:junit-bom:$JUNIT_VERSION"))// {
+//                because(reason)
+//            }
+
             listOf(
-                "implementation" to "org.slf4j:slf4j-api:${SLF4J_VERSION}",
-                "implementation" to "org.slf4j:slf4j-ext:${SLF4J_VERSION}",
-                "testImplementation" to "org.slf4j:slf4j-simple:${SLF4J_VERSION}"
+//                "testImplementation" to project.dependencies.platform("org.junit:junit-bom:$JUNIT_VERSION")//,
+                "testImplementation" to "org.junit.jupiter:junit-jupiter",
+                "testImplementation" to "org.junit.jupiter:junit-jupiter-engine",
+                "testImplementation" to "org.junit.jupiter:junit-jupiter-api",
+                "testImplementation" to "org.junit.jupiter:junit-jupiter-params",
+                "testImplementation" to "org.junit.platform:junit-platform-suite",
+                "testImplementation" to "org.junit.platform:junit-platform-suite-api"
             ).forEach { (configurationName, dependencyNotation) ->
                 handler.add(configurationName, dependencyNotation) {
                     because(reason)
-                    attributes { attribute(attr, "SLF4JFeaturePlugin") }
+                    attributes { attribute(attr, "JUnitFeaturePlugin") }
                 }
             }
         }
