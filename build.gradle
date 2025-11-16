@@ -35,7 +35,7 @@ plugins {
 
     id 'project-report'
 
-    id "com.example.feature-root" /*version "1.0.0"*/ apply false
+    id "com.yelstream.topp.grasp.feature.root" /*version "1.0.0"*/ apply false
     id 'com.yelstream.topp.grasp.choreography-cascade'
     id 'com.yelstream.topp.grasp.version-resolution' apply false
 }
@@ -61,15 +61,12 @@ subprojects {
     apply from: "${fragmentDir}/archive-naming.gradle"
     apply from: "${fragmentDir}/publish.gradle"
     apply from: "${fragmentDir}/sonarqube.gradle"
-//    apply from: "${fragmentDir}/lombok.gradle"
-//    apply from: "${fragmentDir}/slf4j.gradle"
-//    apply from: "${rootProject.projectDir}/gradle/feature/com/yelstream/topp/grasp/slf4j/1.0.0/slf4j-1.0.0.feature.gradle"
-    apply from: "${fragmentDir}/junit.gradle"
+//    apply from: "${fragmentDir}/junit.gradle"
     apply from: "${fragmentDir}/decycle.gradle"
     apply from: "${fragmentDir}/cyclonedx.gradle"
     apply from: "${fragmentDir}/git-properties.gradle"
 
-    apply plugin: "com.example.feature-root"
+    apply plugin: "com.yelstream.topp.grasp.feature.root"
     apply plugin: "com.yelstream.topp.grasp.version-resolution"
 }
 

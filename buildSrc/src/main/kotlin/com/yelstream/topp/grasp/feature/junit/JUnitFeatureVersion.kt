@@ -1,0 +1,63 @@
+/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024-2025 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.yelstream.topp.grasp.feature.junit
+
+import org.gradle.api.Project
+import org.gradle.api.artifacts.dsl.DependencyConstraintHandler
+import org.gradle.api.attributes.Attribute
+import org.gradle.kotlin.dsl.*
+
+/**
+ * JUnit feature version settings.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-11-16
+ */
+class JUnitFeatureVersion private constructor() {
+    companion object {
+        const val JUNIT_VERSION = "6.0.1"
+
+        fun applyConstraints(project: Project,
+                             handler: DependencyConstraintHandler) {
+            val reason = "Default version set by JUnitFeaturePlugin"
+            val attr = Attribute.of("com.example.plugin", String::class.java)
+
+            project.dependencies.add("testImplementation", project.dependencies.platform("org.junit:junit-bom:$JUNIT_VERSION"))// {
+//                because(reason)
+//            }
+
+            listOf(
+//                "testImplementation" to project.dependencies.platform("org.junit:junit-bom:$JUNIT_VERSION")//,
+                "testImplementation" to "org.junit.jupiter:junit-jupiter",
+                "testImplementation" to "org.junit.jupiter:junit-jupiter-engine",
+                "testImplementation" to "org.junit.jupiter:junit-jupiter-api",
+                "testImplementation" to "org.junit.jupiter:junit-jupiter-params",
+                "testImplementation" to "org.junit.platform:junit-platform-suite",
+                "testImplementation" to "org.junit.platform:junit-platform-suite-api"
+            ).forEach { (configurationName, dependencyNotation) ->
+                handler.add(configurationName, dependencyNotation) {
+                    because(reason)
+                    attributes { attribute(attr, "JUnitFeaturePlugin") }
+                }
+            }
+        }
+    }
+}
