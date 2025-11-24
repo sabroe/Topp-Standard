@@ -20,6 +20,8 @@
 rootProject.name = "Yelstream Topp Standard Project"
 
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+fileTree("gradle/global") { include("**/*.gradle", "**/*.gradle.kts") }.forEach { apply(from = it) }
+includeBuild("convention")
 
 include("module:Topp-Standard-Core-Library")
 // "Topp-Standard-Inject-Library"

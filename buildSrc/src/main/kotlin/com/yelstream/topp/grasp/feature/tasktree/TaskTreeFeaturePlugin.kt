@@ -17,49 +17,59 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.grasp.feature.root
+package com.yelstream.topp.grasp.feature.tasktree
 
 import com.yelstream.topp.grasp.api.Projects
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import java.net.URI
 
 /**
- * Root feature plugin.
+ * Task-Tree feature plugin.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-11-16
  */
-class RootFeaturePlugin : Plugin<Project> {
+class TaskTreeFeaturePlugin : Plugin<Project> {
     companion object {
-        const val FEATURE_NAME: String = "Root"
-        const val FEATURE_ROOT: String = "feature.root"
+        const val FEATURE_NAME: String = "Task-Tree"
+        const val FEATURE_ROOT: String = "feature.task-tree"
         const val ENABLE_FEATURE: String = "$FEATURE_ROOT.enable"
 /*
         const val ENABLE_MAIN_PART_FEATURE: String = "$FEATURE_ROOT.part.main.enable"
         const val ENABLE_TEST_PART_FEATURE: String = "$FEATURE_ROOT.part.test.enable"
         const val ENABLE_CONSTRAINTS_PART_FEATURE: String = "$FEATURE_ROOT.part.constraints.enable"
 */
-
-        val FEATURE_PLUGIN_IDS: List<String> = listOf(
-            "com.yelstream.topp.grasp.feature.lombok",
-            "com.yelstream.topp.grasp.feature.slf4j",
-            "com.yelstream.topp.grasp.feature.junit",
-            "com.yelstream.topp.grasp.feature.task-tree"
-        )
-
     }
 
     override fun apply(project: Project) {
 project.pluginManager.apply("com.dorongold.task-tree")
-        if (Projects.enabled(project,ENABLE_FEATURE).orElse(true)) {
-            execute(project)
+        project.afterEvaluate {
+            if (Projects.enabled(project,ENABLE_FEATURE).orElse(true)) {
+                execute(project)
+            }
         }
     }
 
     private fun execute(project: Project) {
-        FEATURE_PLUGIN_IDS.forEach { featurePluginId ->
-            project.pluginManager.apply(featurePluginId)
+//        project.pluginManager.apply("com.dorongold.task-tree")
+/*
+        project.buildscript.repositories.maven {
+            url = URI("https://plugins.gradle.org/m2/")
         }
+
+//        project.buildscript.dependencies.add("classpath", "com.dorongold.plugins:task-tree:4.0.1")
+        project.buildscript.dependencies.add("classpath", "com.dorongold:gradle-task-tree:4.0.1")
+        project.buildscript.dependencies.add("classpath", "org.apache.commons:commons-lang3:3.19.0")  //Note: To address vulnerability!
+//        project.pluginManager.apply("com.dorongold.task-tree")
+        project.pluginManager.apply("com.dorongold.gradle.tasktree.TaskTreePlugin")
+*/
+
+/*
+        project.apply {
+            from("C:\\Project\\Topp-Work\\Topp-Standard\\buildSrc\\src\\main\\resources\\com\\yelstream\\topp\\grasp\\feature\\tasktree\\TaskTreeFeatureScript.gradle.kts")
+        }
+*/
     }
 }

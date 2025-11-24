@@ -22,7 +22,6 @@ package com.yelstream.topp.grasp.feature.junit
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyConstraintHandler
 import org.gradle.api.attributes.Attribute
-import org.gradle.kotlin.dsl.*
 
 /**
  * JUnit feature version settings.
