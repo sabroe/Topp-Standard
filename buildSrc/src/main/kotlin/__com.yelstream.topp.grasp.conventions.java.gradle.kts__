@@ -1,0 +1,16 @@
+plugins {
+    id("project-report")
+
+    id("com.github.spotbugs") version "6.2.5"
+}
+
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+}
+
+/*
+dependencies {
+    implementation("com.github.spotbugs.snom:spotbugs-gradle-plugin:6.2.5")
+}
+*/

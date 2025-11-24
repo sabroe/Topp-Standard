@@ -25,7 +25,7 @@ buildscript {
 }
 
 plugins {
-    id "org.sonarqube" version "5.1.0.4882" apply false  //See https://plugins.gradle.org/plugin/org.sonarqube
+//    id "org.sonarqube" version "5.1.0.4882" apply false  //See https://plugins.gradle.org/plugin/org.sonarqube
     id "checkstyle"
     id "jacoco"
     id "de.obqo.decycle" version "1.2.5" apply false
@@ -33,21 +33,23 @@ plugins {
     id 'org.cyclonedx.bom' version '2.0.0' apply false  //See https://plugins.gradle.org/plugin/org.cyclonedx.bom
     id "com.gorylenko.gradle-git-properties" version "2.5.3" apply false
 
-    id 'project-report'
+    id 'com.yelstream.topp.grasp.feature.root-project'
+    id 'com.yelstream.topp.grasp.convention.java'
+    id 'xxx-java-convention' apply false
 
-    id "com.yelstream.topp.grasp.feature.root" /*version "1.0.0"*/ apply false
+    id "com.dorongold.task-tree" version "4.0.1" apply false  //Resolve, do not apply!
+    id "com.yelstream.topp.grasp.feature.root"
+
     id 'com.yelstream.topp.grasp.choreography-cascade'
     id 'com.yelstream.topp.grasp.version-resolution' apply false
 }
 
 def fragmentDir = "${rootProject.projectDir}/gradle/fragment"
-//apply from: "${fragmentDir}/custom-properties-3.gradle.kts"
 
 allprojects {
     repositories {
         mavenCentral()
         mavenLocal()
-        maven { url = 'https://projectlombok.org/edge-releases' }
     }
     apply from: "${fragmentDir}/project-report.gradle"
 }
@@ -60,11 +62,12 @@ subprojects {
     apply from: "${fragmentDir}/jar-manifest.gradle"
     apply from: "${fragmentDir}/archive-naming.gradle"
     apply from: "${fragmentDir}/publish.gradle"
-    apply from: "${fragmentDir}/sonarqube.gradle"
-//    apply from: "${fragmentDir}/junit.gradle"
+//    apply from: "${fragmentDir}/sonarqube.gradle"
     apply from: "${fragmentDir}/decycle.gradle"
     apply from: "${fragmentDir}/cyclonedx.gradle"
     apply from: "${fragmentDir}/git-properties.gradle"
+
+    apply plugin: "xxx-java-convention"
 
     apply plugin: "com.yelstream.topp.grasp.feature.root"
     apply plugin: "com.yelstream.topp.grasp.version-resolution"

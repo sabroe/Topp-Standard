@@ -50,6 +50,12 @@ gradlePlugin {
             displayName = "Yelstream Topp Grasp JUnit Feature Plugin"
             description = "Yelstream Topp Grasp Junit Feature Plugin does xxx"
         }
+        create("taskTreeFeature") {
+            id = "com.yelstream.topp.grasp.feature.task-tree"
+            implementationClass = "com.yelstream.topp.grasp.feature.tasktree.TaskTreeFeaturePlugin"
+            displayName = "Yelstream Topp Grasp JUnit Feature Plugin"
+            description = "Yelstream Topp Grasp Junit Feature Plugin does xxx"
+        }
 
         create("choreographyCascade") {
             id = "com.yelstream.topp.grasp.choreography-cascade"

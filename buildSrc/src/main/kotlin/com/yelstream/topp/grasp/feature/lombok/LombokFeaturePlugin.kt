@@ -24,6 +24,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaLibraryPlugin
 import org.gradle.kotlin.dsl.dependencies
+import java.net.URI
 
 /**
  * Lombok feature plugin.
@@ -54,6 +55,10 @@ class LombokFeaturePlugin : Plugin<Project> {
     }
 
     private fun execute(project: Project) {
+        project.buildscript.repositories.maven {
+            url = URI("https://projectlombok.org/edge-releases")
+        }
+
         project.dependencies {
             if (Projects.enabled(project,ENABLE_MAIN_PART_FEATURE).orElse(true)) {
                 project.logger.debug("Applying 'api' dependencies.")
