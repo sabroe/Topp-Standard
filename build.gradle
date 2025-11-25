@@ -25,7 +25,6 @@ buildscript {
 }
 
 plugins {
-//    id "org.sonarqube" version "5.1.0.4882" apply false  //See https://plugins.gradle.org/plugin/org.sonarqube
     id "checkstyle"
     id "jacoco"
     id "de.obqo.decycle" version "1.2.5" apply false
@@ -34,10 +33,8 @@ plugins {
     id "com.gorylenko.gradle-git-properties" version "2.5.3" apply false
 
     id 'com.yelstream.topp.grasp.feature.root-project'
-    id 'com.yelstream.topp.grasp.convention.java'
-    id 'xxx-java-convention' apply false
+    id 'com.yelstream.topp.grasp.feature.java-module'
 
-    id "com.dorongold.task-tree" version "4.0.1" apply false  //Resolve, do not apply!
     id "com.yelstream.topp.grasp.feature.root"
 
     id 'com.yelstream.topp.grasp.choreography-cascade'
@@ -51,7 +48,7 @@ allprojects {
         mavenCentral()
         mavenLocal()
     }
-    apply from: "${fragmentDir}/project-report.gradle"
+    apply plugin: "com.yelstream.topp.grasp.feature.root-project"
 }
 
 subprojects {
@@ -67,7 +64,7 @@ subprojects {
     apply from: "${fragmentDir}/cyclonedx.gradle"
     apply from: "${fragmentDir}/git-properties.gradle"
 
-    apply plugin: "xxx-java-convention"
+apply plugin: "com.yelstream.topp.grasp.feature.java-module"
 
     apply plugin: "com.yelstream.topp.grasp.feature.root"
     apply plugin: "com.yelstream.topp.grasp.version-resolution"
@@ -99,3 +96,17 @@ subprojects {project ->
     To get a page with report links, consider executing this:
     $ find . -name "*.html" | grep -E "/build/(docs|reports)/[^.]+/[[:alnum:]]+[.]html"
  */
+
+//tasks.named("sonarqube") { enabled = false }
+/*
+tasks.matching { it.name in setOf("sonarResolver", "sonarqube") }.configureEach {
+    enabled = false
+}
+*/
+/*
+afterEvaluate {
+tasks.matching { it.name in ['sonarResolver', 'sonarqube'] }.configureEach {
+    enabled = false
+    println("Disabled!")
+}
+}*/
