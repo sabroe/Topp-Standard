@@ -1,6 +1,6 @@
 package com.yelstream.topp.standard.messaging.ladybug;
 
-public interface Broker<A,M,P extends Producer<A,M,P>,S extends Consumer<A,M,S>,E extends Broker<A,M,P,S,E>> {
+public interface Transport<A,M,S extends Sender<A,M,S>,R extends Receiver<A,M,R>,T extends Transport<A,M,S,R,T>> {
 
     P produce();
 
@@ -9,8 +9,8 @@ public interface Broker<A,M,P extends Producer<A,M,P>,S extends Consumer<A,M,S>,
     void close();
 
 
-    Producer produce();
-    Consumer consume();
+    Sender produce();
+    Receiver consume();
     void close();
 
 

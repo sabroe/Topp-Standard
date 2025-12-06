@@ -1,25 +1,29 @@
 package com.yelstream.topp.standard.messaging.ladybug;
 
-public interface Producer<A,M,P extends Producer<A,M,P>> {
+import io.smallrye.mutiny.Uni;
+
+import java.util.Optional;
+import java.util.concurrent.CompletionStage;
+import java.util.function.Consumer;
+
+public interface Sender<A,M,N,S extends Sender<A,M,N,S>> {
     /**
      *
      */
-    P to(A address);
+    S to(A address);
 
     /**
      *
      */
-    P message(M message);
+    S message(M message);
 
     /**
      *
      */
-    void send();
+//    S onSend(Consumer<CompletionStage<Void>> callback);
 
-
-    Producer to(String address);
-    Producer message(Object msg);
-    Uni<Void> send(); // Returns Uni for async completion
-    Producer onSend(Consumer<CompletionStage<Void>> callback); // Lambda for send callback
-
+    /**
+     *
+     */
+    CompletionStage<N> send();
 }

@@ -1,4 +1,4 @@
-package com.yelstream.topp.standard.messaging.ladybug;
+package com.yelstream.topp.standard.messaging.ladybug.delivery;
 
 public class StandardDeliveryGuarantee {
 }

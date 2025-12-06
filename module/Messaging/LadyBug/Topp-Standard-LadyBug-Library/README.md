@@ -1,6 +1,6 @@
-# Topp Standard SmallRye Reactive Messaging Library
+# Topp Standard LadyBug Library
 
-Topp Standard SmallRye Reactive Messaging Library addressing basics of SmallRye Reactive Messaging. addressing basics of SmallRye Reactive Messaging.
+Topp Standard LadyBug Library addressing event broker communication.
 
 
 ## Artifacts

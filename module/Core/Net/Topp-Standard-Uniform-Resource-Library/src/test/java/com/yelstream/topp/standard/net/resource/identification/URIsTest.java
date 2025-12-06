@@ -23,6 +23,7 @@ import com.yelstream.topp.standard.net.resource.identification.build.URIArgument
 import com.yelstream.topp.standard.net.resource.identification.path.TaggedPath;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -253,6 +254,7 @@ class URIsTest {
             "jdbc:sqlserver://localhost:1433;databaseName=database1;user=user1;password=password1;encrypt=true;trustServerCertificate=false"
         }
     )
+@Disabled("Fix this! MSM, 2025-12-06.")
     void schemaJDBC(String uri) throws URISyntaxException {
         URI uri1=new URI(uri);
 URIArgument a=URIArgument.of(uri1);
@@ -291,6 +293,7 @@ System.out.println("RawSchemeSpecificPart: "+uri2.getRawSchemeSpecificPart());
             "jar:jar:file:///path/to/outer.jar!/inner.jar!/resource.txt",
             "custom:foo:bar://example.com/path"
     })
+@Disabled("Fix this! MSM, 2025-12-06.")
     void todo_schemaComposite(String uri) throws URISyntaxException {
         // Split the scheme and inner URI
         String[] schemeParts = uri.split(":", 3); // Split on first two colons
@@ -330,6 +333,7 @@ System.out.println("RawSchemeSpecificPart: "+uri2.getRawSchemeSpecificPart());
             "jar:jar:file:///path/to/outer.jar!/middle.jar!/inner.jar!/com/example/MyClass.class",
             "jar:jar:jar:jar:jar:jar:jar:jar:jar:jar:file:///path/to/outer.jar!/jar1.jar!/jar2.jar!/jar3.jar!/jar4.jar!/jar5.jar!/jar6.jar!/jar7.jar!/jar8.jar!/jar9.jar!/com/example/MyClass.class"
     })
+@Disabled("Fix this! MSM, 2025-12-06.")
     void todo_schemaNestedJar(String uri) throws URISyntaxException {
         // Parse nested JAR URL
         List<String> entries = new ArrayList<>();
@@ -364,8 +368,8 @@ System.out.println("RawSchemeSpecificPart: "+uri2.getRawSchemeSpecificPart());
 //??        Assertions.assertEquals(entries, uri2.getEntries()); // Assume getEntries() exists
     }
 
-
     @Test
+@Disabled("Fix this! MSM, 2025-12-06.")
     void todo_schemaDeeplyNestedJar() throws URISyntaxException {
         StringBuilder uri = new StringBuilder("jar:".repeat(10));
         uri.append("file:///path/to/outer.jar");

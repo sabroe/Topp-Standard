@@ -1,4 +1,7 @@
 package com.yelstream.topp.standard.messaging.ladybug;
 
-public class StreamProducer {
+public interface StreamProducer {
+
+    void stream(String streamId, Object event, long offset);
+
 }
