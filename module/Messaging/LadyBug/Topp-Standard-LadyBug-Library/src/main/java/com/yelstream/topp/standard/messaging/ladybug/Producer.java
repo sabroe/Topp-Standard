@@ -1,4 +1,13 @@
 package com.yelstream.topp.standard.messaging.ladybug;
 
-public class Producer {
+import java.util.concurrent.CompletionStage;
+
+public interface Producer<A,M,P extends Producer<A,M,P>> extends Sender<A,M,Void,P> {
+
+    /**
+     *
+     */
+    CompletionStage<Void> produce();
+
+
 }

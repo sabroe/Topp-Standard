@@ -1,4 +1,9 @@
 package com.yelstream.topp.standard.messaging.ladybug;
 
-public class StreamConsumer {
+import java.util.function.BiConsumer;
+
+public interface StreamConsumer {
+
+    void consumeStream(String streamId, BiConsumer<Long, Object> handler);
+
 }

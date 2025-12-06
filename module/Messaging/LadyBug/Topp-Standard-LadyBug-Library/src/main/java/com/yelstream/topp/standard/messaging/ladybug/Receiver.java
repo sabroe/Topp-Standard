@@ -1,16 +1,19 @@
 package com.yelstream.topp.standard.messaging.ladybug;
 
-public interface Consumer<A,M,S extends Consumer<A,M,S>> {
+import io.smallrye.mutiny.Multi;
 
-    S from(A address);
+import java.util.function.Consumer;
 
-    S handler(java.util.function.Consumer<M> handler);
+public interface Receiver<A,M,R extends Receiver<A,M,R>> {
 
-    void start();
+    R from(A address);
 
-    Consumer from(String address);
-    Consumer handler(Consumer<Object> handler); // Lambda for message processing
-    Multi<Object> start(); // Returns Multi for message stream
+    R handler(Consumer<M> handler);
+
+    /**
+     *
+     */
+    Multi<M> start();
 
 
 /*

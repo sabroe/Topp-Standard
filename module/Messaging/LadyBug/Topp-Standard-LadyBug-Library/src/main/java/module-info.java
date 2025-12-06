@@ -18,13 +18,15 @@
  */
 
 /**
- * Topp Standard SmallRye Reactive Messaging Library addressing basics of SmallRye Reactive Messaging.
+ * Topp Standard LadyBug Library addressing event broker communication.
  *
  * @author Morten Sabroe Mortensen
- * @since 2025-06-03
+ * @since 2025-10-02
  */
-module com.yelstream.topp.standard.messaging.smallrye.reactive.messaging {
+module com.yelstream.topp.standard.messaging.ladybug {
     requires static lombok;
     requires org.slf4j;
-    exports com.yelstream.topp.standard.messaging.smallrye.reactive.messaging;
+    requires io.smallrye.mutiny;
+    exports com.yelstream.topp.standard.messaging.ladybug;
+    exports com.yelstream.topp.standard.messaging.ladybug.delivery;
 }
