@@ -37,10 +37,10 @@ dependencies {
 
 /*
     constraints {
-        implementation('org.slf4j:slf4j-simple:3.0.117') {
-            because 'Default version set by SLF4JFeaturePlugin'
+        implementation('org.slf4j:slf4j-simple:2.0.117') {
+            because 'Default version set by build.gradle'
             attributes {
-                attribute(Attribute.of('com.example.plugin', String), 'SLF4JFeaturePlugin')
+                attribute(Attribute.of('com.example.plugin', String), 'build.gradle')
             }
         }
     }
