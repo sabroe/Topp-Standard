@@ -17,17 +17,11 @@
  * limitations under the License.
  */
 
-/*
-class Feature {
-    static def isFeatureValueEnabled(featureValue, defaultValue = false) {
-        def featureText = featureValue?.toString()?.trim()
-        return featureText ? featureText.toBoolean() : defaultValue
-    }
+plugins {
 }
-*/
 
-static def isFeatureEnabled(featureValue, defaultValue = false) {
-//    def featureText = custom["${featureName}"]?.toString()?.trim()
-    def featureText = featureValue?.toString()?.trim()
-    return featureText ? featureText.toBoolean() : defaultValue
+println("XYZ:> afterEvaluate!")
+
+afterEvaluate {
+    println("ABC:> afterEvaluate!")
 }
