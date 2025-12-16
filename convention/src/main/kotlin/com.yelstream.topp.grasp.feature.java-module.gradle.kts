@@ -28,6 +28,8 @@ afterEvaluate {
         apply(plugin = "com.yelstream.topp.grasp.feature.spotbugs")
         apply(plugin = "com.yelstream.topp.grasp.feature.sonarqube")
 
-        apply(plugin = "com.yelstream.topp.grasp.feature.lombok")
+        apply(plugin = "convention.lombok")
+        apply(plugin = "convention.slf4j")
+        apply(plugin = "convention.junit")
     }
 }
