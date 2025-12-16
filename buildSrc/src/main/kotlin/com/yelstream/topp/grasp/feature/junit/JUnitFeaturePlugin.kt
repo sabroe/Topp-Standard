@@ -58,11 +58,7 @@ class JUnitFeaturePlugin : Plugin<Project> {
             if (Projects.enabled(project,ENABLE_TEST_PART_FEATURE).orElse(true)) {
                 project.logger.debug("Applying 'testImplementation' dependencies.")
                 add("testImplementation","org.junit.jupiter:junit-jupiter")
-                add("testImplementation", "org.junit.jupiter:junit-jupiter-engine")
-                add("testImplementation", "org.junit.jupiter:junit-jupiter-api")
-                add("testImplementation", "org.junit.jupiter:junit-jupiter-params")
                 add("testImplementation", "org.junit.platform:junit-platform-suite")
-                add("testImplementation", "org.junit.platform:junit-platform-suite-api")
             }
 
             if (Projects.enabled(project,ENABLE_CONSTRAINTS_PART_FEATURE).orElse(true)) {

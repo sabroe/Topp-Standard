@@ -22,7 +22,7 @@ package com.yelstream.topp.grasp.feature.lombok
 import com.yelstream.topp.grasp.api.Projects
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaLibraryPlugin
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.kotlin.dsl.dependencies
 import java.net.URI
 
@@ -44,8 +44,7 @@ class LombokFeaturePlugin : Plugin<Project> {
     }
 
     override fun apply(project: Project) {
-        //Note: 'JavaLibraryPlugin' includes 'JavaPlugin'; both intermediate libraries and end-applications are included!
-        project.plugins.withType(JavaLibraryPlugin::class.java).whenPluginAdded {
+        project.plugins.withType(JavaPlugin::class.java).whenPluginAdded {
             project.afterEvaluate {
                 if (Projects.enabled(project,ENABLE_FEATURE).orElse(true)) {
                     execute(project)

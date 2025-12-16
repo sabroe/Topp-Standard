@@ -42,9 +42,9 @@ class RootFeaturePlugin : Plugin<Project> {
 */
 
         val FEATURE_PLUGIN_IDS: List<String> = listOf(
-            "com.yelstream.topp.grasp.feature.lombok",
-            "com.yelstream.topp.grasp.feature.slf4j",
-            "com.yelstream.topp.grasp.feature.junit",
+//            "com.yelstream.topp.grasp.feature.lombok",
+//            "com.yelstream.topp.grasp.feature.slf4j",
+//            "com.yelstream.topp.grasp.feature.junit",
             "com.yelstream.topp.grasp.feature.task-tree"
         )
 
