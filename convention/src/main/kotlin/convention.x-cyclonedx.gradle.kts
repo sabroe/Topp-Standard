@@ -27,15 +27,13 @@
 
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.kotlin.dsl.apply
-import org.gradle.api.tasks.TaskProvider
-import org.gradle.api.tasks.TaskContainer
 
 plugins {
     id("java") apply false  //Note: Required for type-safe dependency accessors!
     id("org.cyclonedx.bom") apply false  //See https://plugins.gradle.org/plugin/org.cyclonedx.bom
 }
 
-val conventionName = "cyclonedx"
+val conventionName = "x-cyclonedx"
 
 project.logger.info("Convention ${conventionName} loaded.")
 
