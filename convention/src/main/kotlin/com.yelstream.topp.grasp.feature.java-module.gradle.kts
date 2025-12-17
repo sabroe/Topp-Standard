@@ -35,6 +35,7 @@ afterEvaluate {
         apply(plugin = "convention.git-properties")
         apply(plugin = "convention.jacoco")
         apply(plugin = "convention.checkstyle")
-        apply(plugin = "convention.cyclonedx")
+//        apply(plugin = "convention.cyclonedx")
+        apply(plugin = "convention.x-cyclonedx")
     }
 }
