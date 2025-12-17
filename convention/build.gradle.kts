@@ -60,4 +60,7 @@ dependencies {
 //    implementation("com.github.spotbugs:spotbugs:4.9.8")
     implementation("org.sonarqube:org.sonarqube.gradle.plugin:7.1.0.6387")
     implementation("com.dorongold.task-tree:com.dorongold.task-tree.gradle.plugin:4.0.1")
+    implementation("de.obqo.decycle:de.obqo.decycle.gradle.plugin:1.2.5")
+    implementation("com.gorylenko.gradle-git-properties:com.gorylenko.gradle-git-properties.gradle.plugin:2.5.4")
+    implementation("org.cyclonedx.bom:org.cyclonedx.bom.gradle.plugin:3.1.0")
 }

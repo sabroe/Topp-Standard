@@ -48,7 +48,7 @@ public enum StandardClassLoader {
      * Gets value by name.
      * @param name Name.
      *             This is case-insensitive.
-     *             This may be {@link null}.
+     *             This may be {@code null}.
      * @return Value.
      */
     public static StandardClassLoader valueByName(String name) {
@@ -59,7 +59,7 @@ public enum StandardClassLoader {
      * Gets value by name of contained supplier.
      * @param supplierName Name of contained supplier.
      *                     This is case-sensitive.
-     *                     This may be {@link null}.
+     *                     This may be {@code null}.
      * @return Value.
      */
     public static StandardClassLoader valueBySupplierName(String supplierName) {

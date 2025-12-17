@@ -25,12 +25,12 @@ buildscript {
 }
 
 plugins {
-    id "checkstyle"
-    id "jacoco"
-    id "de.obqo.decycle" version "1.2.5" apply false
+//    id "checkstyle"
+//    id "jacoco"
+//    id "de.obqo.decycle" version "1.2.5" apply false
 //    id 'org.cyclonedx.bom' version '3.0.0-alpha-1' apply false  //See https://plugins.gradle.org/plugin/org.cyclonedx.bom
-    id 'org.cyclonedx.bom' version '2.0.0' apply false  //See https://plugins.gradle.org/plugin/org.cyclonedx.bom
-    id "com.gorylenko.gradle-git-properties" version "2.5.3" apply false
+//    id 'org.cyclonedx.bom' version '2.0.0' apply false  //See https://plugins.gradle.org/plugin/org.cyclonedx.bom
+//    id "com.gorylenko.gradle-git-properties" version "2.5.3" apply false
 
     id 'com.yelstream.topp.grasp.feature.root-project'
     id 'com.yelstream.topp.grasp.feature.java-module'
@@ -52,17 +52,17 @@ allprojects {
 }
 
 subprojects {
-    apply from: "${fragmentDir}/checkstyle.gradle"
-    apply from: "${fragmentDir}/jacoco.gradle"
+//    apply from: "${fragmentDir}/checkstyle.gradle"
+//    apply from: "${fragmentDir}/jacoco.gradle"
     apply from: "${fragmentDir}/java-options.gradle"
     apply from: "${fragmentDir}/java-jars.gradle"
     apply from: "${fragmentDir}/jar-manifest.gradle"
     apply from: "${fragmentDir}/archive-naming.gradle"
     apply from: "${fragmentDir}/publish.gradle"
 //    apply from: "${fragmentDir}/sonarqube.gradle"
-    apply from: "${fragmentDir}/decycle.gradle"
-    apply from: "${fragmentDir}/cyclonedx.gradle"
-    apply from: "${fragmentDir}/git-properties.gradle"
+//    apply from: "${fragmentDir}/decycle.gradle"
+//    apply from: "${fragmentDir}/cyclonedx.gradle"
+//    apply from: "${fragmentDir}/git-properties.gradle"
 
 apply plugin: "com.yelstream.topp.grasp.feature.java-module"
 
@@ -96,17 +96,3 @@ subprojects {project ->
     To get a page with report links, consider executing this:
     $ find . -name "*.html" | grep -E "/build/(docs|reports)/[^.]+/[[:alnum:]]+[.]html"
  */
-
-//tasks.named("sonarqube") { enabled = false }
-/*
-tasks.matching { it.name in setOf("sonarResolver", "sonarqube") }.configureEach {
-    enabled = false
-}
-*/
-/*
-afterEvaluate {
-tasks.matching { it.name in ['sonarResolver', 'sonarqube'] }.configureEach {
-    enabled = false
-    println("Disabled!")
-}
-}*/
