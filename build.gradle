@@ -55,9 +55,9 @@ subprojects {
 //    apply from: "${fragmentDir}/checkstyle.gradle"
 //    apply from: "${fragmentDir}/jacoco.gradle"
     apply from: "${fragmentDir}/java-options.gradle"
-    apply from: "${fragmentDir}/java-jars.gradle"
-    apply from: "${fragmentDir}/jar-manifest.gradle"
-    apply from: "${fragmentDir}/archive-naming.gradle"
+//    apply from: "${fragmentDir}/java-jars.gradle"
+//    apply from: "${fragmentDir}/jar-manifest.gradle"
+//    apply from: "${fragmentDir}/archive-naming.gradle"
     apply from: "${fragmentDir}/publish.gradle"
 //    apply from: "${fragmentDir}/sonarqube.gradle"
 //    apply from: "${fragmentDir}/decycle.gradle"
@@ -95,4 +95,4 @@ subprojects {project ->
  Note:
     To get a page with report links, consider executing this:
     $ find . -name "*.html" | grep -E "/build/(docs|reports)/[^.]+/[[:alnum:]]+[.]html"
- */
+*/

@@ -36,5 +36,11 @@ afterEvaluate {
         apply(plugin = "convention.jacoco")
         apply(plugin = "convention.checkstyle")
         apply(plugin = "convention.cyclonedx")
+
+//        apply from: "${fragmentDir}/java-options.gradle"
+        apply(plugin = "convention.java-jars")
+        apply(plugin = "convention.jar-manifest")
+        apply(plugin = "convention.archive-naming")
+//        apply from: "${fragmentDir}/publish.gradle"
     }
 }
