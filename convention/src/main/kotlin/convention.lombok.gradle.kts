@@ -18,7 +18,7 @@
  */
 
 /*
- * Lombok convention plugin.
+ * "Lombok" convention plugin.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

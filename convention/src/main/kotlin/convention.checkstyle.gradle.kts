@@ -18,7 +18,7 @@
  */
 
 /*
- * Checkstyle convention plugin.
+ * "Checkstyle" convention plugin.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

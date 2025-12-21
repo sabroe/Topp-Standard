@@ -17,13 +17,21 @@
  * limitations under the License.
  */
 
+/*
+ * "Java Module" convention plugin.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-12-20
+ */
+
 import org.gradle.kotlin.dsl.apply
 
 plugins {
 }
 
 afterEvaluate {
-    if (plugins.hasPlugin("java") || plugins.hasPlugin("java-library")) {
+    project.plugins.withType<JavaPlugin> {
         println("afterEvaluate!")
         apply(plugin = "com.yelstream.topp.grasp.feature.spotbugs")
         apply(plugin = "com.yelstream.topp.grasp.feature.sonarqube")
@@ -37,7 +45,7 @@ afterEvaluate {
         apply(plugin = "convention.checkstyle")
         apply(plugin = "convention.cyclonedx")
 
-//        apply from: "${fragmentDir}/java-options.gradle"
+        apply(plugin = "convention.java-options")
         apply(plugin = "convention.java-jars")
         apply(plugin = "convention.jar-manifest")
         apply(plugin = "convention.archive-naming")

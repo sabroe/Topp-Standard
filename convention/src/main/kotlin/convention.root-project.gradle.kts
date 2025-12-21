@@ -17,6 +17,14 @@
  * limitations under the License.
  */
 
+/*
+ * "Root Project" convention plugin.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-12-20
+ */
+
 plugins {
     id("project-report")  //See https://docs.gradle.org/current/userguide/project_report_plugin.html
     id("com.dorongold.task-tree")  //See https://github.com/dorongold/gradle-task-tree
