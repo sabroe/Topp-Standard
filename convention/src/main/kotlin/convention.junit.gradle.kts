@@ -18,7 +18,7 @@
  */
 
 /*
- * JUnit convention plugin.
+ * "JUnit" convention plugin.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
