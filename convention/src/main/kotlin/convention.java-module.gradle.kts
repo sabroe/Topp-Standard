@@ -49,6 +49,6 @@ afterEvaluate {
         apply(plugin = "convention.java-jars")
         apply(plugin = "convention.jar-manifest")
         apply(plugin = "convention.archive-naming")
-//        apply from: "${fragmentDir}/publish.gradle"
+        apply(plugin = "convention.publish")
     }
 }
