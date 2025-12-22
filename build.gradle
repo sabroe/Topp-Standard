@@ -36,54 +36,34 @@ plugins {
     id 'convention.root-project'
     id 'convention.java-module' apply false
 
+    id("convention.conservative-build") apply false
+    id("convention.build-reapply") apply false
+
     id "com.yelstream.topp.grasp.feature.root"
 
     id 'com.yelstream.topp.grasp.choreography-cascade'
     id 'com.yelstream.topp.grasp.version-resolution' apply false
 }
 
-def fragmentDir = "${rootProject.projectDir}/gradle/fragment"
-
 allprojects {
     repositories {
         mavenCentral()
         mavenLocal()
     }
+}
+
+allprojects {
     apply plugin: "convention.root-project"
+
+    apply plugin: "convention.conservative-build"
+    apply plugin: "convention.build-reapply"
 }
 
 subprojects {
-//    apply from: "${fragmentDir}/java-options.gradle"
-//    apply from: "${fragmentDir}/java-jars.gradle"
-//    apply from: "${fragmentDir}/jar-manifest.gradle"
-//    apply from: "${fragmentDir}/archive-naming.gradle"
-    apply from: "${fragmentDir}/publish.gradle"
-
     apply plugin: "convention.java-module"
 
     apply plugin: "com.yelstream.topp.grasp.feature.root"
     apply plugin: "com.yelstream.topp.grasp.version-resolution"
-}
-
-subprojects {project ->
-    project.plugins.withType(JavaPlugin).tap {
-        configureEach {
-            project.tasks.register("conservativeBuild") {
-                description = 'Runs clean and build with warnings enabled, excluding test and javadoc tasks, with colored console output.'
-                group = 'build'
-
-                dependsOn project.tasks.named('clean')
-                dependsOn project.tasks.named('build')
-
-                project.gradle.taskGraph.whenReady { graph ->
-                    if (graph.hasTask(project.tasks.conservativeBuild)) {
-                        project.tasks.named('test').get().enabled = false
-                        project.tasks.named('javadoc').get().enabled = false
-                    }
-                }
-            }
-        }
-    }
 }
 
 /*
