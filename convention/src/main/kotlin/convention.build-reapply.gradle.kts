@@ -31,6 +31,7 @@
  */
 
 import org.gradle.api.plugins.JavaPlugin
+import com.yelstream.topp.grasp.util.Projects.isConventionEnabled
 
 plugins {
 }
@@ -41,12 +42,7 @@ project.logger.info("Convention ${conventionName} loaded.")
 
 project.plugins.withType<JavaPlugin> {
 
-    val enablePropertyName = "convention.${conventionName}.enable"
-    val enable = project.findProperty(enablePropertyName)?.toString()?.trim()?.toBooleanStrictOrNull() ?: true
-    if (!enable) {
-        project.logger.debug("Convention ${conventionName} disabled.")
-    } else {
-        project.logger.debug("Convention ${conventionName} enabled.")
+    if (project.isConventionEnabled(conventionName,true)) {
 
         fun configureOrdering(mainTaskName: String) {
             tasks.matching { it.name == mainTaskName }.configureEach {
@@ -142,6 +138,5 @@ project.plugins.withType<JavaPlugin> {
             description = "Clean and install."
             dependsOn("clean","install")
         }
-
     }
 }
