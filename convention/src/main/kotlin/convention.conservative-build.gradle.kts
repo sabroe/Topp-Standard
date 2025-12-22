@@ -34,38 +34,36 @@ val conventionName = "conservative-build"
 
 project.logger.info("Convention ${conventionName} loaded.")
 
-//afterEvaluate {
-    project.plugins.withType<JavaPlugin> {
+project.plugins.withType<JavaPlugin> {
 
-        val enablePropertyName = "convention.${conventionName}.enable"
-        val enable = project.findProperty(enablePropertyName)?.toString()?.trim()?.toBooleanStrictOrNull() ?: true
-        if (!enable) {
-            project.logger.debug("Convention ${conventionName} disabled.")
-        } else {
-            project.logger.debug("Convention ${conventionName} enabled.")
+    val enablePropertyName = "convention.${conventionName}.enable"
+    val enable = project.findProperty(enablePropertyName)?.toString()?.trim()?.toBooleanStrictOrNull() ?: true
+    if (!enable) {
+        project.logger.debug("Convention ${conventionName} disabled.")
+    } else {
+        project.logger.debug("Convention ${conventionName} enabled.")
 
 
-            tasks.register("quickAssemble") {
-                group = "build"
-                description = "Clean and assemble (fastest artifact build, no checks)."
-                dependsOn("clean", "assemble")
-                gradle.taskGraph.whenReady {
-                    if (hasTask(this@register)) {
-                        tasks.matching { it.name in setOf("check","javadoc") }.configureEach { enabled = false }
-                    }
+        tasks.register("quickAssemble") {
+            group = "build"
+            description = "Clean and assemble (fastest artifact build, no checks)."
+            dependsOn("clean", "assemble")
+            gradle.taskGraph.whenReady {
+                if (hasTask(this@register)) {
+                    tasks.matching { it.name in setOf("check","javadoc") }.configureEach { enabled = false }
                 }
             }
-            tasks.register("quickBuild") {
-                group = "build"
-                description = "Clean and build, skips all verification tasks (check, test, javadoc, checkstyle, etc.)."
-                dependsOn("clean", "build")
-                gradle.taskGraph.whenReady {
-                    if (hasTask(this@register)) {
-                        tasks.matching { it.name in setOf("check","test","javadoc") }.configureEach { enabled = false }
-                    }
-                }
-            }
-
         }
+        tasks.register("quickBuild") {
+            group = "build"
+            description = "Clean and build, skips all verification tasks (check, test, javadoc, checkstyle, etc.)."
+            dependsOn("clean", "build")
+            gradle.taskGraph.whenReady {
+                if (hasTask(this@register)) {
+                    tasks.matching { it.name in setOf("check","test","javadoc") }.configureEach { enabled = false }
+                }
+            }
+        }
+
     }
-//}
+}
