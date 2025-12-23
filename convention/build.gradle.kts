@@ -63,4 +63,5 @@ dependencies {
     implementation("de.obqo.decycle:de.obqo.decycle.gradle.plugin:1.2.5")
     implementation("com.gorylenko.gradle-git-properties:com.gorylenko.gradle-git-properties.gradle.plugin:2.5.4")
     implementation("org.cyclonedx.bom:org.cyclonedx.bom.gradle.plugin:3.1.0")
+    implementation("org.snakeyaml:snakeyaml-engine:2.7")
 }
