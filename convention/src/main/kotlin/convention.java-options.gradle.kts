@@ -25,13 +25,8 @@
  * @since 2025-12-20
  */
 
-import org.gradle.api.plugins.JavaPlugin
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.extra
+import com.yelstream.topp.grasp.format.FormatProperties
 import java.nio.charset.StandardCharsets
-
-import org.gradle.api.Project
-//import org.gradle.kotlin.dsl.support.logger
 
 
 plugins {
@@ -46,77 +41,6 @@ project.logger.info("Convention ${conventionName} loaded.")
 
 
 
-
-
-
-
-/**
- * Returns a pretty-formatted string of any Map<*, *> without logging it directly.
- * The caller decides how to use the result (println, logger, file, etc.).
- *
- * @param properties The map to format
- * @param title Title for the output block
- * @param filter Optional filter for entries
- * @param maxValueLength Maximum characters per value (-1 = no truncation, default now -1)
- * @param indent Internal indent level (for recursive use if needed)
- * @return Formatted multi-line string
- */
-fun Project.formatPropertiesPretty(
-    properties: Map<*, *>,
-    title: String = "Properties",
-    filter: (Map.Entry<*, *>) -> Boolean = { true },
-    maxValueLength: Int = -1,  // ← No truncation by default!
-    indent: String = ""
-): String {
-    val filteredEntries = properties.entries
-        .filter { it.key is String }
-        .filter(filter)
-        .map { it.key as String to it.value }
-        .sortedBy { it.first }
-
-    if (filteredEntries.isEmpty()) {
-        return "${indent}=== $title (no entries after filtering) ===\n"
-    }
-
-    val keyColumnWidth = filteredEntries.maxOf { it.first.length } + 2
-    val separator = "=".repeat(10)
-
-    return buildString {
-        appendLine("${indent}$separator $title (${filteredEntries.size} entries) $separator")
-
-        filteredEntries.forEach { (key, rawValue) ->
-            val valueStr = when (rawValue) {
-                null -> "<null>"
-                else -> rawValue.toString()
-            }
-
-            val displayedValue = if (maxValueLength > 0 && valueStr.length > maxValueLength) {
-                valueStr.take(maxValueLength - 3) + "..."
-            } else {
-                valueStr
-            }
-
-            // Use word wrapping for very long values to keep output readable
-            if (displayedValue.length > 100 && maxValueLength != -1) {
-                // Simple word wrap at ~100 chars
-                val wrapped = displayedValue.chunked(100).joinToString("\n${" ".repeat(keyColumnWidth + 6)}")
-                appendLine("${indent}  %-${keyColumnWidth}s = $wrapped".format(key))
-            } else {
-                appendLine("${indent}  %-${keyColumnWidth}s = $displayedValue".format(key))
-            }
-        }
-
-        appendLine("${indent}$separator End of $title $separator")
-    }
-}
-
-
-
-
-
-
-
-
 project.plugins.withType<JavaPlugin> {
     val enablePropertyName = "convention.${conventionName}.enable"
     val enable = project.findProperty(enablePropertyName)?.toString()?.trim()?.toBooleanStrictOrNull()?:true
@@ -126,6 +50,20 @@ project.plugins.withType<JavaPlugin> {
         project.logger.debug("Convention ${conventionName} enabled.")
 
 //println(formatPropertiesPretty(project.properties, title = "All Project Properties"))
+        val yamlOutput = FormatProperties.propertiesAsCleanYaml(project)
+        println(yamlOutput)
+//        project.logger.lifecycle(yamlOutput)
+/*
+TODO:
+-- List containers
+-- List tasks
+-- List extensions
+-- How to set "description"?
+-- List plugins
+-- List dependencies
+-- Mask password, secret, ...
+-- List project information { description, displayName, rootProject, rootDir, projectPath, projectDir, { group, name?, version}, buildDir, buildFile}
+ */
 
         plugins.withType<JavaPlugin>().configureEach {
             fun getCustomString(key: String, default: String): String {
