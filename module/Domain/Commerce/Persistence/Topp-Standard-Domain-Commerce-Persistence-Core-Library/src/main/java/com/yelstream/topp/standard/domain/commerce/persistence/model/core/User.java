@@ -1,0 +1,64 @@
+/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024-2026 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.yelstream.topp.standard.domain.commerce.persistence.model.core;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Version;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.UUID;
+
+/**
+ * An authenticated person who can log in and act on behalf of one or more accounts.
+ */
+@Entity
+@Table
+public class User {
+    @Id
+    @GeneratedValue
+    @Getter
+    private UUID id;
+
+    @Version
+    private Long version;
+
+    @Column(unique = true, nullable = false)
+    @Getter @Setter
+    private String email;
+
+    @Getter @Setter
+    private String firstName;
+
+    @Getter @Setter
+    private String lastName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    @Getter
+    private Account account;
+}

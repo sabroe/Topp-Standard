@@ -91,4 +91,9 @@ include("module:Core:Text:Topp-Standard-Regular-Expression-Library")
 //include("module:Core:Annotation:Topp-Standard-WIP-Annotation-Library")
 //include("module:Core:Net:Topp-Standard-Uniform-Resource-Library")
 
+
+include("module:Domain:Commerce:Persistence:Topp-Standard-Domain-Commerce-Persistence-Core-Library")
+//include("module:Domain:Commerce:Data:Topp-Standard-Commerce-Comprehensive-Data-Entity-Library")
+//include("module:Demo:Application:Commerce:-Library")
+
 include("module:Topp-Standard-Nillable-Library")

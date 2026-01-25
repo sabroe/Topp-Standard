@@ -17,32 +17,13 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.standard.domain.commerce.persistence.model.ext.accounting;
 
-dependencies {
-
-//    implementation 'nano-id:nano-id:1.1.0'
-//    implementation 'nano-id:nano-id'
-
-//    implementation 'io.vertx:vertx-core:5.0.4'
-//    implementation 'io.vertx:vertx-core'
-
-//    implementation 'org.slf4j:slf4j-simple'
-
-/*
-    constraints {
-        implementation('org.slf4j:slf4j-simple:2.0.117') {
-            because 'Default version set by build.gradle'
-            attributes {
-                attribute(Attribute.of('com.example.plugin', String), 'build.gradle')
-            }
-        }
-    }
-*/
+public enum PaymentStatus {
+    PENDING,
+    AUTHORIZED,
+    CAPTURED,
+    PARTIALLY_REFUNDED,
+    FULLY_REFUNDED,
+    FAILED
 }
