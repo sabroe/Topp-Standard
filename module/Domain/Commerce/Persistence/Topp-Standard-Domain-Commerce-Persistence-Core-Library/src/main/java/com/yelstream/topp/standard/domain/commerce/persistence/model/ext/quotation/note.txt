@@ -1,0 +1,6 @@
+Typical flow in B2B:
+
+Buyer (User under Account) creates/submits QuoteRequest
+Sales team reviews → creates Quote with proposed prices
+Negotiation (multiple revisions)
+Approval → convert to Order

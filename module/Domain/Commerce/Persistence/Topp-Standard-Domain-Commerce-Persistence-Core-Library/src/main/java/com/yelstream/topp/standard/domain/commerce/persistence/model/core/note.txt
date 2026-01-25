@@ -1,0 +1,20 @@
+Why this set supports both worlds well
+
+B2C flow (simple & fast)
+Guest: create temporary Account (type=INDIVIDUAL, email only, no User)
+Registered: Account (type=INDIVIDUAL) + linked User (1:1)
+Login → directly to the Account
+One personal Address set
+
+B2B flow (company-centric)
+Account (type=COMPANY) = the legal buyer (VAT, credit, negotiated prices)
+Multiple Users belong to the same Account (different roles)
+Login → authenticates User → acts in context of primary Account
+Shared carts/quotes/orders per Account
+Company-level Addresses + per-order overrides
+
+Shared / neutral
+Same Product, Cart, Order structure
+Pricing starts simple (list price) → easy to extend with account-specific prices, price lists, customer groups
+No deep inheritance — only enum discriminator on Account
+
