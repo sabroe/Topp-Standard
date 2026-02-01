@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.system.load.instance.holder;
+package com.yelstream.topp.standard.system.holder;
 
 import lombok.AllArgsConstructor;
 
@@ -39,7 +39,8 @@ import java.util.function.Supplier;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-07-09
- */@AllArgsConstructor(staticName="of")
+ */
+@AllArgsConstructor(staticName="of")
 final class ResettableLazyContainer<X> implements ResettableContainer<X> {
     /**
      * Item-supplier.

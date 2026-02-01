@@ -26,7 +26,9 @@ plugins {
 }
 
 dependencies {
-    api "io.smallrye.reactive:smallrye-reactive-messaging-jms:4.28.0"
-    api "org.jboss.weld.se:weld-se-core:6.0.3.Final"
+    api "io.smallrye.reactive:smallrye-reactive-messaging-jms:4.32.1"
+    api("io.vertx:vertx-core:4.5.24")  //Transitive, vulnerability in 4.5.23!
+
+    api "org.jboss.weld.se:weld-se-core:6.0.4.Final"
 //    api 'org.apache.activemq:artemis-jms-client:2.41.0'
 }

@@ -17,17 +17,28 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.standard.system.holder;
 
-dependencies {
-    implementation project(path: ':module:Topp-Standard-Annotator-Library')
-    implementation("org.bouncycastle:bcprov-jdk18on:1.83")  //TO-DO: Consider this; avoid forcing this as part of "core", consider licensing too.
-    implementation("org.bouncycastle:bcpkix-jdk18on:1.83")
-    implementation("org.bouncycastle:bctls-jdk18on:1.83")
+/**
+ * A container for a single item, supporting lazy initialization.
+ * <p>
+ *     Holds an item, which may be computed on first access to optimize resource usage.
+ *     The item is typically cached after creation for subsequent access.
+ * </p>
+ * <p>
+ *     This is thread-safe.
+ * </p>
+ *
+ * @param <X> Type of the item held.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-07-09
+ */
+public interface Container<X> {
+    /**
+     * Retrieves the contained item, computing it lazily if not initialized.
+     * @return Contained item.
+     */
+    X getItem();
 }

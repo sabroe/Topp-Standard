@@ -17,28 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.system.load.instance.holder;
+package com.yelstream.topp.standard.system.holder;
+
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
- * Container that supports resetting its item.
- * <p>
- *     Allows clearing the cached item, enabling re-computation on next access.
- * </p>
- * <p>
- *     This is thread-safe.
- * </p>
- *
- * @param <X> Type of the item held.
+ * Test suite for {@code com.yelstream.topp.standard.system.holder}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2025-07-09
- */public interface ResettableContainer<X> extends Container<X> {
-    /**
-     * Resets the container, clearing the cached item.
-     * <p>
-     * The next call to {@link #getItem()} recomputes the item.
-     * </p>
-     */
-    void reset();
+ * @since 2025-07-10
+ */
+@Suite
+@SelectClasses({ContainerTest.class, ResettableContainerTest.class, ContainersTest.class})
+class HolderTestSuite {
 }

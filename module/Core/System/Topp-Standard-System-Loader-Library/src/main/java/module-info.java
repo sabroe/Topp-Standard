@@ -26,10 +26,10 @@
 module com.yelstream.topp.standard.system.load {
     requires static lombok;
     requires org.slf4j;
+    requires com.yelstream.topp.standard.system.holder;
     exports com.yelstream.topp.standard.system.load.clazz;
     exports com.yelstream.topp.standard.system.load.clazz.util;
     exports com.yelstream.topp.standard.system.load.instance;
-    exports com.yelstream.topp.standard.system.load.instance.holder;
     exports com.yelstream.topp.standard.system.load.name;
     exports com.yelstream.topp.standard.system.load.service;
 }

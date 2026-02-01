@@ -26,4 +26,5 @@ plugins {
 }
 
 dependencies {
+    implementation project(':module:Core:System:Topp-Standard-System-Holder-Library')
 }

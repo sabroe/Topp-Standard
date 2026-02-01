@@ -17,17 +17,16 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    implementation project(path: ':module:Topp-Standard-Annotator-Library')
-    implementation("org.bouncycastle:bcprov-jdk18on:1.83")  //TO-DO: Consider this; avoid forcing this as part of "core", consider licensing too.
-    implementation("org.bouncycastle:bcpkix-jdk18on:1.83")
-    implementation("org.bouncycastle:bctls-jdk18on:1.83")
+/**
+ * Topp Standard MCP Server library.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2025-01-26
+ */
+module com.yelstream.topp.standard.ai.mcp {
+    requires static lombok;
+    requires org.slf4j;
+//    requires jdk.httpserver;
+    requires io.javalin;
+//    requires io.modelcontextprotocol.sdk.mcp;
 }

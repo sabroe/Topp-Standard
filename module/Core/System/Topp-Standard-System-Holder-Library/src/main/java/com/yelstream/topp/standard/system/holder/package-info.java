@@ -17,17 +17,11 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    implementation project(path: ':module:Topp-Standard-Annotator-Library')
-    implementation("org.bouncycastle:bcprov-jdk18on:1.83")  //TO-DO: Consider this; avoid forcing this as part of "core", consider licensing too.
-    implementation("org.bouncycastle:bcpkix-jdk18on:1.83")
-    implementation("org.bouncycastle:bctls-jdk18on:1.83")
-}
+/**
+ * Utilities for creating and containing abstract instances.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-07-09
+ */
+package com.yelstream.topp.standard.system.holder;

@@ -17,29 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.system.load.instance.holder;
+package com.yelstream.topp.standard.system.holder;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-/**
- * Container holding a pre-computed item.
- * <p>
- *     This is thread-safe.
- * </p>
- *
- * @param <X> Type of the item held.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2025-07-09
- */
-@SuppressWarnings("LombokGetterMayBeUsed")
-@AllArgsConstructor(staticName="of")
-final class SimpleContainer<X> implements Container<X> {
-    /**
-     * Item held.
-     */
-    @Getter
-    private final X item;
+public class ContainerTest {
 }
