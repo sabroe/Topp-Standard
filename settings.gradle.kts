@@ -82,6 +82,7 @@ include("module:Core:Topp-Standard-Core-Collection-Library")
 
 include("module:Core:Collection:Topp-Standard-Stream-Collection-Library")
 include("module:Core:Collection:Topp-Standard-Stream-Gatherer-Library")
+include("module:Core:System:Topp-Standard-System-Holder-Library")
 include("module:Core:System:Topp-Standard-System-Loader-Library")
 include("module:Core:IO:Topp-Standard-Dual-Access-IO-Library")
 include("module:Core:Net:Topp-Standard-Uniform-Resource-Library")
@@ -93,7 +94,10 @@ include("module:Core:Text:Topp-Standard-Regular-Expression-Library")
 
 
 include("module:Domain:Commerce:Persistence:Topp-Standard-Domain-Commerce-Persistence-Core-Library")
-//include("module:Domain:Commerce:Data:Topp-Standard-Commerce-Comprehensive-Data-Entity-Library")
 //include("module:Demo:Application:Commerce:-Library")
+
+//include("module:AI:MCP:Demo:MCP-Server-Spring-Application")
+//include("module:AI:MCP:Demo:MCP-Server-Quarkus-Application")
+include("module:AI:MCP:Demo:MCP-Server-Library")
 
 include("module:Topp-Standard-Nillable-Library")

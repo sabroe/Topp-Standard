@@ -42,5 +42,5 @@ dependencies {
      *   -- Works without GraalVM.
      *   -- Supports ES6+ (but slower than GraalJS).
      */
-    implementation 'org.mozilla:rhino:1.8.0'  //TO-DO: Consider if default "implementation" is a good idea! Maybe "testImplementation" only?
+    implementation 'org.mozilla:rhino:1.9.0'  //TO-DO: Consider if default "implementation" is a good idea! Maybe "testImplementation" only?
 }

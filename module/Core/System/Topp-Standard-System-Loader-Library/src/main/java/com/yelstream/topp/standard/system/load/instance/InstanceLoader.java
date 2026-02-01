@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.system.load.instance;
 
-import com.yelstream.topp.standard.system.load.instance.holder.Containers;
-import com.yelstream.topp.standard.system.load.instance.holder.ResettableContainer;
+import com.yelstream.topp.standard.system.holder.Containers;
+import com.yelstream.topp.standard.system.holder.ResettableContainer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

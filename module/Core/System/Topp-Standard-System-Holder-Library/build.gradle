@@ -17,7 +17,13 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.system.load.instance.holder;
+plugins {
+    id 'java'
+    id 'java-library-distribution'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+}
 
-public class ContainerTest {
+dependencies {
 }

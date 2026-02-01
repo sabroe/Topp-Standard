@@ -18,10 +18,13 @@
  */
 
 /**
- * Utilities for creating and containing abstract instances.
+ * Topp Standard System Holder Library addressing basic object holding and lazy loading.
  *
  * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2025-07-09
+ * @since 2025-07-08
  */
-package com.yelstream.topp.standard.system.load.instance.holder;
+module com.yelstream.topp.standard.system.holder {
+    requires static lombok;
+    requires org.slf4j;
+    exports com.yelstream.topp.standard.system.holder;
+}

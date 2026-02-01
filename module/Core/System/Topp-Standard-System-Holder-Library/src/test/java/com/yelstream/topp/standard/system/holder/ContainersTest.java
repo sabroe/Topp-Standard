@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.system.load.instance.holder;
+package com.yelstream.topp.standard.system.holder;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
