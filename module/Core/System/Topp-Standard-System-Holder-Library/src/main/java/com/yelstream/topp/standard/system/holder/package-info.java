@@ -28,9 +28,9 @@
  *     Example usage:
  * </p>
  * <pre>{@code
- *     Container<ExpensiveService> serviceContainer = Containers.lazy(ExpensiveService::new);
+ *     Container<MyService> serviceContainer = Containers.lazy(MyService::new);
  *     //...
- *     ExpensiveService service = serviceContainer.get();
+ *     MyService service = serviceContainer.get();
  * }</pre>
  * <p>
  *     In addition to a simple holder
