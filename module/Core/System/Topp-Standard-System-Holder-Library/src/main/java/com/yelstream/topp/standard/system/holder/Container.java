@@ -20,9 +20,9 @@
 package com.yelstream.topp.standard.system.holder;
 
 /**
- * A container for a single item, supporting lazy initialization.
+ * Provides access to a single item, supporting lazy initialization.
  * <p>
- *     Holds an item, which may be computed on first access to optimize resource usage.
+ *     Contains an item, which may be computed on first access to optimize resource usage.
  *     The item is typically cached after creation for subsequent access.
  * </p>
  * <p>

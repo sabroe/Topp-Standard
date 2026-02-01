@@ -45,7 +45,6 @@ public class Containers {
 
     /**
      * Creates a container for a lazily initialized item.
-     *
      * @param <X> Type of the item.
      * @param itemSupplier Supplier to compute the item.
      * @return Created container.
@@ -64,18 +63,43 @@ public class Containers {
         return ResettableLazyContainer.of(itemSupplier);
     }
 
+    /**
+     * Creates a "simple" container implying that it has no support for lazily initialization.
+     * @param <X> Type of the item.
+     * @param itemSupplier Supplier to compute the item.
+     * @return Created container.
+     */
     public static <X> Container<X> simple(Supplier<X> itemSupplier) {
         return SimpleContainer.of(itemSupplier.get());
     }
 
+    /**
+     * Creates a "lazy" container implying that it applies lazily initialization.
+     * @param <X> Type of the item.
+     * @param itemSupplier Supplier to compute the item.
+     * @return Created container.
+     */
     public static <X> Container<X> lazy(Supplier<X> itemSupplier) {
         return LazyContainer.of(itemSupplier);
     }
 
+    /**
+     * Creates a resettable container implying that it applies lazily initialization and may be reset.
+     * @param <X> Type of the item.
+     * @param itemSupplier Supplier to compute the item.
+     * @return Created container.
+     */
     public static <X> ResettableContainer<X> resettable(Supplier<X> itemSupplier) {
         return ResettableLazyContainer.of(itemSupplier);
     }
 
+    /**
+     * Creates a resettable container implying that it applies lazily initialization and may be reset.
+     * @param <X> Type of the item.
+     * @param itemSupplier Supplier to compute the item.
+     * @param resetConsumer Consumer of a handle to reset the consumer.
+     * @return Created container.
+     */
     public static <X> ResettableContainer<X> createResettableContainer(Supplier<X> itemSupplier,
                                                                        Consumer<Runnable> resetConsumer) {
         ResettableLazyContainer<X> container=ResettableLazyContainer.of(itemSupplier);
@@ -85,6 +109,14 @@ public class Containers {
         return container;
     }
 
+    /**
+     * Creates a container implying that it applies lazily initialization.
+     * @param <X> Type of the item.
+     * @param itemSupplier Supplier to compute the item.
+     * @param resetConsumer Consumer of a handle to reset the consumer.
+     *                      If this is set then the created container is resettable through the handle consumer.
+     * @return Created container.
+     */
     public static <X> Container<X> createContainer(Supplier<X> itemSupplier,
                                                    Consumer<Runnable> resetConsumer) {
         if (resetConsumer == null) {
@@ -102,6 +134,10 @@ public class Containers {
         return createContainer(itemSupplier,resetConsumer);
     }
 
+    /**
+     * Builder of {@link Container} instances.
+     * @param <X> Type of the item.
+     */
     @SuppressWarnings({"java:S1068","java:S1450","unused","FieldCanBeLocal","UnusedReturnValue","FieldMayBeFinal"})
     public static class Builder<X> {
         private Supplier<X> itemSupplier=null;
