@@ -36,7 +36,7 @@ class ContainersTest {
      */
     @Test
     void testCreateContainerWithItem() {
-        Container<String> container = Containers.createContainer("Hello");
+        Container<String> container = Containers.of("Hello");
         Assertions.assertNotNull(container, "Container should not be null.");
         Assertions.assertEquals("Hello", container.getItem(), "Item should match input.");
     }
@@ -47,7 +47,7 @@ class ContainersTest {
     @Test
     void testCreateContainerWithSupplier() {
         Supplier<String> supplier = () -> "Lazy";
-        Container<String> container = Containers.createContainer(supplier);
+        Container<String> container = Containers.of(supplier);
         Assertions.assertNotNull(container, "Container should not be null.");
         Assertions.assertEquals("Lazy", container.getItem(), "Item should match supplier result.");
     }
@@ -59,7 +59,7 @@ class ContainersTest {
     void testCreateResettableContainer() {
         int[] callCount = {0}; // Track supplier invocations
         Supplier<String> supplier = () -> "Value" + (++callCount[0]);
-        ResettableContainer<String> container = Containers.createResettableContainer(supplier);
+        ResettableContainer<String> container = Containers.resettable(supplier);
 
         Assertions.assertEquals("Value1", container.getItem(), "Initial item should be computed.");
         Assertions.assertEquals("Value1", container.getItem(), "Cached item should be reused.");
