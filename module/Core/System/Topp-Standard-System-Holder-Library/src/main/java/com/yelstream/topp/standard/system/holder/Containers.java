@@ -34,57 +34,27 @@ import java.util.function.Supplier;
 @UtilityClass
 public class Containers {
     /**
-     * Creates a container with a pre-computed item.
+     * Creates a container providing access to an existing item.
      * @param <X> Type of the item.
      * @param item Item to hold.
      * @return Created container.
      */
-    public static <X> Container<X> createContainer(X item) {
+    public static <X> Container<X> of(X item) {
         return SimpleContainer.of(item);
     }
 
     /**
-     * Creates a container for a lazily initialized item.
+     * Creates a container providing access to a lazily initialized item.
      * @param <X> Type of the item.
      * @param itemSupplier Supplier to compute the item.
      * @return Created container.
      */
-    public static <X> Container<X> createContainer(Supplier<X> itemSupplier) {
+    public static <X> Container<X> of(Supplier<X> itemSupplier) {
         return LazyContainer.of(itemSupplier);
     }
 
     /**
-     * Creates a resettable container for a lazily initialized item.
-     * @param <X> Type of the item.
-     * @param itemSupplier Supplier to compute the item.
-     * @return Created container.
-     */
-    public static <X> ResettableContainer<X> createResettableContainer(Supplier<X> itemSupplier) {
-        return ResettableLazyContainer.of(itemSupplier);
-    }
-
-    /**
-     * Creates a "simple" container implying that it has no support for lazily initialization.
-     * @param <X> Type of the item.
-     * @param itemSupplier Supplier to compute the item.
-     * @return Created container.
-     */
-    public static <X> Container<X> simple(Supplier<X> itemSupplier) {
-        return SimpleContainer.of(itemSupplier.get());
-    }
-
-    /**
-     * Creates a "lazy" container implying that it applies lazily initialization.
-     * @param <X> Type of the item.
-     * @param itemSupplier Supplier to compute the item.
-     * @return Created container.
-     */
-    public static <X> Container<X> lazy(Supplier<X> itemSupplier) {
-        return LazyContainer.of(itemSupplier);
-    }
-
-    /**
-     * Creates a resettable container implying that it applies lazily initialization and may be reset.
+     * Creates a container providing access to a lazily initialized item and which may be reset.
      * @param <X> Type of the item.
      * @param itemSupplier Supplier to compute the item.
      * @return Created container.
@@ -94,33 +64,17 @@ public class Containers {
     }
 
     /**
-     * Creates a resettable container implying that it applies lazily initialization and may be reset.
-     * @param <X> Type of the item.
-     * @param itemSupplier Supplier to compute the item.
-     * @param resetConsumer Consumer of a handle to reset the consumer.
-     * @return Created container.
-     */
-    public static <X> ResettableContainer<X> createResettableContainer(Supplier<X> itemSupplier,
-                                                                       Consumer<Runnable> resetConsumer) {
-        ResettableLazyContainer<X> container=ResettableLazyContainer.of(itemSupplier);
-        if (resetConsumer!=null) {
-            resetConsumer.accept(container::reset);
-        }
-        return container;
-    }
-
-    /**
-     * Creates a container implying that it applies lazily initialization.
+     * Creates a container providing access to a lazily initialized item and which may be reset.
      * @param <X> Type of the item.
      * @param itemSupplier Supplier to compute the item.
      * @param resetConsumer Consumer of a handle to reset the consumer.
      *                      If this is set then the created container is resettable through the handle consumer.
      * @return Created container.
      */
-    public static <X> Container<X> createContainer(Supplier<X> itemSupplier,
-                                                   Consumer<Runnable> resetConsumer) {
+    public static <X> Container<X> of(Supplier<X> itemSupplier,
+                                      Consumer<Runnable> resetConsumer) {
         if (resetConsumer == null) {
-            return LazyContainer.of(itemSupplier);
+            return of(itemSupplier);
         } else {
             ResettableLazyContainer<X> container=ResettableLazyContainer.of(itemSupplier);
             resetConsumer.accept(container::reset);
@@ -130,8 +84,8 @@ public class Containers {
 
     @lombok.Builder(builderClassName="builder")
     private static <X> Container<X> createContainerByBuilder(Supplier<X> itemSupplier,
-                                                             Consumer<Runnable> resetConsumer) {
-        return createContainer(itemSupplier,resetConsumer);
+                                                             Consumer<Runnable> resetHandler) {
+        return of(itemSupplier,resetHandler);
     }
 
     /**
@@ -141,19 +95,20 @@ public class Containers {
     @SuppressWarnings({"java:S1068","java:S1450","unused","FieldCanBeLocal","UnusedReturnValue","FieldMayBeFinal"})
     public static class Builder<X> {
         private Supplier<X> itemSupplier=null;
-        private Consumer<Runnable> resetConsumer=null;
+        private Consumer<Runnable> resetHandler=null;
 
-        public Builder<X> itemSupplier(Supplier<X> itemSupplier) {
+        public Builder<X> item(Supplier<X> itemSupplier) {
             this.itemSupplier=itemSupplier;
             return this;
         }
 
         public Builder<X> item(X item) {
-            return itemSupplier(()->item);
+            this.itemSupplier=()->item;
+            return this;
         }
 
-        public Builder<X> resetConsumer(Consumer<Runnable> resetConsumer) {
-            this.resetConsumer=resetConsumer;
+        public Builder<X> reset(Consumer<Runnable> resetHandler) {
+            this.resetHandler=resetHandler;
             return this;
         }
     }

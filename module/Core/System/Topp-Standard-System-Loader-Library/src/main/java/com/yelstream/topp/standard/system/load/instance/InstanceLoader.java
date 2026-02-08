@@ -108,7 +108,7 @@ public class InstanceLoader<I> {
     /**
      * Contained and held instances.
      */
-    private final ResettableContainer<List<I>> instancesContainer=Containers.createResettableContainer(()->Collections.unmodifiableList(createInstances()));
+    private final ResettableContainer<List<I>> instancesContainer=Containers.resettable(()->Collections.unmodifiableList(createInstances()));
 
     public List<I> getInstances() {
         return instancesContainer.getItem();
