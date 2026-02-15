@@ -20,17 +20,20 @@
 import com.yelstream.topp.standard.annotation.mark.lifecycle.Provisional;
 
 /**
- * Topp Standard Annotation Processing Library providing custom annotation processing.
+ * Topp Standard Source Transformation Library providing custom source code transformation.
  *
  * @author Morten Sabroe Mortensen
- * @since 2024-08-11
+ * @since 2026-02-15
  */
 @Provisional
-module com.yelstream.topp.standard.annotation.processing {
+module com.yelstream.topp.standard.source.transformation {
     requires static lombok;
     requires org.slf4j;
     requires com.yelstream.topp.standard.annotation.intention;
-    requires jdk.compiler;  //Required to use the annotation processing API!
-    requires jakarta.annotation;  //Simple annotations, e.g., '@Generated'
-    exports com.yelstream.topp.standard.annotation.process.util;
+//    requires fr.inria.gforge.spoon.core;  //Automatic module name.
+//    requires static fr.inria.gforge.spoon.core;
+//    requires spoon.core;
+//    requires jdk.compiler;  //Required to use the annotation processing API!
+//    requires jakarta.annotation;  //Simple annotations, e.g., '@Generated'
+    exports com.yelstream.topp.standard.source.process;
 }

@@ -39,9 +39,9 @@ include("module:Configuration:Topp-Standard-Quarkus-Config-Library")
 
 include("module:Network:Topp-Standard-Network-Tooling-Library")
 
-include("module:Topp-Standard-Annotator-Library")
 include("module:Annotation:Topp-Standard-Annotation-Intention-Library")
 include("module:Annotation:Topp-Standard-Annotation-Processing-Library")
+include("module:Annotation:Topp-Standard-Source-Transformation-Library")
 
 include("module:Build:Topp-Standard-Gradle-Contribution-Library")
 
