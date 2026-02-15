@@ -17,24 +17,14 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.annotation.process.util;
+package com.yelstream.topp.standard.source.process;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- *
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2024-08-10
- */
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-//@Slf4j
-//@lombok.Builder(builderClassName="Builder")
-//@AllArgsConstructor(staticName="of",access=AccessLevel.PRIVATE)
-@interface MyBuilder0 {
+@Retention(RetentionPolicy.SOURCE)
+public @interface MyBuilder {
 }

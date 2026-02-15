@@ -17,15 +17,20 @@
  * limitations under the License.
  */
 
+import com.yelstream.topp.standard.annotation.mark.lifecycle.Provisional;
+
 /**
  * Topp Standard Annotation Processing Library providing custom annotation processing.
  *
  * @author Morten Sabroe Mortensen
  * @since 2024-08-11
  */
+@Provisional
 module com.yelstream.topp.standard.annotation.processing {
     requires static lombok;
     requires org.slf4j;
-    requires jdk.compiler;
+    requires com.yelstream.topp.standard.annotation.intention;
+    requires jdk.compiler;  //Required to use the annotation processing API!
+    requires jakarta.annotation;  //Simple annotations, e.g., '@Generated'
     exports com.yelstream.topp.standard.annotation.process.util;
 }

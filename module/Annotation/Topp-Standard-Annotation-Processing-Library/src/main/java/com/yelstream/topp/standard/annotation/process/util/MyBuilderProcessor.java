@@ -20,6 +20,9 @@
 package com.yelstream.topp.standard.annotation.process.util;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Filer;
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -32,44 +35,72 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Set;
 
-@SupportedAnnotationTypes("MyBuilder")
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
+/**
+ * Modern annotation processor that generates a subclass with Lombok annotations
+ * for classes annotated with @MyBuilder.
+ */
+@SupportedAnnotationTypes("com.yelstream.topp.standard.annotation.process.util.MyBuilder")
+@SupportedSourceVersion(SourceVersion.RELEASE_21)
 public class MyBuilderProcessor extends AbstractProcessor {
+
+    private Messager messager;
+    private Filer filer;
+
+    @Override
+    public synchronized void init(ProcessingEnvironment processingEnv) {
+        super.init(processingEnv);
+        this.messager = processingEnv.getMessager();
+        this.filer = processingEnv.getFiler();
+    }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        if (annotations.isEmpty()) {
+            return false;
+        }
+
         for (Element element : roundEnv.getElementsAnnotatedWith(MyBuilder.class)) {
-            if (element instanceof TypeElement) {
-                TypeElement typeElement = (TypeElement) element;
-                generateAnnotatedClass(typeElement);
+            if (element instanceof TypeElement typeElement) {
+                generateSubclass(typeElement);
             }
         }
-        return true;
+        return true;  // We claimed these annotations
     }
 
-    private void generateAnnotatedClass(TypeElement typeElement) {
-        String packageName = processingEnv.getElementUtils().getPackageOf(typeElement).getQualifiedName().toString();
-        String className = typeElement.getSimpleName() + "Generated";
-        String originalClassName = typeElement.getSimpleName().toString();
+    private void generateSubclass(TypeElement typeElement) {
+        String packageName = processingEnv.getElementUtils()
+                .getPackageOf(typeElement)
+                .getQualifiedName()
+                .toString();
 
-        String classContent = "package " + packageName + ";\n\n"
-                + "import lombok.Builder;\n"
-                + "import lombok.AllArgsConstructor;\n"
-                + "import lombok.extern.slf4j.Slf4j;\n\n"
-                + "@Slf4j\n"
-                + "@Builder(builderClassName = \"Builder\")\n"
-                + "@AllArgsConstructor(staticName = \"of\", access = lombok.AccessLevel.PRIVATE)\n"
-                + "public class " + className + " extends " + originalClassName + " {\n"
-                + "    // Generated class\n"
-                + "}";
+        String originalSimpleName = typeElement.getSimpleName().toString();
+        String generatedSimpleName = originalSimpleName + "Generated";
+        String qualifiedGeneratedName = packageName + "." + generatedSimpleName;
+
+        StringBuilder content = new StringBuilder();
+        content.append("package ").append(packageName).append(";\n\n")
+                .append("import lombok.extern.slf4j.Slf4j;\n")
+                .append("import lombok.Builder;\n")
+                .append("import lombok.AllArgsConstructor;\n\n")
+                .append("@Slf4j\n")
+                .append("@Builder(builderClassName = \"Builder\")\n")
+                .append("@AllArgsConstructor(staticName = \"of\", access = lombok.AccessLevel.PRIVATE)\n")
+                .append("public class ").append(generatedSimpleName)
+                .append(" extends ").append(originalSimpleName).append(" {\n")
+                .append("    // Generated subclass with Lombok support\n")
+                .append("}\n");
 
         try {
-            JavaFileObject file = processingEnv.getFiler().createSourceFile(packageName + "." + className);
+            JavaFileObject file = filer.createSourceFile(qualifiedGeneratedName, typeElement);
             try (Writer writer = file.openWriter()) {
-                writer.write(classContent);
+                writer.write(content.toString());
             }
+            messager.printMessage(Diagnostic.Kind.NOTE,
+                    "Generated subclass: " + qualifiedGeneratedName);
         } catch (IOException e) {
-            processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Failed to write generated class: " + e.getMessage());
+            messager.printMessage(Diagnostic.Kind.ERROR,
+                    "Failed to generate " + qualifiedGeneratedName + ": " + e.getMessage(),
+                    typeElement);
         }
     }
 }

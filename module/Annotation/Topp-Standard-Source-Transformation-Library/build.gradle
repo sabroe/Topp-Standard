@@ -1,0 +1,60 @@
+/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024-2026 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("io.github.mictaege:spoon-gradle-plugin:2025.3-rc1")
+//        classpath group: 'io.github.mictaege', name: 'spoon-gradle-plugin', version:'x.x'
+//        classpath group: 'org.eclipse.jdt', name: 'org.eclipse.jdt.core', version: '3.39.0'
+    }
+}
+
+plugins {
+    id 'java-library'
+    id 'java-library-distribution'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+
+//    id 'org.gradlex.extra-java-module-info' version '1.14'
+
+//    id 'spoon'
+//    id 'fr.inria.gforge.spoon' version '1.2.0'   // check latest at https://github.com/SpoonLabs/spoon-gradle-plugin
+}
+
+/*
+extraJavaModuleInfo {
+//    failOnAutomaticModules = true
+    automaticModule('fr.inria.gforge.spoon:spoon-core', 'spoon.core')
+    //deriveAutomaticModuleNamesFromFileNames = true
+}
+*/
+
+dependencies {
+    api(project(":module:Annotation:Topp-Standard-Annotation-Intention-Library"))
+    api("jakarta.annotation:jakarta.annotation-api:3.0.0")
+//    annotationProcessor(project(":your-processor-module"))
+
+    implementation("fr.inria.gforge.spoon:spoon-core:11.3.1-beta-7")
+//    implementation("fr.inria.gforge.spoon:spoon-maven-plugin:11.3.1-beta-7")
+//    moduleImplementation("fr.inria.gforge.spoon:spoon-core:11.3.1-beta-7")
+}
