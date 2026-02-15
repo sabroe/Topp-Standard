@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.util.function;
 
-import com.yelstream.topp.standard.annotator.annotation.meta.Consideration;
+import com.yelstream.topp.standard.annotation.mark.lifecycle.Provisional;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -63,12 +63,12 @@ public interface BiAnvil<A extends BiAnvil<A,C,I>,C,I> extends Anvil<A,I> {
      */
     A apply(BiConsumer<C,I> consumer);
 
-    @Consideration
+    @Provisional
     default <A2 extends BiAnvil<A2,C2,I2>,C2,I2> A2 transform(BiFunction<C,I,A2> operation) {
         return null;
     }
 
-    @Consideration
+    @Provisional
     default A replace(UnaryOperator<I> operation) {
         return null;
     }

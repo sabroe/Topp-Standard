@@ -19,7 +19,6 @@
 
 package com.yelstream.topp.standard.domain.commerce.persistence.model.core;
 
-import com.yelstream.topp.standard.domain.commerce.persistence.model.core.order.Order;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -126,7 +125,9 @@ public class Account {
     @Getter
     private List<Cart> carts = new ArrayList<>();
 
+/*
     @OneToMany(mappedBy = "account")
     @Getter
     private List<Order> orders = new ArrayList<>();
+*/
 }

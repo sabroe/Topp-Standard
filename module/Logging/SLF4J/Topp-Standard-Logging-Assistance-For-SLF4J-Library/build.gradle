@@ -26,5 +26,5 @@ plugins {
 
 dependencies {
     api project(':module:Topp-Standard-Core-Library')
-    api project(':module:Topp-Standard-Annotator-Library')
+    api project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
 }

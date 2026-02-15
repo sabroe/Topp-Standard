@@ -19,10 +19,10 @@
 
 package com.yelstream.topp.standard.util.function;
 
-import com.yelstream.topp.standard.annotator.annotation.meta.Consideration;
-
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import com.yelstream.topp.standard.annotation.mark.lifecycle.Provisional;
 
 /**
  * Holder of an item being worked on.
@@ -65,7 +65,7 @@ public interface Anvil<A extends Anvil<A,I>,I> {
      */
     A apply(Consumer<I> consumer);
 
-    @Consideration
+    @Provisional
     default <A2 extends Anvil<A2,I2>,I2> A2 transform(Function<I,A2> operation) {
         return null;
     }

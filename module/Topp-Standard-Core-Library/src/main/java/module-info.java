@@ -26,7 +26,8 @@
 module com.yelstream.topp.standard.core {
     requires static lombok;
     requires org.slf4j;
-    requires com.yelstream.topp.standard.annotator;
+    requires com.yelstream.topp.standard.annotation.intention;
+    requires com.yelstream.topp.standard.annotation.processing;
     requires java.scripting;
     requires org.bouncycastle.provider;
     requires org.bouncycastle.pkix;

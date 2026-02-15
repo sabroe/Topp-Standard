@@ -40,6 +40,7 @@ afterEvaluate {
         apply(plugin = "convention.slf4j")
         apply(plugin = "convention.junit")
 //TODO: 2026-01-20        apply(plugin = "convention.decycle")
+        apply(plugin = "convention.decycle")
         apply(plugin = "convention.git-properties")
         apply(plugin = "convention.jacoco")
         apply(plugin = "convention.checkstyle")
