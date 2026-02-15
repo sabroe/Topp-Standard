@@ -17,16 +17,15 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.standard.annotation.process.util;
 
-dependencies {
-    api project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
-    api project(':module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library')
+import lombok.AllArgsConstructor;
 
-    api 'io.github.resilience4j:resilience4j-all:2.2.0'
+@MyBuilder
+@AllArgsConstructor
+public class ExampleClass {
+    private final String name;
+    private final int age;
+
+    // Your methods here
 }

@@ -28,5 +28,4 @@ module com.yelstream.topp.standard.build.gradle.contribution {
     requires org.slf4j;
     requires com.yelstream.topp.standard.core;
     exports com.yelstream.topp.standard.gradle.contribution.tool.sonarqube;
-//    exports com.yelstream.topp.standard.gradle.contribution.sonarqube;
 }

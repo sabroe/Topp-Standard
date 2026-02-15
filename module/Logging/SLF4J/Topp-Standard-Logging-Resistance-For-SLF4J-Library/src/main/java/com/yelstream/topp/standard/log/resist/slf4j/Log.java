@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.log.resist.slf4j;
 
-import com.yelstream.topp.standard.annotator.annotation.meta.Convenience;
+import com.yelstream.topp.standard.annotation.mark.lifecycle.Provisional;
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
@@ -43,37 +43,37 @@ public final class Log {
         return of(NOPLoggingEventBuilder.singleton());
     }
 
-    @Convenience
+    @Provisional
     public static AtLevelCreator<Context> of(Logger logger) {
         return AtLevelCreator.of(logger,Log::of);
     }
 
-    @Convenience
+    @Provisional
     public static Entry<Context,LoggingEventBuilder> atError(Logger logger) {
         return of(logger.atError());
     }
 
-    @Convenience
+    @Provisional
     public static Entry<Context,LoggingEventBuilder> atWarn(Logger logger) {
         return of(logger.atWarn());
     }
 
-    @Convenience
+    @Provisional
     public static Entry<Context,LoggingEventBuilder> atInfo(Logger logger) {
         return of(logger.atInfo());
     }
 
-    @Convenience
+    @Provisional
     public static Entry<Context,LoggingEventBuilder> atDebug(Logger logger) {
         return of(logger.atDebug());
     }
 
-    @Convenience
+    @Provisional
     public static Entry<Context,LoggingEventBuilder> atTrace(Logger logger) {
         return of(logger.atTrace());
     }
 
-    @Convenience
+    @Provisional
     public static Entry<Context,LoggingEventBuilder> atLevel(Logger logger,
                                                              Level level) {
         return of(logger.atLevel(level));

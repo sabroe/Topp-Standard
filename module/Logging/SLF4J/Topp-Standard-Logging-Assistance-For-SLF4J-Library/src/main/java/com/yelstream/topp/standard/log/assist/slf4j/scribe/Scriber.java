@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.log.assist.slf4j.scribe;
 
-import com.yelstream.topp.standard.annotator.annotation.meta.Consideration;
+import com.yelstream.topp.standard.annotation.mark.lifecycle.Provisional;
 import com.yelstream.topp.standard.log.assist.slf4j.spi.ex.LoggingEventBuilderEx;
 import com.yelstream.topp.standard.log.assist.slf4j.spi.ex.LoggingEventBuilderExAlias;
 import com.yelstream.topp.standard.log.assist.slf4j.spi.ex.LoggingEventBuilderExAliasAggressive;
@@ -47,7 +47,7 @@ public interface Scriber<B extends LoggingEventBuilder> extends LoggingEventBuil
      * @param consumer Consumer of enabled state.
      * @return This.
      */
-    @Consideration
+    @Provisional
     default Scriber<B> enabled(BooleanConsumer consumer) {
         consumer.accept(isEnabled());
         return this;
@@ -58,7 +58,7 @@ public interface Scriber<B extends LoggingEventBuilder> extends LoggingEventBuil
      * @param task Task.
      * @return This.
      */
-    @Consideration
+    @Provisional
     default Scriber<B> onEnabled(Runnable task) {
         if (isEnabled()) {
             task.run();
@@ -71,7 +71,7 @@ public interface Scriber<B extends LoggingEventBuilder> extends LoggingEventBuil
      * @param task Task.
      * @return This.
      */
-    @Consideration
+    @Provisional
     default Scriber<B> onDisabled(Runnable task) {
         if (!isEnabled()) {
             task.run();

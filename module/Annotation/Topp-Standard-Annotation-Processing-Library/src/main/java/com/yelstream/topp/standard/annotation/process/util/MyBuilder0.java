@@ -17,16 +17,24 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.standard.annotation.process.util;
 
-dependencies {
-    api project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
-    api project(':module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library')
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    api 'io.github.resilience4j:resilience4j-all:2.2.0'
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-08-10
+ */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+//@Slf4j
+//@lombok.Builder(builderClassName="Builder")
+//@AllArgsConstructor(staticName="of",access=AccessLevel.PRIVATE)
+@interface MyBuilder0 {
 }

@@ -40,6 +40,8 @@ include("module:Configuration:Topp-Standard-Quarkus-Config-Library")
 include("module:Network:Topp-Standard-Network-Tooling-Library")
 
 include("module:Topp-Standard-Annotator-Library")
+include("module:Annotation:Topp-Standard-Annotation-Intention-Library")
+include("module:Annotation:Topp-Standard-Annotation-Processing-Library")
 
 include("module:Build:Topp-Standard-Gradle-Contribution-Library")
 
@@ -75,7 +77,6 @@ include("module:Core:Topp-Standard-Core-Network-Library")
 include("module:Core:Topp-Standard-Core-IO-Library")
 include("module:Core:Topp-Standard-Core-Time-Library")
 include("module:Core:Topp-Standard-Core-Reflection-Library")
-include("module:Core:Topp-Standard-Core-Annotation-Library")
 include("module:Core:Topp-Standard-Core-Function-Library")
 include("module:Core:Topp-Standard-Core-Concurrent-Library")
 include("module:Core:Topp-Standard-Core-Collection-Library")

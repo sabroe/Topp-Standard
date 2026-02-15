@@ -17,16 +17,18 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    api project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
-    api project(':module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library')
-
-    api 'io.github.resilience4j:resilience4j-all:2.2.0'
+/**
+ * Topp Standard Annotation Intention Library providing annotations for marking intent.
+ * <p>
+ *   Custom annotations for code lifecycle maturity and showcase/demo intent.
+ * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2024-08-11
+ */
+module com.yelstream.topp.standard.annotation.intention {
+    requires static lombok;
+    requires org.slf4j;
+    exports com.yelstream.topp.standard.annotation.mark.lifecycle;
+    exports com.yelstream.topp.standard.annotation.mark.showcase;
 }

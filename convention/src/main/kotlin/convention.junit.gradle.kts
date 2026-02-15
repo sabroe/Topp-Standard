@@ -44,12 +44,18 @@ project.plugins.withType<JavaPlugin> {
     } else {
         project.logger.debug("Convention ${conventionName} enabled.")
 
-        dependencies {
-            val junitVersion = "6.0.1"
+        dependencies {  //The core unit-testing stack, JUnit, Mockito, AssertJ!
+            val junitVersion = "6.0.2"
 
             testImplementation(platform("org.junit:junit-bom:${junitVersion}"))
             testImplementation("org.junit.jupiter:junit-jupiter")
             testImplementation("org.junit.platform:junit-platform-suite")
+
+            testImplementation("org.mockito:mockito-junit-jupiter:5.21.0")
+            testImplementation("org.assertj:assertj-core:3.27.7")
+
+            testImplementation(platform("org.testcontainers:testcontainers-bom:2.0.3"))
+            testImplementation("org.testcontainers:testcontainers-junit-jupiter")
         }
 
         tasks.withType<Test> {

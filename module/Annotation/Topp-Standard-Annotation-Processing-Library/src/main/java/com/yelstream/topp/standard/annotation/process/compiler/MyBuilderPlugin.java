@@ -17,16 +17,21 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.standard.annotation.process.compiler;
 
-dependencies {
-    api project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
-    api project(':module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library')
+import com.sun.source.util.JavacTask;
+import com.sun.source.util.Plugin;
+import com.sun.tools.javac.api.BasicJavacTask;
 
-    api 'io.github.resilience4j:resilience4j-all:2.2.0'
+public class MyBuilderPlugin implements Plugin {  //javac -cp . -Xplugin:MyBuilderPlugin MyClass.java
+
+    @Override
+    public String getName() {
+        return "MyBuilderPlugin";
+    }
+
+    @Override
+    public void init(JavacTask task, String... args) {
+        task.addTaskListener(new MyBuilderTaskListener((BasicJavacTask) task));
+    }
 }

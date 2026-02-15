@@ -17,16 +17,11 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    api project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
-    api project(':module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library')
-
-    api 'io.github.resilience4j:resilience4j-all:2.2.0'
-}
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-08-11
+ */
+package com.yelstream.topp.standard.annotation.process.util;
