@@ -102,3 +102,6 @@ include("module:Domain:Commerce:Persistence:Topp-Standard-Domain-Commerce-Persis
 include("module:AI:MCP:Demo:MCP-Server-Library")
 
 include("module:Topp-Standard-Nillable-Library")
+
+include("module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library")
+include("module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library")
