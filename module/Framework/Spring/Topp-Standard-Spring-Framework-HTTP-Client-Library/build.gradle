@@ -23,24 +23,10 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'signing'
-
-    id("io.github.mictaege.spoon-gradle-plugin") version "2025.2"
-
-}
-java {
-    modularity.inferModulePath = true
 }
 
 dependencies {
-    api(project(":module:Annotation:Topp-Standard-Annotation-Intention-Library"))
-    api("jakarta.annotation:jakarta.annotation-api:3.0.0")
-
-    implementation("fr.inria.gforge.spoon:spoon-core:11.3.1-beta-8")
-}
-
-spoon {
-    processors = ['io.github.mictaege.spoon_processors.CheckNotNullProcessor']
-    compliance 17
-    exclude = ['main', 'test']
-    fileFilter = { File src -> src.text.contains("@NotNull") }
+    api("org.springframework:spring-web:7.0.4")
+    api("org.springframework:spring-context:7.0.4")
+    api("tools.jackson.core:jackson-databind:3.0.4")
 }

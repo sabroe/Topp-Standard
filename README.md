@@ -284,3 +284,20 @@ public class SimpleScanner {
 
 The utility `CompletableFutures` is also part of the libraries, 
 here `CompletableFutures#allOf(List<CompletableFuture)` essentially handles type safety.
+
+### Featured (2026-02-18)
+
+It is time to start to point to refined and ready-to-use pieces:
+
+1. `module:Annotation:Topp-Standard-Annotation-Intention-Library` \
+    javadoc.io \
+   [Maven Central Repository](https://central.sonatype.com/artifact/com.yelstream.topp.standard/topp-standard-annotation-intention)
+2. `module:Core:Collection:Topp-Standard-Stream-Collection-Library` \
+   javadoc.io \
+   [Maven Central Repository](https://central.sonatype.com/artifact/com.yelstream.topp.standard/topp-standard-stream-collection)
+3. `module:Core:IO:Topp-Standard-Dual-Access-IO-Library` \
+   javadoc.io \
+   [Maven Central Repository](https://central.sonatype.com/artifact/com.yelstream.topp.standard/topp-standard-dual-access-io)
+4. `module:Core:System:Topp-Standard-System-Holder-Library` \
+   javadoc.io \
+   [Maven Central Repository](https://central.sonatype.com/artifact/com.yelstream.topp.standard/topp-standard-system-holder)

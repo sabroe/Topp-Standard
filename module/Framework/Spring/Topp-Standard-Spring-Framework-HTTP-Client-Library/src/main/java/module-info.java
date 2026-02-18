@@ -17,30 +17,20 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library'
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-
-    id("io.github.mictaege.spoon-gradle-plugin") version "2025.2"
-
-}
-java {
-    modularity.inferModulePath = true
-}
-
-dependencies {
-    api(project(":module:Annotation:Topp-Standard-Annotation-Intention-Library"))
-    api("jakarta.annotation:jakarta.annotation-api:3.0.0")
-
-    implementation("fr.inria.gforge.spoon:spoon-core:11.3.1-beta-8")
-}
-
-spoon {
-    processors = ['io.github.mictaege.spoon_processors.CheckNotNullProcessor']
-    compliance 17
-    exclude = ['main', 'test']
-    fileFilter = { File src -> src.text.contains("@NotNull") }
+/**
+ * Topp Standard Spring Framework REST Client Library addressing select elements of REST-clients.
+ * <p>
+ *
+ * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2026-02-18
+ */
+module com.yelstream.topp.standard.framework.spring.rest.client {
+    requires static lombok;
+    requires org.slf4j;
+    requires spring.web;
+    requires java.net.http;
+    requires spring.context;
+    exports com.yelstream.topp.standard.framework.spring.rest.client;
 }

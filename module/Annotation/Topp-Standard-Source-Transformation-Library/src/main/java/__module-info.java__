@@ -30,10 +30,9 @@ module com.yelstream.topp.standard.source.transformation {
     requires static lombok;
     requires org.slf4j;
     requires com.yelstream.topp.standard.annotation.intention;
-//    requires fr.inria.gforge.spoon.core;  //Automatic module name.
-//    requires static fr.inria.gforge.spoon.core;
-//    requires spoon.core;
-//    requires jdk.compiler;  //Required to use the annotation processing API!
-//    requires jakarta.annotation;  //Simple annotations, e.g., '@Generated'
+//    requires fr.inria.gforge.spoon.core;
+    requires jdk.compiler;
     exports com.yelstream.topp.standard.source.process;
+
+//    opens your.package to fr.inria.gforge.spoon.core;
 }
