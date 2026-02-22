@@ -17,6 +17,6 @@
  * limitations under the License.
  */
 
-rootProject.name = "topp-grasp-conventions"
+rootProject.name = "Yelstream-Topp-Grasp-Conventions"
 
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")

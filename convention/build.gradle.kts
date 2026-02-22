@@ -64,4 +64,5 @@ dependencies {
     implementation("com.gorylenko.gradle-git-properties:com.gorylenko.gradle-git-properties.gradle.plugin:2.5.4")
     implementation("org.cyclonedx.bom:org.cyclonedx.bom.gradle.plugin:3.1.0")
     implementation("org.snakeyaml:snakeyaml-engine:2.7")
+    implementation("me.champeau.includegit:me.champeau.includegit.gradle.plugin:0.3.2")
 }

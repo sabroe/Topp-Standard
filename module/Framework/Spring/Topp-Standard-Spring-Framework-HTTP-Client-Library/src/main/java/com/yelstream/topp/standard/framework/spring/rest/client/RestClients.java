@@ -14,9 +14,8 @@ import java.time.Duration;
 @UtilityClass
 public class RestClients {
 
-
     public static InputStream download0(RestClient restClient,
-                                String url) throws IOException {
+                                        String url) throws IOException {
         try {
             return restClient.get()
                     .uri(url)
@@ -42,7 +41,6 @@ public class RestClients {
             throw new IOException("Download failed", e);
         }
     }
-
 
     public static InputStream download2(RestClient restClient,
                                         String url) {
