@@ -1,8 +1,8 @@
 /*
- * Project: Topp Grasp
- * GitHub: https://github.com/sabroe/Topp-Grasp
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
  *
- * Copyright 2022-2026 Morten Sabroe Mortensen
+ * Copyright 2024-2026 Morten Sabroe Mortensen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,15 @@
  * limitations under the License.
  */
 
-rootProject.name = "Yelstream-Topp-Grasp-Conventions"
-
-enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+/**
+ * Topp Standard Terminal Library addressing selected elements of terminal handling.
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2026-02-21
+ */
+module com.yelstream.topp.standard.terminal {
+    requires static lombok;
+    requires org.slf4j;
+    requires com.googlecode.lanterna;
+    exports com.yelstream.topp.standard.terminal;
+}

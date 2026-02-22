@@ -17,10 +17,19 @@
  * limitations under the License.
  */
 
-rootProject.name = "Yelstream Topp Standard Project"
+rootProject.name = "Yelstream-Topp-Standard-Project"
+
+pluginManagement {
+    includeBuild("convention")
+}
+
+plugins {
+    id("bootstrap")
+}
 
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 fileTree("gradle/global") { include("**/*.gradle", "**/*.gradle.kts") }.forEach { apply(from = it) }
+
 includeBuild("convention")
 
 include("module:Topp-Standard-Core-Library")
@@ -105,3 +114,5 @@ include("module:Topp-Standard-Nillable-Library")
 
 include("module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library")
 include("module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library")
+
+include("module:Terminal:Topp-Standard-Terminal-Library")
