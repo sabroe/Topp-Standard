@@ -17,10 +17,18 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.framework.spring.http.client;
-
-import lombok.experimental.UtilityClass;
-
-@UtilityClass
-public class HttpClients {
+/**
+ * Topp Standard Tool Source Repository Git Library addressing select elements of Git repositories.
+ * <p>
+ *
+ * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2026-03-02
+ */
+module com.yelstream.topp.standard.tool.source.repository.git {
+    requires static lombok;
+    requires org.slf4j;
+    requires org.jspecify;
+    exports com.yelstream.topp.standard.tool.source.repository.git;
 }

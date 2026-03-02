@@ -17,10 +17,14 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.framework.spring.http.client;
+/**
+ * Utilities related to the handling of Git repositories.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-03-02
+ */
+@NullMarked
+package com.yelstream.topp.standard.tool.source.repository.git;
 
-import lombok.experimental.UtilityClass;
-
-@UtilityClass
-public class HttpClients {
-}
+import org.jspecify.annotations.NullMarked;

@@ -17,10 +17,14 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.framework.spring.http.client;
+plugins {
+    id 'java-library'
+    id 'java-library-distribution'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+}
 
-import lombok.experimental.UtilityClass;
-
-@UtilityClass
-public class HttpClients {
+dependencies {
+    api("org.jspecify:jspecify:1.0.0")
 }

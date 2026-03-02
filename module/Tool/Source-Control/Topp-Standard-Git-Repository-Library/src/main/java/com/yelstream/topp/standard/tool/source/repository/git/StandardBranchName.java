@@ -17,32 +17,25 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.framework.spring.rest.client;
+package com.yelstream.topp.standard.tool.source.repository.git;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestClientException;
+import lombok.Getter;
 
-import java.io.IOException;
-import java.io.InputStream;
-
+/**
+ * Standard branch name.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-03-02
+ */
 @AllArgsConstructor
-@Service
-class Downloader {
+@SuppressWarnings("java:S115")
+public enum StandardBranchName {
+    Master("master"),
+    Main("main"),
+    Develop("develop");
 
-    private final RestClient restClient;
-
-    // constructor injection
-
-    public InputStream download(String url) throws IOException {
-        try {
-            return restClient.get()
-                    .uri(url)
-                    .retrieve()
-                    .body(InputStream.class);
-        } catch (RestClientException e) {
-            throw new IOException("Download failed", e);
-        }
-    }
+    @Getter
+    private final String branchName;
 }
