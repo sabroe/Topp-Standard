@@ -20,7 +20,7 @@
 rootProject.name = "Yelstream-Topp-Standard-Project"
 
 pluginManagement {
-    includeBuild("convention")
+    includeBuild("${System.getProperty("user.home")}/.topp/gradle/script/Topp-Gradle-Bootstrap")
 }
 
 plugins {
@@ -30,7 +30,7 @@ plugins {
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 fileTree("gradle/global") { include("**/*.gradle", "**/*.gradle.kts") }.forEach { apply(from = it) }
 
-includeBuild("convention")
+//includeBuild("convention")
 
 include("module:Topp-Standard-Core-Library")
 // "Topp-Standard-Inject-Library"
@@ -116,3 +116,5 @@ include("module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Libr
 include("module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library")
 
 include("module:Terminal:Topp-Standard-Terminal-Library")
+
+include("module:Tool:Source-Control:Topp-Standard-Git-Repository-Library")
