@@ -20,8 +20,10 @@
 package com.yelstream.topp.standard.tool.source.repository.git;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Singular;
+import lombok.ToString;
 import org.jspecify.annotations.Nullable;
 
 import java.net.URI;
@@ -41,13 +43,27 @@ import java.util.Map;
 @AllArgsConstructor
 @lombok.Builder(builderClassName = "Builder", toBuilder = true)
 @Getter
+@ToString
+@EqualsAndHashCode
 public class GitRepository {
     /**
      * Protocol to access repository.
      */
     @AllArgsConstructor
     public enum Access {
+        /**
+         * Valid HTTPS URI, e.g. {@code https://github.com/user/repo.git}.
+         */
         HTTPS("https"),
+
+        /**
+         * SCP-like syntax, not a valid URI, e.g. {@code git@github.com:user/repo.git}.
+         */
+        SCP("scp"),
+
+        /**
+         * Valid SSH URI, e.g. {@code ssh://git@github.com/user/repo.git}.
+         */
         SSH("ssh");
 
         /**
@@ -87,11 +103,35 @@ public class GitRepository {
     /**
      *
      */
-    @Singular("accessUri")
-    private final Map<Access,URI> accessUris;
+    @Singular("accessURI")
+    private final Map<Access,URI> accessURIs;
 
     /**
      *
      */
     private final Path localDirectory;
+
+
+    @SuppressWarnings("SwitchStatementWithTooFewBranches")
+    public static GitRepository ofLocation(URI location) {
+        return
+            switch (location.getScheme()) {
+                case "https" -> {
+                    Builder builder=builder();
+                    builder.location(location);
+                    builder.accessURI(Access.HTTPS,URI.create(location+".git"));
+                    builder.accessURI(Access.SSH,URI.create("ssh://git@"+location.getHost()+location.getPath()+".git"));
+                    builder.branch(StandardBranchName.Main.getBranchName());  //Yes, use this branch per default!
+                    builder.name(Path.of(location.getPath()).getFileName().toString());
+                    builder.localDirectory(Path.of(location.getPath()).getFileName());
+                    yield builder.build();
+                }
+                default -> throw new UnsupportedOperationException();
+            };
+    }
+
+    public static void main(String[] args) {  //TODO: Create unit test!
+        URI location = URI.create("https://github.com/sabroe/Topp-Standard");
+        System.out.println(ofLocation(location));
+    }
 }

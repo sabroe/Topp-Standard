@@ -17,6 +17,8 @@
  * limitations under the License.
  */
 
+import com.yelstream.topp.standard.annotation.mark.lifecycle.Provisional;
+
 /**
  * Topp Standard Tool Source Repository Git Library addressing select elements of Git repositories.
  * <p>
@@ -26,9 +28,10 @@
  * @author Morten Sabroe Mortensen
  * @since 2026-03-02
  */
+@Provisional
 module com.yelstream.topp.standard.tool.source.repository.git {
     requires static lombok;
     requires org.slf4j;
-    requires org.jspecify;
+    requires org.jspecify; requires com.yelstream.topp.standard.annotation.intention;
     exports com.yelstream.topp.standard.tool.source.repository.git;
 }
