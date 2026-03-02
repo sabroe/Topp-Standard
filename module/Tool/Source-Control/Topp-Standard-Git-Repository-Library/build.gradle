@@ -26,5 +26,7 @@ plugins {
 }
 
 dependencies {
+    api(project(":module:Annotation:Topp-Standard-Annotation-Intention-Library"))
     api("org.jspecify:jspecify:1.0.0")
+    implementation project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
 }

@@ -20,18 +20,16 @@
 import com.yelstream.topp.standard.annotation.mark.lifecycle.Provisional;
 
 /**
- * Topp Standard Tool Source Repository Git Library addressing select elements of Git repositories.
- * <p>
- *
- * </p>
+ * Topp Standard JSON Library addressing selected elements of JSON data handling.
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-03-02
  */
 @Provisional
-module com.yelstream.topp.standard.tool.source.repository.git {
+module com.yelstream.topp.standard.data.json {
     requires static lombok;
     requires org.slf4j;
-    requires org.jspecify; requires com.yelstream.topp.standard.annotation.intention;
-    exports com.yelstream.topp.standard.tool.source.repository.git;
+    requires json.path;
+    requires com.yelstream.topp.standard.annotation.intention;
+    exports com.yelstream.topp.standard.data.json.path;
 }

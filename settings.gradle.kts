@@ -75,6 +75,8 @@ include("module:Data:XML:Topp-Standard-XML-Crypto-Library")
 include("module:Data:XML:Topp-Standard-XML-Easy-Library")
 include("module:Data:XML:Topp-Standard-XML-Library")
 
+include("module:Data:JSON:Topp-Standard-JSON-Library")
+
 include("module:Text:Topp-Standard-Text-Manifestation-Library")
 
 include("module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library")
