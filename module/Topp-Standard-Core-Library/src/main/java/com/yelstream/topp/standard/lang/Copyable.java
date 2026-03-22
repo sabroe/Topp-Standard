@@ -20,7 +20,10 @@
 package com.yelstream.topp.standard.lang;
 
 /**
- *
+ *  Creates a copy of this object.
+ *  <p>
+ *      Implementations must specify whether the copy is shallow or deep.
+ *  </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
