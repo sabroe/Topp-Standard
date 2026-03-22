@@ -26,6 +26,6 @@ plugins {
 }
 
 dependencies {
-    implementation("io.modelcontextprotocol.sdk:mcp:0.17.2")
-    implementation("io.javalin:javalin:7.0.0-beta.2")
+    implementation("io.modelcontextprotocol.sdk:mcp:1.1.0")
+    implementation("io.javalin:javalin:7.1.0")
 }
