@@ -24,6 +24,7 @@ package com.yelstream.topp.standard.lang;
  *  <p>
  *      Implementations must specify whether the copy is shallow or deep.
  *  </p>
+ * @param <T> The type of object being copied.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -31,6 +32,10 @@ package com.yelstream.topp.standard.lang;
  */
 @FunctionalInterface
 public interface Copyable<T> {
-
+    /**
+     * Returns a copy of this object.
+     * The copy may be shallow or deep depending on implementation.
+     * @return Copy of this object.
+     */
     T copy();
 }
