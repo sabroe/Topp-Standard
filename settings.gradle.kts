@@ -35,6 +35,8 @@ fileTree("gradle/global") { include("**/*.gradle", "**/*.gradle.kts") }.forEach 
 include("module:Topp-Standard-Core-Library")
 // "Topp-Standard-Inject-Library"
 
+include("module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library")
+include("module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Provider-Library")
 include("module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library")
 include("module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library")
 
