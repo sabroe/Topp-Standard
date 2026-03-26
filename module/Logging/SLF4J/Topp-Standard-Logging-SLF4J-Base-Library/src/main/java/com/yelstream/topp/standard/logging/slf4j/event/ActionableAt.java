@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.slf4j.event;
+package com.yelstream.topp.standard.logging.slf4j.event;
 
 import org.slf4j.Logger;
 import org.slf4j.event.Level;

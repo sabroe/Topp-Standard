@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.slf4j.spi;
+package com.yelstream.topp.standard.logging.slf4j.spi.provider;
 
 import lombok.experimental.UtilityClass;
 import org.slf4j.ILoggerFactory;

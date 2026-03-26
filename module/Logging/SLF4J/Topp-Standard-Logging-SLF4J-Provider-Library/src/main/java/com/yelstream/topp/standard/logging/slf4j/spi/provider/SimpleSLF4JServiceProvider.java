@@ -17,31 +17,34 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.slf4j.spi;
+package com.yelstream.topp.standard.logging.slf4j.spi.provider;
 
 import lombok.AllArgsConstructor;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.IMarkerFactory;
-import org.slf4j.helpers.BasicMarkerFactory;
-import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Chain-of-responsibility for instances of {@link SLF4JServiceProvider}.
+ * Proxy for instances of {@link SLF4JServiceProvider}.
+ * <p>
+ *     Individual methods can be overridden.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2026-03-24
  */
 @AllArgsConstructor(staticName = "of")
-class ChainSLF4JServiceProvider implements SLF4JServiceProvider {
+class SimpleSLF4JServiceProvider implements SLF4JServiceProvider {
 
     private final String requestedApiVersion;
-    private final List<SLF4JServiceProvider> serviceProviders;
+    private final Consumer<SLF4JServiceProvider> initializeOperator;
+    private final ILoggerFactory loggerFactory;
+    private final IMarkerFactory markerFactory;
+    private final MDCAdapter mdcAdapter;
 
     @Override
     public String getRequestedApiVersion() {
@@ -50,21 +53,21 @@ class ChainSLF4JServiceProvider implements SLF4JServiceProvider {
 
     @Override
     public void initialize() {
-        serviceProviders.forEach(SLF4JServiceProvider::initialize);
+        initializeOperator.accept(this);
     }
 
     @Override
     public ILoggerFactory getLoggerFactory() {
-        return null;//loggerFactory;
+        return loggerFactory;
     }
 
     @Override
     public IMarkerFactory getMarkerFactory() {
-        return new BasicMarkerFactory();
+        return markerFactory;
     }
 
     @Override
     public MDCAdapter getMDCAdapter() {
-        return new NOPMDCAdapter();
+        return mdcAdapter;
     }
 }

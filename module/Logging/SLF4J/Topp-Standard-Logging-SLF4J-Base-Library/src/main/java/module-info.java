@@ -27,6 +27,6 @@ module com.yelstream.topp.standard.log.slf4j.base {
     requires static lombok;
     requires org.slf4j;
     requires com.yelstream.topp.standard.annotation.intention;
-    exports com.yelstream.topp.standard.log.slf4j.event;
-    exports com.yelstream.topp.standard.log.slf4j.logger;
+    exports com.yelstream.topp.standard.logging.slf4j.event;
+    exports com.yelstream.topp.standard.logging.slf4j.logger;
 }

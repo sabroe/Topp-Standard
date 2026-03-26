@@ -17,7 +17,11 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.slf4j.event;
-
-public class EventTestSuite {
-}
+/**
+ * Utility addressing SLF4J loggers.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2024-06-18
+ */
+package com.yelstream.topp.standard.logging.slf4j.logger;

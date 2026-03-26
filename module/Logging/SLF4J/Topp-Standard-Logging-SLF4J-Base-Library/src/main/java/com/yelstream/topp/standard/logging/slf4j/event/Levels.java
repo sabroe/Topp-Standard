@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.slf4j.event;
+package com.yelstream.topp.standard.logging.slf4j.event;
 
 import lombok.experimental.UtilityClass;
 import org.slf4j.event.Level;
@@ -54,6 +54,17 @@ public class Levels {
      */
     public static List<Level> getLevelsSorted() {
         return SORTED_LEVELS;
+    }
+
+    /**
+     * Indicates, if a level is enabled.
+     * @param level Level tested.
+     * @param actualLevel Level actually set and applied.
+     * @return Indicates, if the level is enabled.
+     */
+    public static boolean isLevelEnabled(Level level,
+                                         Level actualLevel) {
+        return level.toInt()<=actualLevel.toInt();
     }
 
     @FunctionalInterface
