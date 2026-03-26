@@ -24,4 +24,4 @@
  * @version 1.0
  * @since 2024-06-18
  */
-package com.yelstream.topp.standard.log.slf4j.event;
+package com.yelstream.topp.standard.logging.slf4j.event;
