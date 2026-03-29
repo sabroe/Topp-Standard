@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.logging.slf4j.spi.logger.factory;
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.event.bind;
 
-public class XXXILoggerFactory {
+public enum StandardEventBinding {
 }

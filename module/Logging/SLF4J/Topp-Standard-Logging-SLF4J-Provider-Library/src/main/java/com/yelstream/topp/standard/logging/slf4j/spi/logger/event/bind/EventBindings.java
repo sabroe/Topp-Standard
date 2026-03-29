@@ -17,7 +17,27 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.logging.slf4j.spi.logger.factory;
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.event.bind;
 
-public class XXXILoggerFactory {
+import lombok.experimental.UtilityClass;
+
+/**
+ * Utilities for instances of {@link EventBinding}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-03-29
+ */
+@UtilityClass
+public class EventBindings {
+
+    public static final EventBinding DEFAULT_EVENT_BINDING=DefaultEventBinding.of();
+
+    public static final EventBinding FLUENT_EVENT_BINDING=FluentEventBinding.of();
+
+    public static final EventBinding FALLBACK_EVENT_BINDING=FallbackEventBinding.of();
+
+    public static final EventBinding NOP_EVENT_BINDING=EmptyEventBinding.of();
+
+
 }

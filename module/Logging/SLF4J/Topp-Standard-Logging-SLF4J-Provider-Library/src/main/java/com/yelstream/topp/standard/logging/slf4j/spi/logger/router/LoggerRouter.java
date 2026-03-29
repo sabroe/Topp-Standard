@@ -17,15 +17,15 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.logging.slf4j.spi.logger;
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.router;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.event.Level;
+import org.slf4j.event.LoggingEvent;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.BiFunction;
 
 /**
  * Router-chosen logger.
@@ -57,7 +57,7 @@ public interface LoggerRouter {
         return target(level,marker==null?Collections.emptyList():List.of(marker));
     }
 
-   static LoggerRouter of(BiFunction<Level,List<Marker>,Logger> loggerRouter) {
-       return loggerRouter::apply;
-   }
+    default Logger target(LoggingEvent event) {
+        return target(event.getLevel(),event.getMarkers());
+    }
 }

@@ -17,7 +17,18 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.logging.slf4j.spi.logger.factory;
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.event.bind;
 
-public class XXXILoggerFactory {
+import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.event.LoggingEvent;
+
+@AllArgsConstructor(staticName = "of")
+public class EmptyEventBinding implements EventBinding {
+    @Override
+    public boolean log(LoggingEvent event,
+                       Logger logger) {
+        // Empty!
+        return true;
+    }
 }
