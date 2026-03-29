@@ -23,11 +23,11 @@
  * @author Morten Sabroe Mortensen
  * @since 2026-03-24
  */
-module com.yelstream.topp.standard.log.slf4j.provider {
+module com.yelstream.topp.standard.logging.slf4j.provider {
     requires static lombok;
     requires org.slf4j;
     requires com.yelstream.topp.standard.annotation.intention;
-    requires com.yelstream.topp.standard.log.slf4j.base;
+    requires com.yelstream.topp.standard.logging.slf4j.base;
     exports com.yelstream.topp.standard.logging.slf4j.spi.logger;
     exports com.yelstream.topp.standard.logging.slf4j.spi.mdc;
     exports com.yelstream.topp.standard.logging.slf4j.spi.provider;

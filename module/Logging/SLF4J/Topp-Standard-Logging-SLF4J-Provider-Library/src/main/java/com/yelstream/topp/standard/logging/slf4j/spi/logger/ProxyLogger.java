@@ -19,12 +19,19 @@
 
 package com.yelstream.topp.standard.logging.slf4j.spi.logger;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.event.Level;
+import org.slf4j.event.LoggingEvent;
+import org.slf4j.spi.DefaultLoggingEventBuilder;
+import org.slf4j.spi.LoggingEventAware;
+import org.slf4j.spi.LoggingEventBuilder;
 
-import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Proxy for instances of {@link Logger}.
@@ -36,342 +43,442 @@ import java.util.Objects;
  * @version 1.0
  * @since 2026-03-26
  */
-@AllArgsConstructor
-public class ProxyLogger implements Logger {
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+public class ProxyLogger implements Logger, LoggingEventAware {
+    /**
+     * Supplier of name.
+     */
+    private final Supplier<String> nameSupplier;
 
+    /**
+     * Router-chosen logger.
+     * <p>
+     *     This may be a fixed logger.
+     * </p>
+     */
     @NonNull
-    private final Logger logger;
+    private final LoggerRouter loggerRouter;
 
-    protected Logger delegate() {
-        return Objects.requireNonNull(logger, "Delegate logger is null");
+    /**
+     *
+     */
+//    private final Consumer<LoggingEvent> eventConsumer;
+
+    /**
+     * Central routing helper for classic logging methods (no marker).
+     */
+    private Logger getTarget(Level level) {
+        return loggerRouter.target(level);
     }
 
-    // --------------------------------------------------
-    // Basic
-    // --------------------------------------------------
+    /**
+     * Central routing helper for classic logging methods (with marker).
+     */
+    private Logger getTarget(Level level,
+                             Marker marker) {
+        return loggerRouter.target(level,marker);
+    }
 
     @Override
     public String getName() {
-        return delegate().getName();
+        return nameSupplier.get();
     }
 
-    // --------------------------------------------------
-    // TRACE
-    // --------------------------------------------------
+    @Override
+    public boolean isEnabledForLevel(Level level) {
+        return getTarget(level).isEnabledForLevel(level);
+    }
+
+    @Override
+    public LoggingEventBuilder atLevel(Level level) {
+        return getTarget(level).atLevel(level);
+    }
+
+    @Override
+    public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
+        return new DefaultLoggingEventBuilder(this,level);
+    }
+
+    @Override
+    public void log(LoggingEvent event) {
+        // 🎯 CAPTURE HERE
+//        capture(event);
+
+        Logger target=loggerRouter.target(event.getLevel(),event.getMarkers());
+        if (target instanceof LoggingEventAware lea) {
+            lea.log(event);   // forward as event
+        } else {
+            // fallback: degrade to classic API
+            LoggingEventBuilder builder=target.atLevel(event.getLevel());
+            if (event.getThrowable() != null) {
+                builder=builder.setCause(event.getThrowable());
+            }
+            if (event.getMarkers() != null) {
+                for (Marker marker : event.getMarkers()) {
+                    builder=builder.addMarker(marker);
+                }
+            }
+            if (event.getKeyValuePairs() != null) {
+                for (var kv : event.getKeyValuePairs()) {
+                    builder=builder.addKeyValue(kv.key, kv.value);
+                }
+            }
+            builder.log(event.getMessage(),event.getArgumentArray());
+        }
+    }
+
+    /*
+     * ****************************************
+     *     Level TRACE
+     * ****************************************
+     */
+
+    @Override
+    public LoggingEventBuilder atTrace() {
+        return getTarget(Level.TRACE).atTrace();
+    }
 
     @Override
     public boolean isTraceEnabled() {
-        return delegate().isTraceEnabled();
-    }
-
-    @Override
-    public void trace(String msg) {
-        delegate().trace(msg);
-    }
-
-    @Override
-    public void trace(String format, Object arg) {
-        delegate().trace(format, arg);
-    }
-
-    @Override
-    public void trace(String format, Object arg1, Object arg2) {
-        delegate().trace(format, arg1, arg2);
-    }
-
-    @Override
-    public void trace(String format, Object... arguments) {
-        delegate().trace(format, arguments);
-    }
-
-    @Override
-    public void trace(String msg, Throwable t) {
-        delegate().trace(msg, t);
+        return getTarget(Level.TRACE).isTraceEnabled();
     }
 
     @Override
     public boolean isTraceEnabled(Marker marker) {
-        return delegate().isTraceEnabled(marker);
+        return getTarget(Level.TRACE,marker).isTraceEnabled(marker);
+    }
+
+    @Override
+    public void trace(String msg) {
+        getTarget(Level.TRACE).trace(msg);
+    }
+
+    @Override
+    public void trace(String format, Object arg) {
+        getTarget(Level.TRACE).trace(format,arg);
+    }
+
+    @Override
+    public void trace(String format, Object arg1, Object arg2) {
+        getTarget(Level.TRACE).trace(format,arg1,arg2);
+    }
+
+    @Override
+    public void trace(String format, Object... arguments) {
+        getTarget(Level.TRACE).trace(format,arguments);
+    }
+
+    @Override
+    public void trace(String msg, Throwable t) {
+        getTarget(Level.TRACE).trace(msg,t);
     }
 
     @Override
     public void trace(Marker marker, String msg) {
-        delegate().trace(marker, msg);
+        getTarget(Level.TRACE,marker).trace(marker,msg);
     }
 
     @Override
     public void trace(Marker marker, String format, Object arg) {
-        delegate().trace(marker, format, arg);
+        getTarget(Level.TRACE,marker).trace(marker,format,arg);
     }
 
     @Override
     public void trace(Marker marker, String format, Object arg1, Object arg2) {
-        delegate().trace(marker, format, arg1, arg2);
+        getTarget(Level.TRACE,marker).trace(marker,format,arg1,arg2);
     }
 
     @Override
     public void trace(Marker marker, String format, Object... argArray) {
-        delegate().trace(marker, format, argArray);
+        getTarget(Level.TRACE,marker).trace(marker,format,argArray);
     }
 
     @Override
     public void trace(Marker marker, String msg, Throwable t) {
-        delegate().trace(marker, msg, t);
+        getTarget(Level.TRACE,marker).trace(marker,msg,t);
     }
 
-    // --------------------------------------------------
-    // DEBUG
-    // --------------------------------------------------
+    /*
+     * ****************************************
+     *     Level DEBUG
+     * ****************************************
+     */
+
+    @Override
+    public LoggingEventBuilder atDebug() {
+        return getTarget(Level.DEBUG).atDebug();
+    }
 
     @Override
     public boolean isDebugEnabled() {
-        return delegate().isDebugEnabled();
-    }
-
-    @Override
-    public void debug(String msg) {
-        delegate().debug(msg);
-    }
-
-    @Override
-    public void debug(String format, Object arg) {
-        delegate().debug(format, arg);
-    }
-
-    @Override
-    public void debug(String format, Object arg1, Object arg2) {
-        delegate().debug(format, arg1, arg2);
-    }
-
-    @Override
-    public void debug(String format, Object... arguments) {
-        delegate().debug(format, arguments);
-    }
-
-    @Override
-    public void debug(String msg, Throwable t) {
-        delegate().debug(msg, t);
+        return getTarget(Level.DEBUG).isDebugEnabled();
     }
 
     @Override
     public boolean isDebugEnabled(Marker marker) {
-        return delegate().isDebugEnabled(marker);
+        return getTarget(Level.DEBUG,marker).isDebugEnabled(marker);
+    }
+
+    @Override
+    public void debug(String msg) {
+        getTarget(Level.DEBUG).debug(msg);
+    }
+
+    @Override
+    public void debug(String format, Object arg) {
+        getTarget(Level.DEBUG).debug(format,arg);
+    }
+
+    @Override
+    public void debug(String format, Object arg1, Object arg2) {
+        getTarget(Level.DEBUG).debug(format,arg1,arg2);
+    }
+
+    @Override
+    public void debug(String format, Object... arguments) {
+        getTarget(Level.DEBUG).debug(format,arguments);
+    }
+
+    @Override
+    public void debug(String msg, Throwable t) {
+        getTarget(Level.DEBUG).debug(msg,t);
     }
 
     @Override
     public void debug(Marker marker, String msg) {
-        delegate().debug(marker, msg);
+        getTarget(Level.DEBUG,marker).debug(marker,msg);
     }
 
     @Override
     public void debug(Marker marker, String format, Object arg) {
-        delegate().debug(marker, format, arg);
+        getTarget(Level.DEBUG,marker).debug(marker,format,arg);
     }
 
     @Override
     public void debug(Marker marker, String format, Object arg1, Object arg2) {
-        delegate().debug(marker, format, arg1, arg2);
+        getTarget(Level.DEBUG,marker).debug(marker,format,arg1,arg2);
     }
 
     @Override
-    public void debug(Marker marker, String format, Object... arguments) {
-        delegate().debug(marker, format, arguments);
+    public void debug(Marker marker, String format, Object... argArray) {
+        getTarget(Level.DEBUG,marker).debug(marker,format,argArray);
     }
 
     @Override
     public void debug(Marker marker, String msg, Throwable t) {
-        delegate().debug(marker, msg, t);
+        getTarget(Level.DEBUG,marker).debug(marker,msg,t);
     }
 
-    // --------------------------------------------------
-    // INFO
-    // --------------------------------------------------
+    /*
+     * ****************************************
+     *     Level INFO
+     * ****************************************
+     */
+
+    @Override
+    public LoggingEventBuilder atInfo() {
+        return getTarget(Level.INFO).atInfo();
+    }
 
     @Override
     public boolean isInfoEnabled() {
-        return delegate().isInfoEnabled();
-    }
-
-    @Override
-    public void info(String msg) {
-        delegate().info(msg);
-    }
-
-    @Override
-    public void info(String format, Object arg) {
-        delegate().info(format, arg);
-    }
-
-    @Override
-    public void info(String format, Object arg1, Object arg2) {
-        delegate().info(format, arg1, arg2);
-    }
-
-    @Override
-    public void info(String format, Object... arguments) {
-        delegate().info(format, arguments);
-    }
-
-    @Override
-    public void info(String msg, Throwable t) {
-        delegate().info(msg, t);
+        return getTarget(Level.INFO).isInfoEnabled();
     }
 
     @Override
     public boolean isInfoEnabled(Marker marker) {
-        return delegate().isInfoEnabled(marker);
+        return getTarget(Level.INFO,marker).isInfoEnabled(marker);
+    }
+
+    @Override
+    public void info(String msg) {
+        getTarget(Level.INFO).info(msg);
+    }
+
+    @Override
+    public void info(String format, Object arg) {
+        getTarget(Level.INFO).info(format,arg);
+    }
+
+    @Override
+    public void info(String format, Object arg1, Object arg2) {
+        getTarget(Level.INFO).info(format,arg1,arg2);
+    }
+
+    @Override
+    public void info(String format, Object... arguments) {
+        getTarget(Level.INFO).info(format,arguments);
+    }
+
+    @Override
+    public void info(String msg, Throwable t) {
+        getTarget(Level.INFO).info(msg,t);
     }
 
     @Override
     public void info(Marker marker, String msg) {
-        delegate().info(marker, msg);
+        getTarget(Level.INFO,marker).info(marker,msg);
     }
 
     @Override
     public void info(Marker marker, String format, Object arg) {
-        delegate().info(marker, format, arg);
+        getTarget(Level.INFO,marker).info(marker,format,arg);
     }
 
     @Override
     public void info(Marker marker, String format, Object arg1, Object arg2) {
-        delegate().info(marker, format, arg1, arg2);
+        getTarget(Level.INFO,marker).info(marker,format,arg1,arg2);
     }
 
     @Override
-    public void info(Marker marker, String format, Object... arguments) {
-        delegate().info(marker, format, arguments);
+    public void info(Marker marker, String format, Object... argArray) {
+        getTarget(Level.INFO,marker).info(marker,format,argArray);
     }
 
     @Override
     public void info(Marker marker, String msg, Throwable t) {
-        delegate().info(marker, msg, t);
+        getTarget(Level.INFO,marker).info(marker,msg,t);
     }
 
-    // --------------------------------------------------
-    // WARN
-    // --------------------------------------------------
+    /*
+     * ****************************************
+     *     Level WARNING
+     * ****************************************
+     */
+
+    @Override
+    public LoggingEventBuilder atWarn() {
+        return getTarget(Level.WARN).atWarn();
+    }
 
     @Override
     public boolean isWarnEnabled() {
-        return delegate().isWarnEnabled();
-    }
-
-    @Override
-    public void warn(String msg) {
-        delegate().warn(msg);
-    }
-
-    @Override
-    public void warn(String format, Object arg) {
-        delegate().warn(format, arg);
-    }
-
-    @Override
-    public void warn(String format, Object arg1, Object arg2) {
-        delegate().warn(format, arg1, arg2);
-    }
-
-    @Override
-    public void warn(String format, Object... arguments) {
-        delegate().warn(format, arguments);
-    }
-
-    @Override
-    public void warn(String msg, Throwable t) {
-        delegate().warn(msg, t);
+        return getTarget(Level.WARN).isWarnEnabled();
     }
 
     @Override
     public boolean isWarnEnabled(Marker marker) {
-        return delegate().isWarnEnabled(marker);
+        return getTarget(Level.WARN,marker).isWarnEnabled(marker);
+    }
+
+    @Override
+    public void warn(String msg) {
+        getTarget(Level.WARN).warn(msg);
+    }
+
+    @Override
+    public void warn(String format, Object arg) {
+        getTarget(Level.WARN).warn(format,arg);
+    }
+
+    @Override
+    public void warn(String format, Object arg1, Object arg2) {
+        getTarget(Level.WARN).warn(format,arg1,arg2);
+    }
+
+    @Override
+    public void warn(String format, Object... arguments) {
+        getTarget(Level.WARN).warn(format,arguments);
+    }
+
+    @Override
+    public void warn(String msg, Throwable t) {
+        getTarget(Level.WARN).warn(msg,t);
     }
 
     @Override
     public void warn(Marker marker, String msg) {
-        delegate().warn(marker, msg);
+        getTarget(Level.WARN,marker).warn(marker,msg);
     }
 
     @Override
     public void warn(Marker marker, String format, Object arg) {
-        delegate().warn(marker, format, arg);
+        getTarget(Level.WARN,marker).warn(marker,format,arg);
     }
 
     @Override
     public void warn(Marker marker, String format, Object arg1, Object arg2) {
-        delegate().warn(marker, format, arg1, arg2);
+        getTarget(Level.WARN,marker).warn(marker,format,arg1,arg2);
     }
 
     @Override
-    public void warn(Marker marker, String format, Object... arguments) {
-        delegate().warn(marker, format, arguments);
+    public void warn(Marker marker, String format, Object... argArray) {
+        getTarget(Level.WARN,marker).warn(marker,format,argArray);
     }
 
     @Override
     public void warn(Marker marker, String msg, Throwable t) {
-        delegate().warn(marker, msg, t);
+        getTarget(Level.WARN,marker).warn(marker,msg,t);
     }
 
-    // --------------------------------------------------
-    // ERROR
-    // --------------------------------------------------
+    /*
+     * ****************************************
+     *     Level ERROR
+     * ****************************************
+     */
+
+    @Override
+    public LoggingEventBuilder atError() {
+        return getTarget(Level.ERROR).atError();
+    }
 
     @Override
     public boolean isErrorEnabled() {
-        return delegate().isErrorEnabled();
-    }
-
-    @Override
-    public void error(String msg) {
-        delegate().error(msg);
-    }
-
-    @Override
-    public void error(String format, Object arg) {
-        delegate().error(format, arg);
-    }
-
-    @Override
-    public void error(String format, Object arg1, Object arg2) {
-        delegate().error(format, arg1, arg2);
-    }
-
-    @Override
-    public void error(String format, Object... arguments) {
-        delegate().error(format, arguments);
-    }
-
-    @Override
-    public void error(String msg, Throwable t) {
-        delegate().error(msg, t);
+        return getTarget(Level.ERROR).isErrorEnabled();
     }
 
     @Override
     public boolean isErrorEnabled(Marker marker) {
-        return delegate().isErrorEnabled(marker);
+        return getTarget(Level.ERROR,marker).isErrorEnabled(marker);
+    }
+
+    @Override
+    public void error(String msg) {
+        getTarget(Level.ERROR).error(msg);
+    }
+
+    @Override
+    public void error(String format, Object arg) {
+        getTarget(Level.ERROR).error(format,arg);
+    }
+
+    @Override
+    public void error(String format, Object arg1, Object arg2) {
+        getTarget(Level.ERROR).error(format,arg1,arg2);
+    }
+
+    @Override
+    public void error(String format, Object... arguments) {
+        getTarget(Level.ERROR).error(format,arguments);
+    }
+
+    @Override
+    public void error(String msg, Throwable t) {
+        getTarget(Level.ERROR).error(msg,t);
     }
 
     @Override
     public void error(Marker marker, String msg) {
-        delegate().error(marker, msg);
+        getTarget(Level.ERROR,marker).error(marker,msg);
     }
 
     @Override
     public void error(Marker marker, String format, Object arg) {
-        delegate().error(marker, format, arg);
+        getTarget(Level.ERROR,marker).error(marker,format,arg);
     }
 
     @Override
     public void error(Marker marker, String format, Object arg1, Object arg2) {
-        delegate().error(marker, format, arg1, arg2);
+        getTarget(Level.ERROR,marker).error(marker,format,arg1,arg2);
     }
 
     @Override
-    public void error(Marker marker, String format, Object... arguments) {
-        delegate().error(marker, format, arguments);
+    public void error(Marker marker, String format, Object... argArray) {
+        getTarget(Level.ERROR,marker).error(marker,format,argArray);
     }
 
     @Override
     public void error(Marker marker, String msg, Throwable t) {
-        delegate().error(marker, msg, t);
+        getTarget(Level.ERROR,marker).error(marker,msg,t);
     }
 }

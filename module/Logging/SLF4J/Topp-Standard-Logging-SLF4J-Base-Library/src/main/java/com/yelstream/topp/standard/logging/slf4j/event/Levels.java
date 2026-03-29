@@ -56,17 +56,6 @@ public class Levels {
         return SORTED_LEVELS;
     }
 
-    /**
-     * Indicates, if a level is enabled.
-     * @param level Level tested.
-     * @param actualLevel Level actually set and applied.
-     * @return Indicates, if the level is enabled.
-     */
-    public static boolean isLevelEnabled(Level level,
-                                         Level actualLevel) {
-        return level.toInt()<=actualLevel.toInt();
-    }
-
     @FunctionalInterface
     public interface Enabler {
         void apply(boolean traceEnabled,
@@ -78,11 +67,21 @@ public class Levels {
 
     public static void enable(Level level,
                               Enabler enabler) {
-        int v=level.toInt();
-        enabler.apply(v<=Level.TRACE.toInt(),
-                     v<=Level.DEBUG.toInt(),
-                     v<=Level.INFO.toInt(),
-                     v<=Level.WARN.toInt(),
-                     v<=Level.ERROR.toInt());
+        enabler.apply(isLevelEnabled(Level.TRACE,level),
+                      isLevelEnabled(Level.DEBUG,level),
+                      isLevelEnabled(Level.INFO,level),
+                      isLevelEnabled(Level.WARN,level),
+                      isLevelEnabled(Level.ERROR,level));
+    }
+
+    /**
+     * Indicates, if a level is enabled.
+     * @param level Level tested.
+     * @param actualLevel Level actually set and applied.
+     * @return Indicates, if the level is enabled.
+     */
+    public static boolean isLevelEnabled(Level level,
+                                         Level actualLevel) {
+        return level.toInt()>=actualLevel.toInt();
     }
 }

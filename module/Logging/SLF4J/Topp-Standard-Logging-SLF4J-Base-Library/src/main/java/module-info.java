@@ -23,7 +23,7 @@
  * @author Morten Sabroe Mortensen
  * @since 2026-03-24
  */
-module com.yelstream.topp.standard.log.slf4j.base {
+module com.yelstream.topp.standard.logging.slf4j.base {
     requires static lombok;
     requires org.slf4j;
     requires com.yelstream.topp.standard.annotation.intention;
