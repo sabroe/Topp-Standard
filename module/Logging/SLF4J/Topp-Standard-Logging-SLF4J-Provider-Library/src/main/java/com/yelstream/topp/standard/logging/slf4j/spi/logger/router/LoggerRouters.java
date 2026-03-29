@@ -17,13 +17,17 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.logging.slf4j.spi.logger;
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.router;
 
 import com.yelstream.topp.standard.logging.slf4j.event.Levels;
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
+import org.slf4j.Marker;
 import org.slf4j.event.Level;
 import org.slf4j.helpers.NOPLogger;
+
+import java.util.List;
+import java.util.function.BiFunction;
 
 /**
  * Utilities for instances of {@link LoggerRouter}.
@@ -50,5 +54,9 @@ public class LoggerRouters {
             }
             return NOPLogger.NOP_LOGGER;
         };
+    }
+
+    public static LoggerRouter from(BiFunction<Level,List<Marker>,Logger> loggerRouter) {
+        return loggerRouter::apply;
     }
 }

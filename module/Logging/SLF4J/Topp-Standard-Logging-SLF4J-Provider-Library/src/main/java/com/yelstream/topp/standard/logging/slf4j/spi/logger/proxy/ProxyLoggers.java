@@ -17,11 +17,15 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.logging.slf4j.spi.logger;
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.proxy;
 
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumer;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.router.LoggerRouter;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.router.LoggerRouters;
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
+import org.slf4j.spi.LoggingEventAware;
 
 import java.util.function.Supplier;
 
@@ -38,8 +42,9 @@ public class ProxyLoggers {
     @SuppressWarnings({"unused","java:S1066"})
     @lombok.Builder(builderClassName = "Builder")
     private static ProxyLogger createByBuilder(Supplier<String> nameSupplier,
-                                               LoggerRouter loggerRouter) {
-        return new ProxyLogger(nameSupplier,loggerRouter);
+                                               LoggerRouter loggerRouter,
+                                               EventConsumer eventConsumer) {
+        return new ProxyLogger(nameSupplier,loggerRouter,eventConsumer);
     }
 
     @SuppressWarnings("unused")
@@ -47,6 +52,8 @@ public class ProxyLoggers {
         private Supplier<String> nameSupplier;
 
         private LoggerRouter loggerRouter;
+
+        private EventConsumer eventConsumer;
 
         public Builder name(String name) {
             return nameSupplier(()->name);

@@ -17,8 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.logging.slf4j.spi.logger;
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.proxy;
 
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumer;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.router.LoggerRouter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -30,7 +32,6 @@ import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LoggingEventAware;
 import org.slf4j.spi.LoggingEventBuilder;
 
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -60,9 +61,14 @@ public class ProxyLogger implements Logger, LoggingEventAware {
     private final LoggerRouter loggerRouter;
 
     /**
-     *
+     * Event consumer.
+     * <p>
+     *     This dictates the implementation of {@link ProxyLogger#log(LoggingEvent)},
+     *     that is, {@code LoggingEventAware}.
+     * </p>
      */
-//    private final Consumer<LoggingEvent> eventConsumer;
+    @NonNull
+    private final EventConsumer eventConsumer;
 
     /**
      * Central routing helper for classic logging methods (no marker).
@@ -101,30 +107,7 @@ public class ProxyLogger implements Logger, LoggingEventAware {
 
     @Override
     public void log(LoggingEvent event) {
-        // 🎯 CAPTURE HERE
-//        capture(event);
-
-        Logger target=loggerRouter.target(event.getLevel(),event.getMarkers());
-        if (target instanceof LoggingEventAware lea) {
-            lea.log(event);   // forward as event
-        } else {
-            // fallback: degrade to classic API
-            LoggingEventBuilder builder=target.atLevel(event.getLevel());
-            if (event.getThrowable() != null) {
-                builder=builder.setCause(event.getThrowable());
-            }
-            if (event.getMarkers() != null) {
-                for (Marker marker : event.getMarkers()) {
-                    builder=builder.addMarker(marker);
-                }
-            }
-            if (event.getKeyValuePairs() != null) {
-                for (var kv : event.getKeyValuePairs()) {
-                    builder=builder.addKeyValue(kv.key, kv.value);
-                }
-            }
-            builder.log(event.getMessage(),event.getArgumentArray());
-        }
+        eventConsumer.log(event);
     }
 
     /*
