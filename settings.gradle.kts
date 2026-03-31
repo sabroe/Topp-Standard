@@ -39,6 +39,8 @@ include("module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library")
 include("module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Provider-Library")
 include("module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library")
 include("module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library")
+include("module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Service-Library")
+include("module:Logging:Demo:SLF4J-Proxy-Demo-Application")
 
 include("module:Health:Topp-Standard-Health-Serialization-Library")
 include("module:Health:Topp-Standard-MicroProfile-Health-Library")
