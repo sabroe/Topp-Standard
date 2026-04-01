@@ -18,17 +18,18 @@
  */
 
 /**
- *
+ * Topp Standard Logging SLF4J Console Logger offers a basic SLF4J console logger as a service-provider.
  *
  * @author Morten Sabroe Mortensen
- * @since 2026-03-31
+ * @since 2026-04-01
  */
-module com.yelstream.topp.standard.application.demo {
+module com.yelstream.topp.standard.logging.slf4j.spi.service.console {
     requires static lombok;
     requires org.slf4j;
+    requires org.slf4j.simple;
     requires com.yelstream.topp.standard.annotation.intention;
     requires com.yelstream.topp.standard.logging.slf4j.base;
     requires com.yelstream.topp.standard.logging.slf4j.provider;
-    requires com.yelstream.topp.standard.logging.slf4j.spi.service.proxy;
-    exports com.yelstream.topp.standard.application.demo;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.service.console;
+    provides org.slf4j.spi.SLF4JServiceProvider with com.yelstream.topp.standard.logging.slf4j.spi.service.console.ConsoleSLF4JServiceProvider;
 }

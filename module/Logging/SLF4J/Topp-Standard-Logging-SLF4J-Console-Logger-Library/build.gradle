@@ -22,26 +22,10 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'signing'
-    id 'application'
 }
 
 dependencies {
     api project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
     api project(':module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library')
     api project(':module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library')
-    api project(':module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library')
-    api project(':module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library')
-}
-
-application {
-    mainClass = 'com.yelstream.topp.standard.application.demo.ProxyLoggerApplication'
-}
-
-tasks.named('run') {
-//    systemProperty 'slf4j.provider','com.yelstream.topp.standard.logging.slf4j.spi.service.proxy.ProxySLF4JServiceProvider'
-//    systemProperty 'slf4j.provider','org.slf4j.simple.SimpleServiceProvider'
-    systemProperty 'slf4j.provider','com.yelstream.topp.standard.logging.slf4j.spi.service.console.ConsoleSLF4JServiceProvider'
-
-    // For extra debugging:
- //   systemProperty 'org.slf4j.simpleLogger.defaultLogLevel', 'debug'
 }

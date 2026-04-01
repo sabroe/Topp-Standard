@@ -18,17 +18,18 @@
  */
 
 /**
- *
+ * Topp Standard Logging SLF4J Proxy Logger offers a modern, generic SLF4J proxy as a service-provider.
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-03-31
  */
-module com.yelstream.topp.standard.application.demo {
+module com.yelstream.topp.standard.logging.slf4j.spi.service.proxy {
     requires static lombok;
     requires org.slf4j;
+    requires org.slf4j.simple;
     requires com.yelstream.topp.standard.annotation.intention;
     requires com.yelstream.topp.standard.logging.slf4j.base;
     requires com.yelstream.topp.standard.logging.slf4j.provider;
-    requires com.yelstream.topp.standard.logging.slf4j.spi.service.proxy;
-    exports com.yelstream.topp.standard.application.demo;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.service.proxy;
+    provides org.slf4j.spi.SLF4JServiceProvider with com.yelstream.topp.standard.logging.slf4j.spi.service.proxy.ProxySLF4JServiceProvider;
 }

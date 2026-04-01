@@ -18,17 +18,23 @@
  */
 
 /**
- *
+ * Topp Standard Logging SLF4J Service Provider offers service provider functionality specific for SLF4J.
  *
  * @author Morten Sabroe Mortensen
- * @since 2026-03-31
+ * @since 2026-03-24
  */
-module com.yelstream.topp.standard.application.demo {
+module com.yelstream.topp.standard.logging.slf4j.provider {  //TODO: provider->spi ?
     requires static lombok;
     requires org.slf4j;
     requires com.yelstream.topp.standard.annotation.intention;
     requires com.yelstream.topp.standard.logging.slf4j.base;
-    requires com.yelstream.topp.standard.logging.slf4j.provider;
-    requires com.yelstream.topp.standard.logging.slf4j.spi.service.proxy;
-    exports com.yelstream.topp.standard.application.demo;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.logger;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.logger.event.bind;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.logger.factory;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.logger.proxy;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.logger.router;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.marker.factory;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.mdc;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.provider;
 }
