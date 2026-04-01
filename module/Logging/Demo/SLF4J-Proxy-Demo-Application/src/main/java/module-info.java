@@ -30,5 +30,5 @@ module com.yelstream.topp.standard.application.demo {
     requires com.yelstream.topp.standard.logging.slf4j.base;
     requires com.yelstream.topp.standard.logging.slf4j.provider;
     requires com.yelstream.topp.standard.logging.slf4j.spi.service.proxy;
-    exports com.yelstream.topp.standard.applicatoion.demo;
+    exports com.yelstream.topp.standard.application.demo;
 }
