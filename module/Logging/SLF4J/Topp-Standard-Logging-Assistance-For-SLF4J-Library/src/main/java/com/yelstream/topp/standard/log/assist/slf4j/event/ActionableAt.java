@@ -34,7 +34,10 @@ import org.slf4j.event.Level;
  * @since 2025-01-13
  *
  * @param <R> Type of actionable object.
+ *
+ * @deprecated Moved to another module and in a newer version!
  */
+@Deprecated(forRemoval = true)
 @FunctionalInterface
 public interface ActionableAt<R> {
     /**

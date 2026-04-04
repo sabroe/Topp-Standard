@@ -42,7 +42,10 @@ import java.util.function.Supplier;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-01-11
+ *
+ * @deprecated Moved to another module and in a newer version!
  */
+@Deprecated(forRemoval = true)
 @lombok.Builder(builderClassName="Builder",toBuilder=true)
 @AllArgsConstructor
 @SuppressWarnings({"LombokGetterMayBeUsed","ClassCanBeRecord"})
@@ -129,7 +132,7 @@ public class CaptureLogger extends LegacyAbstractLogger {
          */
         @SuppressWarnings("java:S1117")  //Another s*** rule made up by an imbecile thinking that all are dumber hence destroying the joy of Java
         public Builder levelEnable(Level level) {
-            Levels.enable(level,(traceEnabled,debugEnabled,infoEnabled,warnEnabled,errorEnabled)->{
+            Levels.enable(level,(traceEnabled, debugEnabled, infoEnabled, warnEnabled, errorEnabled)->{
                 traceEnabled(traceEnabled);
                 debugEnabled(debugEnabled);
                 infoEnabled(infoEnabled);

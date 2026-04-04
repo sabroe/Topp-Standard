@@ -30,7 +30,7 @@ import org.slf4j.event.Level;
  * </p>
  *
  * @author Morten Sabroe Mortensen
- * @version 1.0
+ * @version 1.1
  * @since 2025-01-13
  *
  * @param <R> Type of actionable object.

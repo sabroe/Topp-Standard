@@ -28,7 +28,10 @@ import org.junit.platform.suite.api.Suite;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-04-27
+ *
+ * @deprecated Moved to another module and in a newer version!
  */
+@Deprecated(forRemoval = true)
 @Suite
 @SelectClasses({LoggersTest.class})
 public class LoggerTestSuite {

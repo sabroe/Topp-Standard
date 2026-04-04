@@ -31,7 +31,10 @@ import java.util.List;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-01-11
+ *
+ * @deprecated Moved to another module and in a newer version!
  */
+@Deprecated(forRemoval = true)
 class CaptureLoggerTest {
     /**
      * Tests capture of plain logging.

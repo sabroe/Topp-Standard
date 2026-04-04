@@ -34,7 +34,10 @@ import java.util.List;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-06-18
+ *
+ * @deprecated Moved to another module and in a newer version!
  */
+@Deprecated(forRemoval = true)
 @Slf4j
 @UtilityClass
 public class Loggers {

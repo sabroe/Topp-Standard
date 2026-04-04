@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.logging.slf4j.spi.logger.router;
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.route;
 
 import com.yelstream.topp.standard.logging.slf4j.event.Levels;
 import lombok.experimental.UtilityClass;
@@ -30,22 +30,22 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 /**
- * Utilities for instances of {@link LoggerRouter}.
+ * Utilities for instances of {@link LoggerRouting}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2026-03-29
  */
 @UtilityClass
-public class LoggerRouters {
+public class LoggerRoutings {
 
-    public static LoggerRouter create(Logger logger) {
+    public static LoggerRouting create(Logger logger) {
         return (_,_)->logger;
     }
 
     @SuppressWarnings("java:S1066")
-    public static LoggerRouter createLimitedByLevel(Level level,
-                                                    Logger logger) {
+    public static LoggerRouting createLimitedByLevel(Level level,
+                                                     Logger logger) {
         return (l,_)->{
             if (Levels.isLevelEnabled(l,level)) {
                 if (logger.isEnabledForLevel(level)) {
@@ -56,7 +56,7 @@ public class LoggerRouters {
         };
     }
 
-    public static LoggerRouter from(BiFunction<Level,List<Marker>,Logger> loggerRouter) {
+    public static LoggerRouting from(BiFunction<Level,List<Marker>,Logger> loggerRouter) {
         return loggerRouter::apply;
     }
 }

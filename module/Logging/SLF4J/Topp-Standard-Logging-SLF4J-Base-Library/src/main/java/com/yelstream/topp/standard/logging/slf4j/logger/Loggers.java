@@ -32,7 +32,7 @@ import java.util.List;
  * Utility addressing instances of {@link Logger}.
  *
  * @author Morten Sabroe Mortensen
- * @version 1.0
+ * @version 1.1
  * @since 2024-06-18
  */
 @Slf4j

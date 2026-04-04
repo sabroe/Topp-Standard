@@ -43,5 +43,5 @@ public interface EventConsumer {
      * Logs an event.
      * @param event Event to delegate.
      */
-    void log(LoggingEvent event);
+    void log(LoggingEvent event);  //TODO: Consider a different naming, different from 'log'!
 }

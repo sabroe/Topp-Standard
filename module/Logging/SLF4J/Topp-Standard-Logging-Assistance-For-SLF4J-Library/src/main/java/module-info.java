@@ -28,6 +28,7 @@ module com.yelstream.topp.standard.log.assistance.slf4j {
     requires org.slf4j;
     requires com.yelstream.topp.standard.core;
     requires com.yelstream.topp.standard.annotation.intention;
+    requires com.yelstream.topp.standard.logging.slf4j.base;
     exports com.yelstream.topp.standard.log.assist.slf4j.event;
     exports com.yelstream.topp.standard.log.assist.slf4j.logger;
     exports com.yelstream.topp.standard.log.assist.slf4j.scribe;

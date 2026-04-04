@@ -36,7 +36,10 @@ import java.util.function.Supplier;
  * @since 2024-06-18
  *
  * @param <B> Native SLF4J logging-event builder type.
+ *
+ * @deprecated Moved to another module and in a newer version!
  */
+@Deprecated(forRemoval = true)
 @SuppressWarnings({"LombokGetterMayBeUsed","ClassCanBeRecord"})
 @AllArgsConstructor
 public class ProxyLoggingEventBuilder<B extends LoggingEventBuilder> implements LoggingEventBuilder {

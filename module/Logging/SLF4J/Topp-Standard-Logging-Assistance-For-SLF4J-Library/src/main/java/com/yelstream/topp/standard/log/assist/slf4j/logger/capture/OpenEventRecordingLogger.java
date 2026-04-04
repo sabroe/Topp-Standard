@@ -41,7 +41,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-01-11
+ *
+ * @deprecated Moved to another module and in a newer version!
  */
+@Deprecated(forRemoval = true)
 @SuppressWarnings({"LombokGetterMayBeUsed"})
 public class OpenEventRecordingLogger extends EventRecordingLogger {
 

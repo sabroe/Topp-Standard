@@ -19,5 +19,11 @@
 
 package com.yelstream.topp.standard.log.assist.slf4j.event;
 
+/**
+ *
+ *
+ * @deprecated Moved to another module and in a newer version!
+ */
+@Deprecated(forRemoval = true)
 public class EventTestSuite {
 }

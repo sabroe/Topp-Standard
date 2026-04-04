@@ -30,7 +30,7 @@ import java.util.stream.Stream;
  * Utility addressing instances of {@link Level}.
  *
  * @author Morten Sabroe Mortensen
- * @version 1.0
+ * @version 1.1
  * @since 2024-06-18
  */
 @UtilityClass
