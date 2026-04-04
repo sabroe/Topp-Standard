@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.logging.slf4j.spi.provider;
 
+import com.yelstream.topp.standard.logging.slf4j.spi.version.Versions;
 import lombok.experimental.UtilityClass;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.IMarkerFactory;
@@ -37,7 +38,6 @@ import java.util.function.Consumer;
 @UtilityClass
 public class SLF4JServiceProviders {
 
-    public static final String DEFAULT_REQUESTED_API_VERSION="2.0.99";
 
     @lombok.Builder(builderClassName = "Builder")
     private static SLF4JServiceProvider createByBuilder(String requestedApiVersion,
@@ -50,7 +50,7 @@ public class SLF4JServiceProviders {
 
     @SuppressWarnings({"java:S1068","java:S1450","unused","FieldCanBeLocal","UnusedReturnValue","FieldMayBeFinal"})
     public static class Builder {
-        private String requestedApiVersion=DEFAULT_REQUESTED_API_VERSION;
+        private String requestedApiVersion=Versions.DEFAULT_REQUESTED_API_VERSION;
         private Consumer<SLF4JServiceProvider> initializeOperator=SLF4JServiceProvider::initialize;
         private ILoggerFactory loggerFactory;
         private IMarkerFactory markerFactory;
