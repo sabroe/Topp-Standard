@@ -20,12 +20,11 @@
 package com.yelstream.topp.standard.logging.slf4j.spi.logger.proxy;
 
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumer;
-import com.yelstream.topp.standard.logging.slf4j.spi.logger.router.LoggerRouter;
-import com.yelstream.topp.standard.logging.slf4j.spi.logger.router.LoggerRouters;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.route.LoggerRouting;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.route.LoggerRoutings;
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
-import org.slf4j.spi.LoggingEventAware;
 
 import java.util.function.Supplier;
 
@@ -42,16 +41,16 @@ public class ProxyLoggers {
     @SuppressWarnings({"unused","java:S1066"})
     @lombok.Builder(builderClassName = "Builder")
     private static ProxyLogger createByBuilder(Supplier<String> nameSupplier,
-                                               LoggerRouter loggerRouter,
+                                               LoggerRouting loggerRouting,
                                                EventConsumer eventConsumer) {
-        return new ProxyLogger(nameSupplier,loggerRouter,eventConsumer);
+        return new ProxyLogger(nameSupplier, loggerRouting,eventConsumer);
     }
 
     @SuppressWarnings("unused")
     public static class Builder {
         private Supplier<String> nameSupplier;
 
-        private LoggerRouter loggerRouter;
+        private LoggerRouting loggerRouting;
 
         private EventConsumer eventConsumer;
 
@@ -60,12 +59,12 @@ public class ProxyLoggers {
         }
 
         public Builder logger(Logger logger) {
-            return loggerRouter((l,m)->logger);
+            return loggerRouting((l,m)->logger);
         }
 
         public Builder logger(Level level,
                               Logger logger) {
-            return loggerRouter(LoggerRouters.createLimitedByLevel(level,logger));
+            return loggerRouting(LoggerRoutings.createLimitedByLevel(level,logger));
         }
     }
 }

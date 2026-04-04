@@ -17,9 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j.logger.capture;
+package com.yelstream.topp.standard.logging.slf4j.logger.capture;
 
-import com.yelstream.topp.standard.log.assist.slf4j.event.Levels;
+import com.yelstream.topp.standard.logging.slf4j.event.Levels;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.event.EventRecordingLogger;
@@ -41,10 +41,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-01-11
- *
- * @deprecated Moved to another module and in a newer version!
  */
-@Deprecated(forRemoval = true)
 @SuppressWarnings({"LombokGetterMayBeUsed"})
 public class OpenEventRecordingLogger extends EventRecordingLogger {
 

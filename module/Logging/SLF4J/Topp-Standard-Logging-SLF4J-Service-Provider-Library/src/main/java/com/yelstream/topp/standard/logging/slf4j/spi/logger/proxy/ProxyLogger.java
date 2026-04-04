@@ -20,7 +20,7 @@
 package com.yelstream.topp.standard.logging.slf4j.spi.logger.proxy;
 
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumer;
-import com.yelstream.topp.standard.logging.slf4j.spi.logger.router.LoggerRouter;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.route.LoggerRouting;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
+import org.slf4j.spi.CallerBoundaryAware;
 import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LoggingEventAware;
 import org.slf4j.spi.LoggingEventBuilder;
@@ -58,12 +59,12 @@ public class ProxyLogger implements Logger, LoggingEventAware {
      * </p>
      */
     @NonNull
-    private final LoggerRouter loggerRouter;
+    private final LoggerRouting loggerRouting;
 
     /**
      * Event consumer.
      * <p>
-     *     This dictates the implementation of {@link ProxyLogger#log(LoggingEvent)},
+     *     This dictates the implementation of {@link #log(LoggingEvent)},
      *     that is, {@code LoggingEventAware}.
      * </p>
      */
@@ -74,7 +75,7 @@ public class ProxyLogger implements Logger, LoggingEventAware {
      * Central routing helper for classic logging methods (no marker).
      */
     private Logger getTarget(Level level) {
-        return loggerRouter.target(level);
+        return loggerRouting.target(level);
     }
 
     /**
@@ -82,7 +83,7 @@ public class ProxyLogger implements Logger, LoggingEventAware {
      */
     private Logger getTarget(Level level,
                              Marker marker) {
-        return loggerRouter.target(level,marker);
+        return loggerRouting.target(level,marker);
     }
 
     @Override
@@ -95,14 +96,33 @@ public class ProxyLogger implements Logger, LoggingEventAware {
         return getTarget(level).isEnabledForLevel(level);
     }
 
+    //TODO: Implement MDC-to-marker conversion!
+
+    private static final String PROXY_BOUNDARY = ProxyLogger.class.getName();
+
+    private LoggingEventBuilder withCallerBoundary(LoggingEventBuilder builder) {
+        if (builder instanceof CallerBoundaryAware cba) {
+            cba.setCallerBoundary(PROXY_BOUNDARY);
+        }
+        return builder;
+    }
     @Override
-    public LoggingEventBuilder atLevel(Level level) {
-        return getTarget(level).atLevel(level);
+    public LoggingEventBuilder atLevel(Level level) {  //TODO:
+        LoggingEventBuilder builder = getTarget(level).atLevel(level);
+        if (builder instanceof CallerBoundaryAware cba) {
+            cba.setCallerBoundary(PROXY_BOUNDARY);
+        }
+        return builder;
     }
 
     @Override
     public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
-        return new DefaultLoggingEventBuilder(this,level);
+        LoggingEventBuilder builder = new DefaultLoggingEventBuilder(this,level);
+//        LoggingEventBuilder builder = getTarget(level).makeLoggingEventBuilder(level);
+        if (builder instanceof CallerBoundaryAware cba) {
+            cba.setCallerBoundary(PROXY_BOUNDARY);
+        }
+        return builder;
     }
 
     @Override

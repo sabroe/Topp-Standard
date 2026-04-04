@@ -19,9 +19,13 @@
 
 package com.yelstream.topp.standard.logging.slf4j.spi.service.console;
 
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.enable.LoggerEnablement;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumer;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.factory.CachedLoggerFactory;
+import com.yelstream.topp.standard.logging.slf4j.spi.provider.SLF4JServiceProviders;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.IMarkerFactory;
-import org.slf4j.simple.SimpleLoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
@@ -34,10 +38,18 @@ import org.slf4j.spi.SLF4JServiceProvider;
  */
 public class ConsoleSLF4JServiceProvider implements SLF4JServiceProvider {
 
+    public LoggerEnablement loggerEnablement=(l,m)->true;
+
+    public EventConsumer eventConsumer=event -> {
+        String x=MessageFormatter.basicArrayFormat(event.getMessage(),event.getArgumentArray());
+        System.out.println(String.format("[%s] %s",event.getLevel(),x));
+    };
+
     @Override
     public ILoggerFactory getLoggerFactory() {
         System.out.println("ConsoleSLF4JServiceProvider.getLoggerFactory()");
-        return new SimpleLoggerFactory();
+
+        return CachedLoggerFactory.of(name->new ConsoleLogger(name,loggerEnablement,eventConsumer));
     }
 
     @Override
@@ -54,8 +66,7 @@ public class ConsoleSLF4JServiceProvider implements SLF4JServiceProvider {
 
     @Override
     public String getRequestedApiVersion() {
-//        System.out.println("ConsoleSLF4JServiceProvider.getRequestedApiVersion()");
-        return "2.0.99";
+        return SLF4JServiceProviders.DEFAULT_REQUESTED_API_VERSION;
     }
 
     @Override

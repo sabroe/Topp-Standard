@@ -17,17 +17,22 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j.spi;
+package com.yelstream.topp.standard.logging.slf4j.spi.event.builder;
 
-import com.yelstream.topp.standard.log.assist.slf4j.logger.LoggerAt;
-import com.yelstream.topp.standard.log.assist.slf4j.logger.Loggers;
+import com.yelstream.topp.standard.logging.slf4j.logger.LoggerAt;
+import com.yelstream.topp.standard.logging.slf4j.logger.Loggers;
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.Level;
+import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.NOPLogger;
 import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LoggingEventBuilder;
 import org.slf4j.spi.NOPLoggingEventBuilder;
+
+import java.util.List;
 
 /**
  * Utility addressing instances of {@link LoggingEventBuilder}.
@@ -35,12 +40,9 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-06-18
- *
- * @deprecated Moved to another module and in a newer version!
  */
-@Deprecated(forRemoval = true)
 @UtilityClass
-public class LoggingEventBuilders {
+public class LoggingEventBuilders {  //TODO: Consider moving this _outside_ of SPI-aware packages since 'LoggingEventBuilder' is part of the actual logging interface!
     /**
      * Indicates, if logging-event builder enables logging.
      * <p>
@@ -66,12 +68,12 @@ public class LoggingEventBuilders {
     public static boolean isLoggingEnabled(LoggingEventBuilder builder) {
         boolean enabled;
         if (builder==NOPLoggingEventBuilder.singleton()) {
-            enabled=true;
+            enabled=false;
         } else {
             enabled=
                 switch (builder) {
-                    case DefaultLoggingEventBuilder ignored -> true;
-                    case NOPLoggingEventBuilder ignored -> false;
+                    case DefaultLoggingEventBuilder _ -> true;
+                    case NOPLoggingEventBuilder _ -> false;
                     case ProxyLoggingEventBuilder<?> lev -> isLoggingEnabled(lev.getDelegate());
                     default -> false;
                 };
@@ -99,7 +101,7 @@ public class LoggingEventBuilders {
         return
             switch (builder) {
                 case DefaultLoggingEventBuilder lev -> DefaultLoggingEventBuilders.getLogger(lev);
-                case NOPLoggingEventBuilder ignored -> NOPLogger.NOP_LOGGER;
+                case NOPLoggingEventBuilder _ -> NOPLogger.NOP_LOGGER;
                 case ProxyLoggingEventBuilder<?> lev -> getLogger(lev.getDelegate());
                 default -> null;
             };
@@ -133,7 +135,7 @@ public class LoggingEventBuilders {
         return
             switch (builder) {
                 case DefaultLoggingEventBuilder lev -> DefaultLoggingEventBuilders.getLevelForStatement(lev);
-                case NOPLoggingEventBuilder ignored -> null;
+                case NOPLoggingEventBuilder _ -> null;
                 case ProxyLoggingEventBuilder<?> lev -> getLevelForStatement(lev.getDelegate());
                 default -> null;
             };
@@ -141,5 +143,85 @@ public class LoggingEventBuilders {
 
     public static LoggerAt<LoggingEventBuilder> at(Logger logger) {
         return LoggerAt.of(logger);
+    }
+
+    /**
+     * Adds an event.
+     * <p>
+     *     All elements of an event and which can possibly be fed through a builder are added.
+     * </p>
+     * @param builder Logging-event builder.
+     * @param event Event.
+     */
+    public static LoggingEventBuilder addEvent(LoggingEventBuilder builder,
+                                               LoggingEvent event) {
+        builder = setCause(builder,event.getThrowable());
+        builder = addMarkers(builder,event.getMarkers());
+        builder = addKeyValuePairs(builder,event.getKeyValuePairs());
+        builder = setMessage(builder,event.getMessage());
+        builder = addArguments(builder,event.getArguments());
+        return builder;
+    }
+
+    /**
+     * Logs an event.
+     * <p>
+     *     All elements of an event and which can possibly be fed through a builder are logged.
+     * </p>
+     * @param builder Logging-event builder.
+     * @param event Event.
+     */
+    public static void logEvent(LoggingEventBuilder builder,
+                                LoggingEvent event) {
+        builder = setCause(builder,event.getThrowable());
+        builder = addMarkers(builder,event.getMarkers());
+        builder = addKeyValuePairs(builder,event.getKeyValuePairs());
+        builder.log(event.getMessage(),event.getArgumentArray());
+    }
+
+    public static LoggingEventBuilder setMessage(LoggingEventBuilder builder,
+                                                 String message) {
+        if (message!=null) {
+            builder=builder.setMessage(message);
+        }
+        return builder;
+    }
+
+    public static LoggingEventBuilder addArguments(LoggingEventBuilder builder,
+                                                   List<Object> arguments) {
+        if (arguments!=null) {
+            for (Object argument: arguments) {
+                builder=builder.addArgument(argument);
+            }
+        }
+        return builder;
+    }
+
+    public static LoggingEventBuilder setCause(LoggingEventBuilder builder,
+                                               Throwable throwable) {
+        if (throwable!=null) {
+            builder=builder.setCause(throwable);
+        }
+        return builder;
+    }
+
+    public static LoggingEventBuilder addMarkers(LoggingEventBuilder builder,
+                                                 List<Marker> markers) {
+        if (markers!=null) {
+            for (Marker marker: markers) {
+                builder=builder.addMarker(marker);
+            }
+        }
+        return builder;
+    }
+
+    public static LoggingEventBuilder addKeyValuePairs(LoggingEventBuilder builder,
+                                                       List<KeyValuePair> keyValuePairs) {
+        if (keyValuePairs!=null) {
+            for (KeyValuePair kv: keyValuePairs) {
+                builder=builder.addKeyValue(kv.key, kv.value);
+            }
+        }
+        return builder;
     }
 }

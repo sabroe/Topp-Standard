@@ -32,7 +32,10 @@ import java.util.List;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-01-10
+ *
+ * @deprecated Moved to another module and in a newer version!
  */
+@Deprecated(forRemoval = true)
 class LoggersTest {
     /**
      * Tests {@link Loggers#getLogger(String)}.

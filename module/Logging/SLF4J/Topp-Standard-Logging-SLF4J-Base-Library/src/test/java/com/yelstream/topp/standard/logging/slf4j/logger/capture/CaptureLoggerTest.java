@@ -17,9 +17,8 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j.logger.capture;
+package com.yelstream.topp.standard.logging.slf4j.logger.capture;
 
-import com.yelstream.topp.standard.log.assist.slf4j.logger.capture.CaptureLogger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -31,10 +30,7 @@ import java.util.List;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-01-11
- *
- * @deprecated Moved to another module and in a newer version!
  */
-@Deprecated(forRemoval = true)
 class CaptureLoggerTest {
     /**
      * Tests capture of plain logging.

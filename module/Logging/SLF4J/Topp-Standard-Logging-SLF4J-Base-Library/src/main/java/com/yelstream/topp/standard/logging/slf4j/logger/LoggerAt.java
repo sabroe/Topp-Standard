@@ -32,7 +32,7 @@ import java.util.function.Function;
  * Creates actionable objects from an existing logger and the log level chosen.
  *
  * @author Morten Sabroe Mortensen
- * @version 1.0
+ * @version 1.1
  * @since 2025-01-13
  *
  * @param <R> Type of actionable object.

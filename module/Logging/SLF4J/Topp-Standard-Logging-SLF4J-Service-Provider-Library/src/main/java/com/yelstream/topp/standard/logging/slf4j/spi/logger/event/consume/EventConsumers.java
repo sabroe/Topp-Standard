@@ -19,17 +19,20 @@
 
 package com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume;
 
+import com.yelstream.topp.standard.logging.slf4j.Loggers;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.bind.EventBinding;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.bind.EventBindings;
-import com.yelstream.topp.standard.logging.slf4j.spi.logger.router.LoggerRouter;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.route.LoggerRouting;
 import lombok.Singular;
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
+import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
 
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
@@ -44,7 +47,36 @@ public class EventConsumers {
     /**
      *
      */
-    public static EventConsumer create(Function<LoggingEvent,Logger> loggerResolver) {
+    public static EventConsumer create(Logger logger) {
+        return event->{
+            Loggers.logEvent(logger,event);
+        };
+    }
+
+    /**
+     *
+     */
+    public static EventConsumer createFromLogger(Supplier<Logger> loggerSupplier) {
+        return event->{
+            Logger logger=loggerSupplier.get();
+            Loggers.logEvent(logger,event);
+        };
+    }
+
+    /**
+     *
+     */
+    public static EventConsumer create(LoggerRouting loggerRouting) {
+        return event->{
+            Logger logger = loggerRouting.target(event.getLevel(), event.getMarkers());
+            Loggers.logEvent(logger,event);
+        };
+    }
+
+    /**
+     *
+     */
+    public static EventConsumer create(Function<LoggingEvent,Logger> loggerResolver) {  //TODO: Create 'LoggerResolver' object!
         return create(loggerResolver,EventBindings.DEFAULT_EVENT_BINDING);
     }
 
@@ -114,8 +146,8 @@ public class EventConsumers {
 //        private Function<LoggingEvent,Logger> loggerResolver;
         private EventBinding eventBinding=EventBindings.DEFAULT_EVENT_BINDING;
 
-        public Builder loggerRouter(LoggerRouter loggerRouter) {
-            return loggerResolver(loggerRouter::target);
+        public Builder loggerRouter(LoggerRouting loggerRouting) {
+            return loggerResolver(loggerRouting::target);
         }
     }
 }

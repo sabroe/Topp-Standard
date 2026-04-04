@@ -17,13 +17,11 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    api project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
-}
+/**
+ * Capture of logging-events.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2025-01-11
+ */
+package com.yelstream.topp.standard.logging.slf4j.logger.capture;

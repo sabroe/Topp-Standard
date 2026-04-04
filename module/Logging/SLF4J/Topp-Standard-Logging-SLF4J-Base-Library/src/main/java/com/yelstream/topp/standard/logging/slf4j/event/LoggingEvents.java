@@ -17,13 +17,20 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
+package com.yelstream.topp.standard.logging.slf4j.event;
 
-dependencies {
-    api project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
+import lombok.experimental.UtilityClass;
+import org.slf4j.event.LoggingEvent;
+
+/**
+ * Utilities addressing instances of {@link LoggingEvent}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-04-03
+ */
+@UtilityClass
+public class LoggingEvents {
+
+
 }

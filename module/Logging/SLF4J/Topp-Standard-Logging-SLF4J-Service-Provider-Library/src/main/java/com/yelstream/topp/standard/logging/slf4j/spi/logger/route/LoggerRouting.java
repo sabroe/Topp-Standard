@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.logging.slf4j.spi.logger.router;
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.route;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -38,7 +38,7 @@ import java.util.List;
  * @since 2026-03-26
  */
 @FunctionalInterface
-public interface LoggerRouter {
+public interface LoggerRouting {
     /**
      * Routes to a target logger based on level and marker.
      * @param level Logging level.

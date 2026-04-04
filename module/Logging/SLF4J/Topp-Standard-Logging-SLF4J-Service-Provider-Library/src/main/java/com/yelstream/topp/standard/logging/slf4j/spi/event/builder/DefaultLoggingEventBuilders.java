@@ -17,10 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.log.assist.slf4j.spi;
+package com.yelstream.topp.standard.logging.slf4j.spi.event.builder;
 
 import com.yelstream.topp.standard.lang.reflect.Reflection;
-import com.yelstream.topp.standard.log.assist.slf4j.logger.Loggers;
+import com.yelstream.topp.standard.logging.slf4j.logger.Loggers;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -34,10 +34,7 @@ import org.slf4j.spi.DefaultLoggingEventBuilder;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-06-18
- *
- * @deprecated Moved to another module and in a newer version!
  */
-@Deprecated(forRemoval = true)
 @Slf4j
 @UtilityClass
 public class DefaultLoggingEventBuilders {

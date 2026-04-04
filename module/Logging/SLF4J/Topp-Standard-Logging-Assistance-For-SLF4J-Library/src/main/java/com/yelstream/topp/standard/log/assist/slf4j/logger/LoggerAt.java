@@ -36,7 +36,10 @@ import java.util.function.Function;
  * @since 2025-01-13
  *
  * @param <R> Type of actionable object.
+ *
+ * @deprecated Moved to another module and in a newer version!
  */
+@Deprecated(forRemoval = true)
 @AllArgsConstructor(access=AccessLevel.PRIVATE)
 public class LoggerAt<R> implements ActionableAt<R> {
     /**
