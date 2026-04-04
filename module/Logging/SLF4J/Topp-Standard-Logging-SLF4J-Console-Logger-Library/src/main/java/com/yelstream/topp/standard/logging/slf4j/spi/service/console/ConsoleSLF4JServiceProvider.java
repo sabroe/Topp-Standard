@@ -22,10 +22,10 @@ package com.yelstream.topp.standard.logging.slf4j.spi.service.console;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.enable.LoggerEnablement;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumer;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.factory.CachedLoggerFactory;
-import com.yelstream.topp.standard.logging.slf4j.spi.provider.SLF4JServiceProviders;
+import com.yelstream.topp.standard.logging.slf4j.spi.message.MessageRenderers;
+import com.yelstream.topp.standard.logging.slf4j.spi.version.Versions;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.IMarkerFactory;
-import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
@@ -41,9 +41,19 @@ public class ConsoleSLF4JServiceProvider implements SLF4JServiceProvider {
     public LoggerEnablement loggerEnablement=(l,m)->true;
 
     public EventConsumer eventConsumer=event -> {
-        String x=MessageFormatter.basicArrayFormat(event.getMessage(),event.getArgumentArray());
-        System.out.println(String.format("[%s] %s",event.getLevel(),x));
+        String renderedMessage=MessageRenderers.DEFAULT_MESSAGE_RENDERER.render(event);
+        System.out.println(String.format("[%s] %s",event.getLevel(),renderedMessage));
     };
+
+    @Override
+    public String getRequestedApiVersion() {
+        return Versions.DEFAULT_REQUESTED_API_VERSION;
+    }
+
+    @Override
+    public void initialize() {
+        System.out.println("ConsoleSLF4JServiceProvider.initialize()");
+    }
 
     @Override
     public ILoggerFactory getLoggerFactory() {
@@ -62,15 +72,5 @@ public class ConsoleSLF4JServiceProvider implements SLF4JServiceProvider {
     public MDCAdapter getMDCAdapter() {
         System.out.println("ConsoleSLF4JServiceProvider.getMDCAdapter()");
         return null;
-    }
-
-    @Override
-    public String getRequestedApiVersion() {
-        return SLF4JServiceProviders.DEFAULT_REQUESTED_API_VERSION;
-    }
-
-    @Override
-    public void initialize() {
-        System.out.println("ConsoleSLF4JServiceProvider.initialize()");
     }
 }

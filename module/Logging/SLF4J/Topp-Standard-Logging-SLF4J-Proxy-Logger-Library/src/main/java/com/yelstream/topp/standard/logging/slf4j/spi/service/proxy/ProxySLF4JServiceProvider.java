@@ -20,6 +20,7 @@
 package com.yelstream.topp.standard.logging.slf4j.spi.service.proxy;
 
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.proxy.ProxyLoggers;
+import com.yelstream.topp.standard.logging.slf4j.spi.version.Versions;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.IMarkerFactory;
 import org.slf4j.simple.SimpleLoggerFactory;
@@ -35,6 +36,16 @@ import org.slf4j.simple.SimpleLogger;
  * @since 2026-03-31
  */
 public class ProxySLF4JServiceProvider implements SLF4JServiceProvider {
+
+    @Override
+    public String getRequestedApiVersion() {
+        return Versions.DEFAULT_REQUESTED_API_VERSION;
+    }
+
+    @Override
+    public void initialize() {
+        System.out.println("ProxySLF4JServiceProvider.initialize()");
+    }
 
     @Override
     public ILoggerFactory getLoggerFactory() {
@@ -53,16 +64,5 @@ public class ProxySLF4JServiceProvider implements SLF4JServiceProvider {
     public MDCAdapter getMDCAdapter() {
         System.out.println("ProxySLF4JServiceProvider.getMDCAdapter()");
         return null;
-    }
-
-    @Override
-    public String getRequestedApiVersion() {
-//        System.out.println("ProxySLF4JServiceProvider.getRequestedApiVersion()");
-        return "2.0.99";
-    }
-
-    @Override
-    public void initialize() {
-        System.out.println("ProxySLF4JServiceProvider.initialize()");
     }
 }
