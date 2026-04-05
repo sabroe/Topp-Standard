@@ -29,5 +29,4 @@ dependencies {
     api project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
     api project(':module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library')
     implementation project(':module:Topp-Standard-Core-Library')
-    implementation project(':module:Topp-Standard-Core-Library')
 }

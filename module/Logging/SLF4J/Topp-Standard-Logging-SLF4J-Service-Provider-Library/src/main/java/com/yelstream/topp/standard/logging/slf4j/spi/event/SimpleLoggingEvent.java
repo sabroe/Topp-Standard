@@ -65,7 +65,7 @@ public class SimpleLoggingEvent implements LoggingEvent, CallerBoundaryAware {
     @Singular
     private List<Marker> markers;
 
-    private long timeStamp;
+    private Instant time;
 
     private String threadName;
 
@@ -74,6 +74,14 @@ public class SimpleLoggingEvent implements LoggingEvent, CallerBoundaryAware {
     @Override
     public Object[] getArgumentArray() {
         return arguments.toArray();
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        time=Instant.ofEpochMilli(timeStamp);
+    }
+
+    public long getTimeStamp() {
+        return time.toEpochMilli();
     }
 
     public static class Builder {
@@ -95,8 +103,8 @@ public class SimpleLoggingEvent implements LoggingEvent, CallerBoundaryAware {
             return loggerName(logger.getName());
         }
 
-        public Builder time(Instant instant) {
-            return timeStamp(instant.toEpochMilli());
+        public Builder timeStamp(long timeStamp) {
+            return time(Instant.ofEpochMilli(timeStamp));
         }
 
         public Builder keyValue(String key,
@@ -112,6 +120,31 @@ public class SimpleLoggingEvent implements LoggingEvent, CallerBoundaryAware {
                 }
             }
             return builder;
+        }
+
+        public Builder contextMap(Map<String,String> contextMap) {
+            Builder builder=this;
+            if (contextMap != null) {
+                for (Map.Entry<String, String> entry : contextMap.entrySet()) {
+                    builder=builder.keyValue(entry.getKey(),entry.getValue());
+                }
+            }
+            return builder;
+        }
+
+        public Builder argumentArray(Object[] arguments) {
+            Builder builder=this;
+            if (arguments!=null) {
+                for (Object argument : arguments) {
+                    builder = builder.argument(argument);
+                }
+            }
+            return builder;
+        }
+
+        public static Builder create(Logger logger,
+                                     Level level) {
+            return builder().logger(logger).level(level);
         }
     }
 

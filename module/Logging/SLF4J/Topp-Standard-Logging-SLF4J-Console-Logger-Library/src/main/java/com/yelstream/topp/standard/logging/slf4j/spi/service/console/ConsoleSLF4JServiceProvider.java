@@ -20,12 +20,18 @@
 package com.yelstream.topp.standard.logging.slf4j.spi.service.console;
 
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.enable.LoggerEnablement;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.enable.LoggerEnablements;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumer;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.factory.CachedLoggerFactory;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers.AbstractLoggers;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers.NormalizedLoggingCall;
 import com.yelstream.topp.standard.logging.slf4j.spi.message.MessageRenderers;
 import com.yelstream.topp.standard.logging.slf4j.spi.version.Versions;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.IMarkerFactory;
+import org.slf4j.event.Level;
+import org.slf4j.helpers.BasicMDCAdapter;
+import org.slf4j.helpers.BasicMarkerFactory;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
@@ -38,12 +44,16 @@ import org.slf4j.spi.SLF4JServiceProvider;
  */
 public class ConsoleSLF4JServiceProvider implements SLF4JServiceProvider {
 
-    public LoggerEnablement loggerEnablement=(l,m)->true;
+    private LoggerEnablement loggerEnablement=LoggerEnablements.create(Level.INFO);
 
-    public EventConsumer eventConsumer=event -> {
+    private EventConsumer eventConsumer=event -> {
+        System.out.println(event);
         String renderedMessage=MessageRenderers.DEFAULT_MESSAGE_RENDERER.render(event);
         System.out.println(String.format("[%s] %s",event.getLevel(),renderedMessage));
     };
+
+    private MDCAdapter mdcAdapter;
+    private IMarkerFactory markerFactory;
 
     @Override
     public String getRequestedApiVersion() {
@@ -52,25 +62,25 @@ public class ConsoleSLF4JServiceProvider implements SLF4JServiceProvider {
 
     @Override
     public void initialize() {
-        System.out.println("ConsoleSLF4JServiceProvider.initialize()");
+        mdcAdapter=new BasicMDCAdapter();
+        markerFactory=new BasicMarkerFactory();
     }
 
     @Override
     public ILoggerFactory getLoggerFactory() {
-        System.out.println("ConsoleSLF4JServiceProvider.getLoggerFactory()");
+        NormalizedLoggingCall normalizedLoggingCall=
+            AbstractLoggers.builder().callerBoundary(ConsoleLogger.class.getName()).mdcAdapter(mdcAdapter).eventConsumer(eventConsumer).build();
 
-        return CachedLoggerFactory.of(name->new ConsoleLogger(name,loggerEnablement,eventConsumer));
+        return CachedLoggerFactory.of(name->new ConsoleLogger(ConsoleLogger.class.getName(),normalizedLoggingCall,name,loggerEnablement,eventConsumer));
     }
 
     @Override
     public IMarkerFactory getMarkerFactory() {
-        System.out.println("ConsoleSLF4JServiceProvider.getMarkerFactory()");
-        return null;
+        return markerFactory;
     }
 
     @Override
     public MDCAdapter getMDCAdapter() {
-        System.out.println("ConsoleSLF4JServiceProvider.getMDCAdapter()");
-        return null;
+        return mdcAdapter;
     }
 }

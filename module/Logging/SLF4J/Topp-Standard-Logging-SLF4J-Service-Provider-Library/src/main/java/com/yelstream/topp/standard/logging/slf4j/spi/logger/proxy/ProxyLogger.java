@@ -106,6 +106,7 @@ public class ProxyLogger implements Logger, LoggingEventAware {
         }
         return builder;
     }
+
     @Override
     public LoggingEventBuilder atLevel(Level level) {  //TODO:
         LoggingEventBuilder builder = getTarget(level).atLevel(level);

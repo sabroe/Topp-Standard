@@ -19,22 +19,11 @@
 
 package com.yelstream.topp.standard.logging.slf4j.spi.logger.proxy;
 
-import com.yelstream.topp.standard.logging.slf4j.Loggers;
-import com.yelstream.topp.standard.logging.slf4j.spi.logger.enable.LoggerEnablement;
-import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumer;
-import com.yelstream.topp.standard.logging.slf4j.spi.logger.route.LoggerRouting;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import org.slf4j.Logger;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers.NormalizedLoggingCall;
 import org.slf4j.Marker;
-import org.slf4j.event.DefaultLoggingEvent;
 import org.slf4j.event.Level;
-import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.AbstractLogger;
 import org.slf4j.spi.LoggingEventAware;
-
-import java.util.function.Supplier;
 
 /**
  *
@@ -45,28 +34,15 @@ import java.util.function.Supplier;
  */
 public abstract class AbstractEventAwareLogger extends AbstractLogger implements LoggingEventAware {
 
+    protected abstract NormalizedLoggingCall getNormalizedLoggingCall();
+
     @Override
     protected void handleNormalizedLoggingCall(Level level,
                                                Marker marker,
                                                String messagePattern,
                                                Object[] arguments,
                                                Throwable throwable) {
-        DefaultLoggingEvent event = new DefaultLoggingEvent(level, this);
-
-        event.setMessage(messagePattern);
-        event.addArguments(arguments);
-        event.setThrowable(throwable);
-        if (marker != null) {
-            event.addMarker(marker);
-        }
-
-/*
-        event.addKeyValue("xxx",org.slf4j.MDC.getCopyOfContextMap());
-        event.setCallerBoundary("xxx");
-        event.setTimeStamp(0L);
-        event.setThre
-*/
-
-        log(event);
+        NormalizedLoggingCall normalizedLoggingCall=getNormalizedLoggingCall();
+        normalizedLoggingCall.handle(this,level,marker,messagePattern,arguments,throwable);
     }
 }

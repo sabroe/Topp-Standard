@@ -22,9 +22,11 @@ package com.yelstream.topp.standard.logging.slf4j.spi.logger.proxy;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.enable.LoggerEnablement;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumer;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumers;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers.NormalizedLoggingCall;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.route.LoggerRouting;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -45,6 +47,17 @@ import java.util.function.Supplier;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @lombok.Builder(builderClassName = "Builder")
 public class EventLogger extends AbstractEventAwareLogger {
+    /**
+     *
+     */
+    private final Supplier<String> callerBoundarySupplier;
+
+    /**
+     *
+     */
+    @Getter(AccessLevel.PROTECTED)
+    private final NormalizedLoggingCall normalizedLoggingCall;
+
     /**
      * Supplier of name.
      */
@@ -123,11 +136,12 @@ public class EventLogger extends AbstractEventAwareLogger {
 
     @Override
     protected String getFullyQualifiedCallerName() {
-        return "";  //TODO: Fix this!
+        return callerBoundarySupplier.get();
     }
 
     @Override
     public void log(LoggingEvent event) {
+        System.out.println("ZZZ:> event = "+event);
         eventConsumer.log(event);
     }
 

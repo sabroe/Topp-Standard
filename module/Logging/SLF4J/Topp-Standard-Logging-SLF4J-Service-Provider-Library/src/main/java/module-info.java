@@ -43,4 +43,5 @@ module com.yelstream.topp.standard.logging.slf4j.provider {  //TODO: provider->s
     exports com.yelstream.topp.standard.logging.slf4j.spi.event.builder;
     exports com.yelstream.topp.standard.logging.slf4j.spi.version;
     exports com.yelstream.topp.standard.logging.slf4j.spi.message;
+    exports com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers;
 }
