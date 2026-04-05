@@ -17,13 +17,11 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.logging.slf4j.spi.logger.proxy;
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers;
 
-import com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers.NormalizedLoggingCall;
 import org.slf4j.Marker;
 import org.slf4j.event.Level;
 import org.slf4j.helpers.AbstractLogger;
-import org.slf4j.spi.LoggingEventAware;
 
 /**
  *
@@ -32,7 +30,7 @@ import org.slf4j.spi.LoggingEventAware;
  * @version 1.0
  * @since 2026-04-04
  */
-public abstract class AbstractEventAwareLogger extends AbstractLogger implements LoggingEventAware {
+public abstract class AbstractNormalizingLogger extends AbstractLogger {
 
     protected abstract NormalizedLoggingCall getNormalizedLoggingCall();
 

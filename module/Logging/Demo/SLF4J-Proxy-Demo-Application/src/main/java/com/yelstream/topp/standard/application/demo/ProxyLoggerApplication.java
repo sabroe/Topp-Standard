@@ -2,6 +2,9 @@
 package com.yelstream.topp.standard.application.demo;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.slf4j.spi.SLF4JServiceProvider;
 
 import java.io.PrintStream;
@@ -31,7 +34,11 @@ public class ProxyLoggerApplication {
         out.println("Logger: "+log.getName());
         out.println("Logger: "+log.getClass());
 
-        log.info("Hello, logger! You are class '{}' and named '{}'.",log.getClass().getName(),log.getName());
-        log.atInfo().log("Hello, logger! You are class '{}' and named '{}'.",log.getClass().getName(),log.getName());
+        Marker marker=MarkerFactory.getMarker("xxx");
+        MDC.put("aaa","bbb");
+
+        log.info("(A)Hello, logger! You are class '{}' and named '{}'.",log.getClass().getName(),log.getName());
+        log.atInfo().log("(B)Hello, logger! You are class '{}' and named '{}'.",log.getClass().getName(),log.getName());
+        log.atInfo().setMessage("(C)Hello, logger! You are class '{}' and named '{}'.").addArgument(log.getClass().getName()).addArgument(log.getName()).addMarker(marker).log();
     }
 }

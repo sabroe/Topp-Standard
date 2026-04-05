@@ -17,16 +17,4 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library-distribution'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
-}
-
-dependencies {
-    api project(':module:Topp-Standard-Core-Library')
-    api project(':module:Annotation:Topp-Standard-Annotation-Intention-Library')
-    api project(':module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library')
-    implementation project(':module:Topp-Standard-Core-Library')
-}
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers;

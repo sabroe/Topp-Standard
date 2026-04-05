@@ -17,27 +17,33 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.logging.slf4j.spi.logger.enable;
+package com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers;
 
-import com.yelstream.topp.standard.logging.slf4j.event.Levels;
-import lombok.experimental.UtilityClass;
+import org.slf4j.Logger;
+import org.slf4j.Marker;
 import org.slf4j.event.Level;
 
 /**
- * Utilities addressing instance of {@code LoggerEnablement}.
+ *
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2026-04-05
  */
-@UtilityClass
-public class LoggerEnablements {
-
-    public static LoggerEnablement NEVER_LOGGER_ENABLEMENT=(_,_)->false;
-
-    public static LoggerEnablement ALLWAYS_LOGGER_ENABLEMENT=(_,_)->true;
-
-    public static LoggerEnablement create(Level configuredLevel) {
-        return (level,_)->Levels.isLevelEnabled(level,configuredLevel);
-    }
+@FunctionalInterface
+public interface NormalizedLoggingCall {
+    /**
+     * XX
+     * @param level
+     * @param marker
+     * @param messagePattern
+     * @param arguments
+     * @param throwable
+     */
+    void handle(Logger logger,
+                Level level,
+                Marker marker,
+                String messagePattern,
+                Object[] arguments,
+                Throwable throwable);
 }
