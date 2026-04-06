@@ -19,21 +19,28 @@
 
 package com.yelstream.topp.standard.logging.slf4j.spi.service.console;
 
+import com.yelstream.topp.standard.logging.slf4j.spi.event.FixedLoggingEvent;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.enable.LoggerEnablement;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.enable.LoggerEnablements;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumer;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumers;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.factory.CachedLoggerFactory;
-import com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers.AbstractLoggers;
+import com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers.NormalizedLoggingCalls;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.helpers.NormalizedLoggingCall;
 import com.yelstream.topp.standard.logging.slf4j.spi.message.MessageRenderers;
 import com.yelstream.topp.standard.logging.slf4j.spi.version.Versions;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.IMarkerFactory;
 import org.slf4j.event.Level;
+import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.BasicMDCAdapter;
 import org.slf4j.helpers.BasicMarkerFactory;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
+
+import java.time.Instant;
+import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Console-logger as a SLF4J service provider.
@@ -46,11 +53,13 @@ public class ConsoleSLF4JServiceProvider implements SLF4JServiceProvider {
 
     private LoggerEnablement loggerEnablement=LoggerEnablements.create(Level.INFO);
 
-    private EventConsumer eventConsumer=event -> {
-        System.out.println(event);
+    private EventConsumer eventConsumer;
+
+    private static void log(LoggingEvent event) {
+        System.out.println("EVENT:> event = "+event);
         String renderedMessage=MessageRenderers.DEFAULT_MESSAGE_RENDERER.render(event);
         System.out.println(String.format("[%s] %s",event.getLevel(),renderedMessage));
-    };
+    }
 
     private MDCAdapter mdcAdapter;
     private IMarkerFactory markerFactory;
@@ -64,13 +73,13 @@ public class ConsoleSLF4JServiceProvider implements SLF4JServiceProvider {
     public void initialize() {
         mdcAdapter=new BasicMDCAdapter();
         markerFactory=new BasicMarkerFactory();
+        eventConsumer=EventConsumers.builder2().mdcAdapter(mdcAdapter).eventConsumer(ConsoleSLF4JServiceProvider::log).build();
     }
 
     @Override
     public ILoggerFactory getLoggerFactory() {
         NormalizedLoggingCall normalizedLoggingCall=
-            AbstractLoggers.builder().callerBoundary(ConsoleLogger.class.getName()).mdcAdapter(mdcAdapter).eventConsumer(eventConsumer).build();
-
+            NormalizedLoggingCalls.builder().callerBoundary(ConsoleLogger.class.getName()).mdcAdapter(mdcAdapter).eventConsumer(eventConsumer).build();
         return CachedLoggerFactory.of(name->new ConsoleLogger(ConsoleLogger.class.getName(),normalizedLoggingCall,name,loggerEnablement,eventConsumer));
     }
 

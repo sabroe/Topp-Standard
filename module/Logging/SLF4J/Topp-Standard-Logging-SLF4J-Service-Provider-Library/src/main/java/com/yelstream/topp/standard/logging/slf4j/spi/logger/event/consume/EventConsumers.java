@@ -20,16 +20,20 @@
 package com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume;
 
 import com.yelstream.topp.standard.logging.slf4j.Loggers;
+import com.yelstream.topp.standard.logging.slf4j.spi.event.FixedLoggingEvent;
+import com.yelstream.topp.standard.logging.slf4j.spi.event.LoggingEvents;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.bind.EventBinding;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.bind.EventBindings;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.route.LoggerRouting;
 import lombok.Singular;
 import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
-import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
+import org.slf4j.spi.MDCAdapter;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -148,6 +152,49 @@ public class EventConsumers {
 
         public Builder loggerRouter(LoggerRouting loggerRouting) {
             return loggerResolver(loggerRouting::target);
+        }
+    }
+
+
+
+    @lombok.Builder(builderClassName = "Builder2", builderMethodName = "builder2")
+    public static EventConsumer create(Function<Supplier<Instant>,Instant> timeMapper,
+                                       Supplier<Map<String, String>> contextMapSupplier,
+                                       EventConsumer eventConsumer) {
+        return event -> {
+            FixedLoggingEvent.Builder builder = FixedLoggingEvent.builder().event(event);
+            if (timeMapper != null) {
+                Instant time=timeMapper.apply(()->LoggingEvents.convertTimestamp(event.getTimeStamp()));
+                builder = builder.time(time);
+            }
+            builder = builder.threadName(Thread.currentThread().getName());
+            if (contextMapSupplier != null) {
+                Map<String, String> contextMap = contextMapSupplier.get();
+                builder = builder.contextMap(contextMap);
+            }
+            FixedLoggingEvent event2 = builder.build();
+            eventConsumer.log(event2);
+
+/*
+            String renderedMessage = MessageRenderers.DEFAULT_MESSAGE_RENDERER.render(event2);
+            System.out.println(String.format("[%s] %s", event2.getLevel(), renderedMessage));
+*/
+        };
+    }
+
+    public static class Builder2 {
+        private Function<Supplier<Instant>,Instant> timeMapper=_->Instant.now();
+
+        public Builder2 timeSupplier(Supplier<Instant> timeSupplier) {
+            return timeMapper(_->timeSupplier.get());
+        }
+
+        public Builder2 time(Instant time) {
+            return timeMapper(_->time);
+        }
+
+        public Builder2 mdcAdapter(MDCAdapter mdcAdapter) {
+            return contextMapSupplier(mdcAdapter::getCopyOfContextMap);
         }
     }
 }
