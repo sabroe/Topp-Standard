@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.logging.slf4j.spi.logger.proxy;
 
+import com.yelstream.topp.standard.logging.slf4j.spi.event.FixedLoggingEvent;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.enable.LoggerEnablement;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumer;
 import com.yelstream.topp.standard.logging.slf4j.spi.logger.event.consume.EventConsumers;
@@ -142,6 +143,10 @@ public class EventLogger extends AbstractEventAwareLogger {
     @Override
     public void log(LoggingEvent event) {
         System.out.println("ZZZ:> event = "+event);
+
+        LoggingEvent event2=FixedLoggingEvent.builder().event(event).build();
+        System.out.println("ZZZ2:> event2 = "+event2);
+
         eventConsumer.log(event);
     }
 

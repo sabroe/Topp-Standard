@@ -38,6 +38,9 @@ import java.util.Map;
  * <p>
  *     This is immutable.
  * </p>
+ * <p>
+ *     This is safe for sharing.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -77,7 +80,7 @@ public class FixedLoggingEvent implements LoggingEvent {
     }
 
     public long getTimeStamp() {
-        return time.toEpochMilli();
+        return LoggingEvents.convertTimestamp(time);
     }
 
     public static class Builder {
@@ -86,10 +89,10 @@ public class FixedLoggingEvent implements LoggingEvent {
                 loggerName(event.getLoggerName())
                 .level(event.getLevel())
                 .message(event.getMessage())
-                .arguments(event.getArguments())
+                .arguments(NullSafe.immutable(event.getArguments()))  //Immutable!
                 .throwable(event.getThrowable())
-                .keyValuePairs(event.getKeyValuePairs())
-                .markers(event.getMarkers())
+                .keyValuePairs(NullSafe.immutable(event.getKeyValuePairs()))  //Immutable!
+                .markers(NullSafe.immutable(event.getMarkers()))  //Immutable!
                 .timeStamp(event.getTimeStamp())
                 .threadName(event.getThreadName())
                 .callerBoundary(event.getCallerBoundary());
@@ -100,7 +103,7 @@ public class FixedLoggingEvent implements LoggingEvent {
         }
 
         public Builder timeStamp(long timeStamp) {
-            return time(Instant.ofEpochMilli(timeStamp));
+            return time(LoggingEvents.convertTimestamp(timeStamp));
         }
 
         public Builder keyValue(String key,

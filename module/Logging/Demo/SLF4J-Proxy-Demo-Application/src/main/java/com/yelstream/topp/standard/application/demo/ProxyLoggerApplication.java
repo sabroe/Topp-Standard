@@ -37,8 +37,13 @@ public class ProxyLoggerApplication {
         Marker marker=MarkerFactory.getMarker("xxx");
         MDC.put("aaa","bbb");
 
+        System.out.println();
         log.info("(A)Hello, logger! You are class '{}' and named '{}'.",log.getClass().getName(),log.getName());
+
+        System.out.println();
         log.atInfo().log("(B)Hello, logger! You are class '{}' and named '{}'.",log.getClass().getName(),log.getName());
+
+        System.out.println();
         log.atInfo().setMessage("(C)Hello, logger! You are class '{}' and named '{}'.").addArgument(log.getClass().getName()).addArgument(log.getName()).addMarker(marker).log();
     }
 }

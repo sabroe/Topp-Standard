@@ -37,7 +37,18 @@ import java.util.Map;
 
 /**
  * Logging-event with all values.
-*
+ * <p>
+ *     This is a mutable "in-flight" event.
+ * </p>
+ * <p>
+ *     This is not safe for sharing.
+ *     <br/>
+ *     This is fine if it stays local, is short-lived,
+ *     is converted quickly to {@link FixedLoggingEvent}.
+ *     <br/>
+ *     Do not pass this to other threads, do not store it, do not reuse it.
+ * </p>
+ *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2026-04-04
@@ -77,11 +88,11 @@ public class SimpleLoggingEvent implements LoggingEvent, CallerBoundaryAware {
     }
 
     public void setTimeStamp(long timeStamp) {
-        time=Instant.ofEpochMilli(timeStamp);
+        time=LoggingEvents.convertTimestamp(timeStamp);
     }
 
     public long getTimeStamp() {
-        return time.toEpochMilli();
+        return LoggingEvents.convertTimestamp(time);
     }
 
     public static class Builder {
@@ -90,10 +101,10 @@ public class SimpleLoggingEvent implements LoggingEvent, CallerBoundaryAware {
                 loggerName(event.getLoggerName())
                 .level(event.getLevel())
                 .message(event.getMessage())
-                .arguments(event.getArguments())
+                .arguments(NullSafe.preserve(event.getArguments()))  //Preserve!
                 .throwable(event.getThrowable())
-                .keyValuePairs(event.getKeyValuePairs())
-                .markers(event.getMarkers())
+                .keyValuePairs(NullSafe.preserve(event.getKeyValuePairs()))  //Preserve!
+                .markers(NullSafe.preserve(event.getMarkers()))  //Preserve!
                 .timeStamp(event.getTimeStamp())
                 .threadName(event.getThreadName())
                 .callerBoundary(event.getCallerBoundary());
@@ -104,7 +115,7 @@ public class SimpleLoggingEvent implements LoggingEvent, CallerBoundaryAware {
         }
 
         public Builder timeStamp(long timeStamp) {
-            return time(Instant.ofEpochMilli(timeStamp));
+            return time(LoggingEvents.convertTimestamp(timeStamp));
         }
 
         public Builder keyValue(String key,
