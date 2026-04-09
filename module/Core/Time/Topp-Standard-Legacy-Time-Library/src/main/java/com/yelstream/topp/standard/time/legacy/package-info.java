@@ -17,4 +17,14 @@
  * limitations under the License.
  */
 
+/**
+ * Legacy time-and-date handling.
+ * <p>
+ *     This includes addressing {@link java.util.Date}, {@link java.util.Calendar}, and {@link java.text.SimpleDateFormat}.
+ * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-04-06
+ */
 package com.yelstream.topp.standard.time.legacy;
