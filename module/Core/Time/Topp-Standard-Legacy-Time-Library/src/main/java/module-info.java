@@ -27,4 +27,5 @@ module com.yelstream.topp.standard.time.legacy {
     requires static lombok;
     requires org.slf4j;
     exports com.yelstream.topp.standard.time.legacy;
+    exports com.yelstream.topp.standard.time.view;
 }
