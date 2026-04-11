@@ -91,7 +91,6 @@ include("module:Core:Topp-Standard-Resource-Library")
 include("module:Core:Topp-Standard-Core-Language-Library")
 include("module:Core:Topp-Standard-Core-Network-Library")
 include("module:Core:Topp-Standard-Core-IO-Library")
-//include("module:Core:Topp-Standard-Core-Time-Library")
 include("module:Core:Topp-Standard-Core-Reflection-Library")
 include("module:Core:Topp-Standard-Core-Function-Library")
 include("module:Core:Topp-Standard-Core-Concurrent-Library")
@@ -105,9 +104,10 @@ include("module:Core:IO:Topp-Standard-Dual-Access-IO-Library")
 include("module:Core:Net:Topp-Standard-Uniform-Resource-Library")
 include("module:Core:Text:Topp-Standard-Regular-Expression-Library")
 
-include("module:Core:Time:Topp-Standard-Legacy-Time-Library") //Note: Utilities for legacy Java time (avoid completely), { java.util.Date, java.util.Calendar, java.text.SimpleDateFormat }
-include("module:Core:Time:Topp-Standard-JSR310-Time-Library") //Note: Utilities for modern JSR-310 Java time (use everywhere), "java.time.*".
-include("module:Core:Time:Topp-Standard-XML-Time-Library") //Note: Utilities for the XML representation of temporal data, e.g., "javax.xml.datatype.XMLGregorianCalendar".
+include("module:Core:Time:Topp-Standard-Time-Library")
+include("module:Core:Time:Topp-Standard-Time-Formatting-Library")
+include("module:Core:Time:Topp-Standard-Legacy-Time-Adapter-Library")
+include("module:Core:Time:Topp-Standard-XML-Time-Library")  //TO-DO: Move domain back from "Time" to "XML"!
 
 //include("module:Core:Collection:Topp-Standard-Instance-Discovery-Collection-Library")
 //include("module:Core:Annotation:Topp-Standard-WIP-Annotation-Library")
