@@ -22,6 +22,9 @@
  * <p>
  *     This builds upon JSR 310 and the regular Java SE 8 Date-and-Time API.
  * </p>
+ * <p>
+ *     <b>Note that this is still WIP!</b>
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

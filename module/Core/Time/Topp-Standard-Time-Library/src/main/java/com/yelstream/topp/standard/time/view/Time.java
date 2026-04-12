@@ -45,7 +45,7 @@ import java.util.function.UnaryOperator;
  * @since 2026-04-10
  */
 @AllArgsConstructor(staticName = "of")
-public final class Time {
+public final class Time implements InstantSource {  //TO-DO: Consider if this should be an instant-source?
     /**
      * Absolute time.
      */
@@ -121,5 +121,14 @@ public final class Time {
 
     public TimeTo to() {
         return TimeTo.of(this);
+    }
+
+    public ZonedTime toZonedTime(ZoneId zone) {
+        return ZonedTime.of(instant.atZone(zone));
+    }
+
+    @Override
+    public Instant instant() {
+        return instant;
     }
 }

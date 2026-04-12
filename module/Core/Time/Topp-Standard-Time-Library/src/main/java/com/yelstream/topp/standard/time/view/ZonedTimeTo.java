@@ -24,6 +24,7 @@ import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
@@ -54,8 +55,12 @@ public class ZonedTimeTo {
         return zonedTime.toLocalDateTime();
     }
 
-    public Time timeView() {
-        return zonedTime.toTimeView();
+    public LocalTime localTime() {
+        return zonedTime.toLocalTime();
+    }
+
+    public Time time() {
+        return zonedTime.toTime();
     }
 
     public Date date() {

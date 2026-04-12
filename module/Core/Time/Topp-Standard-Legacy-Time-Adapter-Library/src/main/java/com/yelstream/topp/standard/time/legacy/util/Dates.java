@@ -50,17 +50,25 @@ import java.util.function.UnaryOperator;
  *     Provides a bridge between the legacy date/time API and the {@link java.time} API.
  * </p>
  * <p>
- *     The legacy {@link Date} API is mutable and lacks clear time zone semantics.
- *     This class centralizes conversions and operations using the immutable {@code java.time} API.
+ *     The legacy {@link Date} is mutable and lacks clear time zone semantics.
+ *     These utilities centralize conversions and operations using the immutable {@code java.time} API.
  * </p>
  * <h2>Method categories</h2>
  * <p>
- *     Functional bridge, strict core:
+ *     <u>Supplier-based:</u>
  * </p>
  * <ol>
  *     <li>
  *         {@link #get(Supplier)}
  *     </li>
+ *     <li>
+ *         {@link #getOptional(Supplier)}
+ *     </li>
+ * </ol>
+ * <p>
+ *     <u>Functional bridge, date-based:</u>
+ * </p>
+ * <ol>
  *     <li>
  *         {@link #consume(Date, Consumer)}
  *     </li>
@@ -72,12 +80,9 @@ import java.util.function.UnaryOperator;
  *     </li>
  * </ol>
  * <p>
- *     Functional bridge, null-safe:
+ *     <u>Functional bridge, date-based with optional semantics:</u>
  * </p>
  * <ol>
- *     <li>
- *         {@link #getOptional(Supplier)}
- *     </li>
  *     <li>
  *         {@link #consumeNullable(Date, Consumer)}
  *     </li>
@@ -89,7 +94,21 @@ import java.util.function.UnaryOperator;
  *     </li>
  * </ol>
  * <p>
- *     Arithmetic / transformation:
+ *     <u>Functional bridge, date-based with null-aware semantics:</u>
+ * </p>
+ * <ol>
+ *     <li>
+ *         {@link #consumeNullAware(Date, Consumer)}
+ *     </li>
+ *     <li>
+ *         {@link #mapNullAware(Date, Function)}
+ *     </li>
+ *     <li>
+ *         {@link #fromNullAware(Date, Function)}
+ *     </li>
+ * </ol>
+ * <p>
+ *     <u>Arithmetic / transformation:</u>
  * </p>
  * <ol>
  *     <li>
@@ -109,7 +128,7 @@ import java.util.function.UnaryOperator;
  *     </li>
  * </ol>
  * <p>
- *     Mutation (explicitly separate!):
+ *     <u>Mutation:</u>
  * </p>
  * <ol>
  *     <li>
@@ -123,7 +142,7 @@ import java.util.function.UnaryOperator;
  *     </li>
  * </ol>
  * <p>
- *     Comparison / utilities:
+ *     <u>Comparison:</u>
  * </p>
  * <ol>
  *     <li>
@@ -143,7 +162,7 @@ import java.util.function.UnaryOperator;
  *     </li>
  * </ol>
  * <p>
- *     Creation:
+ *     <u>Creation:</u>
  * </p>
  * <ol>
  *     <li>
@@ -169,7 +188,7 @@ import java.util.function.UnaryOperator;
  *     </li>
  * </ol>
  * <p>
- *     Extraction:
+ *     <u>Extraction:</u>
  * </p>
  * <ol>
  *     <li>
@@ -192,7 +211,7 @@ import java.util.function.UnaryOperator;
  *     </li>
  * </ol>
  * <p>
- *     Convenience:
+ *     <u>Convenience:</u>
  * </p>
  * <ol>
  *     <li>
@@ -215,7 +234,7 @@ import java.util.function.UnaryOperator;
  *     </li>
  * </ol>
  * <p>
- *     Fluent view:
+ *     <u>Fluent view:</u>
  * </p>
  * <ol>
  *     <li>
@@ -229,7 +248,8 @@ import java.util.function.UnaryOperator;
  * </ul>
  * <h2>Immutability</h2>
  * <p>
- *     All methods return new {@link Date} instances and do not mutate the input.
+ *     All methods return new {@link Date} instances and do not mutate the input,
+ *     unless stated otherwise.
  * </p>
  * <h2>Time zones</h2>
  * <p>
@@ -272,6 +292,7 @@ public class Dates {
      * @param operation Operation.
      * @return Transformed date.
      * @param <T> Type of temporal returned by the operation.
+     *            Instances of this type must be convertible via {@link Instant#from(TemporalAccessor)}.
      */
     public static <T extends TemporalAccessor> Date map(Date date,
                                                         Function<Instant,T> operation) {
@@ -309,39 +330,108 @@ public class Dates {
 
     /**
      * Consumes a legacy date into a time computation/operation.
+     * <p>
+     *     Note that this is <i>null-safe</i> implying that the operation is never called with {@code null}!
+     * </p>
      * @param date Legacy date.
      *             This may be {@code null}.
      * @param operation Operation.
-     *                  This may consume {@code null}.
+     *                  This is never called with {@code null}.
      */
     public static void consumeNullable(Date date,
-                                       Consumer<Instant> operation) {  //TO-DO: Consider semantics; if date is null then do call operation?
+                                       Consumer<Instant> operation) {
         Objects.requireNonNull(operation, "operation");
-        operation.accept(Optional.ofNullable(date).map(Date::toInstant).orElse(null));
+        Optional.ofNullable(date).map(Date::toInstant).ifPresent(operation);
     }
 
     /**
      * Transforms a legacy date by sending it through a time computation/operation.
+     * <p>
+     *     Note that this is <i>null-safe</i> implying that the operation is never called with {@code null}!
+     * </p>
      * @param date Legacy date.
+     *             This may be {@code null}.
      * @param operation Operation.
+     *                  This is never called with {@code null}.
      * @return Transformed date.
-     * @param <T> Type of temporal returned by the operation.
      */
-    public static <T extends TemporalAccessor> Optional<Date> mapNullable(Date date,
-                                                                          Function<Instant,T> operation) {  //TO-DO: Consider semantics; if date is null then do call operation?
+    public static Optional<Date> mapNullable(Date date,
+                                             Function<Instant,Instant> operation) {
+        Objects.requireNonNull(operation, "operation");
         return Optional.ofNullable(date).map(Date::toInstant).map(operation).map(Instant::from).map(Date::from);
     }
 
     /**
      * Extracts a value from a legacy date by sending it through a time computation/operation.
+     * <p>
+     *     Note that this is <i>null-safe</i> implying that the operation is never called with {@code null}!
+     * </p>
      * @param date Legacy date.
+     *             This may be {@code null}.
      * @param operation Operation.
+     *                  This is never called with {@code null}.
      * @return Value.
      * @param <V> Type of value returned.
      */
     public static <V> Optional<V> fromNullable(Date date,
-                                               Function<Instant,V> operation) {  //TO-DO: Consider semantics; if date is null then do call operation?
+                                               Function<Instant,V> operation) {
+        Objects.requireNonNull(operation, "operation");
         return Optional.ofNullable(date).map(Date::toInstant).map(operation);
+    }
+
+    /**
+     * Consumes a legacy date into a time computation/operation.
+     * <p>
+     *     Note that this is <i>null-aware</i> implying that the operation may be called with {@code null}.
+     * </p>
+     * @param date Legacy date.
+     *             This may be {@code null}.
+     * @param operation Operation.
+     *                  This may be called with {@code null}.
+     */
+    public static void consumeNullAware(Date date,
+                                        Consumer<Instant> operation) {
+        Objects.requireNonNull(operation, "operation");
+        Instant instant = (date != null ? date.toInstant() : null);
+        operation.accept(instant);
+    }
+
+    /**
+     * Transforms a legacy date by sending it through a time computation/operation.
+     * <p>
+     *     Note that this is <i>null-aware</i> implying that the operation may be called with {@code null}.
+     * </p>
+     * @param date Legacy date.
+     *             This may be {@code null}.
+     * @param operation Operation.
+     *                  This may be called with {@code null}.
+     * @return Transformed date.
+     */
+    public static Date mapNullAware(Date date,
+                                    Function<Instant, Instant> operation) {
+        Objects.requireNonNull(operation, "operation");
+        Instant input = (date != null ? date.toInstant() : null);
+        Instant result = operation.apply(input);
+        return (result != null ? Date.from(result) : null);
+    }
+
+    /**
+     * Extracts a value from a legacy date by sending it through a time computation/operation.
+     * <p>
+     *     Note that this is <i>null-aware</i> implying that the operation may be called with {@code null}.
+     * </p>
+     * @param date Legacy date.
+     *             This may be {@code null}.
+     * @param operation Operation.
+     *                  This may be called with {@code null}.
+     * @return Value.
+     * @param <V> Type of value returned.
+     */
+    public static <V> V fromNullAware(Date date,
+                                      Function<Instant, V> operation) {
+        Objects.requireNonNull(operation, "operation");
+        Instant input = (date != null ? date.toInstant() : null);
+        return operation.apply(input);
     }
 
     /**

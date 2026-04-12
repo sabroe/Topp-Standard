@@ -48,4 +48,8 @@ public class TimeTo {
     public Date date() {
         return time.toDate();
     }
+
+    public ZonedTime zonedTime(ZoneId zone) {
+        return time.toZonedTime(zone);
+    }
 }

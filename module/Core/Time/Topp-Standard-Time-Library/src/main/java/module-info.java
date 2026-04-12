@@ -18,11 +18,36 @@
  */
 
 /**
- * Topp Standard Time Library addressing Java SE 8 Data-and-Time functionalities.
+ * Solidifies and eases off all handling of Java SE 8 Data-and-Time functionalities.
+ * <p>
+ *     About this module:
+ * </p>
+ * <ul>
+ *     <li>
+ *         Available as a Maven artifact on the
+ *         <a href="https://central.sonatype.com/artifact/com.yelstream.topp.standard/topp-standard-time"
+ *         >Maven Central Repository</a>!
+ *     </li>
+ *     <li>
+ *         Available API documentation is present on the
+ *         <a href="https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time"
+ *         >Maven JavaDoc site</a>!
+ *     </li>
+ * </ul>
+ * <p>
+ *     Related:
+ * </p>
+ * <ul>
+ *     <li>
+ *         <a href="https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time-legacy/latest/com.yelstream.topp.standard.time.legacy/module-summary.html"
+ *         >Module {@code com.yelstream.topp.standard.time.legacy}</a>
+ *     </li>
+ * </ul>
  *
  * @author Morten Sabroe Mortensen
  * @since 2024-06-18
  */
+
 module com.yelstream.topp.standard.time {
     requires static lombok;
     requires org.slf4j;
