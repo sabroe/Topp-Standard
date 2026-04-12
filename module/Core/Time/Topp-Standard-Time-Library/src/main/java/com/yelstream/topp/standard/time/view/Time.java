@@ -55,7 +55,8 @@ public final class Time {
         return new Time(operator.apply(instant));
     }
 
-    public Time plus(long amount, TemporalUnit unit) {
+    public Time plus(long amount,
+                     TemporalUnit unit) {
         return map(i -> i.plus(amount, unit));
     }
 
@@ -63,7 +64,8 @@ public final class Time {
         return map(i -> i.plus(amount));
     }
 
-    public Time minus(long amount, TemporalUnit unit) {
+    public Time minus(long amount,
+                      TemporalUnit unit) {
         return map(i -> i.minus(amount, unit));
     }
 

@@ -45,10 +45,15 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
- * Utility addressing instances of {@link java.util.Date}.
+ * Utilities addressing instances of legacy {@link Date}.
  * <p>
- *     Note that a legacy {@link java.util.Date} is mutable!
+ *     Provides a bridge between the legacy date/time API and the {@link java.time} API.
  * </p>
+ * <p>
+ *     The legacy {@link Date} API is mutable and lacks clear time zone semantics.
+ *     This class centralizes conversions and operations using the immutable {@code java.time} API.
+ * </p>
+ * <h2>Method categories</h2>
  * <p>
  *     Functional bridge, strict core:
  * </p>
@@ -138,26 +143,14 @@ import java.util.function.UnaryOperator;
  *     </li>
  * </ol>
  * <p>
- *     Conversion (very important group):
+ *     Creation:
  * </p>
  * <ol>
  *     <li>
  *         {@link #fromEpochMilli(long)}
  *     </li>
  *     <li>
- *         {@link #toEpochMilli(Date)}
- *     </li>
- *     <li>
- *         {@link #toDate(long)}
- *     </li>
- *     <li>
- *         {@link #toDate(Instant)}
- *     </li>
- *     <li>
  *         {@link #fromInstant(Instant)}
- *     </li>
- *     <li>
- *         {@link #toInstant(Date)}
  *     </li>
  *     <li>
  *         {@link #zoned(Date, ZoneId)}
@@ -166,22 +159,33 @@ import java.util.function.UnaryOperator;
  *         {@link #fromLocalDate(LocalDate, ZoneId)}
  *     </li>
  *     <li>
- *         {@link #toLocalDate(Date, ZoneId)}
- *     </li>
- *     <li>
  *         {@link #fromLocalDateTime(LocalDateTime, ZoneId)}
- *     </li>
- *     <li>
- *         {@link #toLocalDateTime(Date, ZoneId)}
  *     </li>
  *     <li>
  *         {@link #fromOffsetDateTime(OffsetDateTime)}
  *     </li>
  *     <li>
- *         {@link #toOffsetDateTime(Date, ZoneId)}
+ *         {@link #fromZonedDateTime(ZonedDateTime)}
+ *     </li>
+ * </ol>
+ * <p>
+ *     Extraction:
+ * </p>
+ * <ol>
+ *     <li>
+ *         {@link #toEpochMilli(Date)}
  *     </li>
  *     <li>
- *         {@link #fromZonedDateTime(ZonedDateTime)}
+ *         {@link #toInstant(Date)}
+ *     </li>
+ *     <li>
+ *         {@link #toLocalDate(Date, ZoneId)}
+ *     </li>
+ *     <li>
+ *         {@link #toLocalDateTime(Date, ZoneId)}
+ *     </li>
+ *     <li>
+ *         {@link #toOffsetDateTime(Date, ZoneId)}
  *     </li>
  *     <li>
  *         {@link #toZonedDateTime(Date, ZoneId)}
@@ -218,6 +222,20 @@ import java.util.function.UnaryOperator;
  *         {@link #time(Date)}
  *     </li>
  * </ol>
+ * <h2>Null handling</h2>
+ * <ul>
+ *     <li>Methods without "Nullable" in the name do not accept {@code null}.</li>
+ *     <li>Methods with "Nullable" in the name accept {@code null} and propagate it safely.</li>
+ * </ul>
+ * <h2>Immutability</h2>
+ * <p>
+ *     All methods return new {@link Date} instances and do not mutate the input.
+ * </p>
+ * <h2>Time zones</h2>
+ * <p>
+ *     Time zone handling is explicit.
+ *     Methods that depend on calendar fields require a {@link ZoneId}.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -226,27 +244,30 @@ import java.util.function.UnaryOperator;
 @UtilityClass
 public class Dates {
     /**
-     * Produces a legacy date from a modern computation/operation.
+     * Obtains a legacy date from time computation/operation.
      * @param operation Operation.
      * @return Legacy date.
      * @param <T> Type of temporal returned by the operation.
      */
     public static <T extends TemporalAccessor> Date get(Supplier<T> operation) {
+        Objects.requireNonNull(operation, "operation");
         return Date.from(Instant.from(operation.get()));
     }
 
     /**
-     * Consumes a legacy date into a modern computation/operation.
+     * Consumes a legacy date into a time computation/operation.
      * @param date Legacy date.
      * @param operation Operation.
      */
     public static void consume(Date date,
                                Consumer<Instant> operation) {
+        Objects.requireNonNull(date, "date");
+        Objects.requireNonNull(operation, "operation");
         operation.accept(date.toInstant());
     }
 
     /**
-     * Transforms a legacy date by sending it through a modern computation/operation.
+     * Transforms a legacy date by sending it through a time computation/operation.
      * @param date Legacy date.
      * @param operation Operation.
      * @return Transformed date.
@@ -260,7 +281,7 @@ public class Dates {
     }
 
     /**
-     * Extracts a value from a legacy date by sending it through a modern computation/operation.
+     * Extracts a value from a legacy date by sending it through a time computation/operation.
      * @param date Legacy date.
      * @param operation Operation.
      * @return Value.
@@ -274,10 +295,12 @@ public class Dates {
     }
 
     /**
-     *
-     * @param operation
-     * @return
-     * @param <T>
+     * Obtains a legacy date from time computation/operation.
+     * @param operation Operation.
+     *                  This may produce {@code null}.
+     * @return Legacy date as an optional.
+     *         This contained date may be {@code null}.
+     * @param <T> Type of temporal returned by the operation.
      */
     public static <T extends TemporalAccessor> Optional<Date> getOptional(Supplier<T> operation) {
         Objects.requireNonNull(operation, "operation");
@@ -285,39 +308,39 @@ public class Dates {
     }
 
     /**
-     *
-     * @param date
-     * @param operation
+     * Consumes a legacy date into a time computation/operation.
+     * @param date Legacy date.
+     *             This may be {@code null}.
+     * @param operation Operation.
+     *                  This may consume {@code null}.
      */
     public static void consumeNullable(Date date,
-                                       Consumer<Instant> operation) {
+                                       Consumer<Instant> operation) {  //TO-DO: Consider semantics; if date is null then do call operation?
         Objects.requireNonNull(operation, "operation");
-        if (date != null) {
-            operation.accept(date.toInstant());
-        }
+        operation.accept(Optional.ofNullable(date).map(Date::toInstant).orElse(null));
     }
 
     /**
-     *
-     * @param date
-     * @param operation
-     * @return
-     * @param <T>
+     * Transforms a legacy date by sending it through a time computation/operation.
+     * @param date Legacy date.
+     * @param operation Operation.
+     * @return Transformed date.
+     * @param <T> Type of temporal returned by the operation.
      */
     public static <T extends TemporalAccessor> Optional<Date> mapNullable(Date date,
-                                                                          Function<Instant,T> operation) {
+                                                                          Function<Instant,T> operation) {  //TO-DO: Consider semantics; if date is null then do call operation?
         return Optional.ofNullable(date).map(Date::toInstant).map(operation).map(Instant::from).map(Date::from);
     }
 
     /**
-     *
-     * @param date
-     * @param operation
-     * @return
-     * @param <V>
+     * Extracts a value from a legacy date by sending it through a time computation/operation.
+     * @param date Legacy date.
+     * @param operation Operation.
+     * @return Value.
+     * @param <V> Type of value returned.
      */
     public static <V> Optional<V> fromNullable(Date date,
-                                               Function<Instant,V> operation) {
+                                               Function<Instant,V> operation) {  //TO-DO: Consider semantics; if date is null then do call operation?
         return Optional.ofNullable(date).map(Date::toInstant).map(operation);
     }
 
@@ -409,6 +432,7 @@ public class Dates {
     public static Date with(Date date,
                             TemporalAdjuster adjuster) {
         Objects.requireNonNull(date, "date");
+        Objects.requireNonNull(adjuster, "adjuster");
         return map(date, instant -> instant.with(adjuster));
     }
 
@@ -433,41 +457,70 @@ public class Dates {
                             TemporalField field,
                             long value) {
         Objects.requireNonNull(date, "date");
+        Objects.requireNonNull(field, "field");
         return map(date, instant -> instant.with(field,value));
     }
 
     /**
-     *
-     * @param date
-     * @param zone
-     * @param operator
-     * @return
+     * Transforms a legacy date by first converting it to a {@link ZonedDateTime},
+     * applying a zone-aware operation,
+     * and converting the result back to a {@link Date}.
+     * <p>
+     *     This is the preferred entry point for operations that depend on calendar fields
+     *     such as day-of-month, month, or daylight saving time rules.
+     * </p>
+     * @param date Legacy date.
+     *             Must not be {@code null}.
+     * @param zone Time zone used for conversion.
+     *             Must not be {@code null}.
+     * @param operator Operation applied to the zoned date-time.
+     *                 Must not be {@code null}.
+     * @return Transformed date.
      */
     public static Date mapZoned(Date date,
                                 ZoneId zone,
                                 UnaryOperator<ZonedDateTime> operator) {
+        Objects.requireNonNull(date, "date");
+        Objects.requireNonNull(zone, "zone");
+        Objects.requireNonNull(operator, "operator");
         return Date.from(operator.apply(zoned(date, zone)).toInstant());
     }
 
     /**
-     * Mutates the contents of a legacy date.
+     * Applies a transformation to the underlying {@link Instant} of a legacy date.
+     * <p>
+     *     This method performs zone-independent transformations and is suitable for
+     *     operations that do not depend on calendar systems or time zones.
+     * </p>
+     *
      * @param date Legacy date.
-     *             This must be non-{@code null}.
-     * @param operation Operation.
-     * @return Mutated date.
-     *         The object-reference if identical to the input.
+     *             Must not be {@code null}.
+     * @param operator Transformation applied to the instant.
+     *                 Must not be {@code null}.
+     * @return Transformed date.
      */
     public static Date mutate(Date date,
-                              UnaryOperator<Instant> operation) {
+                              UnaryOperator<Instant> operator) {
         Objects.requireNonNull(date, "date");
-        Objects.requireNonNull(operation, "operation");
-        Instant result = operation.apply(date.toInstant());
+        Objects.requireNonNull(operator, "operator");
+        Instant result = operator.apply(date.toInstant());
         date.setTime(result.toEpochMilli());
         return date;
     }
 
+    /**
+     * Mutates the contents of a legacy date if non-{@code null}.
+     * <p>
+     *     If {@code date} is {@code null}, {@code null} is returned and the operation is not invoked.
+     * </p>
+     * @param date Legacy date.
+     *             May be {@code null}.
+     * @param operation Mutation operation applied to the underlying {@link Instant}.
+     *                  Must not be {@code null}.
+     * @return Mutated date, or {@code null} if the input was {@code null}.
+     */
     public static Date mutateNullable(Date date,
-                                      UnaryOperator<Instant> operation) {
+                                      UnaryOperator<Instant> operation) {  //TO-DO: Consider semantics; if date is null then do call operation?
         return date==null?null:mutate(date,operation);
     }
 
@@ -494,7 +547,8 @@ public class Dates {
      *          May be {@code null}.
      * @param b Second date.
      *          May be {@code null}.
-     * @return The earlier date, or {@code a} if equal. Returns {@code null} only if both are {@code null}.
+     * @return The earlier date, or {@code a} if equal.
+     *         Is {@code null} only if both are {@code null}.
      */
     public static Date min(Date a,
                            Date b) {
@@ -514,7 +568,8 @@ public class Dates {
      * </p>
      * @param a First date. May be {@code null}.
      * @param b Second date. May be {@code null}.
-     * @return The later date, or {@code a} if equal. Returns {@code null} only if both are {@code null}.
+     * @return The later date, or {@code a} if equal.
+     *         Is {@code null} only if both are {@code null}.
      */
     public static Date max(Date a,
                            Date b) {
@@ -524,10 +579,13 @@ public class Dates {
     }
 
     /**
-     *
-     * @param a
-     * @param b
-     * @return
+     * Tests if one date is strictly before another.
+     * <p>
+     *     Returns {@code false} if either argument is {@code null}.
+     * </p>
+     * @param a First date.
+     * @param b Second date.
+     * @return Indicates, if {@code a} is before {@code b}.
      */
     public static boolean isBefore(Date a,
                                    Date b) {
@@ -535,10 +593,13 @@ public class Dates {
     }
 
     /**
-     *
-     * @param a
-     * @param b
-     * @return
+     * Tests if one date is strictly after another.
+     * <p>
+     *     Returns {@code false} if either argument is {@code null}.
+     * </p>
+     * @param a First date.
+     * @param b Second date.
+     * @return Indicates, if {@code a} is after {@code b}.
      */
     public static boolean isAfter(Date a,
                                   Date b) {
@@ -546,10 +607,13 @@ public class Dates {
     }
 
     /**
-     *
-     * @param a
-     * @param b
-     * @return
+     * Tests if two dates are equal.
+     * <p>
+     *     This method is null-safe and delegates to {@link Objects#equals(Object, Object)}.
+     * </p>
+     * @param a First date.
+     * @param b Second date.
+     * @return Indicates, if both are equal.
      */
     public static boolean isEqual(Date a,
                                   Date b) {
@@ -557,64 +621,51 @@ public class Dates {
     }
 
     /**
-     *
-     * @param date
-     * @return
+     * Converts a legacy date to epoch milliseconds.
+     * @param date Legacy date.
+     *             Must not be {@code null}.
+     * @return Number of milliseconds since the epoch (1970-01-01T00:00:00Z).
      */
     public static long toEpochMilli(Date date) {
         return date.getTime();
     }
 
     /**
-     *
-     * @param millis
-     * @return
+     * Creates a legacy date from epoch milliseconds.
+     * @param millis Number of milliseconds since the epoch (1970-01-01T00:00:00Z).
+     * @return New date instance.
      */
     public static Date fromEpochMilli(long millis) {
         return new Date(millis);
     }
 
     /**
-     *
-     * @param time
-     * @return
-     */
-    public static Date toDate(long time) {
-        return new Date(time);
-    }
-
-    /**
-     *
-     * @param instant
-     * @return
-     */
-    public static Date toDate(Instant instant) {
-        return Date.from(instant);
-    }
-
-    /**
-     *
-     * @param instant
-     * @return
+     * Converts an {@link Instant} to a legacy date.
+     * @param instant Instant.
+     *                Must not be {@code null}.
+     * @return Date representing the same point in time.
      */
     public static Date fromInstant(Instant instant) {
         return Date.from(instant);
     }
 
     /**
-     *
+     * Converts a legacy date to an {@link Instant}.
      * @param date Legacy date.
-     * @return
+     *             Must not be {@code null}.
+     * @return Instant representing the same point in time.
      */
     public static Instant toInstant(Date date) {
         return date.toInstant();
     }
 
     /**
-     *
+     * Converts a legacy date to a {@link ZonedDateTime} using a specific time zone.
      * @param date Legacy date.
-     * @param zone
-     * @return
+     *             Must not be {@code null}.
+     * @param zone Time zone.
+     *             Must not be {@code null}.
+     * @return Zoned date-time representing the same instant in the given zone.
      */
     public static ZonedDateTime zoned(Date date,
                                       ZoneId zone) {  // Allows e.g. 'Dates.zoned(date, zone).withDayOfMonth(1).plusMonths(1)'
@@ -624,10 +675,12 @@ public class Dates {
     }
 
     /**
-     *
-     * @param date Legacy date.
-     * @param zone
-     * @return
+     * Converts a {@link LocalDate} to a legacy date using the start of day in a specific time zone.
+     * @param date Local date.
+     *             Must not be {@code null}.
+     * @param zone Time zone.
+     *             Must not be {@code null}.
+     * @return Corresponding date at start of day in the given zone.
      */
     public static Date fromLocalDate(LocalDate date,
                                      ZoneId zone) {
@@ -635,10 +688,12 @@ public class Dates {
     }
 
     /**
-     *
+     * Converts a legacy date to a {@link LocalDate} in a specific time zone.
      * @param date Legacy date.
-     * @param zone
-     * @return
+     *             Must not be {@code null}.
+     * @param zone Time zone.
+     *             Must not be {@code null}.
+     * @return Local date in the given zone.
      */
     public static LocalDate toLocalDate(Date date,
                                         ZoneId zone) {
@@ -646,10 +701,12 @@ public class Dates {
     }
 
     /**
-     *
-     * @param dateTime
-     * @param zone
-     * @return
+     * Converts a {@link LocalDateTime} to a legacy date using a specific time zone.
+     * @param dateTime Local date-time.
+     *                 Must not be {@code null}.
+     * @param zone Time zone.
+     *             Must not be {@code null}.
+     * @return Corresponding date in the given zone.
      */
     public static Date fromLocalDateTime(LocalDateTime dateTime,
                                          ZoneId zone) {
@@ -657,10 +714,12 @@ public class Dates {
     }
 
     /**
-     *
+     * Converts a legacy date to a {@link LocalDateTime} in a specific time zone.
      * @param date Legacy date.
-     * @param zone
-     * @return
+     *             Must not be {@code null}.
+     * @param zone Time zone.
+     *             Must not be {@code null}.
+     * @return Local date-time in the given zone.
      */
     public static LocalDateTime toLocalDateTime(Date date,
                                                 ZoneId zone) {
@@ -668,10 +727,12 @@ public class Dates {
     }
 
     /**
-     *
+     * Converts a legacy date to an {@link OffsetDateTime} in a specific time zone.
      * @param date Legacy date.
-     * @param zone
-     * @return
+     *             Must not be {@code null}.
+     * @param zone Time zone.
+     *             Must not be {@code null}.
+     * @return Offset date-time in the given zone.
      */
     public static OffsetDateTime toOffsetDateTime(Date date,
                                                   ZoneId zone) {
@@ -679,28 +740,32 @@ public class Dates {
     }
 
     /**
-     *
-     * @param dateTime
-     * @return
+     * Converts an {@link OffsetDateTime} to a legacy date.
+     * @param dateTime Offset date-time.
+     *                 Must not be {@code null}.
+     * @return Date representing the same point in time.
      */
     public static Date fromOffsetDateTime(OffsetDateTime dateTime) {
         return Date.from(dateTime.toInstant());
     }
 
     /**
-     *
-     * @param dateTime
-     * @return
+     * Converts a {@link ZonedDateTime} to a legacy date.
+     * @param dateTime Zoned date-time.
+     *                 Must not be {@code null}.
+     * @return Date representing the same point in time.
      */
     public static Date fromZonedDateTime(ZonedDateTime dateTime) {
         return Date.from(dateTime.toInstant());
     }
 
     /**
-     *
+     * Converts a legacy date to a {@link ZonedDateTime} in a specific time zone.
      * @param date Legacy date.
-     * @param zone
-     * @return
+     *             Must not be {@code null}.
+     * @param zone Time zone.
+     *             Must not be {@code null}.
+     * @return Zoned date-time in the given zone.
      */
     public static ZonedDateTime toZonedDateTime(Date date,
                                                 ZoneId zone) {
@@ -708,54 +773,60 @@ public class Dates {
     }
 
     /**
-     *
+     * Converts a legacy date to a {@link LocalDate} using {@link ZoneOffset#UTC}.
      * @param date Legacy date.
-     * @return
+     *             Must not be {@code null}.
+     * @return Local date in UTC.
      */
     public static LocalDate toLocalDateUTC(Date date) {
         return toLocalDate(date,ZoneOffset.UTC);
     }
 
     /**
-     *
+     * Converts a legacy date to a {@link LocalDateTime} using {@link ZoneOffset#UTC}.
      * @param date Legacy date.
-     * @return
+     *             Must not be {@code null}.
+     * @return Local date-time in UTC.
      */
     public static LocalDateTime toLocalDateTimeUTC(Date date) {
         return toLocalDateTime(date,ZoneOffset.UTC);
     }
 
     /**
-     *
+     * Converts a legacy date to a {@link LocalDate} using the system default time zone.
      * @param date Legacy date.
-     * @return
+     *             Must not be {@code null}.
+     * @return Local date in the system default zone.
      */
     public static LocalDate toLocalDateSystem(Date date) {
         return toLocalDate(date,ZoneId.systemDefault());
     }
 
     /**
-     *
+     * Converts a legacy date to a {@link LocalDateTime} using the system default time zone.
      * @param date Legacy date.
-     * @return
+     *             Must not be {@code null}.
+     * @return Local date-time in the system default zone.
      */
     public static LocalDateTime toLocalDateTimeSystem(Date date) {
         return toLocalDateTime(date,ZoneId.systemDefault());
     }
 
     /**
-     *
-     * @param clock
-     * @return
+     * Obtains the current date using a specific clock.
+     * @param clock Clock providing the current instant.
+     *              Must not be {@code null}.
+     * @return Current date.
      */
     public static Date now(Clock clock) {
         return Date.from(clock.instant());
     }
 
     /**
-     *
-     * @param instantSource
-     * @return
+     * Obtains the current date using a specific instant source.
+     * @param instantSource Source of instants.
+     *                      Must not be {@code null}.
+     * @return Current date.
      */
     public static Date now(InstantSource instantSource) {
         return Date.from(instantSource.instant());
