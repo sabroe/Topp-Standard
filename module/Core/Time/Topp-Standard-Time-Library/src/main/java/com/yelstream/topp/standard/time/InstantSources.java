@@ -19,24 +19,44 @@
 
 package com.yelstream.topp.standard.time;
 
-import com.yelstream.topp.standard.time.view.Time;
 import lombok.experimental.UtilityClass;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.time.InstantSource;
+import java.util.function.Supplier;
 
 /**
- * Utility addressing instances of {@link java.time.InstantSource}.
+ * Utility addressing instances of {@link InstantSource}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2026-04-11
+ * @since 2024-02-24
  */
 @UtilityClass
 public class InstantSources {
+    /**
+     * Creates a source of instants.
+     * @return Source of instants.
+     */
+    public static InstantSource now() {
+        return Instant::now;
+    }
 
-    //TO-DO: Fix!
+    /**
+     * Creates a source of instants according to a specific clock.
+     * @param clock Clock.
+     * @return Source of instants.
+     */
+    public static InstantSource now(Clock clock) {
+        return ()->Instant.now(clock);
+    }
 
-    public static Time time(InstantSource instantSource) {
-        return Time.of(instantSource);
+    public static InstantSource of(Instant instant) {
+        return ()->instant;
+    }
+
+    public static InstantSource of(Supplier<Instant> instantSupplier) {
+        return instantSupplier::get;
     }
 }

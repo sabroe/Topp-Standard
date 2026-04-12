@@ -28,3 +28,14 @@ plugins {
 dependencies {
     api project(':module:Core:Time:Topp-Standard-Time-Library')
 }
+
+tasks.withType(Javadoc).configureEach {
+    options.linksOffline(
+        "https://docs.oracle.com/en/java/javase/21/docs/api/",
+        "https://docs.oracle.com/en/java/javase/21/docs/api/element-list"  //Note: Not really offline!
+    )
+    options.linksOffline(
+        "https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time/latest/",
+        "https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time/latest/element-list"  //Note: Not really offline; is a compromise!
+    )
+}

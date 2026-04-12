@@ -17,39 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.time.view;
+package com.yelstream.topp.standard.time.legacy.util;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.Date;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
- *
- *
+ * Test suite for package {@code com.yelstream.topp.standard.time.legacy}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2026-04-10
+ * @since 2026-04-12
  */
-@AllArgsConstructor(staticName = "of",access = AccessLevel.PACKAGE)
-public class TimeTo {
-    /**
-     * Absolute time.
-     */
-    private final Time time;
-
-    public Instant instant() {
-        return time.toInstant();
-    }
-
-    public Date date() {
-        return time.toDate();
-    }
-
-    public ZonedTime zonedTime(ZoneId zone) {
-        return time.toZonedTime(zone);
-    }
+@Suite
+@SelectClasses({DatesTest.class})
+class TimeLegacyUtilTestSuite {
 }

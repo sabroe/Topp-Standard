@@ -21,8 +21,11 @@ package com.yelstream.topp.standard.time.view;
 
 import lombok.AllArgsConstructor;
 
+import java.time.Instant;
+import java.time.InstantSource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAmount;
 import java.time.temporal.TemporalUnit;
@@ -43,7 +46,7 @@ import java.util.function.UnaryOperator;
  * @since 2026-04-10
  */
 @AllArgsConstructor(staticName = "of")
-public final class ZonedTime {
+public final class ZonedTime implements InstantSource {  //TO-DO: Consider if this should be an instant-source?
     /**
      * Human/calendar time.
      */
@@ -83,7 +86,11 @@ public final class ZonedTime {
         return zdt.toLocalDateTime();
     }
 
-    public Time toTimeView() {
+    public LocalTime toLocalTime() {
+        return zdt.toLocalTime();
+    }
+
+    public Time toTime() {
         return Time.of(zdt.toInstant());
     }
 
@@ -101,5 +108,10 @@ public final class ZonedTime {
 
     public ZonedTimeTo to() {
         return ZonedTimeTo.of(this);
+    }
+
+    @Override
+    public Instant instant() {
+        return zdt.toInstant();
     }
 }

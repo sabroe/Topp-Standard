@@ -34,10 +34,7 @@ import java.time.InstantSource;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-04-28
- *
- * @deprecated Moved to module com.yelstream.standard.time!
  */
-@Deprecated(forRemoval = true)
 @Slf4j
 class InstantSourcesTest {
     /**

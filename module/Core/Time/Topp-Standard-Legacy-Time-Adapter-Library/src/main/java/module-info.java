@@ -18,7 +18,42 @@
  */
 
 /**
- * Topp Standard Legacy Time Adapter Library addressing { Date, Calendar, SimpleDateFormat }.
+ * Adapts legacy time/date functionalities to the current {@link java.time} API.
+ * <p>
+ *     While many applications continue to depend upon {@link java.util.Date},
+ *     {@link java.util.Calendar} and {@link java.text.SimpleDateFormat},
+ *     this may help to adapt to a solid, stable foundation based on Java SE 8 Date-and-Time functionalities.
+ * </p>
+ * <p>
+ *     Boundary adaptation of legacy dates {@link com.yelstream.topp.standard.time.legacy.util.Dates},
+ *     while otherwise keeping all internal date-and-time handling on a solid foundation,
+ *     using this module as a bridge between two worlds,
+ *     may be of key value.
+ * </p>
+ * <p>
+ *     About this module:
+ * </p>
+ * <ul>
+ *     <li>
+ *         Available as a Maven artifact on the
+ *         <a href="https://central.sonatype.com/artifact/com.yelstream.topp.standard/topp-standard-time-legacy"
+ *         >Maven Central Repository</a>!
+ *     </li>
+ *     <li>
+ *         Available API documentation is present on the
+ *         <a href="https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time-legacy"
+ *         >Maven JavaDoc site</a>!
+ *     </li>
+ * </ul>
+ * <p>
+ *     Related:
+ * </p>
+ * <ul>
+ *     <li>
+ *         <a href="https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time"
+ *         >Module {@code com.yelstream.topp.standard.time}</a>
+ *     </li>
+ * </ul>
  *
  * @author Morten Sabroe Mortensen
  * @since 2024-06-18

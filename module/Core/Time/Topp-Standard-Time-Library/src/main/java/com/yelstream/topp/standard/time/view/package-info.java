@@ -18,7 +18,7 @@
  */
 
 /**
- * Fluent view of time.
+ * Fluent view of absolute time and zoned time.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0

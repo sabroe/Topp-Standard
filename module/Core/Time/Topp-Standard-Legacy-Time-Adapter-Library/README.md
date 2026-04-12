@@ -1,3 +1,3 @@
 # Topp Standard Legacy Time Adapter Library
 
-Topp Standard Legacy Time Adapter Library addressing { Date, Calendar, SimpleDateFormat }.
+Adapts legacy time-and-date functionalities to current, sound standards.
