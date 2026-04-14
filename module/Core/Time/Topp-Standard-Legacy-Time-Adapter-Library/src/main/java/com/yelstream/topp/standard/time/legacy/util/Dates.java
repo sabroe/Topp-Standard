@@ -73,7 +73,7 @@ import java.util.function.UnaryOperator;
  *         {@link #consume(Date, Consumer)}
  *     </li>
  *     <li>
- *         {@link #map(Date, Function)}
+ *         {@link #map(Date, UnaryOperator)}
  *     </li>
  *     <li>
  *         {@link #from(Date, Function)}
@@ -87,7 +87,7 @@ import java.util.function.UnaryOperator;
  *         {@link #consumeNullable(Date, Consumer)}
  *     </li>
  *     <li>
- *         {@link #mapNullable(Date, Function)}
+ *         {@link #mapNullable(Date, UnaryOperator)}
  *     </li>
  *     <li>
  *         {@link #fromNullable(Date, Function)}
@@ -101,7 +101,7 @@ import java.util.function.UnaryOperator;
  *         {@link #consumeNullAware(Date, Consumer)}
  *     </li>
  *     <li>
- *         {@link #mapNullAware(Date, Function)}
+ *         {@link #mapNullAware(Date, UnaryOperator)}
  *     </li>
  *     <li>
  *         {@link #fromNullAware(Date, Function)}
@@ -136,6 +136,9 @@ import java.util.function.UnaryOperator;
  *     </li>
  *     <li>
  *         {@link #mutateNullable(Date, UnaryOperator)}
+ *     </li>
+ *     <li>
+ *         {@link #mutateNullAware(Date, UnaryOperator)}
  *     </li>
  *     <li>
  *         {@link #copy(Date)}
@@ -241,20 +244,120 @@ import java.util.function.UnaryOperator;
  *         {@link #time(Date)}
  *     </li>
  * </ol>
+ *
  * <h2>Null handling</h2>
  * <ul>
  *     <li>Methods without "Nullable" in the name do not accept {@code null}.</li>
  *     <li>Methods with "Nullable" in the name accept {@code null} and propagate it safely.</li>
  * </ul>
+ *
  * <h2>Immutability</h2>
  * <p>
  *     All methods return new {@link Date} instances and do not mutate the input,
  *     unless stated otherwise.
  * </p>
+ *
  * <h2>Time zones</h2>
  * <p>
  *     Time zone handling is explicit.
  *     Methods that depend on calendar fields require a {@link ZoneId}.
+ * </p>
+ *
+ * <h2>Semantic Model</h2>
+ * <p>
+ *     The operations provided by form a <i>semantic lattice</i>:
+ *     a complete and orthogonal grid of behavior defined by two independent axes.
+ * </p>
+ *
+ * <h3>Axes</h3>
+ * <p>
+ *     <b>Axis 1 – Operation kind</b>
+ * </p>
+ * <ul>
+ *     <li><b>map</b> – transforms a date into another date</li>
+ *     <li><b>from</b> – extracts a value from a date</li>
+ *     <li><b>consume</b> – performs a side effect using a date</li>
+ *     <li><b>mutate</b> – updates a date in-place</li>
+ * </ul>
+ * <p>
+ *     <b>Axis 2 – Null policy</b>
+ * </p>
+ * <ul>
+ *     <li><b>strict</b> – {@code null} is not permitted</li>
+ *     <li><b>nullable</b> – {@code null} is treated as absence (operation is skipped)</li>
+ *     <li><b>null-aware</b> – {@code null} is treated as a value (operation is always invoked)</li>
+ * </ul>
+ * <h3>Full lattice</h3>
+ * <pre>
+ *                                  NULL POLICY
+ *                    ┌──────────────────┬──────────────────┬──────────────────┐
+ *                    │  STRICT          │  NULLABLE        │  NULL-AWARE      │
+ * ┌──────────────────┼──────────────────┼──────────────────┼──────────────────┤
+ * │ map              │ map              │ mapNullable      │ mapNullAware     │
+ * │                  │ → Date           │ → Optional       │ → Date           │
+ * ├──────────────────┼──────────────────┼──────────────────┼──────────────────┤
+ * │ from             │ from             │ fromNullable     │ fromNullAware    │
+ * │                  │ → V              │ → Optional       │ → V              │
+ * ├──────────────────┼──────────────────┼──────────────────┼──────────────────┤
+ * │ consume          │ consume          │ consumeNullable  │ consumeNullAware │
+ * │                  │ void             │ skip             │ always call      │
+ * ├──────────────────┼──────────────────┼──────────────────┼──────────────────┤
+ * │ mutate           │ mutate           │ mutateNullable   │ mutateNullAware  │
+ * │                  │ in-place         │ skip             │ mutate or create │
+ * └──────────────────┴──────────────────┴──────────────────┴──────────────────┘
+ * </pre>
+ *
+ * <h3>Null policy semantics</h3>
+ * <ul>
+ *     <li>
+ *         <b>Strict:</b> {@code null} is not allowed and results in failure.
+ *     </li>
+ *     <li>
+ *         <b>Nullable:</b> {@code null} represents absence; the operation is not invoked.
+ *     </li>
+ *     <li>
+ *         <b>Null-aware:</b> {@code null} is treated as a valid input; the operation is always invoked.
+ *     </li>
+ * </ul>
+ *
+ * <h3>The hidden algebra</h3>
+ *
+ * <p>
+ *     All operations are internally variations of a common transformation pipeline:
+ * </p>
+ *
+ * <pre>
+ *     Date? → Instant? → operation → result
+ * </pre>
+ *
+ * <p>
+ *     The operation is applied to the underlying {@link Instant}, and the result is
+ *     subsequently projected into one of the supported output forms:
+ * </p>
+ *
+ * <ul>
+ *     <li>{@code Date} (mapping or mutation)</li>
+ *     <li>{@code V} (extraction)</li>
+ *     <li>{@code void} (consumption)</li>
+ * </ul>
+ *
+ * <p>
+ *     The chosen null policy determines how {@code null} propagates through this pipeline.
+ * </p>
+ *
+ * <h3>Design insight</h3>
+ *
+ * <p>
+ *     The API deliberately separates:
+ * </p>
+ * <ul>
+ *     <li>the <i>kind of operation</i> (map, from, consume, mutate)</li>
+ *     <li>the <i>null-handling strategy</i> (strict, nullable, null-aware)</li>
+ * </ul>
+ *
+ * <p>
+ *     This separation results in a predictable and composable design where each method
+ *     represents a single, well-defined point in the semantic lattice.
  * </p>
  *
  * @author Morten Sabroe Mortensen
@@ -289,16 +392,14 @@ public class Dates {
     /**
      * Transforms a legacy date by sending it through a time computation/operation.
      * @param date Legacy date.
-     * @param operation Operation.
+     * @param operator Operator.
      * @return Transformed date.
-     * @param <T> Type of temporal returned by the operation.
-     *            Instances of this type must be convertible via {@link Instant#from(TemporalAccessor)}.
      */
-    public static <T extends TemporalAccessor> Date map(Date date,
-                                                        Function<Instant,T> operation) {
+    public static Date map(Date date,
+                           UnaryOperator<Instant> operator) {
         Objects.requireNonNull(date, "date");
-        Objects.requireNonNull(operation, "operation");
-        return Date.from(Instant.from(operation.apply(date.toInstant())));
+        Objects.requireNonNull(operator, "operator");
+        return Date.from(Instant.from(operator.apply(date.toInstant())));
     }
 
     /**
@@ -351,14 +452,14 @@ public class Dates {
      * </p>
      * @param date Legacy date.
      *             This may be {@code null}.
-     * @param operation Operation.
-     *                  This is never called with {@code null}.
+     * @param operator Operator.
+     *                 This is never called with {@code null}.
      * @return Transformed date.
      */
     public static Optional<Date> mapNullable(Date date,
-                                             Function<Instant,Instant> operation) {
-        Objects.requireNonNull(operation, "operation");
-        return Optional.ofNullable(date).map(Date::toInstant).map(operation).map(Instant::from).map(Date::from);
+                                             UnaryOperator<Instant> operator) {
+        Objects.requireNonNull(operator, "operator");
+        return Optional.ofNullable(date).map(Date::toInstant).map(operator).map(Instant::from).map(Date::from);
     }
 
     /**
@@ -403,15 +504,15 @@ public class Dates {
      * </p>
      * @param date Legacy date.
      *             This may be {@code null}.
-     * @param operation Operation.
-     *                  This may be called with {@code null}.
+     * @param operator Operator.
+     *                 This may be called with {@code null}.
      * @return Transformed date.
      */
     public static Date mapNullAware(Date date,
-                                    Function<Instant, Instant> operation) {
-        Objects.requireNonNull(operation, "operation");
+                                    UnaryOperator<Instant> operator) {
+        Objects.requireNonNull(operator, "operation");
         Instant input = (date != null ? date.toInstant() : null);
-        Instant result = operation.apply(input);
+        Instant result = operator.apply(input);
         return (result != null ? Date.from(result) : null);
     }
 
@@ -605,13 +706,43 @@ public class Dates {
      * </p>
      * @param date Legacy date.
      *             May be {@code null}.
-     * @param operation Mutation operation applied to the underlying {@link Instant}.
-     *                  Must not be {@code null}.
+     * @param operator Mutation operation applied to the underlying {@link Instant}.
+     *                 Must not be {@code null}.
      * @return Mutated date, or {@code null} if the input was {@code null}.
      */
     public static Date mutateNullable(Date date,
-                                      UnaryOperator<Instant> operation) {  //TO-DO: Consider semantics; if date is null then do call operation?
-        return date==null?null:mutate(date,operation);
+                                      UnaryOperator<Instant> operator) {
+        return date==null?null:mutate(date,operator);
+    }
+
+    /**
+     * Mutates the contents of a legacy date in a null-aware manner.
+     * <p>
+     *     The supplied operation is always invoked.
+     *     If {@code date} is {@code null},
+     *     the operation receives {@code null} and a new {@link Date} instance is
+     *     created if the operation produces a non-{@code null} result.
+     * </p>
+     * @param date Legacy date.
+     *             May be {@code null}.
+     * @param operator Mutation operation applied to the underlying {@link Instant}.
+     *                The operation may receive {@code null}.
+     *                  Must not be {@code null}.
+     * @return Mutated date, or {@code null} if the operation produced {@code null}.
+     */
+    public static Date mutateNullAware(Date date,
+                                       UnaryOperator<Instant> operator) {
+        Objects.requireNonNull(operator, "operator");
+        Instant input = (date != null ? date.toInstant() : null);
+        Instant result = operator.apply(input);
+        if (result == null) {
+            return null;
+        }
+        if (date == null) {
+            return Date.from(result);
+        }
+        date.setTime(result.toEpochMilli());
+        return date;
     }
 
     /**

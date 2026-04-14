@@ -84,7 +84,7 @@ public class DatesTest {
     void map_shouldAcceptZonedDateTime() {
         Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
         Date date = Date.from(now);
-        Date result = Dates.map(date, instant ->ZonedDateTime.ofInstant(instant.plusSeconds(120),ZoneOffset.UTC));
+        Date result = Dates.map(date, instant ->ZonedDateTime.ofInstant(instant.plusSeconds(120),ZoneOffset.UTC).toInstant());
         Assertions.assertEquals(Date.from(now.plusSeconds(120)), result);
     }
 
