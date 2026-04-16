@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.time.view;
 
+import com.yelstream.topp.standard.time.policy.StandardNullPolicy;
 import lombok.AllArgsConstructor;
 
 import java.time.Instant;
@@ -45,7 +46,7 @@ import java.util.function.UnaryOperator;
  * @since 2026-04-10
  */
 @AllArgsConstructor(staticName = "of")
-public final class Time implements InstantSource {  //TO-DO: Consider if this should be an instant-source?
+public final class Time {
     /**
      * Absolute time.
      */
@@ -112,7 +113,7 @@ public final class Time implements InstantSource {  //TO-DO: Consider if this sh
     }
 
     public TimeMap map() {
-        return TimeMap.of(this);
+        return TimeMap.of(this, StandardNullPolicy.Strict.getPolicy());
     }
 
     public TimeAt at() {
@@ -125,10 +126,5 @@ public final class Time implements InstantSource {  //TO-DO: Consider if this sh
 
     public ZonedTime toZonedTime(ZoneId zone) {
         return ZonedTime.of(instant.atZone(zone));
-    }
-
-    @Override
-    public Instant instant() {
-        return instant;
     }
 }

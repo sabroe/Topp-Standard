@@ -46,7 +46,7 @@ import java.util.function.UnaryOperator;
  * @since 2026-04-10
  */
 @AllArgsConstructor(staticName = "of")
-public final class ZonedTime implements InstantSource {  //TO-DO: Consider if this should be an instant-source?
+public final class ZonedTime {
     /**
      * Human/calendar time.
      */
@@ -108,10 +108,5 @@ public final class ZonedTime implements InstantSource {  //TO-DO: Consider if th
 
     public ZonedTimeTo to() {
         return ZonedTimeTo.of(this);
-    }
-
-    @Override
-    public Instant instant() {
-        return zdt.toInstant();
     }
 }
