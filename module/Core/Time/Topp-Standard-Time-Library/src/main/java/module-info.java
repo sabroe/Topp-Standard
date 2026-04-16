@@ -53,4 +53,5 @@ module com.yelstream.topp.standard.time {
     requires org.slf4j;
     exports com.yelstream.topp.standard.time;
     exports com.yelstream.topp.standard.time.view;
+    exports com.yelstream.topp.standard.time.policy;
 }

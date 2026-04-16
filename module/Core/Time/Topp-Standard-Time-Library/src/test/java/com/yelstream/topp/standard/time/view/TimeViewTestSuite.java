@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.time;
+package com.yelstream.topp.standard.time.view;
 
+import org.junit.jupiter.api.Test;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -30,8 +31,7 @@ import org.junit.platform.suite.api.Suite;
  * @since 2024-04-26
  */
 @Suite
-@SelectClasses({InstantSourcesTest.class})
-class TimeTestSuite {
-
+@SelectClasses({TimeTest.class})
+class TimeViewTestSuite {
 
 }

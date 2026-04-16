@@ -37,10 +37,6 @@ import java.util.Date;
  */
 @AllArgsConstructor(staticName = "of",access = AccessLevel.PACKAGE)
 public class TimeCreate {
-    public Time from(Date date) {
-        return Time.of(date);
-    }
-
     public Time from(Instant instant) {
         return Time.of(instant);
     }
@@ -51,6 +47,10 @@ public class TimeCreate {
 
     public Time from(Temporal temporal) {
         return Time.of(Instant.from(temporal));
+    }
+
+    public Time from(Date date) {
+        return Time.of(date);
     }
 
     public Time now() {

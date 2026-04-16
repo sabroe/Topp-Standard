@@ -19,16 +19,23 @@
 
 package com.yelstream.topp.standard.time.view;
 
+import com.yelstream.topp.standard.time.policy.NullPolicies;
+import com.yelstream.topp.standard.time.policy.NullPolicy;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
 import java.time.Instant;
 import java.time.temporal.TemporalAmount;
 import java.time.temporal.TemporalUnit;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 /**
- * Transforms time.
+ * Capability view on transforming time.
+ * <p>
+ *     This is a fluent helper.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -41,8 +48,31 @@ public class TimeMap {
      */
     private final Time time;
 
-    public Time map(UnaryOperator<Instant> operator) {
-        return time.map(operator);
+    /**
+     * Null policy.
+     */
+    private final NullPolicy policy;
+
+    public Time get() {
+        return time;
+    }
+
+    public TimeMap map(UnaryOperator<Time> transformer) {
+        Time mappedTime = NullPolicies.map(policy, time, transformer, () -> null);
+        return of(mappedTime,policy);
+    }
+
+    public TimeMap mapInstant(UnaryOperator<Instant> transformer) {
+        Time mappedTime = NullPolicies.from(policy, time, t -> Time.of(transformer.apply(t.toInstant())), () -> null);
+        return of(mappedTime,policy);
+    }
+
+    public <V> V from(Function<Time, V> extractor) {  //TO-DO: Use Time or Instant?
+        return NullPolicies.from(policy, time, extractor, () -> null);
+    }
+
+    public void consume(Consumer<Time> consumer) {  //TO-DO: Use Time or Instant?
+        NullPolicies.consume(policy, time, consumer);
     }
 
     public Time plus(long amount,
