@@ -22,6 +22,7 @@ package com.yelstream.topp.standard.time.view;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -61,6 +62,10 @@ public class ZonedTimeTo {
 
     public Time time() {
         return zonedTime.toTime();
+    }
+
+    public Instant instant() {
+        return zonedTime.toInstant();
     }
 
     public Date date() {

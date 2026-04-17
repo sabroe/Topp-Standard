@@ -42,11 +42,11 @@ public class TimeAt {
         return time.at(zone);
     }
 
-    public ZonedTime zoneUTC() {
+    public ZonedTime utc() {
         return time.atZoneUTC();
     }
 
-    public ZonedTime zoneSystem() {
+    public ZonedTime system() {
         return time.atZoneSystem();
     }
 }

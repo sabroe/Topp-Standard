@@ -94,6 +94,10 @@ public final class ZonedTime {
         return Time.of(zdt.toInstant());
     }
 
+    public Instant toInstant() {
+        return zdt.toInstant();
+    }
+
     public Date toDate() {
         return Date.from(zdt.toInstant());
     }

@@ -51,7 +51,10 @@
 module com.yelstream.topp.standard.time {
     requires static lombok;
     requires org.slf4j;
+    requires com.yelstream.topp.standard.time;
     exports com.yelstream.topp.standard.time;
     exports com.yelstream.topp.standard.time.view;
     exports com.yelstream.topp.standard.time.policy;
+    exports com.yelstream.topp.standard.time.format;
+    exports com.yelstream.topp.standard.time.codec;
 }

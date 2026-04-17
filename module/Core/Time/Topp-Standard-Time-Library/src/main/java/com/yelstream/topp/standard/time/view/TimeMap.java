@@ -32,7 +32,7 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 /**
- * Capability view on transforming time.
+ * Capability view on transforming {@link Time} instances.
  * <p>
  *     This is a fluent helper.
  * </p>
@@ -53,18 +53,24 @@ public class TimeMap {
      */
     private final NullPolicy policy;
 
-    public Time get() {
+    public Time time() {
         return time;
     }
 
+    private Time apply(UnaryOperator<Time> transformer) {
+        return NullPolicies.map(policy, time, transformer, () -> null);
+    }
+
+    private Time applyInstant(UnaryOperator<Instant> transformer) {
+        return NullPolicies.map(policy, time, t -> Time.of(transformer.apply(t.toInstant())), () -> null);
+    }
+
     public TimeMap map(UnaryOperator<Time> transformer) {
-        Time mappedTime = NullPolicies.map(policy, time, transformer, () -> null);
-        return of(mappedTime,policy);
+        return of(apply(transformer),policy);
     }
 
     public TimeMap mapInstant(UnaryOperator<Instant> transformer) {
-        Time mappedTime = NullPolicies.from(policy, time, t -> Time.of(transformer.apply(t.toInstant())), () -> null);
-        return of(mappedTime,policy);
+        return of(applyInstant(transformer), policy);
     }
 
     public <V> V from(Function<Time, V> extractor) {  //TO-DO: Use Time or Instant?
@@ -75,21 +81,21 @@ public class TimeMap {
         NullPolicies.consume(policy, time, consumer);
     }
 
-    public Time plus(long amount,
-                     TemporalUnit unit) {
-        return time.plus(amount, unit);
+    public TimeMap plus(long amount,
+                        TemporalUnit unit) {
+        return mapInstant(t-> t.plus(amount, unit));
     }
 
-    public Time plus(TemporalAmount amount) {
-        return time.plus(amount);
+    public TimeMap plus(TemporalAmount amount) {
+        return mapInstant(t-> t.plus(amount));
     }
 
-    public Time minus(long amount,
-                      TemporalUnit unit) {
-        return time.minus(amount, unit);
+    public TimeMap minus(long amount,
+                         TemporalUnit unit) {
+        return mapInstant(t-> t.minus(amount, unit));
     }
 
-    public Time minus(TemporalAmount amount) {
-        return time.minus(amount);
+    public TimeMap minus(TemporalAmount amount) {
+        return mapInstant(t-> t.minus(amount));
     }
 }

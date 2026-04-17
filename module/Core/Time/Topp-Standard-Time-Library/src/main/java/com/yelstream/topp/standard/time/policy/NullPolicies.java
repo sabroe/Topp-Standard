@@ -45,7 +45,7 @@ public class NullPolicies {
 
     public static final NullPolicy NULLABLE_NULL_POLICY = NullPolicies::nullable;
 
-    public static final NullPolicy NULLAWARE_NULL_POLICY = NullPolicies::nullAware;
+    public static final NullPolicy NULL_AWARE_NULL_POLICY = NullPolicies::nullAware;
 
     public static <T,R> R strict(T input,
                                  Function<T, R> present,
