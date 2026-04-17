@@ -17,36 +17,29 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.time.view;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-
-import java.time.ZoneId;
+package com.yelstream.topp.standard.time.codec;
 
 /**
- * Interprets time relative to a time zone.
+ * Strategy for how to format and parse a temporal.
+ * @param <T> Type of temporal.
+ *            This may be an instance of {@link java.time.temporal.Temporal}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2026-04-10
+ * @since 2026-04-17
  */
-@AllArgsConstructor(staticName = "of",access = AccessLevel.PACKAGE)
-public class TimeAt {
+public interface TemporalCodec<T> {  //TO-DO: Why not extend TemporalFormat, TemporalParse ?
     /**
-     * Absolute time.
+     * Formats a temporal into text.
+     * @param temporal Temporal.
+     * @return Formatted temporal.
      */
-    private final Time time;
+    String format(T temporal);
 
-    public ZonedTime zone(ZoneId zone) {
-        return time.at(zone);
-    }
-
-    public ZonedTime utc() {
-        return time.atZoneUTC();
-    }
-
-    public ZonedTime system() {
-        return time.atZoneSystem();
-    }
+    /**
+     * Parses a text into a temporal.
+     * @param text Text.
+     * @return Parsed temporal.
+     */
+    T parse(CharSequence text);
 }

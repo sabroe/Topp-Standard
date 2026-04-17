@@ -21,13 +21,24 @@ package com.yelstream.topp.standard.time.view;
 
 import com.yelstream.topp.standard.time.policy.NullPolicy;
 import com.yelstream.topp.standard.time.policy.StandardNullPolicy;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class TimePolicy {
-
+    /**
+     * Absolute time.
+     */
     private final Time time;
+
+    /**
+     * Null policy.
+     */
     private final NullPolicy policy;
+
+    public Time time() {
+        return time;
+    }
 
     public TimePolicy strict() {
         return policy(StandardNullPolicy.Strict.getPolicy());
@@ -45,29 +56,8 @@ public class TimePolicy {
         return new TimePolicy(time, policy);
     }
 
-    // 🔥 expose SAME helpers — policy-aware
-
-/*
     public TimeMap map() {
-        return new TimeMapImpl(time, policy);
+        return TimeMap.of(time, policy);
     }
-*/
-
-/*
-    public TimeTo to() {
-        return new TimeTo(time, policy);
-    }
-*/
-
-/*
-    public TimeAt at() {
-        return new TimeAtImpl(time, policy);
-    }
-*/
-
-/*
-    public TimeCreate create() {
-        return new TimeCreateImpl(policy);
-    }
-*/
 }
+

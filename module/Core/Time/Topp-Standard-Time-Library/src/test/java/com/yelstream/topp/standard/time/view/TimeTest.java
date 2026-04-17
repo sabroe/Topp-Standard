@@ -24,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 
 /**
  * Test of {@link InstantSources}.
@@ -48,36 +47,37 @@ class TimeTest {
     @Test
     void policyStrict() {
 
+//        Time time=Time.of(Instant.now());
+
+        Time time=Time.create().now();
+        Instant instant=time.to().instant();
+        System.out.println(instant);
+
 /*
-        Time result =
-                TimeFlow.of(time)
-                        .plus(5, ChronoUnit.MINUTES)
-                        .toTime();
+        Time.of().
+        Time.ofNullable().
+*/
+
+/*
+        time.to().format(formatter)
+        time.to().iso()
+
+        Time.create().parse("2026-04-17T12:00:00Z", formatter)
+
+        Time.parseIso("2026-04-17T12:00:00Z")
 */
     }
 
     @Test
     void policyNullable() {
 
-/*
-        Time result =
-                TimeFlow.ofNullable(date)
-                        .nullable()
-                        .plus(5, ChronoUnit.MINUTES)
-                        .toTime();
-*/
+
     }
 
     @Test
     void policyNullAware() {
 
-/*
-        Time result =
-                TimeFlow.ofNullable(date)
-                        .nullAware()
-                        .map(i -> i == null ? Instant.EPOCH : i.plusSeconds(60))
-                        .toTime();
-*/
+
     }
 
 

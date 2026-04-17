@@ -17,36 +17,27 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.time.view;
+package com.yelstream.topp.standard.time.format;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
-import java.time.ZoneId;
+public final class TimeFormats {
 
-/**
- * Interprets time relative to a time zone.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2026-04-10
- */
-@AllArgsConstructor(staticName = "of",access = AccessLevel.PACKAGE)
-public class TimeAt {
-    /**
-     * Absolute time.
+    public static TimeFormat of(DateTimeFormatter formatter) {
+        Objects.requireNonNull(formatter);
+        return instant -> formatter.format(instant);
+    }
+
+    public static final TimeFormat ISO =
+            of(DateTimeFormatter.ISO_INSTANT);
+
+    public static final TimeFormat RFC_1123 =
+            of(DateTimeFormatter.RFC_1123_DATE_TIME);
+
+    /*
+    Usage:
+TimeFormat f = TimeFormats.ISO;
+String s = f.format(time);
      */
-    private final Time time;
-
-    public ZonedTime zone(ZoneId zone) {
-        return time.at(zone);
-    }
-
-    public ZonedTime utc() {
-        return time.atZoneUTC();
-    }
-
-    public ZonedTime system() {
-        return time.atZoneSystem();
-    }
 }

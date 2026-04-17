@@ -17,36 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.time.view;
+package com.yelstream.topp.standard.time.format;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import java.time.Instant;
 
-import java.time.ZoneId;
-
-/**
- * Interprets time relative to a time zone.
- *
- * @author Morten Sabroe Mortensen
- * @version 1.0
- * @since 2026-04-10
- */
-@AllArgsConstructor(staticName = "of",access = AccessLevel.PACKAGE)
-public class TimeAt {
-    /**
-     * Absolute time.
-     */
-    private final Time time;
-
-    public ZonedTime zone(ZoneId zone) {
-        return time.at(zone);
-    }
-
-    public ZonedTime utc() {
-        return time.atZoneUTC();
-    }
-
-    public ZonedTime system() {
-        return time.atZoneSystem();
-    }
+public interface TimeParse extends TemporalParse<Instant> {
 }

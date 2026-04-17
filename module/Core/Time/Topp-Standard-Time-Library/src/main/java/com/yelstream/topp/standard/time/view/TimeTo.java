@@ -19,16 +19,24 @@
 
 package com.yelstream.topp.standard.time.view;
 
+import com.yelstream.topp.standard.time.codec.TemporalCodec;
+import com.yelstream.topp.standard.time.codec.TimeCodec;
+import com.yelstream.topp.standard.time.format.TemporalFormat;
+import com.yelstream.topp.standard.time.format.TimeFormat;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Objects;
 
 /**
- *
- *
+ * Capability view on extraction from {@link Time} instances.
+ * <p>
+ *     This is a fluent helper.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -51,5 +59,34 @@ public class TimeTo {
 
     public ZonedTime zonedTime(ZoneId zone) {
         return time.toZonedTime(zone);
+    }
+
+    public String iso() {
+        return format(DateTimeFormatter.ISO_INSTANT);
+    }
+
+    public String format(DateTimeFormatter formatter) {
+        Objects.requireNonNull(formatter);
+        return formatter.format(time.toInstant());
+    }
+
+    public String format(TimeFormat format) {
+        Objects.requireNonNull(format, "format");
+        return format.format(time.toInstant());
+    }
+
+    public String format(TemporalFormat<Instant> format) {
+        Objects.requireNonNull(format, "format");
+        return format.format(time.toInstant());
+    }
+
+    public String format(TimeCodec codec) {
+        Objects.requireNonNull(codec, "codec");
+        return codec.format(time.toInstant());
+    }
+
+    public String format(TemporalCodec<Instant> codec) {
+        Objects.requireNonNull(codec, "codec");
+        return codec.format(time.toInstant());
     }
 }
