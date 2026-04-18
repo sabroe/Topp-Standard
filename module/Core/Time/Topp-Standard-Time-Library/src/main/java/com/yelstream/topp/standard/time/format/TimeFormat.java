@@ -21,5 +21,13 @@ package com.yelstream.topp.standard.time.format;
 
 import java.time.Instant;
 
+/**
+ * Strategy for how to format a @link Instant} as a text.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-04-17
+ */
+@FunctionalInterface
 public interface TimeFormat extends TemporalFormat<Instant> {
 }

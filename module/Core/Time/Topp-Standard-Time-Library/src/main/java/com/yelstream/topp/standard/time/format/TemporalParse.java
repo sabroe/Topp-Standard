@@ -23,16 +23,17 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Strategy for how to parse a temporal.
+ * Strategy for how to parse a text as a temporal.
  * @param <T> Type of temporal.
- *            This may be an instance of {@link java.time.temporal.Temporal}.
+ *            This may be an instance of {@link java.time.temporal.Temporal},
+ *            but is not restricted to that.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2026-04-17
  */
 @FunctionalInterface
-public interface TemporalParse<T> {  //TO-DO: Why not "TemporalParser" ?
+public interface TemporalParse<T> {
     /**
      * Parses a text into a temporal.
      * @param text Text.

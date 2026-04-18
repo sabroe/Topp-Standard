@@ -20,15 +20,24 @@
 package com.yelstream.topp.standard.time.codec;
 
 /**
- * Strategy for how to format and parse a temporal.
+ * A bidirectional representation that can convert temporal values to and from text.
+ * <p>
+ *     This type is defined as a composition of two independent operations rather than through inheritance.
+ *     Although formatting and parsing are often used together,
+ *     they are not inherently symmetrical: a textual representation may be lossy or ambiguous,
+ *     and a parser may accept inputs that do not have a single canonical form.
+ *     By keeping the two directions loosely coupled,
+ *     this design remains flexible and avoids imposing artificial constraints on either operation.
+ * </p>
  * @param <T> Type of temporal.
- *            This may be an instance of {@link java.time.temporal.Temporal}.
+ *            This may be an instance of {@link java.time.temporal.Temporal},
+ *            but is not restricted to that.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2026-04-17
  */
-public interface TemporalCodec<T> {  //TO-DO: Why not extend TemporalFormat, TemporalParse ?
+public interface TemporalCodec<T> {
     /**
      * Formats a temporal into text.
      * @param temporal Temporal.

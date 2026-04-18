@@ -19,25 +19,27 @@
 
 package com.yelstream.topp.standard.time.format;
 
+import lombok.experimental.UtilityClass;
+
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+/**
+ * Utilities addressing instances of {@link TimeFormat}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-04-17
+ */
+@UtilityClass
 public final class TimeFormats {
 
-    public static TimeFormat of(DateTimeFormatter formatter) {
+    public static TimeFormat from(DateTimeFormatter formatter) {
         Objects.requireNonNull(formatter);
-        return instant -> formatter.format(instant);
+        return formatter::format;
     }
 
-    public static final TimeFormat ISO =
-            of(DateTimeFormatter.ISO_INSTANT);
+    public static final TimeFormat ISO = from(DateTimeFormatter.ISO_INSTANT);
 
-    public static final TimeFormat RFC_1123 =
-            of(DateTimeFormatter.RFC_1123_DATE_TIME);
-
-    /*
-    Usage:
-TimeFormat f = TimeFormats.ISO;
-String s = f.format(time);
-     */
+    public static final TimeFormat RFC_1123 = from(DateTimeFormatter.RFC_1123_DATE_TIME);
 }

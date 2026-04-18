@@ -21,5 +21,13 @@ package com.yelstream.topp.standard.time.format;
 
 import java.time.Instant;
 
+/**
+ * Strategy for how to parse a text as a @link Instant}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-04-17
+ */
+@FunctionalInterface
 public interface TimeParse extends TemporalParse<Instant> {
 }

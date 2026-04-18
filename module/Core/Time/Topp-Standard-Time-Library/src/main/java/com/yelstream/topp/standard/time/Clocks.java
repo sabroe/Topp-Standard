@@ -36,7 +36,9 @@ public class Clocks {
 
     //TO-DO: Fix!
 
+/*
     public static Time time(Clock clock) {
         return Time.of(clock);
     }
+*/
 }

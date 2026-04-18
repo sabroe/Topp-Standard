@@ -20,11 +20,11 @@
 package com.yelstream.topp.standard.time.codec;
 
 import com.yelstream.topp.standard.time.format.TemporalFormat;
+import com.yelstream.topp.standard.time.format.TemporalParse;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.UtilityClass;
 
-import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalQuery;
@@ -59,5 +59,31 @@ public class TemporalCodecs {
         public T parse(CharSequence text) {
             return formatter.parse(text,query);
         }
+    }
+
+    @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
+    static class ComposedTemporalCodec<T> implements TemporalCodec<T> {
+        private final TemporalFormat<T> format;
+        private final TemporalParse<T> parse;
+
+        @Override
+        public String format(T temporal) {
+            return format.format(temporal);
+        }
+
+        @Override
+        public T parse(CharSequence text) {
+            return parse.parse(text);
+        }
+    }
+
+    public static <T extends TemporalAccessor> TemporalCodec<T> from(DateTimeFormatter formatter,
+                                                                     TemporalQuery<T> query) {
+        return SimpleTemporalCodec.of(formatter,query);
+    }
+
+    public static <T> TemporalCodec<T> from(TemporalFormat<T> format,
+                                            TemporalParse<T> parse) {
+        return ComposedTemporalCodec.of(format,parse);
     }
 }
