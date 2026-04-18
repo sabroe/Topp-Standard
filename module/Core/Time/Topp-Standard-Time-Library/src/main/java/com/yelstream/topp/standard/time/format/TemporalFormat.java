@@ -20,16 +20,17 @@
 package com.yelstream.topp.standard.time.format;
 
 /**
- * Strategy for how to format a temporal.
+ * Strategy for how to format a temporal as a text.
  * @param <T> Type of temporal.
- *            This may be an instance of {@link java.time.temporal.Temporal}.
+ *            This may be an instance of {@link java.time.temporal.Temporal},
+ *            but is not restricted to that.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2026-04-17
  */
 @FunctionalInterface
-public interface TemporalFormat<T> {  //TO-DO: Why not "TemporalFormatter" ?
+public interface TemporalFormat<T> {
     /**
      * Formats a temporal into text.
      * @param temporal Temporal.

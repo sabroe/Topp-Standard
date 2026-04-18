@@ -21,6 +21,9 @@ package com.yelstream.topp.standard.time.format;
 
 import lombok.experimental.UtilityClass;
 
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+
 /**
  * Utilities addressing temporal formatting.
  * <p>
@@ -34,5 +37,9 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TemporalFormats {
 
+
+    public static <T extends TemporalAccessor> TemporalFormat<T> from(DateTimeFormatter formatter) {
+        return formatter::format;
+    }
 
 }

@@ -1059,6 +1059,6 @@ public class Dates {
      * @return Fluent view of absolute time.
      */
     public static Time time(Date date) {
-        return Time.of(date);
+        return Time.of(date.toInstant());
     }
 }

@@ -21,6 +21,10 @@ package com.yelstream.topp.standard.time.format;
 
 import lombok.experimental.UtilityClass;
 
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalQuery;
+
 /**
  * Utilities addressing temporal parsing.
  * <p>
@@ -34,5 +38,14 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TemporalParses {
 
+
+    public static TemporalParse<TemporalAccessor> from(DateTimeFormatter formatter) {
+        return formatter::parse;
+    }
+
+    public static <T extends TemporalAccessor> TemporalParse<T> from(DateTimeFormatter formatter,
+                                                                     TemporalQuery<T> query) {
+        return text -> formatter.parse(text,query);
+    }
 
 }

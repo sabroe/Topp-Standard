@@ -19,6 +19,8 @@
 
 package com.yelstream.topp.standard.time.format;
 
+import lombok.experimental.UtilityClass;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -28,24 +30,26 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.util.Objects;
 
+/**
+ * Utilities addressing instances of {@link TimeParse}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-04-17
+ */
+@UtilityClass
 public final class TimeParses {
 
-    public static TimeParse of(DateTimeFormatter formatter) {
+    public static TimeParse from(DateTimeFormatter formatter) {
         Objects.requireNonNull(formatter);
         return text -> formatter.parse(text, Instant::from);
     }
 
-    public static final TimeParse ISO =
-            of(DateTimeFormatter.ISO_INSTANT);
+    public static final TimeParse ISO = from(DateTimeFormatter.ISO_INSTANT);
 
 
-    //Strict (requires zone)
-    public static TimeParse strict(DateTimeFormatter formatter) {
-        return text -> formatter.parse(text, Instant::from);
-    }
-
-    //With default zone (this is the important one)
-    public static TimeParse withZone(DateTimeFormatter formatter, ZoneId zone) {
+    public static TimeParse withZone(DateTimeFormatter formatter,
+                                     ZoneId zone) {  //TO-DO: Consider the presence of this!
         Objects.requireNonNull(formatter);
         Objects.requireNonNull(zone);
 
@@ -63,8 +67,8 @@ public final class TimeParses {
         };
     }
 
-    //Smart fallback (very nice)
-    public static TimeParse smart(DateTimeFormatter formatter, ZoneId defaultZone) {
+    public static TimeParse smart(DateTimeFormatter formatter,
+                                  ZoneId defaultZone) {  //TO-DO: Consider the presence of this!
         return text -> {
             TemporalAccessor parsed = formatter.parse(text);
 
@@ -81,30 +85,4 @@ public final class TimeParses {
                     .toInstant();
         };
     }
-
-
-
-
-
-/*
-    Usage:
-TimeParse p = TimeParsers.ISO;
-Time t = p.parseTime("2026-04-17T12:00:00Z");
- */
-
-/*
-    Strict usage:
-  Time t = Time.create().parse(
-    "2026-04-17T12:00:00Z",
-    TimeParsers.strict(DateTimeFormatter.ISO_INSTANT)
-);
-
-Local date-time with zone:
-Time t = Time.create().parse(
-    input,
-    TimeParsers.smart(formatter, ZoneOffset.UTC)
-);
-
-
-*/
 }
