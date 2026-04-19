@@ -29,40 +29,42 @@ dependencies {
     api project(':module:Core:Time:Topp-Standard-Time-Library')
 }
 
+/*
+afterEvaluate {
+    def otherJavadoc = project(':module:Core:Time:Topp-Standard-Time-Library')
+            .tasks.findByName('javadoc')
+
+    if (otherJavadoc) {
+        tasks.withType(Javadoc).configureEach {
+            dependsOn otherJavadoc
+
+            options.linksOffline(
+                    "https://docs.oracle.com/en/java/javase/21/docs/api/",
+                    "https://docs.oracle.com/en/java/javase/21/docs/api/element-list"
+            )
+
+            options.linksOffline(
+                    "https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time/latest/",
+                    //otherJavadoc.destinationDir.toURI().toString()   // ← Just the directory
+                    "file:///C:/Project/Topp-Work/Topp-Standard/module/Core/Time/Topp-Standard-Time-Library/build/docs/javadoc/"
+            )
+        }
+    } else {
+        logger.warn("Javadoc task not found in Topp-Standard-Time-Library - skipping cross links")
+    }
+}
+*/
+
 tasks.withType(Javadoc).configureEach {
+    dependsOn ':module:Core:Time:Topp-Standard-Time-Library:javadoc'
+
     options.linksOffline(
-        "https://docs.oracle.com/en/java/javase/21/docs/api/",
-        "https://docs.oracle.com/en/java/javase/21/docs/api/element-list"  //Note: Not really offline!
+            "https://docs.oracle.com/en/java/javase/21/docs/api/",
+            "https://docs.oracle.com/en/java/javase/21/docs/api/element-list"
     )
+
     options.linksOffline(
-        "https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time/latest/",
-        "https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time/latest/element-list"  //Note: Not really offline; is a compromise!
+            "https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time/latest/",
+            "file:///C:/Project/Topp-Work/Topp-Standard/module/Core/Time/Topp-Standard-Time-Library/build/docs/javadoc/"
     )
 }
-
-/*
-tasks.withType(Javadoc).configureEach {
-    dependsOn(':module:Core:Time:Topp-Standard-Time-Library:javadoc')
-
-    options.linksOffline(
-            project(':module:Core:Time:Topp-Standard-Time-Library')
-                    .tasks.named('javadoc').get().destinationDir.toURI().toString(),
-            project(':module:Core:Time:Topp-Standard-Time-Library')
-                    .tasks.named('javadoc').get().destinationDir.toURI().toString()
-    )
-}*/
-
-
-/*
-def toppTimeVersion = "0.3.9.1"  // last published
-
-options.links(
-        "https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time/${toppTimeVersion}/"
-)
-*/
-
-/*
-options.links(
-        "https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time/latest/"
-)
-*/
