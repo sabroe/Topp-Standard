@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html","k":"18"},{"p":"com.yelstream.topp.standard.operation.type","l":"ClassOps"},{"p":"com.yelstream.topp.standard.operation.type","l":"ObjectOps"},{"p":"com.yelstream.topp.standard.operation.text","l":"StringOps"},{"p":"com.yelstream.topp.standard.operation.type","l":"Type"}];updateSearchResults();

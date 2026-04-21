@@ -17,4 +17,11 @@
  * limitations under the License.
  */
 
+/**
+ * Type manipulation utilities.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-04-21
+ */
 package com.yelstream.topp.standard.operation.type;

@@ -29,6 +29,5 @@
 module com.yelstream.topp.standard.operation.type {
     requires static lombok;
     requires org.slf4j;
-    exports com.yelstream.topp.standard.operation.text;
     exports com.yelstream.topp.standard.operation.type;
 }
