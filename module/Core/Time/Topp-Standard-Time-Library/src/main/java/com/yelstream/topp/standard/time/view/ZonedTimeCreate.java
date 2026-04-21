@@ -24,7 +24,9 @@ import lombok.AllArgsConstructor;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -55,6 +57,15 @@ public class ZonedTimeCreate {
     public ZonedTime from(LocalDateTime localDateTime,
                           ZoneId zone) {
         return ZonedTime.of(localDateTime.atZone(zone));
+    }
+
+    public ZonedTime from(LocalDate localDate,
+                          ZoneId zone) {
+        return ZonedTime.of(localDate.atStartOfDay().atZone(zone));
+    }
+
+    public ZonedTime from(OffsetDateTime offsetDateTime) {
+        return ZonedTime.of(offsetDateTime.toZonedDateTime());
     }
 
     public ZonedTime now() {

@@ -104,6 +104,13 @@ include("module:Core:IO:Topp-Standard-Dual-Access-IO-Library")
 include("module:Core:Net:Topp-Standard-Uniform-Resource-Library")
 include("module:Core:Text:Topp-Standard-Regular-Expression-Library")
 
+//"Operation" - stateless transformations/helpers (not domain models, not services, not infrastructure logic)
+//TO-DO: include("module:Core:Operation:Topp-Standard-Operation-Text-Library")  //Text operation; string/text manipulation utilities.
+//TO-DO: include("module:Core:Operation:Topp-Standard-Operation-Type-Library")  //Type operation; casting, type inspection, runtime type handling.
+
+//"Policy" - behavior
+//TO-DO: include("module:Core:Policy:Topp-Standard-Policy-Null-Library")
+
 include("module:Core:Time:Topp-Standard-Time-Library")
 include("module:Core:Time:Topp-Standard-Time-Formatting-Library")
 include("module:Core:Time:Topp-Standard-Legacy-Time-Adapter-Library")

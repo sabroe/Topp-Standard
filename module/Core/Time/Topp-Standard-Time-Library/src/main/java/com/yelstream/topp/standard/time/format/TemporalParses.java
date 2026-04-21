@@ -48,4 +48,17 @@ public class TemporalParses {
         return text -> formatter.parse(text,query);
     }
 
+
+/*
+    OffsetTime     ot = parseOffsetTime("14:30:00+02:00");
+    ZonedDateTime  zdt = parseZonedDateTime("2025-04-19T14:30:00+02:00[Europe/Copenhagen]");
+    LocalDateTime  ldt = parseLocalDateTime("2025-04-19T14:30:00");
+    LocalDate      ld  = parseLocalDate("2025-04-19");
+    LocalTime      lt  = parseLocalTime("14:30:00");
+    OffsetDateTime odt = parseOffsetDateTime(...);
+    Year           year = parseYear(...);
+    YearMonth      ym   = parseYearMonth(...);
+    MonthDay       md   = parseMonthDay(...);
+    ZonedDateTime zdt = parseZonedDateTime(text, SomeFormatter);
+*/
 }

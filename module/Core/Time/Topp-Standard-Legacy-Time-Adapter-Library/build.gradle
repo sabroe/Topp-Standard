@@ -55,16 +55,23 @@ afterEvaluate {
 }
 */
 
-tasks.withType(Javadoc).configureEach {
-    dependsOn ':module:Core:Time:Topp-Standard-Time-Library:javadoc'
+//afterevaluate {
+    tasks.withType(Javadoc).configureEach {
+        dependsOn ':module:Core:Time:Topp-Standard-Time-Library:javadoc'
 
-    options.linksOffline(
-            "https://docs.oracle.com/en/java/javase/21/docs/api/",
-            "https://docs.oracle.com/en/java/javase/21/docs/api/element-list"
-    )
+        def timeProject = project(':module:Core:Time:Topp-Standard-Time-Library')
+        def timeVersion = timeProject.version
 
-    options.linksOffline(
-            "https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time/latest/",
-            "file:///C:/Project/Topp-Work/Topp-Standard/module/Core/Time/Topp-Standard-Time-Library/build/docs/javadoc/"
-    )
-}
+        options.linksOffline(
+                "https://docs.oracle.com/en/java/javase/21/docs/api/",
+                "https://docs.oracle.com/en/java/javase/21/docs/api/element-list"
+        )
+
+        options.linksOffline(
+                //            "https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time/latest/",
+                "https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time/${timeVersion}/",
+                //            timeProject.tasks.named('javadoc').get().destinationDir.toURI().toString()
+                "file:///C:/Project/Topp-Work/Topp-Standard/module/Core/Time/Topp-Standard-Time-Library/build/docs/javadoc/"
+        )
+    }
+//}

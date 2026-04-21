@@ -22,10 +22,10 @@ package com.yelstream.topp.standard.time.view;
 import lombok.AllArgsConstructor;
 
 import java.time.Instant;
-import java.time.InstantSource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAmount;
 import java.time.temporal.TemporalUnit;
@@ -76,6 +76,10 @@ public final class ZonedTime {
 
     public ZonedDateTime toZonedDateTime() {
         return zdt;
+    }
+
+    public OffsetDateTime toOffsetDateTime() {
+        return zdt.toOffsetDateTime();
     }
 
     public LocalDate toLocalDate() {
