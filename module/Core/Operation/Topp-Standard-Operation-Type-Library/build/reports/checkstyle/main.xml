@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="12.3.0">
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Core\Operation\Topp-Standard-Operation-Type-Library\src\main\java\com\yelstream\topp\standard\operation\text\package-info.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Core\Operation\Topp-Standard-Operation-Type-Library\src\main\java\com\yelstream\topp\standard\operation\text\StringOps.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Core\Operation\Topp-Standard-Operation-Type-Library\src\main\java\com\yelstream\topp\standard\operation\type\ClassOps.java">
+<error line="37" column="8" severity="warning" message="&lt;p&gt; tag should be preceded with an empty line." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"/>
+<error line="41" column="8" severity="warning" message="&lt;p&gt; tag should be preceded with an empty line." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Core\Operation\Topp-Standard-Operation-Type-Library\src\main\java\com\yelstream\topp\standard\operation\type\ObjectOps.java">
+<error line="38" column="8" severity="warning" message="&lt;p&gt; tag should be preceded with an empty line." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"/>
+<error line="42" column="8" severity="warning" message="&lt;p&gt; tag should be preceded with an empty line." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"/>
+<error line="54" column="8" severity="warning" message="&lt;p&gt; tag should be preceded with an empty line." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"/>
+<error line="59" column="8" severity="warning" message="&lt;p&gt; tag should be preceded with an empty line." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"/>
+<error line="77" column="8" severity="warning" message="&lt;p&gt; tag should be preceded with an empty line." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"/>
+<error line="81" column="8" severity="warning" message="&lt;p&gt; tag should be preceded with an empty line." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"/>
+<error line="98" column="8" severity="warning" message="&lt;p&gt; tag should be preceded with an empty line." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"/>
+<error line="102" column="8" severity="warning" message="&lt;p&gt; tag should be preceded with an empty line." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"/>
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Core\Operation\Topp-Standard-Operation-Type-Library\src\main\java\com\yelstream\topp\standard\operation\type\package-info.java">
+</file>
+<file name="C:\Project\Topp-Work\Topp-Standard\module\Core\Operation\Topp-Standard-Operation-Type-Library\src\main\java\com\yelstream\topp\standard\operation\type\Type.java">
+<error line="30" column="4" severity="warning" message="&lt;p&gt; tag should be preceded with an empty line." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"/>
+</file>
+</checkstyle>
