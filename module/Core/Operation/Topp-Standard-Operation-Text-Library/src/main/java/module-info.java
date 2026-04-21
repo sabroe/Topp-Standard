@@ -18,16 +18,13 @@
  */
 
 /**
- * Addresses runtime type handling.
- * <p>
- *     This handling includes object casting, type inspection, elements of reflection.
- * </p>
+ * Text manipulation.
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-04-21
  */
-module com.yelstream.topp.standard.operation.type {
+module com.yelstream.topp.standard.operation.text {
     requires static lombok;
     requires org.slf4j;
-    exports com.yelstream.topp.standard.operation.type;
+    exports com.yelstream.topp.standard.operation.text;
 }

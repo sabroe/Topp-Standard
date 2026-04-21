@@ -17,17 +17,13 @@
  * limitations under the License.
  */
 
-/**
- * Addresses runtime type handling.
- * <p>
- *     This handling includes object casting, type inspection, elements of reflection.
- * </p>
- *
- * @author Morten Sabroe Mortensen
- * @since 2026-04-21
- */
-module com.yelstream.topp.standard.operation.type {
-    requires static lombok;
-    requires org.slf4j;
-    exports com.yelstream.topp.standard.operation.type;
+plugins {
+    id 'java'
+    id 'java-library-distribution'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+}
+
+dependencies {
 }

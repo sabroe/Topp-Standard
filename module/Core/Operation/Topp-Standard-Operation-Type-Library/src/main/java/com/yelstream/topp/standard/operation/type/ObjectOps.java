@@ -50,6 +50,35 @@ public class ObjectOps {
     }
 
     /**
+     * Determines whether a value is an instance of a specific type.
+     * <p>
+     *     This method wraps {@link Class#isInstance(Object)} and defines null-tolerant behavior for the tested value.
+     * </p>
+     * <p>
+     *     Behavior:
+     * </p>
+     * <ul>
+     *     <li>If {@code value} is {@code null}, this method returns {@code false}.</li>
+     *     <li>If {@code type} is {@code null}, a {@link NullPointerException} is thrown.</li>
+     *     <li>Otherwise, returns {@code true} if the value is an instance of the type.</li>
+     * </ul>
+     * <p>
+     *     This method is part of the {@code ObjectOps} type operation contract and
+     *     is intended as a predicate primitive for runtime type checking.
+     * </p>
+     * @param value Value to test.
+     *              This may be {@code null}.
+     * @param type Type to test against.
+     *             This must not be {@code null}.
+     * @return Indicates, is the value is an instance of the type.
+     */
+    public static boolean isInstance(Object value,
+                                     Class<?> type) {
+        Objects.requireNonNull(type,"type");
+        return type.isInstance(value);
+    }
+
+    /**
      * Attempts to cast a value to a specific type.
      * <p>
      *     If the value is non-{@code null} and is an instance of the target type,
