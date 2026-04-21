@@ -1,0 +1,21 @@
+-protected 
+-classpath 'C:\\Project\\Topp-Work\\Topp-Standard\\module\\Core\\Operation\\Topp-Standard-Operation-Type-Library\\build\\resources\\main;C:\\Users\\sabroe\\.gradle\\caches\\modules-2\\files-2.1\\org.slf4j\\slf4j-ext\\2.0.17\\2038418e2312c3559629841f100d19bd3e02483b\\slf4j-ext-2.0.17.jar'
+--module-path 'C:\\Project\\Topp-Work\\Topp-Standard\\module\\Core\\Operation\\Topp-Standard-Operation-Type-Library\\build\\classes\\java\\main;C:\\Users\\sabroe\\.gradle\\caches\\modules-2\\files-2.1\\org.slf4j\\slf4j-simple\\2.0.17\\9872a3fd794ffe7b18d17747926a64d61526ca96\\slf4j-simple-2.0.17.jar;C:\\Users\\sabroe\\.gradle\\caches\\modules-2\\files-2.1\\org.slf4j\\slf4j-api\\2.0.17\\d9e58ac9c7779ba3bf8142aff6c830617a7fe60f\\slf4j-api-2.0.17.jar;C:\\Users\\sabroe\\.gradle\\caches\\modules-2\\files-2.1\\org.projectlombok\\lombok\\1.18.42\\8365263844ebb62398e0dc33057ba10ba472d3b8\\lombok-1.18.42.jar'
+-quiet 
+-encoding 'UTF-8'
+-d 'C:\\Project\\Topp-Work\\Topp-Standard\\module\\Core\\Operation\\Topp-Standard-Operation-Type-Library\\build\\docs\\javadoc'
+-version 
+-author 
+-windowtitle 'Topp-Standard-Operation-Type-Library 0.3.9 API'
+-doctitle 'Topp-Standard-Operation-Type-Library 0.3.9 API'
+-notimestamp 
+-Xdoclint:all 
+-Xmaxerrs '25'
+-Xmaxwarns '25'
+'C:\\Project\\Topp-Work\\Topp-Standard\\module\\Core\\Operation\\Topp-Standard-Operation-Type-Library\\src\\main\\java\\com\\yelstream\\topp\\standard\\operation\\text\\package-info.java'
+'C:\\Project\\Topp-Work\\Topp-Standard\\module\\Core\\Operation\\Topp-Standard-Operation-Type-Library\\src\\main\\java\\com\\yelstream\\topp\\standard\\operation\\text\\StringOps.java'
+'C:\\Project\\Topp-Work\\Topp-Standard\\module\\Core\\Operation\\Topp-Standard-Operation-Type-Library\\src\\main\\java\\com\\yelstream\\topp\\standard\\operation\\type\\ClassOps.java'
+'C:\\Project\\Topp-Work\\Topp-Standard\\module\\Core\\Operation\\Topp-Standard-Operation-Type-Library\\src\\main\\java\\com\\yelstream\\topp\\standard\\operation\\type\\ObjectOps.java'
+'C:\\Project\\Topp-Work\\Topp-Standard\\module\\Core\\Operation\\Topp-Standard-Operation-Type-Library\\src\\main\\java\\com\\yelstream\\topp\\standard\\operation\\type\\package-info.java'
+'C:\\Project\\Topp-Work\\Topp-Standard\\module\\Core\\Operation\\Topp-Standard-Operation-Type-Library\\src\\main\\java\\com\\yelstream\\topp\\standard\\operation\\type\\Type.java'
+'C:\\Project\\Topp-Work\\Topp-Standard\\module\\Core\\Operation\\Topp-Standard-Operation-Type-Library\\src\\main\\java\\module-info.java'

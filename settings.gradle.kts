@@ -105,11 +105,14 @@ include("module:Core:Net:Topp-Standard-Uniform-Resource-Library")
 include("module:Core:Text:Topp-Standard-Regular-Expression-Library")
 
 //"Operation" - stateless transformations/helpers (not domain models, not services, not infrastructure logic)
+//Operation MUST be: Stateless, policy-free, deterministic.
 //TO-DO: include("module:Core:Operation:Topp-Standard-Operation-Text-Library")  //Text operation; string/text manipulation utilities.
-//TO-DO: include("module:Core:Operation:Topp-Standard-Operation-Type-Library")  //Type operation; casting, type inspection, runtime type handling.
+include("module:Core:Operation:Topp-Standard-Operation-Type-Library")  //Type operation; casting, type inspection, runtime type handling.
+//TO-DO: include("module:Core:Operation:Topp-Standard-Operation-Comparison-Library")  //Ordering operation; ordering-bases operations on Comparable types, Comparables, min/max, compareTo
 
 //"Policy" - behavior
-//TO-DO: include("module:Core:Policy:Topp-Standard-Policy-Null-Library")
+//Policy MUST BE: Reusable, orthogonal, injected/selected externally (or explicitly applied).
+//TO-DO: include("module:Core:Policy:Topp-Standard-Policy-Null-Library")  //E.g. 'NullPolicy'
 
 include("module:Core:Time:Topp-Standard-Time-Library")
 include("module:Core:Time:Topp-Standard-Time-Formatting-Library")
