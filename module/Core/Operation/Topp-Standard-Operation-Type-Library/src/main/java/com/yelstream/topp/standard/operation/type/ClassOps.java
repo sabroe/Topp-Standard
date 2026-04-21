@@ -42,7 +42,7 @@ public class ClassOps {
      *     This method is a null-safe convenience wrapper around {@link Class#getName()}.
      * </p>
      * @param clazz Class whose name should be returned.
-     *              This may be {@link null}.
+     *              This may be {@code null}.
      * @return Contains the fully qualified class name, or empty if the class reference is {@code null}.
      */
     public static Optional<String> getName(Class<?> clazz) {

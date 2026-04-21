@@ -30,7 +30,10 @@ import java.lang.reflect.Field;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-06-18
+ *
+ * @deprecated Moved to library Topp-Standard-Operation-Type-Library
  */
+@Deprecated(since = "2026-04-21", forRemoval = true)
 @Slf4j
 @UtilityClass
 public class Reflection {

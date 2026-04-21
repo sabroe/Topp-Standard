@@ -20,7 +20,7 @@
 /**
  * Addresses runtime type handling.
  * <p>
- *     This handling includes object casting, type inspection, elements of reflection.
+ *     This module includes object casting, type inspection, elements of reflection.
  * </p>
  *
  * @author Morten Sabroe Mortensen

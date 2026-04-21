@@ -18,7 +18,7 @@
  */
 
 /**
- * Text manipulation.
+ * Topp Standard Operation Reflection Library addressing deep structural introspection.
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-04-21

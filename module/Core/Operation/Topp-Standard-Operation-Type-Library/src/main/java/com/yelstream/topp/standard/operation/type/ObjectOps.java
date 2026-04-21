@@ -83,7 +83,7 @@ public class ObjectOps {
      * <p>
      *     If the value is non-{@code null} and is an instance of the target type,
      *     it is returned wrapped in an {@link Optional}.
-     *     Otherwise, an empty Optional is returned.
+     *     Otherwise, an empty optional is returned.
      * </p>
      * <p>
      *     This method is the core casting primitive; all other cast methods delegate to it.
