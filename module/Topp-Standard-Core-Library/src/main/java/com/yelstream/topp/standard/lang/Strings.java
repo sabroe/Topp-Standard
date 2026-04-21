@@ -147,6 +147,4 @@ public class Strings {
     String removeTrailingZeroes2(String s) {
         return s.replaceAll("(?!^)0+$", "");
     }
-
-
 }

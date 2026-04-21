@@ -26,6 +26,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
@@ -46,6 +47,10 @@ public class ZonedTimeTo {
 
     public ZonedDateTime zonedDateTime() {
         return zonedTime.toZonedDateTime();
+    }
+
+    public OffsetDateTime offsetDateTime() {
+        return zonedTime.toOffsetDateTime();
     }
 
     public LocalDate localDate() {

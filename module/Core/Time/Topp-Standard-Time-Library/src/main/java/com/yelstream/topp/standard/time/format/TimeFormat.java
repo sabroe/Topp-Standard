@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.time.format;
 import java.time.Instant;
 
 /**
- * Strategy for how to format a @link Instant} as a text.
+ * Strategy for how to format a {@link Instant} as a text.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
