@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.lang.reflect;
+package com.yelstream.topp.standard.operation.reflection;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +30,7 @@ import java.lang.reflect.Field;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-06-18
- *
- * @deprecated Moved to library Topp-Standard-Operation-Type-Library
  */
-@Deprecated(since = "2026-04-21", forRemoval = true)
 @Slf4j
 @UtilityClass
 public class Reflection {

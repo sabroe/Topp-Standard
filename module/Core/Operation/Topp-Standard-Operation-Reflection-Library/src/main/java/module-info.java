@@ -18,16 +18,13 @@
  */
 
 /**
- * Addresses runtime type handling.
- * <p>
- *     This module includes object casting, type inspection, elements of reflection.
- * </p>
+ * Structural introspection.
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-04-21
  */
-module com.yelstream.topp.standard.operation.type {
+module com.yelstream.topp.standard.operation.reflection {
     requires static lombok;
     requires org.slf4j;
-    exports com.yelstream.topp.standard.operation.type;
+    exports com.yelstream.topp.standard.operation.reflection;
 }

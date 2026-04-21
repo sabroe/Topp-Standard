@@ -107,7 +107,8 @@ include("module:Core:Text:Topp-Standard-Regular-Expression-Library")
 //"Operation" - stateless transformations/helpers (not domain models, not services, not infrastructure logic)
 //Operation MUST be: Stateless, policy-free, deterministic.
 include("module:Core:Operation:Topp-Standard-Operation-Text-Library")  //Text operation; string/text manipulation utilities.
-include("module:Core:Operation:Topp-Standard-Operation-Type-Library")  //Type operation; casting, type inspection, runtime type handling.
+include("module:Core:Operation:Topp-Standard-Operation-Type-Library")  //Type operation; type semantics, casting, type inspection, runtime type handling.
+include("module:Core:Operation:Topp-Standard-Operation-Reflection-Library")  //Reflection operation; structural introspection.
 //TO-DO: include("module:Core:Operation:Topp-Standard-Operation-Comparison-Library")  //Ordering operation; ordering-bases operations on Comparable types, Comparables, min/max, compareTo
 
 //"Policy" - behavior
