@@ -34,18 +34,12 @@ import java.util.Optional;
 public class ClassOps {
     /**
      * Returns the fully qualified name of a class.
-     * <p>
-     *     If the provided class reference is {@code null}, an empty {@link Optional} is returned.
-     *     Otherwise, the class's fully qualified name (as returned by {@link Class#getName()}) is provided.
-     * </p>
-     * <p>
-     *     This method is a null-safe convenience wrapper around {@link Class#getName()}.
-     * </p>
      * @param clazz Class whose name should be returned.
-     *              This may be {@code null}.
-     * @return Contains the fully qualified class name, or empty if the class reference is {@code null}.
+     *              May be {@code null}.
+     * @return Fully qualified name of the class.
+     *         Is {@code null} if {@code clazz} is {@code null}.
      */
-    public static Optional<String> getName(Class<?> clazz) {
-        return Optional.ofNullable(clazz).map(Class::getName);
+    public static String getName(Class<?> clazz) {
+        return clazz == null ? null : clazz.getName();
     }
 }

@@ -27,6 +27,35 @@ import java.util.Optional;
 /**
  * Utilities addressing instances of {@link Object}.
  *
+ * <p>
+ *   This covers the three core “type operations”:
+ * </p>
+ * <ul>
+ *     <li>Name extraction ({@link #getName(Object)})</li>
+ *     <li>Instance check ({@link #isInstance(Object, Class)})</li>
+ *     <li>Casting ({@link #tryCast(Object, Class)}, {@link #tryCastOrNull(Object, Class)}, {@link #cast(Object, Class)})</li>
+ * </ul>
+ *
+ * <p>
+ *     About casting utilities with multiple result semantics:
+ * </p>
+ * <p>
+ *    These methods act as interoperability adapters across different Java ecosystems.
+ *    They expose the same core operation with distinct result
+ *    models (Optional, null, strict) without enforcing a single style.
+ * </p>
+ * <pre>
+ * ┌────────────────┬─────────────────────┬───────────────────────────────────┐
+ * │ Method         │ Semantics           │ Consumers                         │
+ * ├────────────────┼─────────────────────┼───────────────────────────────────┤
+ * │ tryCast        │ Optional result     │ Functional / pipeline-based APIs  │
+ * ├────────────────┼─────────────────────┼───────────────────────────────────┤
+ * │ tryCastOrNull  │ Null result         │ Legacy / null-tolerant APIs       │
+ * ├────────────────┼─────────────────────┼───────────────────────────────────┤
+ * │ cast           │ Strict (fail-fast)  │ Domain logic / invariants         │
+ * └────────────────┴─────────────────────┴───────────────────────────────────┘
+ * </pre>
+ *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2026-04-21
@@ -34,19 +63,14 @@ import java.util.Optional;
 @UtilityClass
 public class ObjectOps {
     /**
-     * Returns the runtime class name of the given value.
-     * <p>
-     *     If the provided value is {@code null}, an empty {@link Optional} is returned.
-     *     Otherwise, the fully qualified class name of the value's runtime type is returned.
-     * </p>
-     * <p>
-     *     This method is a null-safe convenience wrapper around {@link Object#getClass()} and {@link Class#getName()}.
-     * </p>
-     * @param value The value whose class name should be returned; may be {@code null}.
-     * @return Container of the fully qualified class name, or empty if the value is {@code null}.
+     * Returns the fully qualified name of the runtime class of a value.
+     * @param value Value whose class name should be returned.
+     *              May be {@code null}.
+     * @return Fully qualified name of the runtime class.
+     *         Is {@code null} if {@code value} is {@code null}.
      */
-    public static Optional<String> getName(Object value) {
-        return Optional.ofNullable(value).map(Object::getClass).map(Class::getName);
+    public static String getName(Object value) {
+        return value == null ? null : value.getClass().getName();
     }
 
     /**
@@ -95,8 +119,8 @@ public class ObjectOps {
      * @param <T> Type of target value.
      * @return Container of the cast value if successful, otherwise empty.
      */
-    public static <T> Optional<T> tryCastOptional(Object value,
-                                                  Class<T> type) {
+    public static <T> Optional<T> tryCast(Object value,
+                                          Class<T> type) {
         Objects.requireNonNull(type,"type");
         return Optional.ofNullable(value).filter(type::isInstance).map(type::cast);
     }
@@ -108,7 +132,7 @@ public class ObjectOps {
      *     this method returns {@code null}.
      * </p>
      * <p>
-     *     This is a convenience wrapper around {@link #tryCastOptional(Object, Class)} for null-based APIs.
+     *     This is a convenience wrapper around {@link #tryCast(Object, Class)} for null-based APIs.
      * </p>
      * @param value Value to cast.
      *              This may be {@code null}
@@ -117,9 +141,9 @@ public class ObjectOps {
      * @param <T> Type of target value.
      * @return Cast value, or {@code null} if the cast is not possible.
      */
-    public static <T> T tryCast(Object value,
-                                Class<T> type) {
-        return tryCastOptional(value,type).orElse(null);
+    public static <T> T tryCastOrNull(Object value,
+                                      Class<T> type) {
+        return tryCast(value,type).orElse(null);
     }
 
     /**
@@ -129,7 +153,7 @@ public class ObjectOps {
      *     a {@link ClassCastException} is thrown.
      * </p>
      * <p>
-     *     This method provides a strict casting contract and delegates to {@link #tryCastOptional(Object, Class)} for evaluation.
+     *     This method provides a strict casting contract and delegates to {@link #tryCast(Object, Class)} for evaluation.
      * </p>
      * @param value Value to cast.
      *              This may be {@code null}
@@ -141,8 +165,35 @@ public class ObjectOps {
      */
     public static <T> T cast(Object value,
                              Class<T> type) {
-        return tryCastOptional(value,type).orElseThrow(() -> new ClassCastException(
-            "Failure to cast value; value '%s' is not of type '%s'!".formatted(getName(value),ClassOps.getName(type))
+        return tryCast(value,type).orElseThrow(() -> new ClassCastException(
+            "Failure to cast value; value type '%s' is not of type '%s'!".formatted(getName(value),ClassOps.getName(type))
         ));
     }
+
+/*
+
+    */
+/* 1 *//*
+ <T, R> Optional<R> map(Object value, Class<T> type, Function<T, R> mapper)
+
+    */
+/* 2 *//*
+ <T> void ifInstance(Object value, Class<T> type, Consumer<T> action)
+
+    */
+/* 3 *//*
+ <T> Optional<T> as(Object value, Class<T> type)
+
+    */
+/* 4 *//*
+ <T, R> Optional<R> map(Object value, Function<T, R> mapper)
+
+    */
+/* 5 *//*
+ int identityHash(Object value)
+
+*/
+
+
+
 }
