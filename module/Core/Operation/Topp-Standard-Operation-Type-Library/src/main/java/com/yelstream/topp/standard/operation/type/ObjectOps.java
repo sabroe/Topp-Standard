@@ -23,6 +23,8 @@ import lombok.experimental.UtilityClass;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Utilities addressing instances of {@link Object}.
@@ -99,7 +101,20 @@ public class ObjectOps {
     public static boolean isInstance(Object value,
                                      Class<?> type) {
         Objects.requireNonNull(type,"type");
-        return type.isInstance(value);
+        return Core.isInstance(value,type);
+    }
+
+    /**
+     * Execute action if value is instance of type.
+     */
+    public static <T> void ifInstance(Object value,
+                                      Class<T> type,
+                                      Consumer<T> action) {
+        Objects.requireNonNull(type, "type");
+        Objects.requireNonNull(action, "action");
+        if (Core.isInstance(value,type)) {
+            action.accept(type.cast(value));
+        }
     }
 
     /**
@@ -121,8 +136,7 @@ public class ObjectOps {
      */
     public static <T> Optional<T> tryCast(Object value,
                                           Class<T> type) {
-        Objects.requireNonNull(type,"type");
-        return Optional.ofNullable(value).filter(type::isInstance).map(type::cast);
+        return Core.tryCast(value,type);
     }
 
     /**
@@ -143,7 +157,13 @@ public class ObjectOps {
      */
     public static <T> T tryCastOrNull(Object value,
                                       Class<T> type) {
-        return tryCast(value,type).orElse(null);
+        return Core.tryCast(value,type).orElse(null);
+    }
+
+    public static <T> T tryCastOr(Object value,
+                                  Class<T> type,
+                                  T fallback) {
+        return Core.tryCast(value, type).orElse(fallback);
     }
 
     /**
@@ -165,35 +185,178 @@ public class ObjectOps {
      */
     public static <T> T cast(Object value,
                              Class<T> type) {
-        return tryCast(value,type).orElseThrow(() -> new ClassCastException(
+        return Core.tryCast(value,type).orElseThrow(() -> new ClassCastException(
             "Failure to cast value; value type '%s' is not of type '%s'!".formatted(getName(value),ClassOps.getName(type))
         ));
     }
 
+    /**
+     * Null-safe mapping over Object domain.
+     */
+    public static <R> Optional<R> map(Object value,
+                                      Function<Object, R> mapper) {
+        Objects.requireNonNull(mapper, "mapper");
+        return Core.map(value,mapper);
+    }
+
+    public static <T, R> Optional<R> flatMap(Object value,
+                                             Class<T> type,
+                                             Function<T, Optional<R>> mapper) {
+        return Core.tryCast(value, type).flatMap(mapper);
+    }
+
+    public static <T, R> R mapOrNull(Object value,
+                                     Class<T> type,
+                                     Function<T, R> mapper) {
+        return tryCast(value, type).map(mapper).orElse(null);
+    }
+
 /*
-
-    */
-/* 1 *//*
- <T, R> Optional<R> map(Object value, Class<T> type, Function<T, R> mapper)
-
-    */
-/* 2 *//*
- <T> void ifInstance(Object value, Class<T> type, Consumer<T> action)
-
-    */
-/* 3 *//*
- <T> Optional<T> as(Object value, Class<T> type)
-
-    */
-/* 4 *//*
- <T, R> Optional<R> map(Object value, Function<T, R> mapper)
-
-    */
-/* 5 *//*
- int identityHash(Object value)
-
+    public static <T, R> Optional<R> mapNonNull(Object value,
+                                                Function<T, R> fn) {
+        return Optional.ofNullable(value).map(v -> fn.apply((T) v));
+    }
 */
 
 
 
+
+    /**
+     * Identity-based hash code.>
+     */
+    public static int identityHash(Object value) {
+        return Core.identityHash(value);
+    }
+
+
+
+
+    /**
+     * Internal semantic primitives for {@link ObjectOps}.
+     * <p>
+     *     This class contains the minimal implementations of object operations.
+     *     Methods in the enclosing {@link ObjectOps} class delegate to these
+     *     primitives and may expose alternative result styles, overloads, or convenience wrappers.
+     * </p>
+     * <p>
+     *     This class is intended for internal reuse only and is not part of the primary public API surface.
+     * </p>
+     * <p>
+     *     The outer {@link ObjectOps} contains presentation and trivial wrappers.
+     *     So delegate to {@link Core} when the outer method is merely exposing another “view” of the same operation.
+     *     But trivial one-liners that are already “presentation” do not need {@link Core}.
+     * </p>
+     * <p>
+     *     Put in {@link Core}:
+ *   * </p>
+     * <ul>
+     *     <li>Multi-step logic</li>
+     *     <li>Reusable logic</li>
+     *     <li>Logic shared by multiple public methods</li>
+     *     <li>Semantic primitives</li>
+     * </ul>
+     * <p>
+     *     Keep in outer {@link ObjectOps}:
+     * </p>
+     * <ul>
+     *     <li>Wrappers / overloads</li>
+     *     <li>Style variants</li>
+     *     <li>Direct trivial operations</li>
+     *     <li>Java façade methods</li>
+     * </ul>
+     */
+    @UtilityClass
+    static final class Core {
+        /**
+         * Determines whether a value is an instance of a specific type.
+         * <p>
+         *     This method wraps {@link Class#isInstance(Object)} and defines null-tolerant behavior for the tested value.
+         * </p>
+         * <p>
+         *     Behavior:
+         * </p>
+         * <ul>
+         *     <li>If {@code value} is {@code null}, this method returns {@code false}.</li>
+         *     <li>If {@code type} is {@code null}, a {@link NullPointerException} is thrown.</li>
+         *     <li>Otherwise, returns {@code true} if the value is an instance of the type.</li>
+         * </ul>
+         * <p>
+         *     This method is part of the {@code ObjectOps} type operation contract and
+         *     is intended as a predicate primitive for runtime type checking.
+         * </p>
+         * @param value Value to test.
+         *              This may be {@code null}.
+         * @param type Type to test against.
+         *             This must not be {@code null}.
+         * @return Indicates, is the value is an instance of the type.
+         */
+        public static boolean isInstance(Object value,
+                                         Class<?> type) {
+            Objects.requireNonNull(type,"type");
+            return type.isInstance(value);
+        }
+
+        /**
+         * Attempts to cast a value to a specific type.
+         * <p>
+         *     If the value is non-{@code null} and is an instance of the target type,
+         *     it is returned wrapped in an {@link Optional}.
+         *     Otherwise, an empty optional is returned.
+         * </p>
+         * <p>
+         *     This method is the core casting primitive; all other cast methods delegate to it.
+         * </p>
+         * @param value Value to cast.
+         *              This may be {@code null}
+         * @param type Target class to cast to.
+         *             This must not be {@code null}.
+         * @param <T> Type of target value.
+         * @return Container of the cast value if successful, otherwise empty.
+         */
+        public static <T> Optional<T> tryCast(Object value,
+                                              Class<T> type) {
+            Objects.requireNonNull(type,"type");
+            return Optional.ofNullable(value).filter(type::isInstance).map(type::cast);
+        }
+
+        /**
+         * Null-safe mapping.
+         */
+        public static <T,R> Optional<R> map(T value,
+                                           Function<T, R> mapper) {
+            Objects.requireNonNull(mapper, "mapper");
+            return Optional.ofNullable(value).map(mapper);
+        }
+
+        /**
+         * Identity-based hash code.
+         */
+        public static int identityHash(Object value) {
+            return System.identityHashCode(value);
+        }
+
+        public static boolean same(Object a, Object b) {
+            return a == b;
+        }
+    }
+
+    public static <T> ObjectInstance<T> instance(T value) {
+        return ObjectInstance.of(value);
+    }
+
+    public static <T> IdentityFacet<T> identity(T value) {
+        return instance(value).identity();
+    }
+
+    public static <T> TypeFacet<T> type(T value) {
+        return instance(value).type();
+    }
+
+    public static <T> MapFacet<T> map(T value) {
+        return instance(value).map();
+    }
+
+    public static <T> NullFacet<T> nulls(T value) {
+        return instance(value).nulls();
+    }
 }
