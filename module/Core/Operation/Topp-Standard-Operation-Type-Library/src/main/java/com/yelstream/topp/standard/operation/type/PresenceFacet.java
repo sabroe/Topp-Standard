@@ -23,51 +23,65 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
-import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
  *
- *
+ * <p>
+ *     This is basically a Optional-like read-only / action-oriented facet.
+ *     It overlaps NullFacet, but with a different style:
+ * </p>
+ * <ul>
+ *     <li>NullFacet → returns Subject</li>
+ *     <li>PresenceFacet → acts like Optional</li>
+ * </ul>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2026-04-25
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
-public class TypeFacet<T> {
+public class PresenceFacet<T> {
+
     @NonNull
     public final Subject<T> subject;
 
     /**
-     * Checks whether the underlying value is instance of type.
+     * Indicates whether the subject value is present.
      */
-    public boolean isInstance(Class<?> type) {
-        Objects.requireNonNull(type, "type");
-        return ObjectOps.isInstance(subject.getValue(), type);
+    public boolean isPresent() {
+        return subject.getValue() != null;
     }
 
     /**
-     * Conditional execution if type matches.
+     * Indicates whether the subject value is absent.
      */
-    public <R> void ifInstance(Class<R> type,
-                               Consumer<R> action) {
-        Objects.requireNonNull(type, "type");
-        Objects.requireNonNull(action, "action");
-        ObjectOps.ifInstance(subject.getValue(), type, action);
+    public boolean isEmpty() {
+        return subject.getValue() == null;
     }
 
     /**
-     * Optional-style exposure (if you want it here).
+     * Executes consumer if value is present.
      */
-    public <R> Optional<Subject<R>> tryCast(Class<R> type) {
-        Objects.requireNonNull(type, "type");
-        return Subjects.tryCast(subject,type);
+    public void ifPresent(Consumer<T> consumer) {
+        if (isPresent()) {
+            consumer.accept(subject.getValue());
+        }
     }
 
-    public <R> Subject<R> as(Class<R> type) {
-        Objects.requireNonNull(type, "type");
-        return Subjects.as(subject,type);
+    /**
+     * Executes action if value is absent.
+     */
+    public void ifEmpty(Runnable action) {
+        if (isEmpty()) {
+            action.run();
+        }
+    }
+
+    /**
+     * Returns value if present; otherwise fallback.
+     */
+    public T orElse(T fallback) {
+        return isPresent() ? subject.getValue() : fallback;
     }
 }

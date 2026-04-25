@@ -23,9 +23,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
-import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  *
@@ -36,38 +35,33 @@ import java.util.function.Consumer;
  * @since 2026-04-25
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
-public class TypeFacet<T> {
+public class InspectionFacet<T> {
+
     @NonNull
     public final Subject<T> subject;
 
     /**
-     * Checks whether the underlying value is instance of type.
+     * Evaluates predicate against the subject value.
      */
-    public boolean isInstance(Class<?> type) {
-        Objects.requireNonNull(type, "type");
-        return ObjectOps.isInstance(subject.getValue(), type);
+    public boolean matches(Predicate<T> predicate) {
+        return predicate.test(subject.getValue());
     }
 
     /**
-     * Conditional execution if type matches.
+     * Executes consumer if predicate matches.
      */
-    public <R> void ifInstance(Class<R> type,
-                               Consumer<R> action) {
-        Objects.requireNonNull(type, "type");
-        Objects.requireNonNull(action, "action");
-        ObjectOps.ifInstance(subject.getValue(), type, action);
+    public void ifMatches(Predicate<T> predicate,
+                          Consumer<T> consumer) {
+        if (matches(predicate)) {
+            consumer.accept(subject.getValue());
+        }
     }
 
     /**
-     * Optional-style exposure (if you want it here).
+     * Returns subject if predicate matches;
+     * otherwise an empty subject.
      */
-    public <R> Optional<Subject<R>> tryCast(Class<R> type) {
-        Objects.requireNonNull(type, "type");
-        return Subjects.tryCast(subject,type);
-    }
-
-    public <R> Subject<R> as(Class<R> type) {
-        Objects.requireNonNull(type, "type");
-        return Subjects.as(subject,type);
+    public Subject<T> filter(Predicate<T> predicate) {
+        return matches(predicate) ? subject : Subjects.empty();
     }
 }

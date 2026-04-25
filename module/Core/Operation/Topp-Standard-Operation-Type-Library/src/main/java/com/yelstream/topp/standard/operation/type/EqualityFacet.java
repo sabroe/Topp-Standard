@@ -24,11 +24,9 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
- *
  *
  *
  * @author Morten Sabroe Mortensen
@@ -36,38 +34,18 @@ import java.util.function.Consumer;
  * @since 2026-04-25
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
-public class TypeFacet<T> {
+public class EqualityFacet<T> {
+
     @NonNull
     public final Subject<T> subject;
 
-    /**
-     * Checks whether the underlying value is instance of type.
-     */
-    public boolean isInstance(Class<?> type) {
-        Objects.requireNonNull(type, "type");
-        return ObjectOps.isInstance(subject.getValue(), type);
+    public boolean isEquals(T value) {
+        return Objects.equals(subject.getValue(), value);
     }
 
-    /**
-     * Conditional execution if type matches.
-     */
-    public <R> void ifInstance(Class<R> type,
-                               Consumer<R> action) {
-        Objects.requireNonNull(type, "type");
-        Objects.requireNonNull(action, "action");
-        ObjectOps.ifInstance(subject.getValue(), type, action);
-    }
-
-    /**
-     * Optional-style exposure (if you want it here).
-     */
-    public <R> Optional<Subject<R>> tryCast(Class<R> type) {
-        Objects.requireNonNull(type, "type");
-        return Subjects.tryCast(subject,type);
-    }
-
-    public <R> Subject<R> as(Class<R> type) {
-        Objects.requireNonNull(type, "type");
-        return Subjects.as(subject,type);
+    public void ifEquals(T value, Consumer<T> consumer) {
+        if (isEquals(value)) {
+            consumer.accept(subject.getValue());
+        }
     }
 }
