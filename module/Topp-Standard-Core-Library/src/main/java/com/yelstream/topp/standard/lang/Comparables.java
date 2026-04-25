@@ -29,7 +29,10 @@ import java.util.Comparator;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-03-19
+ *
+ * @deprecated Moved to library Topp-Standard-Operation-Comparison-Library
  */
+@Deprecated(since = "2026-04-25", forRemoval = true)
 @UtilityClass
 public class Comparables {
     /**
