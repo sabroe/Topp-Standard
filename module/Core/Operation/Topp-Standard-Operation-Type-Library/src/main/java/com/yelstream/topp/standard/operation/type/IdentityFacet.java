@@ -1,29 +1,52 @@
+/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024-2026 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.yelstream.topp.standard.operation.type;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
+/**
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-04-25
+ */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class IdentityFacet<T> {
-    public final Subject<T> instance;
+    @NonNull
+    public final Subject<T> subject;
 
-    public int hash() {
-        return instance.identityHash();
+    public int identityHash() {
+        return subject.identityHash();
     }
 
-    public Predicate<T> same() {  //TO-DO: Considersignature!
-        return this::isSame;
-    }
-
-    public boolean isSame(T value) {  //TO-DO: Considersignature!
-        return value == instance.getValue();
+    public boolean isSame(T value) {
+        return value == subject.getValue();
     }
 
     public void ifSame(T value,
-                       Consumer<T> consumer) {  //TO-DO: Considersignature!
+                       Consumer<T> consumer) {
         if (isSame(value)) {
             consumer.accept(value);
         }

@@ -1,3 +1,22 @@
+/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024-2026 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.yelstream.topp.standard.operation.type;
 
 import lombok.AccessLevel;
@@ -5,11 +24,21 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ *
+ *
+ *
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-04-25
+ */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PUBLIC)
 @lombok.Builder(builderClassName = "Builder", toBuilder = true)
 @EqualsAndHashCode
@@ -79,19 +108,66 @@ public class Subject<T> {
         return of(null);
     }
 
-    public IdentityFacet<T> identity() {
-        return IdentityFacet.of(this);
+/*
+    Each facet must answer exactly ONE question:
+
+    Facet	Question
+    MapFacet	“what becomes the value?”
+    TypeFacet	“what type is it?”
+    NullFacet	“what if it is missing?”
+    IdentityFacet	“is it the same thing?”
+*/
+
+    public PresenceFacet<T> presence() {
+        return PresenceFacet.of(this);
+    }
+
+    public NullFacet<T> nulls() {
+        return NullFacet.of(this);
+    }
+
+    public ValidationFacet<T> require() {
+        return ValidationFacet.of(this);
+    }
+
+    public InspectionFacet<T> inspect() {
+        return InspectionFacet.of(this);
     }
 
     public TypeFacet<T> type() {
         return TypeFacet.of(this);
     }
 
-    public MapFacet<T> map() {
-        return MapFacet.of(this);
+    public EqualityFacet<T> equality() {
+        return EqualityFacet.of(this);
     }
 
-    public NullFacet<T> nulls() {
-        return NullFacet.of(this);
+    public IdentityFacet<T> identity() {
+        return IdentityFacet.of(this);
+    }
+
+    /**
+     *
+     * <p>
+     *     Usage:
+     * </p>
+     * <ul>
+     *     <li>{@code subject.compare(Comparator.naturalOrder())}</li>
+     *     <li>{@code subject.compare(String.CASE_INSENSITIVE_ORDER)}</li>
+     * </ul>
+     *
+     * @param comparator
+     * @return
+     */
+    public ComparisonFacet<T> compare(Comparator<T> comparator) {
+        return ComparisonFacet.of(this, comparator);
+    }
+
+    public static <T extends Comparable<? super T>> Comparator<T> natural() {
+        return Comparator.naturalOrder();
+    }
+
+    public MapFacet<T> map() {
+        return MapFacet.of(this);
     }
 }

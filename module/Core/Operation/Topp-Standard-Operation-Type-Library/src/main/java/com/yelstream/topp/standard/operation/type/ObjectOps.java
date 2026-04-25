@@ -360,20 +360,4 @@ public class ObjectOps {
     public static <T> Subject<T> subject(T value) {
         return Subject.of(value);
     }
-
-    public static <T> IdentityFacet<T> identity(T value) {
-        return subject(value).identity();
-    }
-
-    public static <T> TypeFacet<T> type(T value) {
-        return subject(value).type();
-    }
-
-    public static <T> MapFacet<T> map(T value) {
-        return subject(value).map();
-    }
-
-    public static <T> NullFacet<T> nulls(T value) {
-        return subject(value).nulls();
-    }
 }

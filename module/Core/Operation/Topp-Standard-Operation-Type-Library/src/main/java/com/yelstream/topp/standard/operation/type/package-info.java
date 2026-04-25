@@ -20,6 +20,14 @@
 /**
  * Type manipulation utilities.
  *
+ *
+ * <p>
+ *     TODO:
+ *     ObjectOps → universal object semantics
+ *     Subject<T> → instance carrier
+ *     Facets → contextual views
+ * </p>
+ *
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2026-04-21

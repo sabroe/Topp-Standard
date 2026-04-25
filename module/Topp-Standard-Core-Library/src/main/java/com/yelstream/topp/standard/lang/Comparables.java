@@ -45,7 +45,7 @@ public class Comparables {
      * @return Minimum value.
      *         This may be {@code null}.
      */
-    public static <T extends Comparable<T>> T min(T a, T b) {
+    public static <T extends Comparable<? super T>> T min(T a, T b) {
         return Comparator.nullsLast(Comparator.<T>naturalOrder()).compare(a,b)<=0?a:b;
     }
 
@@ -62,7 +62,7 @@ public class Comparables {
      * @return Maximum value.
      *         This may be {@code null}.
      */
-    public static <T extends Comparable<T>> T max(T a, T b) {
+    public static <T extends Comparable<? super T>> T max(T a, T b) {
         return Comparator.nullsFirst(Comparator.<T>naturalOrder()).compare(a,b)>=0?a:b;
     }
 
@@ -79,7 +79,7 @@ public class Comparables {
      * @return Indicates, if values are equal.
      *         This may be {@code null}.
      */
-    public static <T extends Comparable<T>> boolean equals(T a, T b) {
+    public static <T extends Comparable<? super T>> boolean equals(T a, T b) {
         return a!=null && b!=null && a.compareTo(b)==0;
     }
 }
