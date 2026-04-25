@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * Utilities addressing instances of {@link Object}.
@@ -117,6 +118,12 @@ public class ObjectOps {
         }
     }
 
+    public static <T> Optional<T> instanceOf(Object value,
+                                             Class<T> type) {  //TO-DO: Move to core?
+        Objects.requireNonNull(type, "type");
+        return Optional.ofNullable(value).filter(type::isInstance).map(type::cast);
+    }
+
     /**
      * Attempts to cast a value to a specific type.
      * <p>
@@ -190,11 +197,21 @@ public class ObjectOps {
         ));
     }
 
+    public static <T> Optional<T> ofNullable(T value) {  //TO-DO: To core?
+        return Optional.ofNullable(value);
+    }
+
+    public static <T> Optional<T> filter(T value,
+                                         Predicate<T> predicate) {  //TO-DO: To core?
+        Objects.requireNonNull(predicate, "predicate");
+        return Optional.ofNullable(value).filter(predicate);
+    }
+
     /**
      * Null-safe mapping over Object domain.
      */
-    public static <R> Optional<R> map(Object value,
-                                      Function<Object, R> mapper) {
+    public static <T, R> Optional<R> map(T value,
+                                         Function<T, R> mapper) {
         Objects.requireNonNull(mapper, "mapper");
         return Core.map(value,mapper);
     }
@@ -340,23 +357,23 @@ public class ObjectOps {
         }
     }
 
-    public static <T> ObjectInstance<T> instance(T value) {
-        return ObjectInstance.of(value);
+    public static <T> Subject<T> subject(T value) {
+        return Subject.of(value);
     }
 
     public static <T> IdentityFacet<T> identity(T value) {
-        return instance(value).identity();
+        return subject(value).identity();
     }
 
     public static <T> TypeFacet<T> type(T value) {
-        return instance(value).type();
+        return subject(value).type();
     }
 
     public static <T> MapFacet<T> map(T value) {
-        return instance(value).map();
+        return subject(value).map();
     }
 
     public static <T> NullFacet<T> nulls(T value) {
-        return instance(value).nulls();
+        return subject(value).nulls();
     }
 }

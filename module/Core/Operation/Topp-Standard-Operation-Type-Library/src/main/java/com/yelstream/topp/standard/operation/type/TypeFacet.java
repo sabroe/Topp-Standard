@@ -4,11 +4,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
 import java.util.Objects;
-import java.util.function.Predicate;
 
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class TypeFacet<T> {
-    public final ObjectInstance<T> instance;
+    public final Subject<T> instance;
 
     public boolean isInstance(Class<?> type) {
         Objects.requireNonNull(type,"type");

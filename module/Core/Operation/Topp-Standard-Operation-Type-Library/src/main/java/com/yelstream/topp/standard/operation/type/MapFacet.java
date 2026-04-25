@@ -4,18 +4,18 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class MapFacet<T> {
-    public final ObjectInstance<T> instance;
+    public final Subject<T> subject;
 
-/*
-    public <R> ObjectInstance<R> to(Class<R> type) {
-        return Optional.of(instance).filter(i->ObjectOps.isInstance(i.getValue()))
+    public <R> Subject<R> as(Class<R> type) {
+        return Subjects.as(subject,type);
     }
-*/
 
-    //as?
+    public <R> Subject<R> to(Function<T, R> mapper) {
+        return Subjects.to(subject,mapper);
+    }
 
-    //then?
 }

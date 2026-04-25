@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class IdentityFacet<T> {
-    public final ObjectInstance<T> instance;
+    public final Subject<T> instance;
 
     public int hash() {
         return instance.identityHash();
