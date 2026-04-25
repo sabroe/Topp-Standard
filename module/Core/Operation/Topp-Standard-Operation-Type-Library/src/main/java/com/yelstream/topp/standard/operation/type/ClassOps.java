@@ -21,8 +21,6 @@ package com.yelstream.topp.standard.operation.type;
 
 import lombok.experimental.UtilityClass;
 
-import java.util.Optional;
-
 /**
  * Utilities addressing instances of {@link Class}.
  *
