@@ -17,11 +17,12 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.lang;
+package com.yelstream.topp.standard.operation.comparison;
 
 import lombok.experimental.UtilityClass;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Utility addressing instances of {@link Comparable}.
@@ -29,10 +30,7 @@ import java.util.Comparator;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-03-19
- *
- * @deprecated Moved to library Topp-Standard-Operation-Comparison-Library
  */
-@Deprecated(since = "2026-04-25", forRemoval = true)
 @UtilityClass
 public class Comparables {
     /**
@@ -48,7 +46,7 @@ public class Comparables {
      * @return Minimum value.
      *         This may be {@code null}.
      */
-    public static <T extends Comparable<? super T>> T min(T a, T b) {
+    public static <T extends Comparable<? super T>> T min0(T a, T b) {
         return Comparator.nullsLast(Comparator.<T>naturalOrder()).compare(a,b)<=0?a:b;
     }
 
@@ -65,9 +63,24 @@ public class Comparables {
      * @return Maximum value.
      *         This may be {@code null}.
      */
-    public static <T extends Comparable<? super T>> T max(T a, T b) {
+    public static <T extends Comparable<? super T>> T max0(T a, T b) {
         return Comparator.nullsFirst(Comparator.<T>naturalOrder()).compare(a,b)>=0?a:b;
     }
+
+
+
+    public static <T extends Comparable<? super T>> T min(T a, T b) {
+        Objects.requireNonNull(a,"a");
+        Objects.requireNonNull(b,"b");
+        return a.compareTo(b)<=0?a:b;
+    }
+
+    public static <T extends Comparable<? super T>> T max(T a, T b) {
+        Objects.requireNonNull(a,"a");
+        Objects.requireNonNull(b,"b");
+        return a.compareTo(b)>=0?a:b;
+    }
+
 
     /**
      * Indicates, if two values are equal.
@@ -83,6 +96,11 @@ public class Comparables {
      *         This may be {@code null}.
      */
     public static <T extends Comparable<? super T>> boolean equals(T a, T b) {
-        return a!=null && b!=null && a.compareTo(b)==0;
+        Objects.requireNonNull(a,"a");
+        Objects.requireNonNull(b,"b");
+        return a.compareTo(b)==0;
     }
+
+
+
 }

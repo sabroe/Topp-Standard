@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.lang;
+package com.yelstream.topp.standard.operation.comparison;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -31,10 +31,7 @@ import java.time.Duration;
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2024-04-24
- *
- * @deprecated Moved to library Topp-Standard-Operation-Comparison-Library
  */
-@Deprecated(since = "2026-04-25", forRemoval = true)
 @SuppressWarnings("ConstantValue")
 @Slf4j
 class ComparablesTest {
