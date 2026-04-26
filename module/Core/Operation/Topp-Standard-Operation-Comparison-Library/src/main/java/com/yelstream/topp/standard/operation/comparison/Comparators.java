@@ -28,6 +28,10 @@ import java.util.Objects;
 
 /**
  * Utility addressing instances of {@link Comparator}.
+ * <p>
+ *     Provides composable comparison operations, ordering policies,
+ *     and convenience methods for working with comparator-based logic.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -35,17 +39,54 @@ import java.util.Objects;
  */
 @UtilityClass
 public class Comparators {
-
     /**
-     * Creates a facet for a given comparator.
-     * @param comparator Comparator.
-     * @param <T> Type of value.
-     * @return Created facet.
+     * Returns a comparator using natural ordering with null values placed last.
+     * @param <T> Value type.
+     * @return Null-safe comparator using natural order and null-last policy.
      */
-    public static <T> ComparatorFacet<T> facet(java.util.Comparator<T> comparator) {
-        return ComparatorFacet.of(comparator);
+    public static <T extends Comparable<? super T>> Comparator<T> nullSafeLast() {
+        return Comparator.nullsLast(Comparator.naturalOrder());
     }
 
+    /**
+     * Returns a comparator using natural ordering with null values placed first.
+     * @param <T> Value type.
+     * @return Null-safe comparator using natural order and null-first policy.
+     */
+    public static <T extends Comparable<? super T>> Comparator<T> nullSafeFirst() {
+        return Comparator.nullsFirst(Comparator.naturalOrder());
+    }
+
+    /**
+     * Wraps a comparator with a null-last policy.
+     * @param comparator Base comparator.
+     * @param <T> Value type.
+     * @return Comparator with null values placed last.
+     */
+    public static <T> Comparator<T> nullSafeLast(Comparator<T> comparator) {
+        Objects.requireNonNull(comparator, "comparator");
+        return Comparator.nullsLast(comparator);
+    }
+
+    /**
+     * Wraps a comparator with a null-first policy.
+     * @param comparator Base comparator.
+     * @param <T> Value type.
+     * @return Comparator with null values placed first.
+     */
+    public static <T> Comparator<T> nullSafeFirst(Comparator<T> comparator) {
+        Objects.requireNonNull(comparator, "comparator");
+        return Comparator.nullsFirst(comparator);
+    }
+
+    /**
+     * Returns the minimum of two values.
+     * @param comparator Comparator used for ordering.
+     * @param a First value.
+     * @param b Second value.
+     * @param <T> Value type.
+     * @return Minimum value.
+     */
     public static <T> T min(Comparator<T> comparator,
                             T a,
                             T b) {
@@ -53,6 +94,14 @@ public class Comparators {
         return comparator.compare(a, b) <= 0 ? a : b;
     }
 
+    /**
+     * Returns the maximum of two values.
+     * @param comparator Comparator used for ordering.
+     * @param a First value.
+     * @param b Second value.
+     * @param <T> Value type.
+     * @return Maximum value.
+     */
     public static <T> T max(Comparator<T> comparator,
                             T a,
                             T b) {
@@ -60,6 +109,42 @@ public class Comparators {
         return comparator.compare(a, b) >= 0 ? a : b;
     }
 
+    /**
+     * Returns the minimum value from a collection.
+     * @param comparator Comparator used for ordering.
+     * @param values Input values.
+     * @param <T> Value type.
+     * @return Minimum value or null if empty.
+     */
+    public static <T> T min(Comparator<T> comparator,
+                            Collection<T> values) {
+        Objects.requireNonNull(comparator, "comparator");
+        Objects.requireNonNull(values, "values");
+        return values.stream().min(comparator).orElse(null);
+    }
+
+    /**
+     * Returns the maximum value from a collection.
+     * @param comparator Comparator used for ordering.
+     * @param values Input values.
+     * @param <T> Value type.
+     * @return Maximum value or null if empty.
+     */
+    public static <T> T max(Comparator<T> comparator,
+                            Collection<T> values) {
+        Objects.requireNonNull(comparator, "comparator");
+        Objects.requireNonNull(values, "values");
+        return values.stream().max(comparator).orElse(null);
+    }
+
+    /**
+     * Checks equality using comparator ordering.
+     * @param comparator Comparator used for ordering.
+     * @param a First value.
+     * @param b Second value.
+     * @param <T> Value type.
+     * @return True if values are equal.
+     */
     public static <T> boolean equals(Comparator<T> comparator,
                                      T a,
                                      T b) {
@@ -67,10 +152,93 @@ public class Comparators {
         return comparator.compare(a, b) == 0;
     }
 
+    /**
+     * Checks if first value is less than second value.
+     * @param comparator Comparator used for ordering.
+     * @param a First value.
+     * @param b Second value.
+     * @param <T> Value type.
+     * @return True if first value is less.
+     */
+    public static <T> boolean lessThan(Comparator<T> comparator, T a, T b) {
+        Objects.requireNonNull(comparator, "comparator");
+        return comparator.compare(a, b) < 0;
+    }
+
+    /**
+     * Checks if first value is less than or equal to second value.
+     * @param comparator Comparator used for ordering.
+     * @param a First value.
+     * @param b Second value.
+     * @param <T> Value type.
+     * @return True if first value is less or equal.
+     */
+    public static <T> boolean lessThanOrEqual(Comparator<T> comparator, T a, T b) {
+        Objects.requireNonNull(comparator, "comparator");
+        return comparator.compare(a, b) <= 0;
+    }
+
+    /**
+     * Checks if first value is greater than second value.
+     * @param comparator Comparator used for ordering.
+     * @param a First value.
+     * @param b Second value.
+     * @param <T> Value type.
+     * @return True if first value is greater.
+     */
+    public static <T> boolean greaterThan(Comparator<T> comparator, T a, T b) {
+        Objects.requireNonNull(comparator, "comparator");
+        return comparator.compare(a, b) > 0;
+    }
+
+    /**
+     * Checks if first value is greater than or equal to second value.
+     * @param comparator Comparator used for ordering.
+     * @param a First value.
+     * @param b Second value.
+     * @param <T> Value type.
+     * @return True if first value is greater or equal.
+     */
+    public static <T> boolean greaterThanOrEqual(Comparator<T> comparator, T a, T b) {
+        Objects.requireNonNull(comparator, "comparator");
+        return comparator.compare(a, b) >= 0;
+    }
+
+    /**
+     * Returns a sorted list from a collection.
+     * @param comparator Comparator used for ordering.
+     * @param values Input values.
+     * @param <T> Value type.
+     * @return Sorted list.
+     */
     public <T> List<T> sort(Comparator<T> comparator,
                             Collection<T> values) {
         Objects.requireNonNull(comparator,"comparator");
         Objects.requireNonNull(values,"values");
         return values.stream().sorted(comparator).toList();
+    }
+
+    /**
+     * Sorts a list in place.
+     * @param comparator Comparator used for ordering.
+     * @param values Input list.
+     * @param <T> Value type.
+     */
+    public static <T> void sortInPlace(Comparator<T> comparator,
+                                       List<T> values) {
+        Objects.requireNonNull(comparator, "comparator");
+        Objects.requireNonNull(values, "values");
+        values.sort(comparator);
+    }
+
+    /**
+     * Returns a reversed comparator.
+     * @param comparator Input comparator.
+     * @param <T> Value type.
+     * @return Reversed comparator.
+     */
+    public static <T> Comparator<T> reversed(Comparator<T> comparator) {
+        Objects.requireNonNull(comparator, "comparator");
+        return comparator.reversed();
     }
 }

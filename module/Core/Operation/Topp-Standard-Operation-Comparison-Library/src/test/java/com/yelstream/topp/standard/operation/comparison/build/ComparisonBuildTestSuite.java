@@ -17,22 +17,21 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.operation.comparison;
+package com.yelstream.topp.standard.operation.comparison.build;
 
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 /**
- * Test suite for {@code com.yelstream.topp.standard.operation.comparison}.
+ * Test suite for {@code com.yelstream.topp.standard.operation.comparison.build}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
- * @since 2024-04-24
+ * @since 2026-04-26
  */
 @Suite
 @SelectClasses({
-    ComparablesTest.class,
-    ComparatorsTest.class
+    ComparatorBuilderTest.class
     })
-class ComparisonTestSuite {
+class ComparisonBuildTestSuite {
 }
