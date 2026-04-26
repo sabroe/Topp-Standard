@@ -170,4 +170,17 @@ public class Subject<T> {
     public MapFacet<T> map() {
         return MapFacet.of(this);
     }
+
+/*
+a fluent DSL syntax like:
+
+subject
+  .null().coalesce("default")
+  .type().isInstance(String.class)
+  .compare().gt("abc")
+  .map(String::trim)
+
+a single unified Facet gateway:
+subject.dsl()
+  */
 }
