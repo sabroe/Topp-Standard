@@ -74,6 +74,32 @@ public class ComparatorFacet<T> {
     }
 
     /**
+     * Returns the minimum of two values.
+     * <p>
+     *     Null values are ordered last.
+     * </p>
+     * @param a First value.
+     * @param b Second value.
+     * @return Minimum value.
+     */
+    public T minNullsLast(T a, T b) {
+        return Comparators.minNullsLast(comparator, a, b);
+    }
+
+    /**
+     * Returns the maximum of two values.
+     * <p>
+     *     Null values are ordered first.
+     * </p>
+     * @param a First value.
+     * @param b Second value.
+     * @return Maximum value.
+     */
+    public T maxNullsFirst(T a, T b) {
+        return Comparators.maxNullsFirst(comparator, a, b);
+    }
+
+    /**
      * Checks equality using comparator ordering.
      * @param a First value.
      * @param b Second value.
@@ -82,6 +108,17 @@ public class ComparatorFacet<T> {
     public boolean equals(T a, T b) {
         return Comparators.equals(comparator, a, b);
     }
+
+    /**
+     * Checks equality using comparator ordering with null-safety.
+     * @param a First value.
+     * @param b Second value.
+     * @return True if equal.
+     */
+    public boolean equalsNullSafe(T a, T b) {
+        return Comparators.equalsNullSafe(comparator, a, b);
+    }
+
 
     /**
      * Checks if first value is less than second value.
