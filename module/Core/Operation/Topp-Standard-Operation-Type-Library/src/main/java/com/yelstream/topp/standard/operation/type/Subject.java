@@ -118,6 +118,11 @@ public class Subject<T> {
     IdentityFacet	“is it the same thing?”
 */
 
+    @SuppressWarnings({"java:S101", "NonAsciiCharacters"})
+    public Façade<T> façade() {
+        return Façade.of(this);
+    }
+
     public PresenceFacet<T> presence() {
         return PresenceFacet.of(this);
     }
