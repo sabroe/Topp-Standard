@@ -17,14 +17,21 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.operation.comparison;
+package com.yelstream.topp.standard.operation.comparison.facet;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-class ComparatorFacetTest {
-    @Test
-    void x() {
-        Assertions.assertTrue(true);
-    }
+/**
+ * Test suite for {@code com.yelstream.topp.standard.operation.comparison.facet}.
+ *
+ * @author Morten Sabroe Mortensen
+ * @version 1.0
+ * @since 2026-04-26
+ */
+@Suite
+@SelectClasses({
+    ComparatorFacetTest.class
+    })
+class ComparisonFacetTestSuite {
 }

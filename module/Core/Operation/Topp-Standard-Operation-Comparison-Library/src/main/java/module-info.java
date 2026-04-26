@@ -27,4 +27,6 @@ module com.yelstream.topp.standard.operation.comparison {
     requires static lombok;
     requires org.slf4j;
     exports com.yelstream.topp.standard.operation.comparison;
+    exports com.yelstream.topp.standard.operation.comparison.build;
+    exports com.yelstream.topp.standard.operation.comparison.facet;
 }

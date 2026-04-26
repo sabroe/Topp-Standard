@@ -23,7 +23,7 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 /**
- * Test suite for {@code com.yelstream.topp.standard.lang}.
+ * Test suite for {@code com.yelstream.topp.standard.operation.comparison}.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -32,8 +32,7 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasses({
     ComparablesTest.class,
-    ComparatorsTest.class,
-    ComparatorFacetTest.class
+    ComparatorsTest.class
     })
 class ComparisonTestSuite {
 }
