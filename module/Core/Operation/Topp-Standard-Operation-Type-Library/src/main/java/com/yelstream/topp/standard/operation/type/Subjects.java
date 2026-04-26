@@ -34,7 +34,7 @@ import java.util.function.Predicate;
  * </p>
  * <ul>
  *     <li>Support fluent operations.</li>
- *     <li>Suppoert non-fluent operationbs.</li>
+ *     <li>Support non-fluent operations.</li>
  *     <li>Support {@link Optional}.</li>
  *     <li>Support null-tolerant APIs.</li>
  *     <li>Support strict APIs.</li>
