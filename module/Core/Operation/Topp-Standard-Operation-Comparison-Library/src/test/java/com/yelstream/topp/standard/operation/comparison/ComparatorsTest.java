@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.operation.comparison;
 
+import com.yelstream.topp.standard.operation.comparison.policy.StandardNullPolicy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -192,5 +193,97 @@ class ComparatorsTest {
         Person b = new Person("B", 20);
 
         Assertions.assertTrue(reversed.compare(a, b) > 0);
+    }
+
+    @Test
+    void applyNullPolicy_nullsLast_behavesCorrectly() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
+        Comparator<Person> base = Comparator.comparing(Person::age);
+
+        Comparator<Person> cmp = Comparators.applyNullPolicy(base, StandardNullPolicy.NullsLast.getPolicy());
+
+        Assertions.assertTrue(cmp.compare(a, b) < 0);
+    }
+
+    @Test
+    void applyNullPolicy_nullsFirst_behavesCorrectly() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
+        Comparator<Person> base = Comparator.comparing(Person::age);
+
+        Comparator<Person> cmp = Comparators.applyNullPolicy(base, StandardNullPolicy.NullsFirst.getPolicy());
+
+        Assertions.assertTrue(cmp.compare(a, b) < 0);
+    }
+
+    @Test
+    void applyNullPolicy_strict_throwsOnNull() {
+        Person a = new Person("A", 10);
+
+        Comparator<Person> base = Comparator.comparing(Person::age);
+
+        Comparator<Person> cmp = Comparators.applyNullPolicy(base, StandardNullPolicy.Strict.getPolicy());
+
+        Assertions.assertThrows(NullPointerException.class, () -> cmp.compare(null, a));
+    }
+
+    @Test
+    void nullsFirst_delegatesCorrectly() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
+        Comparator<Person> base = Comparator.comparing(Person::age);
+
+        Comparator<Person> cmp = Comparators.nullsFirst(base);
+
+        Assertions.assertTrue(cmp.compare(a, b) < 0);
+    }
+
+    @Test
+    void nullsLast_delegatesCorrectly() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
+        Comparator<Person> base = Comparator.comparing(Person::age);
+
+        Comparator<Person> cmp = Comparators.nullsLast(base);
+
+        Assertions.assertTrue(cmp.compare(a, b) < 0);
+    }
+
+    @Test
+    void strict_delegatesCorrectly() {
+        Person a = new Person("A", 10);
+
+        Comparator<Person> base = Comparator.comparing(Person::age);
+
+        Comparator<Person> cmp = Comparators.strict(base);
+
+        Assertions.assertThrows(NullPointerException.class, () -> cmp.compare(null, a));
+    }
+
+    @Test
+    void nullsFirst_placesNullBeforeValue() {
+        Person a = new Person("A", 10);
+
+        Comparator<Person> base = Comparator.comparing(Person::age);
+
+        Comparator<Person> cmp = Comparators.nullsFirst(base);
+
+        Assertions.assertTrue(cmp.compare(null, a) < 0);
+    }
+
+    @Test
+    void nullsLast_placesNullAfterValue() {
+        Person a = new Person("A", 10);
+
+        Comparator<Person> base = Comparator.comparing(Person::age);
+
+        Comparator<Person> cmp = Comparators.nullsLast(base);
+
+        Assertions.assertTrue(cmp.compare(null, a) > 0);
     }
 }

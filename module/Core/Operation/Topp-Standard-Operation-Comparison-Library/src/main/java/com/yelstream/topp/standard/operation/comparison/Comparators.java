@@ -19,6 +19,8 @@
 
 package com.yelstream.topp.standard.operation.comparison;
 
+import com.yelstream.topp.standard.operation.comparison.policy.NullPolicy;
+import com.yelstream.topp.standard.operation.comparison.policy.StandardNullPolicy;
 import lombok.experimental.UtilityClass;
 
 import java.util.Collection;
@@ -77,6 +79,67 @@ public class Comparators {
     public static <T> Comparator<T> nullSafeFirst(Comparator<T> comparator) {
         Objects.requireNonNull(comparator, "comparator");
         return Comparator.nullsFirst(comparator);
+    }
+    /**
+     * Applies a {@link NullPolicy} to a comparator.
+     * <p>
+     *     Transforms the given comparator into a null-aware comparator using the provided policy.
+     *     The original comparator is not modified.
+     * </p>
+     * @param comparator Base comparator.
+     *                   Must not be {@code null}.
+     * @param policy Null-handling policy.
+     *               Must not be {@code null}.
+     * @param <T> Type being compared.
+     * @return Comparator with applied null policy.
+     */
+    public static <T> Comparator<T> applyNullPolicy(Comparator<T> comparator,
+                                                    NullPolicy policy) {
+        Objects.requireNonNull(comparator, "comparator");
+        Objects.requireNonNull(policy, "policy");
+        return policy.create(comparator);
+    }
+
+    /**
+     * Applies a nulls-first policy to a comparator.
+     * <p>
+     *     Null values are ordered before non-null values.
+     * </p>
+     * @param comparator Base comparator.
+     *                   Must not be {@code null}.
+     * @param <T> Type being compared.
+     * @return Null-aware comparator with nulls ordered first.
+     */
+    public static <T> Comparator<T> nullsFirst(Comparator<T> comparator) {
+        return applyNullPolicy(comparator, StandardNullPolicy.NullsFirst.getPolicy());
+    }
+
+    /**
+     * Applies a nulls-last policy to a comparator.
+     * <p>
+     *     Null values are ordered after non-null values.
+     * </p>
+     * @param comparator Base comparator.
+     *                   Must not be {@code null}.
+     * @param <T> Type being compared.
+     * @return Null-aware comparator with nulls ordered last.
+     */
+    public static <T> Comparator<T> nullsLast(Comparator<T> comparator) {
+        return applyNullPolicy(comparator, StandardNullPolicy.NullsLast.getPolicy());
+    }
+
+    /**
+     * Applies a strict null policy to a comparator.
+     * <p>
+     *     Null values are not allowed and will result in a {@link NullPointerException}.
+     * </p>
+     * @param comparator Base comparator.
+     *                   Must not be {@code null}.
+     * @param <T> Type being compared.
+     * @return Comparator that rejects null values.
+     */
+    public static <T> Comparator<T> strict(Comparator<T> comparator) {
+        return applyNullPolicy(comparator, StandardNullPolicy.Strict.getPolicy());
     }
 
     /**
