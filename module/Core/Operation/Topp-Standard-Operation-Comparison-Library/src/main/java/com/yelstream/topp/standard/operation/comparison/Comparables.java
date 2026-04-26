@@ -100,15 +100,38 @@ public class Comparables {
     }
 
     /**
-     * Checks equality using compareTo.
+     * Checks equality using {@code compareTo}.
+     * <p>
+     *   Values must not be {@code null}.
+     * </p>
      * @param a First value.
      * @param b Second value.
      * @param <T> Value type.
-     * @return True if equal.
+     * @return True if values are equal.
      */
     public static <T extends Comparable<? super T>> boolean equals(T a, T b) {
         Objects.requireNonNull(a, "a");
         Objects.requireNonNull(b, "b");
+        return a.compareTo(b) == 0;
+    }
+
+    /**
+     * Checks equality using {@code compareTo}, allowing {@code null} values.
+     * <p>
+     *     Two {@code null} values are considered equal. A {@code null} and a non-null value are not equal.
+     * </p>
+     * @param a First value.
+     * @param b Second value.
+     * @param <T> Value type.
+     * @return True if values are equal or both {@code null}.
+     */
+    public static <T extends Comparable<? super T>> boolean equalsNullSafe(T a, T b) {
+        if (a == b) {
+            return true;
+        }
+        if (a == null || b == null) {
+            return false;
+        }
         return a.compareTo(b) == 0;
     }
 

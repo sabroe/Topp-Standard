@@ -140,6 +140,19 @@ class ComparatorsTest {
     }
 
     @Test
+    void equalsNullSafe_should_handle_null_and_non_null_values() {
+
+        Comparator<String> cmp = Comparator.naturalOrder();
+
+        Assertions.assertTrue(Comparators.equalsNullSafe(cmp, "A", "A"));
+        Assertions.assertFalse(Comparators.equalsNullSafe(cmp, "A", "B"));
+
+        Assertions.assertTrue(Comparators.equalsNullSafe(cmp, null, null));
+        Assertions.assertFalse(Comparators.equalsNullSafe(cmp, null, "A"));
+        Assertions.assertFalse(Comparators.equalsNullSafe(cmp, "A", null));
+    }
+
+    @Test
     void lessThan_shouldReturnTrue() {
         Person a = new Person("A", 10);
         Person b = new Person("B", 20);

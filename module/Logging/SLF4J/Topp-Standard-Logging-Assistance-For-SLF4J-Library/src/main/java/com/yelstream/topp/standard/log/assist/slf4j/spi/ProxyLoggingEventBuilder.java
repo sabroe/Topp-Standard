@@ -39,7 +39,7 @@ import java.util.function.Supplier;
  *
  * @deprecated Moved to another module and in a newer version!
  */
-@Deprecated(forRemoval = true)
+@Deprecated(forRemoval = false)
 @SuppressWarnings({"LombokGetterMayBeUsed","ClassCanBeRecord"})
 @AllArgsConstructor
 public class ProxyLoggingEventBuilder<B extends LoggingEventBuilder> implements LoggingEventBuilder {

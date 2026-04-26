@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.time;
 
-import com.yelstream.topp.standard.lang.Comparables;
+import com.yelstream.topp.standard.operation.comparison.Comparables;
 import lombok.experimental.UtilityClass;
 
 import java.time.Duration;
@@ -84,7 +84,7 @@ public class Durations {
      *         This may be {@code null}.
      */
     public static Duration min(Duration a, Duration b) {
-        return Comparables.min(a,b);
+        return Comparables.minNullLast(a,b);
     }
 
     /**
@@ -100,7 +100,7 @@ public class Durations {
      *         This may be {@code null}.
      */
     public static Duration max(Duration a, Duration b) {
-        return Comparables.max(a,b);
+        return Comparables.maxNullFirst(a,b);
     }
 
     /**
@@ -116,7 +116,7 @@ public class Durations {
      *         This may be {@code null}.
      */
     public static boolean equals(Duration a, Duration b) {
-        return Comparables.equals(a,b);
+        return Comparables.equalsNullSafe(a,b);
     }
 
     /**

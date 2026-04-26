@@ -84,7 +84,9 @@ class RandomDurationGeneratorTest {
             Assertions.assertNotNull(random);
             Assertions.assertTrue(a.compareTo(random)<=0);
             Assertions.assertTrue(random.compareTo(b)<=0);
-            Assertions.assertFalse(Durations.equals(lastRandom,random));
+            if (lastRandom!=null && random!=null) {  //HACK!
+                Assertions.assertFalse(Durations.equals(lastRandom, random));
+            }
             lastRandom=random;
         }
     }

@@ -52,66 +52,109 @@ class ComparablesTest {
         }
     }
 
-    private final Person a = new Person("A", 10);
-    private final Person b = new Person("B", 20);
-    private final Person c = new Person("C", 15);
 
     @Test
     void min_shouldReturnSmaller() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
         Assertions.assertEquals(a, Comparables.min(a, b));
     }
 
     @Test
     void max_shouldReturnLarger() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
         Assertions.assertEquals(b, Comparables.max(a, b));
     }
 
     @Test
     void minNullLast_shouldHandleNulls() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
         Assertions.assertEquals(b, Comparables.minNullLast(null, b));
         Assertions.assertEquals(a, Comparables.minNullLast(a, null));
     }
 
     @Test
     void maxNullFirst_shouldHandleNulls() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
         Assertions.assertEquals(b, Comparables.maxNullFirst(null, b));
         Assertions.assertEquals(a, Comparables.maxNullFirst(a, null));
     }
 
     @Test
     void equals_shouldDetectEquality() {
+        Person a = new Person("A", 10);
+
         Assertions.assertTrue(Comparables.equals(a, new Person("X", 10)));
     }
 
     @Test
+    void equalsNullSafe_shouldHandleNullsAndValues() {
+        String a = "A";
+        String b = "A";
+        String c = "B";
+
+        Assertions.assertTrue(Comparables.equalsNullSafe(a, b));
+        Assertions.assertFalse(Comparables.equalsNullSafe(a, c));
+
+        Assertions.assertTrue(Comparables.equalsNullSafe(null, null));
+        Assertions.assertFalse(Comparables.equalsNullSafe(null, a));
+        Assertions.assertFalse(Comparables.equalsNullSafe(a, null));
+    }
+    @Test
     void lessThan_shouldBeTrue() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
         Assertions.assertTrue(Comparables.lessThan(a, b));
     }
 
     @Test
     void greaterThan_shouldBeTrue() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
         Assertions.assertTrue(Comparables.greaterThan(b, a));
     }
 
     @Test
     void lessThanOrEqual_shouldWork() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
         Assertions.assertTrue(Comparables.lessThanOrEqual(a, a));
         Assertions.assertTrue(Comparables.lessThanOrEqual(a, b));
     }
 
     @Test
     void greaterThanOrEqual_shouldWork() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
         Assertions.assertTrue(Comparables.greaterThanOrEqual(b, b));
         Assertions.assertTrue(Comparables.greaterThanOrEqual(b, a));
     }
 
     @Test
     void median_shouldReturnMiddleValue() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+        Person c = new Person("C", 15);
+
         Assertions.assertEquals(c, Comparables.median(a, b, c));
     }
 
     @Test
     void naturalComparator_shouldRespectOrdering() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
         Comparator<Person> cmp = Comparables.naturalComparator();
 
         Assertions.assertTrue(cmp.compare(a, b) < 0);
@@ -119,6 +162,9 @@ class ComparablesTest {
 
     @Test
     void reverseComparator_shouldInvertOrdering() {
+        Person a = new Person("A", 10);
+        Person b = new Person("B", 20);
+
         Comparator<Person> cmp = Comparables.reverseComparator();
 
         Assertions.assertTrue(cmp.compare(a, b) > 0);
@@ -126,12 +172,16 @@ class ComparablesTest {
 
     @Test
     void strict_min_shouldThrowOnNull() {
+        Person b = new Person("B", 20);
+
         Assertions.assertThrows(NullPointerException.class,
                 () -> Comparables.min(null, b));
     }
 
     @Test
     void strict_equals_shouldThrowOnNull() {
+        Person a = new Person("A", 10);
+
         Assertions.assertThrows(NullPointerException.class,
                 () -> Comparables.equals(a, null));
     }

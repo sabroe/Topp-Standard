@@ -31,7 +31,6 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
-    ComparablesTest.class,
     RunnablesTest.class,
     ServiceLoadersTest.class,
     StringsTest.class,

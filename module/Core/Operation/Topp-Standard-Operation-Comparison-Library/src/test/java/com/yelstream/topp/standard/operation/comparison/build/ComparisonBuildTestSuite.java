@@ -31,7 +31,8 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
-    ComparatorBuilderTest.class
+    ComparatorBuilderTest.class,
+    ComparingTest.class
     })
 class ComparisonBuildTestSuite {
 }

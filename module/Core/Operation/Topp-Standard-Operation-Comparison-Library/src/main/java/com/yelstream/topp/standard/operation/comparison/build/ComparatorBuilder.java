@@ -19,6 +19,8 @@
 
 package com.yelstream.topp.standard.operation.comparison.build;
 
+import com.yelstream.topp.standard.operation.comparison.policy.NullPolicy;
+
 import java.util.Comparator;
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
@@ -154,6 +156,16 @@ public final class ComparatorBuilder<T> {  //Note: This could be split into 'Cre
      */
     public ComparatorBuilder<T> nullsLast() {
         comparator = Comparator.nullsLast(comparator);
+        return this;
+    }
+
+    /**
+     * Wraps the comparator with a null-policy.
+     * @param nullPolicy Null-policy.
+     * @return This builder.
+     */
+    public ComparatorBuilder<T> nullPolicy(NullPolicy nullPolicy) {
+        comparator = nullPolicy.create(comparator);
         return this;
     }
 
