@@ -39,7 +39,6 @@ import java.util.Objects;
 public class Comparables {
     /**
      * Returns the minimum of two values using null-last policy.
-     *
      * @param a First value.
      * @param b Second value.
      * @param <T> Value type.
@@ -51,7 +50,6 @@ public class Comparables {
 
     /**
      * Returns the maximum of two values using null-first policy.
-     *
      * @param a First value.
      * @param b Second value.
      * @param <T> Value type.

@@ -199,6 +199,47 @@ public class Comparators {
         Objects.requireNonNull(values, "values");
         return values.stream().max(comparator).orElse(null);
     }
+    /**
+     * Gets the minimum of two values.
+     * <p>
+     *     Null values are ordered last.
+     * </p>
+     * @param comparator Comparator used for ordering.
+     * @param a First value.
+     *          This may be {@code null}.
+     * @param b Second value.
+     *          This may be {@code null}.
+     * @param <T> Value type.
+     * @return Minimum value.
+     *         This may be {@code null}.
+     */
+    public static <T> T minNullsLast(Comparator<T> comparator,
+                                     T a,
+                                     T b) {
+        Objects.requireNonNull(comparator, "comparator");
+        return Comparator.nullsLast(comparator).compare(a, b) <= 0 ? a : b;
+    }
+
+    /**
+     * Gets the maximum of two values.
+     * <p>
+     *     Null values are ordered first.
+     * </p>
+     * @param comparator Comparator used for ordering.
+     * @param a First value.
+     *          This may be {@code null}.
+     * @param b Second value.
+     *          This may be {@code null}.
+     * @param <T> Value type.
+     * @return Maximum value.
+     *         This may be {@code null}.
+     */
+    public static <T> T maxNullsFirst(Comparator<T> comparator,
+                                      T a,
+                                      T b) {
+        Objects.requireNonNull(comparator, "comparator");
+        return Comparator.nullsFirst(comparator).compare(a, b) >= 0 ? a : b;
+    }
 
     /**
      * Checks equality using comparator ordering.
