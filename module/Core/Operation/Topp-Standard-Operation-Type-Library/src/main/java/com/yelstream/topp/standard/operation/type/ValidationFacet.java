@@ -27,8 +27,13 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
+ * Validation facet for a subject.
+ * <p>
+ *     Provides validation-based operations that enforce constraints on the subject value.
+ *     Validation failures result in exceptions.
+ * </p>
  *
- *
+ * @param <T> Value type.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -36,12 +41,16 @@ import java.util.function.Predicate;
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class ValidationFacet<T> {
-
+    /**
+     * Subject addressed.
+     */
     @NonNull
-    public final Subject<T> subject;
+    private final Subject<T> subject;
 
     /**
-     * Requires subject value to be non-null.
+     * Requires the subject value to be non-null.
+     * @return The subject if validation succeeds.
+     * @throws NullPointerException If the subject value is null.
      */
     public Subject<T> nonNull() {
         Objects.requireNonNull(subject.getValue(), "Subject value is null!");
@@ -49,25 +58,29 @@ public class ValidationFacet<T> {
     }
 
     /**
-     * Requires subject value to be instance of type.
+     * Requires the subject value to be an instance of the given type.
+     * @param type Required type.
+     * @return The subject if validation succeeds.
+     * @throws NullPointerException If {@code type} is null.
+     * @throws IllegalArgumentException If the subject value is not an instance of the type.
      */
     public Subject<T> isInstance(Class<?> type) {
         Objects.requireNonNull(type, "type");
 
         if (!ObjectOps.isInstance(subject.getValue(), type)) {
-            throw new IllegalArgumentException(
-                    "Subject value type '%s' is not instance of '%s'!"
-                            .formatted(
-                                    ObjectOps.getName(subject.getValue()),
-                                    ClassOps.getName(type)
-                            )
+            throw new IllegalArgumentException("Subject value type '%s' is not instance of '%s'!"
+                            .formatted(ObjectOps.getName(subject.getValue()),ClassOps.getName(type))
             );
         }
         return subject;
     }
 
     /**
-     * Requires predicate to match.
+     * Requires the subject value to satisfy a predicate.
+     * @param predicate Validation predicate.
+     * @return The subject if validation succeeds.
+     * @throws NullPointerException If {@code predicate} is null.
+     * @throws IllegalArgumentException If the predicate does not match.
      */
     public Subject<T> matches(Predicate<T> predicate) {
         Objects.requireNonNull(predicate, "predicate");

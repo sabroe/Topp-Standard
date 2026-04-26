@@ -26,15 +26,20 @@ import lombok.NonNull;
 import java.util.function.Consumer;
 
 /**
- *
+ * Presence facet for a subject.
  * <p>
- *     This is basically a Optional-like read-only / action-oriented facet.
- *     It overlaps NullFacet, but with a different style:
+ *     Provides presence-based operations on the subject value.
+ * </p>
+ * <p>
+ *     This is a read-only, action-oriented facet similar to {@link java.util.Optional}.
+ *     It overlaps {@link NullFacet}, but with a different style:
  * </p>
  * <ul>
- *     <li>NullFacet → returns Subject</li>
- *     <li>PresenceFacet → acts like Optional</li>
+ *     <li>{@link NullFacet} returns {@link Subject} instances.</li>
+ *     <li>{@link PresenceFacet} provides inspection and action-oriented methods.</li>
  * </ul>
+ *
+ * @param <T> Value type.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -42,12 +47,15 @@ import java.util.function.Consumer;
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class PresenceFacet<T> {
-
+    /**
+     * Subject addressed.
+     */
     @NonNull
-    public final Subject<T> subject;
+    private final Subject<T> subject;
 
     /**
      * Indicates whether the subject value is present.
+     * @return True if the subject value is non-null.
      */
     public boolean isPresent() {
         return subject.getValue() != null;
@@ -55,13 +63,15 @@ public class PresenceFacet<T> {
 
     /**
      * Indicates whether the subject value is absent.
+     * @return True if the subject value is null.
      */
     public boolean isEmpty() {
         return subject.getValue() == null;
     }
 
     /**
-     * Executes consumer if value is present.
+     * Executes a consumer if the subject value is present.
+     * @param consumer Consumer invoked.
      */
     public void ifPresent(Consumer<T> consumer) {
         if (isPresent()) {
@@ -70,7 +80,8 @@ public class PresenceFacet<T> {
     }
 
     /**
-     * Executes action if value is absent.
+     * Executes an action if the subject value is absent.
+     * @param action Action invoked.
      */
     public void ifEmpty(Runnable action) {
         if (isEmpty()) {
@@ -79,7 +90,10 @@ public class PresenceFacet<T> {
     }
 
     /**
-     * Returns value if present; otherwise fallback.
+     * Returns the subject value if present.
+     * Otherwise, returns a fallback value.
+     * @param fallback Fallback value.
+     * @return Subject value or fallback.
      */
     public T orElse(T fallback) {
         return isPresent() ? subject.getValue() : fallback;

@@ -27,7 +27,12 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
+ * Equality facet for a subject.
+ * <p>
+ *     Provides equality-based operations on the subject value using {@link Objects#equals(Object, Object)}.
+ * </p>
  *
+ * @param <T> Value type.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -35,14 +40,26 @@ import java.util.function.Consumer;
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class EqualityFacet<T> {
-
+    /**
+     * Subject addressed.
+     */
     @NonNull
-    public final Subject<T> subject;
+    private final Subject<T> subject;
 
+    /**
+     * Indicates whether the subject value is equal to another value.
+     * @param value Value compared to.
+     * @return True if equal.
+     */
     public boolean isEquals(T value) {
         return Objects.equals(subject.getValue(), value);
     }
 
+    /**
+     * Invokes a consumer if the subject value is equal to another value.
+     * @param value Value compared to.
+     * @param consumer Consumer invoked.
+     */
     public void ifEquals(T value, Consumer<T> consumer) {
         if (isEquals(value)) {
             consumer.accept(subject.getValue());

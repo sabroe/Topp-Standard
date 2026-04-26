@@ -26,7 +26,13 @@ import lombok.NonNull;
 import java.util.function.Supplier;
 
 /**
+ * Null-handling facet for a subject.
+ * <p>
+ *     Provides inspection and fallback operations for nullable values,
+ *     hence a single-subject recovery model.
+ * </p>
  *
+ * @param <T> Value type.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -34,11 +40,15 @@ import java.util.function.Supplier;
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class NullFacet<T> {
+    /**
+     * Subject addressed.
+     */
     @NonNull
-    public final Subject<T> subject;
+    private final Subject<T> subject;
 
     /**
      * Indicates whether the subject value is null.
+     * @return True if the subject value is null.
      */
     public boolean isNull() {
         return subject.getValue() == null;
@@ -46,24 +56,59 @@ public class NullFacet<T> {
 
     /**
      * Indicates whether the subject value is non-null.
+     * @return True if the subject value is non-null.
      */
     public boolean isNotNull() {
         return subject.getValue() != null;
     }
 
     /**
-     * Returns the subject unchanged if non-null,
-     * otherwise returns a subject with fallback value.
+     * Returns the subject unchanged if non-null.
+     * Otherwise, returns a subject with fallback value.
+     * @param fallback Fallback value.
+     * @return Subject with resolved value.
      */
     public Subject<T> or(T fallback) {
         return Subjects.or(subject, fallback);
     }
 
     /**
-     * Returns the subject unchanged if non-null,
-     * otherwise returns a subject with supplied fallback.
+     * Returns the subject unchanged if non-null.
+     * Otherwise, returns the fallback subject.
+     * @param other Fallback subject.
+     * @return Subject with resolved value.
+     */
+    public Subject<T> or(Subject<T> other) {
+        return isNotNull() ? subject : other;
+    }
+
+    /**
+     * Returns the subject unchanged if non-null.
+     * Otherwise, returns a subject with supplied fallback.
+     * @param supplier Supplier of fallback value.
+     * @return Subject with resolved value.
      */
     public Subject<T> orGet(Supplier<T> supplier) {
         return isNotNull() ? subject : subject.withValue(supplier.get());
+    }
+
+    /**
+     * Returns the subject unchanged if non-null.
+     * Otherwise, returns a subject with the first non-null value.
+     * @param values Fallback values.
+     * @return Subject with resolved value.
+     */
+    public Subject<T> orAny(Iterable<T> values) {
+        if (isNotNull()) {
+            return subject;
+        }
+        if (values != null) {
+            for (T value : values) {
+                if (value != null) {
+                    return subject.withValue(value);
+                }
+            }
+        }
+        return subject;
     }
 }

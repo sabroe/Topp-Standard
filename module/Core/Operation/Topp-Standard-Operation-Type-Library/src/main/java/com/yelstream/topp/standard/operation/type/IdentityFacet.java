@@ -26,7 +26,13 @@ import lombok.NonNull;
 import java.util.function.Consumer;
 
 /**
+ * Identity facet for a subject.
+ * <p>
+ *     Provides identity-based operations on the subject value using reference
+ *     equality and identity hash codes.
+ * </p>
  *
+ * @param <T> Value type.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -34,17 +40,34 @@ import java.util.function.Consumer;
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class IdentityFacet<T> {
+    /**
+     * Subject addressed.
+     */
     @NonNull
-    public final Subject<T> subject;
+    private final Subject<T> subject;
 
+    /**
+     * Gets the identity hash code of the subject value.
+     * @return Identity hash code.
+     */
     public int identityHash() {
         return subject.identityHash();
     }
 
+    /**
+     * Indicates whether another value is the same instance as the subject value.
+     * @param value Value compared to.
+     * @return True if both values are the same instance.
+     */
     public boolean isSame(T value) {
         return value == subject.getValue();
     }
 
+    /**
+     * Invokes a consumer if another value is the same instance as the subject value.
+     * @param value Value compared to.
+     * @param consumer Consumer invoked.
+     */
     public void ifSame(T value,
                        Consumer<T> consumer) {
         if (isSame(value)) {

@@ -27,8 +27,12 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
+ * Inspection facet for a subject.
+ * <p>
+ *     Provides predicate-based operations on the subject value.
+ * </p>
  *
- *
+ * @param <T> Value type.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -36,19 +40,25 @@ import java.util.function.Predicate;
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class InspectionFacet<T> {
-
+    /**
+     * Subject addressed.
+     */
     @NonNull
-    public final Subject<T> subject;
+    private final Subject<T> subject;
 
     /**
-     * Evaluates predicate against the subject value.
+     * Evaluates a predicate against the subject value.
+     * @param predicate Predicate evaluated.
+     * @return True if the predicate matches.
      */
     public boolean matches(Predicate<T> predicate) {
         return predicate.test(subject.getValue());
     }
 
     /**
-     * Executes consumer if predicate matches.
+     * Executes a consumer if a predicate matches.
+     * @param predicate Predicate evaluated.
+     * @param consumer Consumer invoked.
      */
     public void ifMatches(Predicate<T> predicate,
                           Consumer<T> consumer) {
@@ -58,8 +68,10 @@ public class InspectionFacet<T> {
     }
 
     /**
-     * Returns subject if predicate matches;
-     * otherwise an empty subject.
+     * Returns the subject if a predicate matches.
+     * Otherwise, returns an empty subject.
+     * @param predicate Predicate evaluated.
+     * @return Matching subject or empty subject.
      */
     public Subject<T> filter(Predicate<T> predicate) {
         return matches(predicate) ? subject : Subjects.empty();

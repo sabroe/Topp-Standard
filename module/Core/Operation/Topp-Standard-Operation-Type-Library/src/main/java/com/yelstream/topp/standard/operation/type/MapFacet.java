@@ -23,11 +23,17 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
+ * Transformation facet for a subject.
+ * <p>
+ *     Provides mapping operations that transform the subject value into another subject.
+ *     Supports both direct mapping and monadic-style flat mapping.
+ * </p>
  *
- *
+ * @param <T> Source value type.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -35,19 +41,46 @@ import java.util.function.Function;
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class MapFacet<T> {
+    /**
+     * Subject addressed.
+     */
     @NonNull
-    public final Subject<T> subject;
+    private final Subject<T> subject;
 
+    /**
+     * Transforms the subject value using a mapper function.
+     *
+     * @param mapper Mapping function from value to new value.
+     * @param <R> Result type.
+     * @return New subject containing mapped value.
+     */
     public <R> Subject<R> map(Function<T, R> mapper) {
-//        return Subjects.mapByValue(subject,mapper);
-        return null;  //TO-DO: Fix!
+        Objects.requireNonNull(mapper, "mapper");
+        return Subject.of(mapper.apply(subject.getValue()));
     }
 
+    /**
+     * Transforms the subject value into another subject.
+     * @param mapper Mapping function returning a subject.
+     * @param <R> Result type.
+     * @return Flattened subject.
+     */
     public <R> Subject<R> flatMap(Function<T, Subject<R>> mapper) {
-        return null;  //TO-DO: Fix!
+        Objects.requireNonNull(mapper, "mapper");
+        return mapper.apply(subject.getValue());
     }
 
+    /**
+     * Converts the subject value using a mapper function.
+     * <p>
+     *     Alias for {@link #map(Function)} kept for semantic clarity in fluent chains.
+     * </p>
+     * @param mapper Mapping function.
+     * @param <R> Result type.
+     * @return New subject with transformed value.
+     */
     public <R> Subject<R> to(Function<T, R> mapper) {
-        return Subjects.to(subject,mapper);
+        Objects.requireNonNull(mapper, "mapper");
+        return Subject.of(mapper.apply(subject.getValue()));
     }
 }
