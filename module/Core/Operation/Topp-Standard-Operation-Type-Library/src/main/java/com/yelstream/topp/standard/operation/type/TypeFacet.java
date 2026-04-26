@@ -28,8 +28,12 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
+ * Type facet for a subject.
+ * <p>
+ *     Provides type-based operations on the subject value.
+ * </p>
  *
- *
+ * @param <T> Value type.
  *
  * @author Morten Sabroe Mortensen
  * @version 1.0
@@ -37,11 +41,16 @@ import java.util.function.Consumer;
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
 public class TypeFacet<T> {
+    /**
+     * Subject addressed.
+     */
     @NonNull
-    public final Subject<T> subject;
+    private final Subject<T> subject;
 
     /**
-     * Checks whether the underlying value is instance of type.
+     * Indicates whether the subject value is an instance of a type.
+     * @param type Type tested against.
+     * @return True if the subject value is an instance of the type.
      */
     public boolean isInstance(Class<?> type) {
         Objects.requireNonNull(type, "type");
@@ -49,7 +58,10 @@ public class TypeFacet<T> {
     }
 
     /**
-     * Conditional execution if type matches.
+     * Executes an action if the subject value is an instance of a type.
+     * @param type Type tested against.
+     * @param action Action invoked.
+     * @param <R> Target type.
      */
     public <R> void ifInstance(Class<R> type,
                                Consumer<R> action) {
@@ -59,15 +71,25 @@ public class TypeFacet<T> {
     }
 
     /**
-     * Optional-style exposure (if you want it here).
+     * Attempts to cast the subject to another type.
+     * @param type Target type.
+     * @param <R> Target type.
+     * @return Optional containing the cast subject if successful.
      */
     public <R> Optional<Subject<R>> tryCast(Class<R> type) {
         Objects.requireNonNull(type, "type");
-        return Subjects.tryCast(subject,type);
+        return Subjects.tryCast(subject, type);
     }
 
+    /**
+     * Casts the subject to another type.
+     * @param type Target type.
+     * @param <R> Target type.
+     * @return Cast subject.
+     * @throws ClassCastException Thrown if the subject value cannot be cast.
+     */
     public <R> Subject<R> as(Class<R> type) {
         Objects.requireNonNull(type, "type");
-        return Subjects.as(subject,type);
+        return Subjects.as(subject, type);
     }
 }

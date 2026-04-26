@@ -119,7 +119,6 @@ public class ComparatorFacet<T> {
         return Comparators.equalsNullSafe(comparator, a, b);
     }
 
-
     /**
      * Checks if first value is less than second value.
      * @param a First value.
