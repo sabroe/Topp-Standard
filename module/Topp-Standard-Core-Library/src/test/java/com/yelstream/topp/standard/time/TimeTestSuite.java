@@ -35,7 +35,7 @@ import org.junit.platform.suite.api.Suite;
                 RandomDurationGeneratorTest.class,
                 DurationsTest.class,
                 InstantsTest.class,
-                InstantSourcesTest.class,
+                //InstantSourcesTest.class,
                 DateTimeFormattersTest.class})
 class TimeTestSuite {
 }

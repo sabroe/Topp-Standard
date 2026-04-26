@@ -202,17 +202,38 @@ public class Comparators {
 
     /**
      * Checks equality using comparator ordering.
+     * <p>
+     *     Both values must be non-null.
+     * </p>
      * @param comparator Comparator used for ordering.
      * @param a First value.
      * @param b Second value.
      * @param <T> Value type.
-     * @return True if values are equal.
+     * @return True if values are equal according to comparator.
      */
     public static <T> boolean equals(Comparator<T> comparator,
                                      T a,
                                      T b) {
         Objects.requireNonNull(comparator,"comparator");
         return comparator.compare(a, b) == 0;
+    }
+
+    /**
+     * Checks equality using comparator ordering with null-safety.
+     * <p>
+     *     Null values are treated as greater than non-null values.
+     *     Two null values are considered equal.
+     * </p>
+     * @param comparator Comparator used for ordering.
+     * @param a First value.
+     * @param b Second value.
+     * @param <T> Value type.
+     * @return True if values are equal according to comparator with null-safe ordering.
+     */
+    public static <T> boolean equalsNullSafe(Comparator<T> comparator,
+                                             T a,
+                                             T b) {
+        return Comparator.nullsLast(comparator).compare(a, b) == 0;
     }
 
     /**

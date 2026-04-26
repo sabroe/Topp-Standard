@@ -33,7 +33,7 @@ import java.lang.reflect.Field;
  *
  * @deprecated Moved to library Topp-Standard-Operation-Type-Library
  */
-@Deprecated(since = "2026-04-21", forRemoval = true)
+@Deprecated(since = "2026-04-21", forRemoval = false)
 @Slf4j
 @UtilityClass
 public class Reflection {

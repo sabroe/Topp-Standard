@@ -19,6 +19,78 @@
 
 /**
  * Comparison utilities.
+ * <p>
+ *     This module provides a fluent and policy-driven approach to building, composing, and executing
+ *     {@link java.util.Comparator} instances.
+ *     It supports key-based comparison construction, null-handling policies, and reusable comparison facets.
+ * </p>
+ *
+ * <p>
+ * The main building blocks are:
+ * </p>
+ * <ul>
+ *     <li>{@code Comparing} – fluent entry point for comparator construction.</li>
+ *     <li>{@code ComparatorBuilder} – fluent comparator assembly.</li>
+ *     <li>{@code Comparators} – static utility operations on comparators.</li>
+ *     <li>{@code ComparatorFacet} – runtime comparison operations.</li>
+ *     <li>{@code NullPolicy} – strategy for null-handling behavior.</li>
+ * </ul>
+ *
+ * <h2>Example usage</h2>
+ *
+ * <p>
+ * Basic comparator construction using {@code Comparing}:
+ * </p>
+ *
+ * <pre>{@code
+ * Comparator<Person> byName =
+ *     Comparing.by(Person::name)
+ *         .build();
+ * }</pre>
+ *
+ * <p>
+ * Multi-level comparison with chaining:
+ * </p>
+ *
+ * <pre>{@code
+ * Comparator<Person> byNameThenAge =
+ *     Comparing.by(Person::name)
+ *         .thenComparing(Person::age)
+ *         .build();
+ * }</pre>
+ *
+ * <p>
+ * Full comparator with null-handling policy:
+ * </p>
+ *
+ * <pre>{@code
+ * Comparator<Person> comparator =
+ *     Comparing.by(Person::name)
+ *         .thenComparing(Person::age)
+ *         .thenComparing(Person::score)
+ *         .nullsLast()
+ *         .build();
+ * }</pre>
+ *
+ * <p>
+ * Equivalent usage with explicit policy application:
+ * </p>
+ *
+ * <pre>{@code
+ * Comparator<Person> comparator =
+ *     Comparators.applyNullPolicy(
+ *         Comparator.comparing(Person::name),
+ *         StandardNullPolicy.NullsFirst.getPolicy()
+ *     );
+ * }</pre>
+ *
+ * <p>
+ * Example domain model:
+ * </p>
+ *
+ * <pre>{@code
+ * public record Person(String name, int age, double score) {}
+ * }</pre>
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-04-21

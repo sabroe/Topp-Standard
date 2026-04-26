@@ -37,7 +37,7 @@ import org.slf4j.spi.DefaultLoggingEventBuilder;
  *
  * @deprecated Moved to another module and in a newer version!
  */
-@Deprecated(forRemoval = true)
+@Deprecated(forRemoval = false)
 @Slf4j
 @UtilityClass
 public class DefaultLoggingEventBuilders {

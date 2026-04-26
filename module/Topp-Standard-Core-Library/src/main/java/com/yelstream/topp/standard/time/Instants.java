@@ -19,7 +19,7 @@
 
 package com.yelstream.topp.standard.time;
 
-import com.yelstream.topp.standard.lang.Comparables;
+import com.yelstream.topp.standard.operation.comparison.Comparables;
 import lombok.experimental.UtilityClass;
 
 import java.time.Instant;
@@ -46,7 +46,7 @@ public class Instants {
      *         This may be {@code null}.
      */
     public static Instant min(Instant a, Instant b) {
-        return Comparables.min(a,b);
+        return Comparables.minNullLast(a,b);
     }
 
     /**
@@ -62,7 +62,7 @@ public class Instants {
      *         This may be {@code null}.
      */
     public static Instant max(Instant a, Instant b) {
-        return Comparables.max(a,b);
+        return Comparables.maxNullFirst(a,b);
     }
 
     /**

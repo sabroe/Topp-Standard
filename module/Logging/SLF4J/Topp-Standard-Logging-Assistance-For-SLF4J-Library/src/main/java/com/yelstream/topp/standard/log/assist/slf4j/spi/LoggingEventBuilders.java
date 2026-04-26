@@ -38,7 +38,7 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
  *
  * @deprecated Moved to another module and in a newer version!
  */
-@Deprecated(forRemoval = true)
+@Deprecated(forRemoval = false)
 @UtilityClass
 public class LoggingEventBuilders {
     /**
