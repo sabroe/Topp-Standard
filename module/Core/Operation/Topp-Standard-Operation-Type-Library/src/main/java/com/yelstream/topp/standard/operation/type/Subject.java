@@ -29,6 +29,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  *
@@ -70,6 +71,10 @@ public class Subject<T> {
         return ObjectOps.identityHash(value);
     }
 
+    public String identityString() {
+        return ObjectOps.identityString(value);
+    }
+
     public boolean isInstance(Class<?> type) {
         return ObjectOps.isInstance(value,type);
     }
@@ -90,12 +95,17 @@ public class Subject<T> {
     }
 
     public <R> Subject<R> tryCastOr(Class<R> type,
-                                    Subject<R> fallback) {
-        return tryCast(type).orElse(fallback);
+                                    R fallback) {
+        return tryCast(type).orElse(replaceValue(fallback));
     }
 
-    public <R> R cast(Class<R> type) {
-        return ObjectOps.cast(value, type);
+    public <R> Subject<R> tryCastOrGet(Class<R> type,
+                                              Supplier<? extends R> fallbackSupplier) {
+        return tryCast(type).orElseGet(()->replaceValue(fallbackSupplier.get()));
+    }
+
+    public <R> Subject<R> cast(Class<R> type) {
+        return replaceValue(ObjectOps.cast(value, type));
     }
 
 /*
