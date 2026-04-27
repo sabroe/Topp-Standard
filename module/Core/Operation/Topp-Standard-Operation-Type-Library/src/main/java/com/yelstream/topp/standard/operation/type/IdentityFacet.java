@@ -23,6 +23,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -52,6 +53,10 @@ public class IdentityFacet<T> {
      */
     public int identityHash() {
         return subject.identityHash();
+    }
+
+    public String identityString() {
+        return subject.identityString();
     }
 
     /**

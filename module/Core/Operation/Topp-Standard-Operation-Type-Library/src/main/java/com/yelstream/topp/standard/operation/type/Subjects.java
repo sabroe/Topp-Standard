@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * Utility addressing instances of {@link Subject}.
@@ -55,6 +56,28 @@ public class Subjects {
                                                       Class<R> type) {
         Objects.requireNonNull(subject, "subject");
         return ObjectOps.instanceOf(subject.getValue(), type).map(subject::replaceValue);
+    }
+
+    public static <T, R> Subject<R> tryCastOrNull(Subject<T> subject,
+                                                  Class<R> type) {
+        return tryCast(subject,type).orElse(null);
+    }
+
+    public static <T, R> Subject<R> tryCastOr(Subject<T> subject,
+                                              Class<R> type,
+                                              R fallback) {
+        return tryCast(subject, type).orElse(subject.replaceValue(fallback));
+    }
+
+    public static <T, R> Subject<R> tryCastOrGet(Subject<T> subject,
+                                                 Class<R> type,
+                                                 Supplier<? extends R> fallbackSupplier) {
+        return tryCast(subject, type).orElseGet(()->subject.replaceValue(fallbackSupplier.get()));
+    }
+
+    public static <T,R > Subject<R> cast(Subject<T> subject,
+                                         Class<R> type) {
+        return subject.replaceValue(ObjectOps.cast(subject.getValue(), type));
     }
 
     /**

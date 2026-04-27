@@ -26,6 +26,7 @@ import lombok.NonNull;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Type facet for a subject.
@@ -78,8 +79,32 @@ public class TypeFacet<T> {
      */
     public <R> Optional<Subject<R>> tryCast(Class<R> type) {
         Objects.requireNonNull(type, "type");
-        return Subjects.tryCast(subject, type);
+        return subject.tryCast(type);
     }
+
+    public <R> Subject<R> tryCastOrNull(Class<R> type) {
+        return subject.tryCastOrNull(type);
+    }
+
+    public <R> Subject<R> tryCastOr(Class<R> type,
+                                    R fallback) {
+        return subject.tryCastOr(type,fallback);
+    }
+
+    public <R> Subject<R> tryCastOrGet(Class<R> type,
+                                       Supplier<? extends R> fallbackSupplier) {
+        return subject.tryCastOrGet(type,fallbackSupplier);
+    }
+
+    public <R> Subject<R> cast(Class<R> type) {
+        return subject.cast(type);
+    }
+
+
+
+
+
+
 
     /**
      * Casts the subject to another type.
