@@ -26,20 +26,15 @@ import lombok.NonNull;
 import java.util.Comparator;
 
 /**
- * Facade to facet-based operations on a subject.
+ * Entry point for domain-oriented facet operations over a {@link Subject}.
  * <p>
- *     Provides structured access to all facet domains without exposing
- *     internal implementations or duplicating logic.
+ *     Facets represent semantic domains of operation over a subject.
+ *     Operations within a facet should remain semantically coherent.
+ *     Return values may continue fluent flow where meaningful.
  * </p>
  * <p>
- *     This facade defines a structured, domain-oriented navigation model over a {@link Subject}.
+ *     Chaining across unrelated semantic domains should is avoided.
  * </p>
- * <p>
- *     The gateway enforces a strict separation of concerns between facet domains,
- *     ensuring that each operation remains within a well-defined semantic boundary.
- *     This prevents uncontrolled chaining across unrelated concerns and preserves the predictability of the API.
- * </p>
- *
  * <p>
  *     The model is based on a fixed set of domain return contracts:
  * </p>
@@ -51,20 +46,6 @@ import java.util.Comparator;
  *     <li><b>Type</b> → Type operations return either a {@code Subject<R>} or a {@code boolean}</li>
  *     <li><b>Compose</b> → Composition operations always return a {@code Subject}</li>
  * </ul>
- *
- * <p>
- *     This structure defines the core architectural invariant of the system:
- *     <b>facets are domain-bounded and must not cross semantic boundaries during chaining</b>.
- *     Each facet domain is intentionally self-contained,
- *     and transitions between domains are explicit rather than implicit.
- * </p>
- *
- * <p>
- *    <b>No cross-domain chaining is permitted.</b>
- *    A transformation from one domain to another must occur only through an explicit return to {@link Subject}
- *    or through a defined facet entry point.
- *    This ensures that the DSL remains predictable, composable, and free of hidden semantic coupling.
- * </p>
  *
  * @param <T> Value type.
  *
@@ -111,6 +92,10 @@ public class Façade<T> {
 
     public TypeFacet<T> type() {
         return TypeFacet.of(subject);
+    }
+
+    public CastFacet<T> casting() {
+        return CastFacet.of(subject);
     }
 
     // =========================================================

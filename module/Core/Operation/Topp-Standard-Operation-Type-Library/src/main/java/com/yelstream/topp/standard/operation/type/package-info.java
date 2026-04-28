@@ -18,14 +18,15 @@
  */
 
 /**
- * Type manipulation utilities.
- *
- *
+ * Provides domain-oriented facets for fluent operations over
+ * {@link com.yelstream.topp.standard.operation.type.Subject}.
  * <p>
- *     TODO:
- *     ObjectOps → universal object semantics
- *     Subject<T> → instance carrier
- *     Facets → contextual views
+ *     Facets represent semantic domains of operation over a subject.
+ *     Operations within a facet should remain semantically coherent.
+ *     Return values may continue fluent flow where meaningful.
+ * </p>
+ * <p>
+ *     Chaining across unrelated semantic domains should be avoided.
  * </p>
  *
  * @author Morten Sabroe Mortensen

@@ -27,3 +27,14 @@ plugins {
 
 dependencies {
 }
+
+tasks.named('javadoc', Javadoc) {
+    options {
+//        windowTitle = 'My API Documentation'
+//        docTitle = '<h1>My Project API</h1>'
+        header   = "<b>"+project.properties.name+"</b>"
+//        header   = '<b>My Project</b>'+project.properties.group+project.properties.artifact+project.properties.version
+//        footer   = '<b>Version 1.0</b>'
+        bottom   = project.properties.custom['implementation.copyright']+"<br/>"+project.properties.custom['implementation.license']
+    }
+}
