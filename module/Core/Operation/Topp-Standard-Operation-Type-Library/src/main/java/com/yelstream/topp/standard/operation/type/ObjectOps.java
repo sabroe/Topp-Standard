@@ -219,7 +219,7 @@ public class ObjectOps {
         if (!type.isInstance(value)) {
             throw new ClassCastException(
                     "Failure to cast value; value '%s' has expected type '%s', but the actual type is '%s'!"
-                            .formatted(value, getName(value), ClassOps.getName(type))
+                            .formatted(value, ClassOps.getName(type), getName(value))
             );
         }
         return type.cast(value);
