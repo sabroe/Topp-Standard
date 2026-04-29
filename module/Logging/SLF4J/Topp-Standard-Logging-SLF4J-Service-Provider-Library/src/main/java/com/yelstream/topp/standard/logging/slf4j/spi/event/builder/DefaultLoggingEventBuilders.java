@@ -19,8 +19,8 @@
 
 package com.yelstream.topp.standard.logging.slf4j.spi.event.builder;
 
-import com.yelstream.topp.standard.lang.reflect.Reflection;
 import com.yelstream.topp.standard.logging.slf4j.logger.Loggers;
+import com.yelstream.topp.standard.operation.reflection.Reflection;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
