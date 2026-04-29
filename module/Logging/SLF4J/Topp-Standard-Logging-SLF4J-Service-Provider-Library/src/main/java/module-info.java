@@ -29,7 +29,8 @@ module com.yelstream.topp.standard.logging.slf4j.provider {  //TODO: provider->s
     requires com.yelstream.topp.standard.annotation.intention;
     requires com.yelstream.topp.standard.logging.slf4j.base;
     requires org.slf4j.simple;
-    requires com.yelstream.topp.standard.core;
+//    requires com.yelstream.topp.standard.core;
+    requires com.yelstream.topp.standard.operation.reflection;
     exports com.yelstream.topp.standard.logging.slf4j.spi.logger;
     exports com.yelstream.topp.standard.logging.slf4j.spi.logger.enable;
     exports com.yelstream.topp.standard.logging.slf4j.spi.logger.event.bind;
