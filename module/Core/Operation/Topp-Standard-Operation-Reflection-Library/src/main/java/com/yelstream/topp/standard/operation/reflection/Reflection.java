@@ -64,17 +64,17 @@ public class Reflection {
     public static <T> T getField(Object object,
                                  String fieldName,
                                  Class<T> fieldClass) {
-        T field=null;
+        T fieldValue=null;
         Class<?> objectClass=object.getClass();
         try {
-            Field loggerField=object.getClass().getDeclaredField(fieldName);
-            loggerField.setAccessible(true);
-            field=safeCast(fieldClass,loggerField.get(object));
+            Field field=object.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            fieldValue=safeCast(fieldClass,field.get(object));
         } catch (NoSuchFieldException ex) {
             log.error("Failure to get field; field does not exist, object class is {}, field is {}!",objectClass,fieldName);
         } catch (IllegalAccessException ex) {
             throw new IllegalStateException(String.format("Failure to get field; field cannot be accessed, object class is %s, field is %s!",objectClass,fieldName),ex);
         }
-        return field;
+        return fieldValue;
     }
 }
