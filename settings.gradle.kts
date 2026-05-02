@@ -117,7 +117,7 @@ include("module:Core:Operation:Topp-Standard-Operation-Comparison-Library")  //O
 
 include("module:Core:Time:Topp-Standard-Time-Library")
 include("module:Core:Time:Topp-Standard-Time-Formatting-Library")
-include("module:Core:Time:Topp-Standard-Legacy-Time-Adapter-Library")
+include("module:Core:Time:Topp-Standard-Time-Legacy-Library")
 include("module:Core:Time:Topp-Standard-XML-Time-Library")  //TO-DO: Move domain back from "Time" to "XML"!
 
 //include("module:Core:Collection:Topp-Standard-Instance-Discovery-Collection-Library")

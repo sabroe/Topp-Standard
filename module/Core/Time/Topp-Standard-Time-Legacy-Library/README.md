@@ -1,3 +1,3 @@
-# Topp Standard Legacy Time Adapter Library
+# Topp Standard Time Legacy Library
 
 Adapts legacy time-and-date functionalities to current, sound standards.
