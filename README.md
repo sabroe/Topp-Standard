@@ -104,9 +104,18 @@ Hence, the project serves three purposes:
 
 - All artifacts are strict JPMS modules implemented in modern Java and validated to maintain acyclic internal dependencies.
 - The architecture enforces strong modular boundaries and favors framework-agnostic implementations, while selectively integrating with ecosystems such as Spring Framework, Spring Boot, Quarkus, SmallRye, Eclipse MicroProfile, and Jakarta EE (including CDI), as well as selected external libraries such as SLF4J.
-- All artifacts are compiled under strict Java compiler settings, enforcing zero-warning compilation as a build requirement, including `-Xlint:rawtypes`, `-Xlint:unchecked`, `-Xlint:deprecation`, and `-Werror`.
+- All artifacts are compiled under strict Java compiler settings -- including `-Xlint:rawtypes`, `-Xlint:unchecked`, `-Xlint:deprecation`, and `-Werror` -- enforcing zero-warning compilation as a build requirement.
 - The project is built using Gradle 9.5.0.
 - Java SE 21 is the baseline for most modules, while selected modules target newer versions up to Java SE 26.
+
+
+## Published Artifacts
+
+The modules in this repository are continuously published and versioned via Maven Central.
+
+All artifacts can be explored here:
+
+https://central.sonatype.com/search?q=com.yelstream.topp.standard
 
 <br>
 
