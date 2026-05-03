@@ -87,21 +87,15 @@ val featured = listOf(
 )
 
 tasks.register("generateModuleTable") {
-
     doLast {
-
         val baseGroup = "com.yelstream.topp.standard"
         val githubBase = "https://github.com/sabroe/Topp-Standard/tree/main/module"
 
         val projectsByName = rootProject.subprojects.associateBy { it.name }
 
         val rows = featured.map { name ->
-
-            val project = projectsByName[name]
-                ?: error("Project not found: $name")
-
+            val project = projectsByName[name] ?: error("Project not found: $name")
             val gradlePath = project.path.removePrefix(":module")
-
             val moduleInfo = file("${project.projectDir}/src/main/java/module-info.java")
 
             val jpms = moduleInfo.readLines()
@@ -135,33 +129,23 @@ tasks.register("generateModuleTable") {
             )
         }
 
-        // --- Calculate column widths ---
         val col1 = rows.maxOf { it.first.length }
         val col2 = rows.maxOf { it.second.length }
         val col3 = rows.maxOf { it.third.length }
 
         fun pad(s: String, width: Int) = s + " ".repeat(width - s.length)
 
-        // --- Header ---
-        println(
-            "| ${pad("Artifact @ Maven Central", col1)} " +
-                    "| ${pad("JPMS Module @ JavaDoc", col2)} " +
-                    "| ${pad("Gradle Module @ GitHub", col3)} |"
+        println("| ${pad("Artifact @ Maven Central", col1)} " +
+                "| ${pad("JPMS Module @ JavaDoc", col2)} " +
+                "| ${pad("Gradle Module @ GitHub", col3)} |"
         )
-
-        println(
-            "|-${"-".repeat(col1)}-" +
-                    "|-${"-".repeat(col2)}-" +
-                    "|-${"-".repeat(col3)}-|"
-        )
-
-        // --- Rows ---
+        println("|-${"-".repeat(col1)}-" +
+                "|-${"-".repeat(col2)}-" +
+                "|-${"-".repeat(col3)}-|")
         rows.forEach {
-            println(
-                "| ${pad(it.first, col1)} " +
-                        "| ${pad(it.second, col2)} " +
-                        "| ${pad(it.third, col3)} |"
-            )
+            println("| ${pad(it.first, col1)} " +
+                    "| ${pad(it.second, col2)} " +
+                    "| ${pad(it.third, col3)} |")
         }
     }
 }

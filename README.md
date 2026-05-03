@@ -1,16 +1,78 @@
 # Topp Standard @ Yelstream
 
-Interoperable Java libraries for standards-compliant, production-ready systems.
+Interoperable Java libraries for standards-compliant, production-ready systems — built as composable runtime components.
 
-Topp Standard is a collection of modular Java libraries developed in the open and published continuously to Maven Central.
-Each module evolves independently—from early experimentation to stable production use—while remaining usable and versioned at every meaningful stage.
+Topp Standard is a collection of modular Java libraries developed in the open and published continuously to Maven Central.  
+Each module evolves independently — from early experimentation to stable production use — while remaining usable and versioned at every meaningful stage.
 
-The project focuses on practical infrastructure, standards-based abstractions, and reusable components for Java SE and Jakarta EE applications.
+Rather than forming a single framework, the project focuses on small, focused building blocks that can be combined and integrated across Java SE and Jakarta EE applications.
+
+
+
+## How I think about systems
+
+Composable runtime systems are systems where behavior is built from small, well-defined, replaceable parts — combined at the edges, not hardwired inside.
+
+I design systems as composable runtime structures, independent components that can be combined, replaced, or relocated without upfront coupling decisions.
+
+This perspective unifies composition, correctness, evolution, and operability.
+
+
+
+### Composition
+
+Systems are dynamically assembled from independent components with explicit binding decisions made at the application level.
+
+- Composition is defined at the application level, not embedded in frameworks  
+- Protocol encoding is separate from transport  
+- Components operate in-process or across processes  
+
+
+
+### Structure
+
+Systems are governed by static invariants that define correctness and coupling constraints.
+
+- Contracts define structural boundaries between components  
+- Dependencies are strictly directional and acyclic — cycles are design failures  
+- State and behavior are localized to maintain high cohesion and avoid hidden coupling  
+- Complexity is structured, not distributed — local scope remains simple, system behavior remains rich  
+- Concerns evolve along independent axes without forced synchronization  
+
+
+
+### Operation
+
+Systems are designed for runtime observability and behavioral transparency.
+
+- Components expose behavior through stable interfaces  
+- Execution is understandable without inspecting internal implementation  
+- Components are observable and testable in isolation  
+- Integration points define runtime boundaries between components  
+
+
+
+### Evolution
+
+Systems evolve continuously over time rather than remaining fixed artifacts.
+
+- Code starts as exploration, then becomes structure  
+- Components are named, shaped, and refined through use  
+- Libraries may be split, merged, or re-scoped as understanding improves  
+- Boundaries and responsibilities are not final at creation time  
+
+Evolution is constrained by structural invariants and enabled by composability.
+
+
+The system as a whole evolves continuously rather than through rewrites. 
+Coherence emerges from this structured evolution, not from scale.
+
+
 
 
 ## Featured Modules
 
-A selection of refined, production-ready modules. Each module is independently versioned and published to Maven Central.
+A selection of refined, production-ready modules. Each module is independently versioned and published.
 
 | Artifact @ Maven Central                                                                                                                     | JPMS Module @ JavaDoc                                                                                                                       | Gradle Module @ GitHub                                                                                                                                                             |
 |----------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
