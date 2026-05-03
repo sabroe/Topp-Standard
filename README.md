@@ -108,6 +108,9 @@ Hence, the project serves three purposes:
 - The project is built using Gradle 9.5.0.
 - Java SE 21 is the baseline for most modules, while selected modules target newer versions up to Java SE 26.
 
+<br>
+
+This project reflects a systems design practice focused on composable, evolvable runtime architectures.
 
 <br>
 
