@@ -2,7 +2,7 @@
 
 Interoperable Java libraries for standards-compliant, production-ready systems — built as composable runtime components.
 
-Topp Standard is a collection of modular Java libraries developed in the open and published continuously to Maven Central.  
+Topp Standard is a collection of modular Java libraries developed in the open and published continuously to Maven Central. 
 Each module evolves independently — from early experimentation to stable production use — while remaining usable and versioned at every meaningful stage.
 
 Rather than forming a single framework, the project focuses on small, focused building blocks that can be combined and integrated across Java SE and Jakarta EE applications.
