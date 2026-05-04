@@ -83,7 +83,16 @@ val featured = listOf(
     "Topp-Standard-Dual-Access-IO-Library",
     "Topp-Standard-System-Holder-Library",
     "Topp-Standard-Time-Library",
-    "Topp-Standard-Time-Legacy-Library"
+    "Topp-Standard-Time-Legacy-Library",
+    "Topp-Standard-XML-Bind-Library",
+    "Topp-Standard-XML-Process-Library",
+    "Topp-Standard-XML-Stream-Library",
+    "Topp-Standard-XML-Time-Library",
+    "Topp-Standard-Core-Library",
+    "Topp-Standard-Logging-SLF4J-Base-Library",
+    "Topp-Standard-Logging-SLF4J-Proxy-Logger-Library",
+    "Topp-Standard-Logging-SLF4J-Console-Logger-Library",
+    "Topp-Standard-Logging-SLF4J-Service-Provider-Library"
 )
 
 tasks.register("generateModuleTable") {

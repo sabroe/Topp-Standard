@@ -79,6 +79,7 @@ include("module:Data:XML:Topp-Standard-XML-Stream-Library")
 include("module:Data:XML:Topp-Standard-XML-Crypto-Library")
 include("module:Data:XML:Topp-Standard-XML-Easy-Library")
 include("module:Data:XML:Topp-Standard-XML-Library")
+include("module:Data:XML:Topp-Standard-XML-Time-Library")
 
 include("module:Data:JSON:Topp-Standard-JSON-Library")
 
@@ -118,7 +119,6 @@ include("module:Core:Operation:Topp-Standard-Operation-Comparison-Library")  //O
 include("module:Core:Time:Topp-Standard-Time-Library")
 include("module:Core:Time:Topp-Standard-Time-Formatting-Library")
 include("module:Core:Time:Topp-Standard-Time-Legacy-Library")
-include("module:Core:Time:Topp-Standard-XML-Time-Library")  //TO-DO: Move domain back from "Time" to "XML"!
 
 //include("module:Core:Collection:Topp-Standard-Instance-Discovery-Collection-Library")
 //include("module:Core:Annotation:Topp-Standard-WIP-Annotation-Library")
