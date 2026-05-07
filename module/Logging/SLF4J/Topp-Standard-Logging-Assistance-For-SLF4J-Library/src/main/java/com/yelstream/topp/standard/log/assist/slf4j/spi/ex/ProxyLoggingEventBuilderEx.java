@@ -24,46 +24,59 @@ public class ProxyLoggingEventBuilderEx<S extends LoggingEventBuilderEx<S>> impl
     @Getter
     private final S delegate;
 
+    @SuppressWarnings("unchecked")
+    protected final S self() {
+        return (S)this;
+    }
+
     @Override
     public S setCause(Throwable cause) {
-        return delegate.setCause(cause);
+        delegate.setCause(cause);
+        return self();
     }
 
     @Override
     public S addMarker(Marker marker) {
-        return delegate.addMarker(marker);
+        delegate.addMarker(marker);
+        return self();
     }
 
     @Override
     public S addArgument(Object argument) {
-        return delegate.addArgument(argument);
+        delegate.addArgument(argument);
+        return self();
     }
 
     @Override
     public S addArgument(Supplier<?> argumentSupplier) {
-        return delegate.addArgument(argumentSupplier);
+        delegate.addArgument(argumentSupplier);
+        return self();
     }
 
     @Override
     public S addKeyValue(String key,
                          Object value) {
-        return delegate.addKeyValue(key,value);
+        delegate.addKeyValue(key,value);
+        return self();
     }
 
     @Override
     public S addKeyValue(String key,
                          Supplier<Object> valueSupplier) {
-        return delegate.addKeyValue(key,valueSupplier);
+        delegate.addKeyValue(key,valueSupplier);
+        return self();
     }
 
     @Override
     public S setMessage(String message) {
-        return delegate.setMessage(message);
+        delegate.setMessage(message);
+        return self();
     }
 
     @Override
     public S setMessage(Supplier<String> messageSupplier) {
-        return delegate.setMessage(messageSupplier);
+        delegate.setMessage(messageSupplier);
+        return self();
     }
 
     @Override
@@ -98,5 +111,68 @@ public class ProxyLoggingEventBuilderEx<S extends LoggingEventBuilderEx<S>> impl
     @Override
     public void log(Supplier<String> messageSupplier) {
         delegate.log(messageSupplier);
+    }
+}
+
+abstract class ProxyLoggingEventBuilderEx2<P extends ProxyLoggingEventBuilderEx2<P,D>,D extends LoggingEventBuilderEx<D>> implements LoggingEventBuilderEx<P> {
+/*
+    P = proxy/self type
+    D = delegate type
+*/
+    @SuppressWarnings("unchecked")
+    protected final P self() {
+        return (P)this;
+    }
+}
+
+abstract class XXX extends ProxyLoggingEventBuilderEx2<XXX,XXX> {
+
+}
+
+
+interface Self0<S extends Self0<S>> {
+
+    @SuppressWarnings("unchecked")
+    default S self() {
+        return (S)this;
+    }
+}
+
+abstract class Proxy0<P extends Proxy0<P,D>, D>
+        implements Self0<P> {
+    protected abstract D delegate();
+}
+
+@AllArgsConstructor
+abstract class ProxyLoggingEventBuilderEx0<
+        P extends ProxyLoggingEventBuilderEx0<P,D>,
+        D extends LoggingEventBuilderEx<D>>
+        extends Proxy0<P,D>
+        implements LoggingEventBuilderEx<P> {
+
+    @Getter()
+    private final D delegate;
+
+/*
+    @Override
+    protected final D delegate() {
+        return delegate;
+    }
+*/
+
+    @Override
+    public P setMessage(String message) {
+        delegate.setMessage(message);
+        return self();
+    }
+}
+
+abstract class YYY extends ProxyLoggingEventBuilderEx0<YYY,YYY> {
+/*
+    P = proxy/self type
+    D = delegate type
+*/
+    public YYY(YYY delegate) {
+        super(delegate);
     }
 }

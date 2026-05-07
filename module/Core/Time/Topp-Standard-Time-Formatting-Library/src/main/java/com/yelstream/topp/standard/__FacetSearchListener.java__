@@ -1,0 +1,97 @@
+package com.yelstream.topp.standard;
+
+import lombok.AllArgsConstructor;
+import lombok.experimental.Delegate;
+
+import java.util.Objects;
+import java.util.function.Predicate;
+
+public interface FacetSearchListener {
+    void beforeSearch(FacetSearchContext facetSearchContext) throws FacetSearchException;
+    void afterSearch(FacetSearchContext facetSearchContext) throws FacetSearchException;
+    void afterSearchError(FacetSearchContext facetSearchContext) throws FacetSearchException;
+}
+
+public class FacetSearchContext {
+}
+
+public class FacetSearchException extends Exception {
+}
+
+@AllArgsConstructor
+public class ProxyFacetSearchListener implements FacetSearchListener {
+
+    private final FacetSearchListener delegate;
+
+    @Override
+    public void beforeSearch(FacetSearchContext facetSearchContext) throws FacetSearchException {
+        delegate.beforeSearch(facetSearchContext);
+    }
+
+    @Override
+    public void afterSearch(FacetSearchContext facetSearchContext) throws FacetSearchException {
+        delegate.afterSearch(facetSearchContext);
+    }
+
+    @Override
+    public void afterSearchError(FacetSearchContext facetSearchContext) throws FacetSearchException {
+        delegate.afterSearchError(facetSearchContext);
+    }
+}
+
+@AllArgsConstructor
+public class ProxyFacetSearchListener2 implements FacetSearchListener {
+    @Delegate(types=FacetSearchListener.class)
+    private final FacetSearchListener delegate;
+}
+
+public class XXXFacetSearchListener extends ProxyFacetSearchListener2 {
+    public XXXFacetSearchListener() {
+        super(createDelegate());
+    }
+
+    private static FacetSearchListener createDelegate() {
+        return null;
+    }
+}
+
+@lombok.Builder(builderClassName = "Builder")
+@AllArgsConstructor(staticName = "of")
+public final class SimpleFacetSearchListener implements FacetSearchListener {
+    @FunctionalInterface
+    public interface Action {
+        void apply(FacetSearchContext facetSearchContext) throws FacetSearchException;
+    }
+
+    private final Action before;
+    private final Action after;
+    private final Action afterError;
+
+    @Override
+    public void beforeSearch(FacetSearchContext facetSearchContext) throws FacetSearchException {
+        if (Objects.nonNull(before)) before.apply(facetSearchContext);
+    }
+
+    @Override
+    public void afterSearch(FacetSearchContext facetSearchContext) throws FacetSearchException {
+        if (Objects.nonNull(after)) after.apply(facetSearchContext);
+    }
+
+    @Override
+    public void afterSearchError(FacetSearchContext facetSearchContext) throws FacetSearchException {
+        if (Objects.nonNull(afterError)) afterError.apply(facetSearchContext);
+    }
+
+    @SuppressWarnings({"unused","java:S1068"})
+    public static class Builder {
+        public Builder before(Predicate<FacetSearchContext> condition, Action action) {
+            return before(facetSearchContext -> { if(condition.test(facetSearchContext)) action.apply(facetSearchContext);});
+        }
+        public Builder after(Predicate<FacetSearchContext> condition, Action action) {
+            return after(facetSearchContext -> { if(condition.test(facetSearchContext)) action.apply(facetSearchContext);});
+        }
+        public Builder afterError(Predicate<FacetSearchContext> condition, Action action) {
+            return afterError(facetSearchContext -> { if(condition.test(facetSearchContext)) action.apply(facetSearchContext);});
+        }
+    }
+}

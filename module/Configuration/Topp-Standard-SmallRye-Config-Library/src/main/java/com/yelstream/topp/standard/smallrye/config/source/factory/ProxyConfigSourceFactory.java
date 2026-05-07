@@ -19,12 +19,9 @@
 
 package com.yelstream.topp.standard.smallrye.config.source.factory;
 
-import io.smallrye.config.ConfigSourceContext;
 import io.smallrye.config.ConfigSourceFactory;
 import lombok.AllArgsConstructor;
-import org.eclipse.microprofile.config.spi.ConfigSource;
-
-import java.util.OptionalInt;
+import lombok.experimental.Delegate;
 
 /**
  * Static proxy for {@link ConfigSourceFactory} instances.
@@ -44,15 +41,6 @@ public class ProxyConfigSourceFactory implements ConfigSourceFactory {
      * Wrapped configuration-source factory.
      * Not open for external access.
      */
+    @Delegate(types=ConfigSourceFactory.class)
     private final ConfigSourceFactory configSourceFactory;
-
-    @Override
-    public OptionalInt getPriority() {
-        return configSourceFactory.getPriority();
-    }
-
-    @Override
-    public Iterable<ConfigSource> getConfigSources(ConfigSourceContext configSourceContext) {
-        return configSourceFactory.getConfigSources(configSourceContext);
-    }
 }
