@@ -21,12 +21,11 @@ package com.yelstream.topp.standard.dom.ls;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.experimental.Delegate;
 import org.w3c.dom.ls.LSInput;
-
-import java.io.InputStream;
-import java.io.Reader;
 
 /**
  * Static proxy for instances of {@link LSInput}.
@@ -39,90 +38,12 @@ import java.io.Reader;
 @lombok.Builder(builderClassName="Builder",toBuilder=true)
 @SuppressWarnings("LombokGetterMayBeUsed")
 @ToString
+@EqualsAndHashCode
 public class ProxyLSInput implements LSInput {
     /**
      * Wrapped resource.
      */
     @Getter
+    @Delegate(types=LSInput.class)
     private final LSInput input;
-
-    @Override
-    public Reader getCharacterStream() {
-        return input.getCharacterStream();
-    }
-
-    @Override
-    public void setCharacterStream(Reader reader) {
-        input.setCharacterStream(reader);
-    }
-
-    @Override
-    public InputStream getByteStream() {
-        return input.getByteStream();
-    }
-
-    @Override
-    public void setByteStream(InputStream in) {
-        input.setByteStream(in);
-    }
-
-    @Override
-    public String getStringData() {
-        return input.getStringData();
-    }
-
-    @Override
-    public void setStringData(String stringData) {
-        input.setStringData(stringData);
-    }
-
-    @Override
-    public String getSystemId() {
-        return input.getSystemId();
-    }
-
-    @Override
-    public void setSystemId(String systemId) {
-        input.setSystemId(systemId);
-    }
-
-    @Override
-    public String getPublicId() {
-        return input.getPublicId();
-    }
-
-    @Override
-    public void setPublicId(String publicId) {
-        input.setPublicId(publicId);
-    }
-
-    @Override
-    public String getBaseURI() {
-        return input.getBaseURI();
-    }
-
-    @Override
-    public void setBaseURI(String baseURI) {
-        input.setBaseURI(baseURI);
-    }
-
-    @Override
-    public String getEncoding() {
-        return input.getEncoding();
-    }
-
-    @Override
-    public void setEncoding(String encoding) {
-        input.setEncoding(encoding);
-    }
-
-    @Override
-    public void setCertifiedText(boolean certified) {
-        input.setCertifiedText(certified);
-    }
-
-    @Override
-    public boolean getCertifiedText() {
-        return input.getCertifiedText();
-    }
 }
