@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.operation.type;
+package com.yelstream.topp.standard.operation.type.subject;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;

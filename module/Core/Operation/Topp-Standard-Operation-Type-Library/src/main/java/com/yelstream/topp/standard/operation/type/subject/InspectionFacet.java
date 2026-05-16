@@ -17,19 +17,19 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.operation.type;
+package com.yelstream.topp.standard.operation.type.subject;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
-import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
- * Equality facet for a subject.
+ * Inspection facet for a subject.
  * <p>
- *     Provides equality-based operations on the subject value using {@link Objects#equals(Object, Object)}.
+ *     Provides predicate-based operations on the subject value.
  * </p>
  *
  * @param <T> Value type.
@@ -39,7 +39,7 @@ import java.util.function.Consumer;
  * @since 2026-04-25
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
-public class EqualityFacet<T> {
+public class InspectionFacet<T> {
     /**
      * Subject addressed.
      */
@@ -47,42 +47,33 @@ public class EqualityFacet<T> {
     private final Subject<T> subject;
 
     /**
-     * Indicates whether the subject value is equal to another value.
-     * @param value Value compared to.
-     * @return True if equal.
+     * Evaluates a predicate against the subject value.
+     * @param predicate Predicate evaluated.
+     * @return True if the predicate matches.
      */
-    public boolean isEquals(T value) {
-        return Objects.equals(subject.getValue(), value);
+    public boolean matches(Predicate<T> predicate) {
+        return predicate.test(subject.getValue());
     }
 
     /**
-     * Indicates whether the subject value is not equal to another value.
-     * @param value Value compared to.
-     * @return True if not equal.
-     */
-    public boolean isNotEquals(T value) {
-        return !isEquals(value);
-    }
-
-    /**
-     * Invokes a consumer if the subject value is equal to another value.
-     * @param value Value compared to.
+     * Executes a consumer if a predicate matches.
+     * @param predicate Predicate evaluated.
      * @param consumer Consumer invoked.
      */
-    public void ifEquals(T value, Consumer<T> consumer) {
-        if (isEquals(value)) {
+    public void ifMatches(Predicate<T> predicate,
+                          Consumer<T> consumer) {
+        if (matches(predicate)) {
             consumer.accept(subject.getValue());
         }
     }
 
     /**
-     * Invokes a consumer if the subject value is not equal to another value.
-     * @param value Value compared to.
-     * @param consumer Consumer invoked.
+     * Returns the subject if a predicate matches.
+     * Otherwise, returns an empty subject.
+     * @param predicate Predicate evaluated.
+     * @return Matching subject or empty subject.
      */
-    public void ifNotEquals(T value, Consumer<T> consumer) {
-        if (isNotEquals(value)) {
-            consumer.accept(subject.getValue());
-        }
+    public Subject<T> filter(Predicate<T> predicate) {
+        return matches(predicate) ? subject : Subjects.empty();
     }
 }

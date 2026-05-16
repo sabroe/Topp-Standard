@@ -276,11 +276,6 @@ public class ObjectOps {
 
 
 
-    public static <T> Subject<T> subject(T value) {
-        return Subject.of(value);
-    }
-
-
     public static <T> T requireNonNull(T object) {  //TO-DO: Basic object existence rule1
         return Objects.requireNonNull(object);
     }
