@@ -25,13 +25,28 @@ import lombok.NonNull;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * Type facet for a subject.
+ * Cast facet for a subject.
  * <p>
- *     Provides type-based operations on the subject value.
+ *     Provides casting operations on the subject value with stratified failure semantics:
+ * </p>
+ * <pre>
+ * ┌──────────────────┬──────────────────────┬─────────────────────┐
+ * │ Method           │ Null input           │ Wrong type          │
+ * ├──────────────────┼──────────────────────┼─────────────────────┤
+ * │ tryCast          │ empty                │ empty               │
+ * ├──────────────────┼──────────────────────┼─────────────────────┤
+ * │ tryCastOrNull    │ null                 │ null                │
+ * ├──────────────────┼──────────────────────┼─────────────────────┤
+ * │ tryCastOr/OrGet  │ fallback             │ fallback            │
+ * ├──────────────────┼──────────────────────┼─────────────────────┤
+ * │ cast             │ NullPointerException │ ClassCastException  │
+ * └──────────────────┴──────────────────────┴─────────────────────┘
+ * </pre>
+ * <p>
+ *     For runtime type-inspection operations, see {@link TypeFacet}.
  * </p>
  *
  * @param <T> Value type.
@@ -49,30 +64,7 @@ public class CastFacet<T> {
     private final Subject<T> subject;
 
     /**
-     * Indicates whether the subject value is an instance of a type.
-     * @param type Type tested against.
-     * @return True if the subject value is an instance of the type.
-     */
-    public boolean isInstance(Class<?> type) {
-        Objects.requireNonNull(type, "type");
-        return ObjectOps.isInstance(subject.getValue(), type);
-    }
-
-    /**
-     * Executes an action if the subject value is an instance of a type.
-     * @param type Type tested against.
-     * @param action Action invoked.
-     * @param <R> Target type.
-     */
-    public <R> void ifInstance(Class<R> type,
-                               Consumer<R> action) {
-        Objects.requireNonNull(type, "type");
-        Objects.requireNonNull(action, "action");
-        ObjectOps.ifInstance(subject.getValue(), type, action);
-    }
-
-    /**
-     * Attempts to cast the subject to another type.
+     * Attempts to cast the subject value to a type.
      * @param type Target type.
      * @param <R> Target type.
      * @return Optional containing the cast subject if successful.
@@ -82,60 +74,62 @@ public class CastFacet<T> {
         return subject.tryCast(type);
     }
 
+    /**
+     * Attempts to cast the subject value to a type.
+     * @param type Target type.
+     * @param <R> Target type.
+     * @return Cast subject, or {@code null} if the cast is not possible.
+     */
     public <R> Subject<R> tryCastOrNull(Class<R> type) {
+        Objects.requireNonNull(type, "type");
         return subject.tryCastOrNull(type);
     }
 
+    /**
+     * Attempts to cast the subject value to a type.
+     * @param type Target type.
+     * @param fallback Fallback value if cast is not possible.
+     * @param <R> Target type.
+     * @return Cast subject, or a subject holding the fallback value.
+     */
     public <R> Subject<R> tryCastOr(Class<R> type,
                                     R fallback) {
-        return subject.tryCastOr(type,fallback);
+        Objects.requireNonNull(type, "type");
+        return subject.tryCastOr(type, fallback);
     }
-
-    public <R> Subject<R> tryCastOrGet(Class<R> type,
-                                       Supplier<? extends R> fallbackSupplier) {
-        return subject.tryCastOrGet(type,fallbackSupplier);
-    }
-
-    public <R> Subject<R> cast(Class<R> type) {
-        return subject.cast(type);
-    }
-
-
-/*
-subject.facade().cast().tryCast(String.class)
-subject.facade().cast().orNull(String.class)
-subject.facade().cast().cast(String.class)
-*/
-
-
-    /*
-tryCast(...)
-tryCastOrNull(...)
-tryCastOr(...)
-tryCastOrGet(...)
-cast(...)
-as(...)
-    */
-
-
-    /*
-You may even compress semantics:
-
-method	semantics
-tryCast	Optional
-orNull	null
-or	fallback
-orGet	lazy fallback
-cast / as	strict
-     */
-
 
     /**
-     * Casts the subject to another type.
+     * Attempts to cast the subject value to a type.
+     * @param type Target type.
+     * @param fallbackSupplier Supplier of fallback value if cast is not possible.
+     * @param <R> Target type.
+     * @return Cast subject, or a subject holding the supplied fallback value.
+     */
+    public <R> Subject<R> tryCastOrGet(Class<R> type,
+                                       Supplier<? extends R> fallbackSupplier) {
+        Objects.requireNonNull(type, "type");
+        Objects.requireNonNull(fallbackSupplier, "fallbackSupplier");
+        return subject.tryCastOrGet(type, fallbackSupplier);
+    }
+
+    /**
+     * Casts the subject value to a type.
      * @param type Target type.
      * @param <R> Target type.
      * @return Cast subject.
-     * @throws ClassCastException Thrown if the subject value cannot be cast.
+     * @throws NullPointerException If the subject value is null.
+     * @throws ClassCastException If the subject value is not of the target type.
+     */
+    public <R> Subject<R> cast(Class<R> type) {
+        Objects.requireNonNull(type, "type");
+        return subject.cast(type);
+    }
+
+    /**
+     * Attempts to cast the subject value to a type, returning an empty subject on failure.
+     * @param type Target type.
+     * @param <R> Target type.
+     * @return Cast subject, or an empty subject if the cast is not possible.
      */
     public <R> Subject<R> as(Class<R> type) {
         Objects.requireNonNull(type, "type");

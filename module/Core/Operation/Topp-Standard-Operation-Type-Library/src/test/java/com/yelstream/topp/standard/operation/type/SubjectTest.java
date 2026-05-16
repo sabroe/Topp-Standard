@@ -28,7 +28,7 @@ class SubjectTest {
     void x1() {
         Subject<Integer> s1=
             Subject.of("xxx")
-                .type()
+                .casting()
                 .as(String.class)
                 .map()
                 .to(String::length);
@@ -37,7 +37,7 @@ class SubjectTest {
 
         Subject<String> s2=
             Subject.of("yyy")
-                .type()
+                .casting()
                 .as(String.class)
                 .nulls()
                 .or("fallback");
@@ -46,7 +46,7 @@ class SubjectTest {
 
         Subject<Integer> s3=
             Subject.of("zzz")
-                .type()
+                .casting()
                 .as(String.class)
                 .map()
                 .to(String::length)
@@ -55,5 +55,4 @@ class SubjectTest {
         Assertions.assertNotNull(s3);
         Assertions.assertEquals(Subject.of(3),s3);
     }
-
 }

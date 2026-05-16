@@ -24,14 +24,13 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /**
  * Type facet for a subject.
  * <p>
- *     Provides type-based operations on the subject value.
+ *     Provides runtime type-inspection operations on the subject value.
+ *     For casting operations, see {@link CastFacet}.
  * </p>
  *
  * @param <T> Value type.
@@ -69,52 +68,5 @@ public class TypeFacet<T> {
         Objects.requireNonNull(type, "type");
         Objects.requireNonNull(action, "action");
         ObjectOps.ifInstance(subject.getValue(), type, action);
-    }
-
-    /**
-     * Attempts to cast the subject to another type.
-     * @param type Target type.
-     * @param <R> Target type.
-     * @return Optional containing the cast subject if successful.
-     */
-    public <R> Optional<Subject<R>> tryCast(Class<R> type) {
-        Objects.requireNonNull(type, "type");
-        return subject.tryCast(type);
-    }
-
-    public <R> Subject<R> tryCastOrNull(Class<R> type) {
-        return subject.tryCastOrNull(type);
-    }
-
-    public <R> Subject<R> tryCastOr(Class<R> type,
-                                    R fallback) {
-        return subject.tryCastOr(type,fallback);
-    }
-
-    public <R> Subject<R> tryCastOrGet(Class<R> type,
-                                       Supplier<? extends R> fallbackSupplier) {
-        return subject.tryCastOrGet(type,fallbackSupplier);
-    }
-
-    public <R> Subject<R> cast(Class<R> type) {
-        return subject.cast(type);
-    }
-
-
-
-
-
-
-
-    /**
-     * Casts the subject to another type.
-     * @param type Target type.
-     * @param <R> Target type.
-     * @return Cast subject.
-     * @throws ClassCastException Thrown if the subject value cannot be cast.
-     */
-    public <R> Subject<R> as(Class<R> type) {
-        Objects.requireNonNull(type, "type");
-        return Subjects.as(subject, type);
     }
 }
