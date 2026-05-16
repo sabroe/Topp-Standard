@@ -56,12 +56,32 @@ public class EqualityFacet<T> {
     }
 
     /**
+     * Indicates whether the subject value is not equal to another value.
+     * @param value Value compared to.
+     * @return True if not equal.
+     */
+    public boolean isNotEquals(T value) {
+        return !isEquals(value);
+    }
+
+    /**
      * Invokes a consumer if the subject value is equal to another value.
      * @param value Value compared to.
      * @param consumer Consumer invoked.
      */
     public void ifEquals(T value, Consumer<T> consumer) {
         if (isEquals(value)) {
+            consumer.accept(subject.getValue());
+        }
+    }
+
+    /**
+     * Invokes a consumer if the subject value is not equal to another value.
+     * @param value Value compared to.
+     * @param consumer Consumer invoked.
+     */
+    public void ifNotEquals(T value, Consumer<T> consumer) {
+        if (isNotEquals(value)) {
             consumer.accept(subject.getValue());
         }
     }

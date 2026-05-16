@@ -65,6 +65,25 @@ class EqualityFacetTest {
     }
 
     // ------------------------------------------------------------
+    // isNotEquals
+    // ------------------------------------------------------------
+
+    @Test
+    void isNotEquals_shouldReturnTrue_whenValuesAreNotEqual() {
+        Assertions.assertTrue(Subject.of("hello").equality().isNotEquals("world"));
+    }
+
+    @Test
+    void isNotEquals_shouldReturnFalse_whenValuesAreEqual() {
+        Assertions.assertFalse(Subject.of("hello").equality().isNotEquals("hello"));
+    }
+
+    @Test
+    void isNotEquals_shouldReturnFalse_whenBothAreNull() {
+        Assertions.assertFalse(Subject.<String>of(null).equality().isNotEquals(null));
+    }
+
+    // ------------------------------------------------------------
     // ifEquals
     // ------------------------------------------------------------
 
@@ -105,5 +124,36 @@ class EqualityFacetTest {
         Subject.of(subjectValue).equality().ifEquals(argument, captured::add);
 
         Assertions.assertSame(subjectValue, captured.getFirst());
+    }
+
+    // ------------------------------------------------------------
+    // ifNotEquals
+    // ------------------------------------------------------------
+
+    @Test
+    void ifNotEquals_shouldExecuteConsumer_whenValuesAreNotEqual() {
+        List<String> captured = new ArrayList<>();
+
+        Subject.of("hello").equality().ifNotEquals("world", captured::add);
+
+        Assertions.assertEquals(List.of("hello"), captured);
+    }
+
+    @Test
+    void ifNotEquals_shouldNotExecuteConsumer_whenValuesAreEqual() {
+        List<String> captured = new ArrayList<>();
+
+        Subject.of("hello").equality().ifNotEquals("hello", captured::add);
+
+        Assertions.assertTrue(captured.isEmpty());
+    }
+
+    @Test
+    void ifNotEquals_shouldNotExecuteConsumer_whenBothAreNull() {
+        List<String> captured = new ArrayList<>();
+
+        Subject.<String>of(null).equality().ifNotEquals(null, captured::add);
+
+        Assertions.assertTrue(captured.isEmpty());
     }
 }
