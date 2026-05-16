@@ -167,6 +167,37 @@ class ComparisonFacetTest {
     }
 
     // ------------------------------------------------------------
+    // ifLessThanOrEqual
+    // ------------------------------------------------------------
+
+    @Test
+    void ifLessThanOrEqual_shouldExecuteConsumer_whenSubjectIsLess() {
+        List<Integer> captured = new ArrayList<>();
+
+        Subject.of(1).compare(Comparator.naturalOrder()).ifLessThanOrEqual(2, captured::add);
+
+        Assertions.assertEquals(List.of(1), captured);
+    }
+
+    @Test
+    void ifLessThanOrEqual_shouldExecuteConsumer_whenSubjectIsEqual() {
+        List<Integer> captured = new ArrayList<>();
+
+        Subject.of(1).compare(Comparator.naturalOrder()).ifLessThanOrEqual(1, captured::add);
+
+        Assertions.assertEquals(List.of(1), captured);
+    }
+
+    @Test
+    void ifLessThanOrEqual_shouldNotExecuteConsumer_whenSubjectIsGreater() {
+        List<Integer> captured = new ArrayList<>();
+
+        Subject.of(2).compare(Comparator.naturalOrder()).ifLessThanOrEqual(1, captured::add);
+
+        Assertions.assertTrue(captured.isEmpty());
+    }
+
+    // ------------------------------------------------------------
     // ifGreaterThan
     // ------------------------------------------------------------
 
@@ -185,6 +216,37 @@ class ComparisonFacetTest {
 
         Subject.of(1).compare(Comparator.naturalOrder()).ifGreaterThan(2, captured::add);
         Subject.of(1).compare(Comparator.naturalOrder()).ifGreaterThan(1, captured::add);
+
+        Assertions.assertTrue(captured.isEmpty());
+    }
+
+    // ------------------------------------------------------------
+    // ifGreaterThanOrEqual
+    // ------------------------------------------------------------
+
+    @Test
+    void ifGreaterThanOrEqual_shouldExecuteConsumer_whenSubjectIsGreater() {
+        List<Integer> captured = new ArrayList<>();
+
+        Subject.of(2).compare(Comparator.naturalOrder()).ifGreaterThanOrEqual(1, captured::add);
+
+        Assertions.assertEquals(List.of(2), captured);
+    }
+
+    @Test
+    void ifGreaterThanOrEqual_shouldExecuteConsumer_whenSubjectIsEqual() {
+        List<Integer> captured = new ArrayList<>();
+
+        Subject.of(1).compare(Comparator.naturalOrder()).ifGreaterThanOrEqual(1, captured::add);
+
+        Assertions.assertEquals(List.of(1), captured);
+    }
+
+    @Test
+    void ifGreaterThanOrEqual_shouldNotExecuteConsumer_whenSubjectIsLess() {
+        List<Integer> captured = new ArrayList<>();
+
+        Subject.of(1).compare(Comparator.naturalOrder()).ifGreaterThanOrEqual(2, captured::add);
 
         Assertions.assertTrue(captured.isEmpty());
     }

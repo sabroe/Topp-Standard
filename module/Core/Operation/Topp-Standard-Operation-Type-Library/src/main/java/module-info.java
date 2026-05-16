@@ -31,4 +31,5 @@ module com.yelstream.topp.standard.operation.type {
     requires org.slf4j;
     requires java.management;
     exports com.yelstream.topp.standard.operation.type;
+    exports com.yelstream.topp.standard.operation.type.self;
 }

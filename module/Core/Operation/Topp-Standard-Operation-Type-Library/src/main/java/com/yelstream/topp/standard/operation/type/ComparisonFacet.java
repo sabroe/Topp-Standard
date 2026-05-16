@@ -149,6 +149,18 @@ public class ComparisonFacet<T> {
     }
 
     /**
+     * Invokes a consumer if the subject value is less than or equal to another value.
+     * @param value Value compared to.
+     * @param consumer Consumer invoked.
+     */
+    public void ifLessThanOrEqual(T value,
+                                  Consumer<T> consumer) {
+        if (isLessThanOrEqual(value)) {
+            consumer.accept(subject.getValue());
+        }
+    }
+
+    /**
      * Invokes a consumer if the subject value is greater than another value.
      * @param value Value compared to.
      * @param consumer Consumer invoked.
@@ -156,6 +168,18 @@ public class ComparisonFacet<T> {
     public void ifGreaterThan(T value,
                               Consumer<T> consumer) {
         if (isGreaterThan(value)) {
+            consumer.accept(subject.getValue());
+        }
+    }
+
+    /**
+     * Invokes a consumer if the subject value is greater than or equal to another value.
+     * @param value Value compared to.
+     * @param consumer Consumer invoked.
+     */
+    public void ifGreaterThanOrEqual(T value,
+                                     Consumer<T> consumer) {
+        if (isGreaterThanOrEqual(value)) {
             consumer.accept(subject.getValue());
         }
     }
