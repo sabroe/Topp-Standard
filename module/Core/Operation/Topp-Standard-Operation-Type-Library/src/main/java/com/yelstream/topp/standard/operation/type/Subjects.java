@@ -23,6 +23,7 @@ import lombok.experimental.UtilityClass;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -55,7 +56,7 @@ public class Subjects {
     public static <T, R> Optional<Subject<R>> tryCast(Subject<T> subject,
                                                       Class<R> type) {
         Objects.requireNonNull(subject, "subject");
-        return ObjectOps.instanceOf(subject.getValue(), type).map(subject::replaceValue);
+        return ObjectOps.tryCast(subject.getValue(), type).map(subject::replaceValue);
     }
 
     public static <T, R> Subject<R> tryCastOrNull(Subject<T> subject,
@@ -134,5 +135,22 @@ public class Subjects {
                              T value) {
         Objects.requireNonNull(subject, "subject");
         return subject.getValue() != null ? subject : subject.withValue(value);  //State-preservation policy.
+    }
+
+    /**
+     * Combines two subjects into a new subject using a binary operator.
+     * @param a First subject.
+     * @param b Second subject.
+     * @param combiner Binary operator applied to the two subject values.
+     * @param <T> Value type.
+     * @return New subject holding the combined value.
+     */
+    public static <T> Subject<T> combine(Subject<T> a,
+                                         Subject<T> b,
+                                         BinaryOperator<T> combiner) {
+        Objects.requireNonNull(a, "a");
+        Objects.requireNonNull(b, "b");
+        Objects.requireNonNull(combiner, "combiner");
+        return Subject.of(combiner.apply(a.getValue(), b.getValue()));
     }
 }

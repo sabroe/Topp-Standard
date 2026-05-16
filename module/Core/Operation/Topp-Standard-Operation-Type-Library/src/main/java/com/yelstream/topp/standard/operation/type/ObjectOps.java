@@ -136,12 +136,6 @@ public class ObjectOps {
         }
     }
 
-    public static <T> Optional<T> instanceOf(Object value,
-                                             Class<T> type) {
-        Objects.requireNonNull(type, "type");
-        return Optional.ofNullable(value).filter(type::isInstance).map(type::cast);
-    }
-
     /**
      * Attempts to cast a value to a specific type.
      * <p>

@@ -30,6 +30,6 @@ import org.junit.platform.suite.api.Suite;
  * @since 2026-04-25
  */
 @Suite
-@SelectClasses({SubjectTest.class, SubjectsTest.class})
+@SelectClasses({SubjectTest.class, SubjectsTest.class, TypeFacetTest.class, CastFacetTest.class, MapFacetTest.class, PresenceFacetTest.class, NullFacetTest.class, EqualityFacetTest.class, IdentityFacetTest.class, ComparisonFacetTest.class, ValidationFacetTest.class, InspectionFacetTest.class})
 class TypeTestSuite {
 }

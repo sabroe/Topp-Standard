@@ -31,12 +31,11 @@ import java.util.function.Consumer;
  *     Provides presence-based operations on the subject value.
  * </p>
  * <p>
- *     This is a read-only, action-oriented facet similar to {@link java.util.Optional}.
- *     It overlaps {@link NullFacet}, but with a different style:
+ *     Overlaps {@link NullFacet} in scope, but with a different emphasis:
  * </p>
  * <ul>
- *     <li>{@link NullFacet} returns {@link Subject} instances.</li>
- *     <li>{@link PresenceFacet} provides inspection and action-oriented methods.</li>
+ *     <li>{@link NullFacet} focuses on null-coalescing — returning recovered {@link Subject} instances.</li>
+ *     <li>{@link PresenceFacet} focuses on presence inspection and conditional actions.</li>
  * </ul>
  *
  * @param <T> Value type.
@@ -90,12 +89,12 @@ public class PresenceFacet<T> {
     }
 
     /**
-     * Returns the subject value if present.
-     * Otherwise, returns a fallback value.
+     * Returns the subject if present.
+     * Otherwise, returns a subject holding the fallback value.
      * @param fallback Fallback value.
-     * @return Subject value or fallback.
+     * @return Subject with resolved value.
      */
-    public T orElse(T fallback) {
-        return isPresent() ? subject.getValue() : fallback;
+    public Subject<T> orElse(T fallback) {
+        return Subjects.or(subject, fallback);
     }
 }

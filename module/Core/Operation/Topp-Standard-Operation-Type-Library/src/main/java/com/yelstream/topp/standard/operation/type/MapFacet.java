@@ -29,9 +29,12 @@ import java.util.function.Function;
 /**
  * Transformation facet for a subject.
  * <p>
- *     Provides mapping operations that transform the subject value into another subject.
- *     Supports both direct mapping and monadic-style flat mapping.
+ *     Provides two transformation operations over the subject value:
  * </p>
+ * <ul>
+ *     <li>{@link #to} — transforms the value; the mapper returns a plain value wrapped into a new subject.</li>
+ *     <li>{@link #toFlat} — transforms the value; the mapper returns a subject directly, avoiding double-wrapping.</li>
+ * </ul>
  *
  * @param <T> Source value type.
  *
@@ -49,38 +52,23 @@ public class MapFacet<T> {
 
     /**
      * Transforms the subject value using a mapper function.
-     *
      * @param mapper Mapping function from value to new value.
      * @param <R> Result type.
-     * @return New subject containing mapped value.
-     */
-    public <R> Subject<R> map(Function<T, R> mapper) {
-        Objects.requireNonNull(mapper, "mapper");
-        return Subject.of(mapper.apply(subject.getValue()));
-    }
-
-    /**
-     * Transforms the subject value into another subject.
-     * @param mapper Mapping function returning a subject.
-     * @param <R> Result type.
-     * @return Flattened subject.
-     */
-    public <R> Subject<R> flatMap(Function<T, Subject<R>> mapper) {
-        Objects.requireNonNull(mapper, "mapper");
-        return mapper.apply(subject.getValue());
-    }
-
-    /**
-     * Converts the subject value using a mapper function.
-     * <p>
-     *     Alias for {@link #map(Function)} kept for semantic clarity in fluent chains.
-     * </p>
-     * @param mapper Mapping function.
-     * @param <R> Result type.
-     * @return New subject with transformed value.
+     * @return New subject containing the mapped value.
      */
     public <R> Subject<R> to(Function<T, R> mapper) {
         Objects.requireNonNull(mapper, "mapper");
         return Subject.of(mapper.apply(subject.getValue()));
+    }
+
+    /**
+     * Transforms the subject value using a mapper that returns a subject.
+     * @param mapper Mapping function returning a subject.
+     * @param <R> Result type.
+     * @return Subject returned by the mapper.
+     */
+    public <R> Subject<R> toFlat(Function<T, Subject<R>> mapper) {
+        Objects.requireNonNull(mapper, "mapper");
+        return mapper.apply(subject.getValue());
     }
 }

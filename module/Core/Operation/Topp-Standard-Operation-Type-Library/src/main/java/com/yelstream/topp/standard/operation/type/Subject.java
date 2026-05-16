@@ -153,6 +153,10 @@ public class Subject<T> {
         return TypeFacet.of(this);
     }
 
+    public CastFacet<T> casting() {
+        return CastFacet.of(this);
+    }
+
     public EqualityFacet<T> equality() {
         return EqualityFacet.of(this);
     }
