@@ -17,8 +17,10 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.operation.type;
+package com.yelstream.topp.standard.operation.type.subject;
 
+import com.yelstream.topp.standard.operation.type.ClassOps;
+import com.yelstream.topp.standard.operation.type.ObjectOps;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -69,7 +71,7 @@ public class ValidationFacet<T> {
 
         if (!ObjectOps.isInstance(subject.getValue(), type)) {
             throw new IllegalArgumentException("Subject value type '%s' is not instance of '%s'!"
-                            .formatted(ObjectOps.getName(subject.getValue()),ClassOps.getName(type))
+                            .formatted(ObjectOps.getName(subject.getValue()), ClassOps.getName(type))
             );
         }
         return subject;

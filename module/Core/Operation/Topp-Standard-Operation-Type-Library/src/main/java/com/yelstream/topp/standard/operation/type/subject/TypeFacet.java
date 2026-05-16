@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 
-package com.yelstream.topp.standard.operation.type;
+package com.yelstream.topp.standard.operation.type.subject;
 
+import com.yelstream.topp.standard.operation.type.ObjectOps;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -27,10 +28,10 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * Identity facet for a subject.
+ * Type facet for a subject.
  * <p>
- *     Provides identity-based operations on the subject value using reference
- *     equality and identity hash codes.
+ *     Provides runtime type-inspection operations on the subject value.
+ *     For casting operations, see {@link CastFacet}.
  * </p>
  *
  * @param <T> Value type.
@@ -40,7 +41,7 @@ import java.util.function.Consumer;
  * @since 2026-04-25
  */
 @AllArgsConstructor(staticName = "of", access = AccessLevel.PACKAGE)
-public class IdentityFacet<T> {
+public class TypeFacet<T> {
     /**
      * Subject addressed.
      */
@@ -48,35 +49,25 @@ public class IdentityFacet<T> {
     private final Subject<T> subject;
 
     /**
-     * Gets the identity hash code of the subject value.
-     * @return Identity hash code.
+     * Indicates whether the subject value is an instance of a type.
+     * @param type Type tested against.
+     * @return True if the subject value is an instance of the type.
      */
-    public int identityHash() {
-        return subject.identityHash();
-    }
-
-    public String identityString() {
-        return subject.identityString();
-    }
-
-    /**
-     * Indicates whether another value is the same instance as the subject value.
-     * @param value Value compared to.
-     * @return True if both values are the same instance.
-     */
-    public boolean isSame(T value) {
-        return value == subject.getValue();
+    public boolean isInstance(Class<?> type) {
+        Objects.requireNonNull(type, "type");
+        return ObjectOps.isInstance(subject.getValue(), type);
     }
 
     /**
-     * Invokes a consumer if another value is the same instance as the subject value.
-     * @param value Value compared to.
-     * @param consumer Consumer invoked.
+     * Executes an action if the subject value is an instance of a type.
+     * @param type Type tested against.
+     * @param action Action invoked.
+     * @param <R> Target type.
      */
-    public void ifSame(T value,
-                       Consumer<T> consumer) {
-        if (isSame(value)) {
-            consumer.accept(value);
-        }
+    public <R> void ifInstance(Class<R> type,
+                               Consumer<R> action) {
+        Objects.requireNonNull(type, "type");
+        Objects.requireNonNull(action, "action");
+        ObjectOps.ifInstance(subject.getValue(), type, action);
     }
 }

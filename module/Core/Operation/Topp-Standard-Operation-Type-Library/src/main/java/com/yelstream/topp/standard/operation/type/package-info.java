@@ -19,7 +19,7 @@
 
 /**
  * Provides domain-oriented facets for fluent operations over
- * {@link com.yelstream.topp.standard.operation.type.Subject}.
+ * {@link com.yelstream.topp.standard.operation.type.subject.Subject}.
  * <p>
  *     Facets represent semantic domains of operation over a subject.
  *     Operations within a facet should remain semantically coherent.
