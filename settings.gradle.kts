@@ -23,7 +23,7 @@ pluginManagement {
     includeBuild("${System.getProperty("user.home")}/.topp/gradle/script/Topp-Gradle-Bootstrap")
 }
 
-plugins {
+1plugins {
     id("bootstrap")
 }
 
@@ -140,3 +140,6 @@ include("module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Libr
 include("module:Terminal:Topp-Standard-Terminal-Library")
 
 include("module:Tool:Source-Control:Topp-Standard-Git-Repository-Library")
+
+include("module:Java-Certification:Topp-Standard-Certification-Java-SE-21-Library")
+include("module:Java-Certification:Topp-Standard-Certification-Java-SE-25-Library")
