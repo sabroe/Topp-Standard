@@ -32,7 +32,7 @@ import org.gradle.api.attributes.Attribute
  */
 class LombokFeatureVersion private constructor() {
     companion object {
-        const val LOMBOK_VERSION = "1.18.42"
+        const val LOMBOK_VERSION = "1.18.48"
 
         fun applyConstraints(project: Project,
                              handler: DependencyConstraintHandler) {
