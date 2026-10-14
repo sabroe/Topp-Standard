@@ -30,3 +30,17 @@ dependencies {
 
     api 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
 }
+
+/*
+javadoc {  //EXPERIMENT! 2026-09-18  -- works with 'io.freefair.lombok'!
+    source = delombok.outputDir
+    dependsOn delombok
+}
+*/
+/*
+javadoc {  //EXPERIMENT! 2026-09-18
+    options {
+        addStringOption('Xdoclint:none', '-quiet')
+    }
+    failOnError = false
+}*/
