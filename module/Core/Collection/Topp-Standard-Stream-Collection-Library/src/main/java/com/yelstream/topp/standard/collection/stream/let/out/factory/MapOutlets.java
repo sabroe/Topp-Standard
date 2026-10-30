@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.collection.stream.let.out.factory;
 import lombok.experimental.UtilityClass;
 
 /**
- * Creation of {@link MapOutlet} instances.
+ * Creation of {@link com.yelstream.topp.standard.collection.stream.let.out.MapOutlet MapOutlet} instances.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-07

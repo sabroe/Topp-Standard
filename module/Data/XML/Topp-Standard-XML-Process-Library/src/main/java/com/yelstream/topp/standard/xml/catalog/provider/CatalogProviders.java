@@ -106,7 +106,7 @@ public class CatalogProviders {
      * Retrieves the content of a catalog resource as a string.
      * @param resource The catalog resource.
      * @return The content of the resource as a string, encoded in UTF-8.
-     * @throws IOException If an I/O error occurs while reading the resource.
+     * @throws RuntimeException If an I/O error occurs while reading the resource.
      */
     public static String getContentAsString(Resource resource) {  //TO-DO: Move to new "CatalogResources"!
         try (InputStream inputStream = resource.getItem().getURL().openStream()) {

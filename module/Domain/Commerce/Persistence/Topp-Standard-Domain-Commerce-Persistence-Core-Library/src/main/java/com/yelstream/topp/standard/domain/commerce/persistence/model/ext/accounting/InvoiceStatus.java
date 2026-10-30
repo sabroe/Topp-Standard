@@ -28,22 +28,22 @@ package com.yelstream.topp.standard.domain.commerce.persistence.model.ext.accoun
  * </p>
  * <p>
  * Typical state transitions (most common happy path):
+ * </p>
  * <pre>
  * DRAFT → ISSUED → PARTIALLY_PAID → PAID
  *                     ↳ OVERDUE (if due date passed without full payment)
  *                     ↳ CANCELLED (before payment, e.g. order cancelled)
  *                     ↳ CREDITED (after credit note issuance)
  * </pre>
- * </p>
  * <p>
  * Business rules usually enforce:
+ * </p>
  * <ul>
  *     <li>Forward-only movement in normal cases (except to CANCELLED or CREDITED)</li>
  *     <li>Payment-related actions only allowed in certain states (e.g. capture only after ISSUED)</li>
  *     <li>State changes trigger side effects (email reminders, accounting postings, credit limit updates)</li>
  *     <li>OVERDUE is often calculated dynamically (based on dueDate + current time), but can be stored explicitly for performance</li>
  * </ul>
- * </p>
  * <p>
  * This set covers ~95% of real-world invoice flows in mixed B2B/B2C systems. If your business requires more granularity
  * (e.g. SENT_TO_COLLECTION, DISPUTED, WRITTEN_OFF, PARTIALLY_CREDITED), consider adding those values or using sub-states/flags later.

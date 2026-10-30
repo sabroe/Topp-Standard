@@ -63,7 +63,7 @@ import java.util.function.Consumer;
  * </p>
  * <p>
  *     The exact nature of the copy (shallow vs. deep) is implementation-specific
- *     and should be documented by implementations.<
+ *     and should be documented by implementations.
  * </p>
  *
  * <h2>Usage Example</h2>

@@ -608,13 +608,13 @@ public class Dates {
      * Applies a {@link TemporalAdjuster} to a legacy date.
      * <p>
      *     Note:
-     *     </br>
+     *     <br/>
      *         {@link Instant} only supports a limited set of {@link TemporalField} and {@link TemporalAdjuster} values.
-     *     </br>
-     *     </br>
+     *     <br/>
+     *     <br/>
      *         Zone-sensitive adjustments require converting to {@link java.time.ZonedDateTime} first,
      *         inside the operation lambda.
-     * * </p>
+     * </p>
      * @param date Legacy date.
      * @param adjuster Temporal adjuster.
      *                 This will be applied upon {@link Instant}.
@@ -631,13 +631,13 @@ public class Dates {
      * Sets the specified {@link TemporalField} to a new value on a legacy date.
      * <p>
      *     Note:
-     *     </br>
+     *     <br/>
      *         {@link Instant} only supports a limited set of {@link TemporalField} and {@link TemporalAdjuster} values.
-     *     </br>
-     *     </br>
+     *     <br/>
+     *     <br/>
      *         Zone-sensitive adjustments require converting to {@link java.time.ZonedDateTime} first,
      *         inside the operation lambda.
-     * * </p>
+     * </p>
      * @param date Legacy date.
      * @param field Temporal field.
      *              This will be applied upon {@link Instant}.

@@ -18,6 +18,6 @@
  */
 
 /**
- * Generate proper invoices & accounting.
+ * Generate proper invoices &amp; accounting.
  */
 package com.yelstream.topp.standard.domain.commerce.persistence.model.ext.accounting;

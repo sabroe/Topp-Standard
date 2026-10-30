@@ -33,19 +33,19 @@
  *   <li>
  *     {@link com.yelstream.topp.standard.annotation.mark.lifecycle.Provisional @Provisional}:
  *     Released but provisional / evolving.
- *     </br>
+ *     <br/>
  *     Breaking changes or refinements are still possible.
  *     Use with caution; expect potential adjustments.</li>
  *   <li>
  *     {@link com.yelstream.topp.standard.annotation.mark.lifecycle.Stabilized @Stabilized}:
  *     Mostly frozen / settling.
- *     </br>
+ *     <br/>
  *     Only non-breaking changes, bug fixes, or minor improvements expected.
  *   </li>
  *   <li>
  *     {@link com.yelstream.topp.standard.annotation.mark.lifecycle.Published @Published}:
  *     Fully committed and production-grade.
- *     </br>
+ *     <br/>
  *     Follows semantic versioning; breaking changes only on major version bumps with proper deprecation periods.
  *   </li>
  * </ul>

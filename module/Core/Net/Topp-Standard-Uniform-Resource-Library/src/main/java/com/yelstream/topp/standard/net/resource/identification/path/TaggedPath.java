@@ -119,13 +119,13 @@ public final class TaggedPath {
      * Creates the full path, combining the base path and tag.
      * <p>
      *     Examples:
-     *     <ul>
-     *         <li>{@code path="/yelstream.com/topp", tag="1.0.0"} → {@code /yelstream.com/topp:1.0.0}</li>
-     *         <li>{@code path="/yelstream.com/topp", tag=null} → {@code /yelstream.com/topp}</li>
-     *         <li>{@code path="", tag="1.0.0"} → {@code :1.0.0}</li>
-     *         <li>{@code path=null, tag=null} → {@code ""}</li>
-     *     </ul>
      * </p>
+     * <ul>
+     *     <li>{@code path="/yelstream.com/topp", tag="1.0.0"} → {@code /yelstream.com/topp:1.0.0}</li>
+     *     <li>{@code path="/yelstream.com/topp", tag=null} → {@code /yelstream.com/topp}</li>
+     *     <li>{@code path="", tag="1.0.0"} → {@code :1.0.0}</li>
+     *     <li>{@code path=null, tag=null} → {@code ""}</li>
+     * </ul>
      * @return Full path.
      */
     public String toPath() {
@@ -151,11 +151,11 @@ public final class TaggedPath {
      * <p>
      *     The path is split at the last colon to separate the base path and tag.
      *     Examples:
-     *     <ul>
-     *         <li>{@code /yelstream.com/topp:1.0.0} → {@code path="/yelstream.com/topp", tag="1.0.0"}</li>
-     *         <li>{@code /yelstream.com/topp} → {@code path="/yelstream.com/topp", tag=null}</li>
-     *     </ul>
      * </p>
+     * <ul>
+     *     <li>{@code /yelstream.com/topp:1.0.0} → {@code path="/yelstream.com/topp", tag="1.0.0"}</li>
+     *     <li>{@code /yelstream.com/topp} → {@code path="/yelstream.com/topp", tag=null}</li>
+     * </ul>
      * @param path Full path to parse.
      * @return Tagged path instance.
      * @throws IllegalArgumentException Thrown in case of invalid argument.

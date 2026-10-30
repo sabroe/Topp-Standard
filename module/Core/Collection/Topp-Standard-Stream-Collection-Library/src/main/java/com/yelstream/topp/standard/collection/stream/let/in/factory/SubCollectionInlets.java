@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.collection.stream.let.in.factory;
 import lombok.experimental.UtilityClass;
 
 /**
- * Creation of {@link SubCollectionInlet} instances using abstract collection types.
+ * Creation of {@link com.yelstream.topp.standard.collection.stream.let.in.SubCollectionInlet SubCollectionInlet} instances using abstract collection types.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-07

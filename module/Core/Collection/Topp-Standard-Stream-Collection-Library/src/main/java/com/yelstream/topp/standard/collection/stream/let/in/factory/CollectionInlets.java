@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.collection.stream.let.in.factory;
 import lombok.experimental.UtilityClass;
 
 /**
- * Creation of {@link CollectionInlet} instances.
+ * Creation of {@link com.yelstream.topp.standard.collection.stream.let.in.CollectionInlet CollectionInlet} instances.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-07

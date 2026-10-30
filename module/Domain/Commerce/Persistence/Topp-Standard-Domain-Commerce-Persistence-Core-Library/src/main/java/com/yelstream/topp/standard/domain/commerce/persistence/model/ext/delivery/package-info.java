@@ -18,6 +18,6 @@
  */
 
 /**
- * Track shipping & delivery status.
+ * Track shipping &amp; delivery status.
  */
 package com.yelstream.topp.standard.domain.commerce.persistence.model.ext.delivery;

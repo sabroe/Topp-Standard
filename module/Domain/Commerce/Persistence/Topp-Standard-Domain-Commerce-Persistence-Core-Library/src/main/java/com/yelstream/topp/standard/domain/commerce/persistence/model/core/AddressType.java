@@ -28,13 +28,13 @@ package com.yelstream.topp.standard.domain.commerce.persistence.model.core;
  * </p>
  * <p>
  * Using a typed classification allows:
+ * </p>
  * <ul>
  *     <li>Automatic selection of defaults during checkout (e.g. pick the SHIPPING default when available)</li>
  *     <li>Validation rules per type (billing addresses often require more strict formatting or tax-region data)</li>
  *     <li>User interface hints (show "Use as default billing address" checkbox only for BILLING types)</li>
  *     <li>Reporting and analytics (e.g. count how many orders use a non-default shipping address)</li>
  * </ul>
- * </p>
  * <p>
  * The set is kept intentionally small and generic so it remains useful across B2C and B2B scenarios.
  * More specialized use-cases (warehouse address, pickup point, registered office, etc.) can be handled

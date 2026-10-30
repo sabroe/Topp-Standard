@@ -120,12 +120,12 @@ public final class SegmentedPath {
      * Converts the segmented path to a URI path string.
      * <p>
      * Examples:
-     *     <ul>
-     *         <li>{@code elements=["yelstream.com", "topp"], absolute=true, container=true} → {@code /yelstream.com/topp/}</li>
-     *         <li>{@code elements=["yelstream.com", "topp"], absolute=false, container=false} → {@code yelstream.com/topp}</li>
-     *         <li>{@code elements=[], absolute=false, container=false} → {@code ""}</li>
-     *     </ul>
      * </p>
+     * <ul>
+     *     <li>{@code elements=["yelstream.com", "topp"], absolute=true, container=true} → {@code /yelstream.com/topp/}</li>
+     *     <li>{@code elements=["yelstream.com", "topp"], absolute=false, container=false} → {@code yelstream.com/topp}</li>
+     *     <li>{@code elements=[], absolute=false, container=false} → {@code ""}</li>
+     * </ul>
      * @return The URI path string, respecting absolute and container flags.
      */
     public String toPath() {
@@ -175,14 +175,14 @@ public final class SegmentedPath {
      * Creates a segmented path from a URI path string.
      * <p>
      * For example:
-     *     <ul>
-     *         <li>{@code /yelstream.com/topp/} → {@code elements=["yelstream.com", "topp"], absolute=true, container=true}</li>
-     *         <li>{@code yelstream.com/topp} → {@code elements=["yelstream.com", "topp"], absolute=false, container=false}</li>
-     *         <li>{@code /yelstream.com/topp} → {@code elements=["yelstream.com", "topp"], absolute=true, container=false}</li>
-     *     </ul>
+     * </p>
+     * <ul>
+     *     <li>{@code /yelstream.com/topp/} → {@code elements=["yelstream.com", "topp"], absolute=true, container=true}</li>
+     *     <li>{@code yelstream.com/topp} → {@code elements=["yelstream.com", "topp"], absolute=false, container=false}</li>
+     *     <li>{@code /yelstream.com/topp} → {@code elements=["yelstream.com", "topp"], absolute=true, container=false}</li>
+     * </ul>
      *     Leading slashes determine {@code absolute}, and trailing slashes determine {@code container}.
      *     Empty or null paths result in an empty segment list with {@code absolute=false, container=false}.
-     * </p>
      *
      * @param path The URI path (e.g., {@code /yelstream.com/topp} or {@code yelstream.com/topp/}).
      * @return Created segmented path.

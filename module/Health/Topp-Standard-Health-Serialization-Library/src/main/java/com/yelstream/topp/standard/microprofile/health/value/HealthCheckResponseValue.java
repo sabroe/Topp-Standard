@@ -28,9 +28,9 @@ import lombok.ToString;
 import java.util.Map;
 
 /**
- * Health-check response values applicable for serialization of {@link HealthCheckResponse} instances.
+ * Health-check response values applicable for serialization of {@code HealthCheckResponse} instances.
  * <p>
- *     The original {@link HealthCheckResponse} is a mess of responsibilities
+ *     The original {@code HealthCheckResponse} is a mess of responsibilities
  *     since it does not carry a clean set of values for a response object.
  * </p>
  * <p>
@@ -38,8 +38,8 @@ import java.util.Map;
  * </p>
  * <p>
  *     If this needs to be changed,
- *     then consider using this to create a {@link HealthCheckResponses.Builder}.
- *     build a new {@link HealthCheckResponse},
+ *     then consider using this to create a {@code HealthCheckResponses.Builder}.
+ *     build a new {@code HealthCheckResponse},
  *     and convert this into a new {@link HealthCheckResponseValue}.
  * </p>
  *

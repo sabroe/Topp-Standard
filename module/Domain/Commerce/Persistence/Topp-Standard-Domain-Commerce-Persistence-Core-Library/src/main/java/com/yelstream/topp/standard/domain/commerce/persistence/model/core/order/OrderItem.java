@@ -39,7 +39,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 /**
- * Line item inside an order (final agreed price & quantity).
+ * Line item inside an order (final agreed price &amp; quantity).
  */
 @Entity
 @Table

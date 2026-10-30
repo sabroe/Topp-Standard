@@ -39,15 +39,16 @@ import java.math.BigDecimal;
  * </p>
  * <p>
  * Key characteristics:
+ * </p>
  * <ul>
  *     <li>Immutable by design (no public setters — construct via constructor or factory)</li>
  *     <li>Uses {@code BigDecimal} for precise decimal arithmetic (avoids floating-point issues)</li>
  *     <li>Currency stored as ISO 4217 alpha-3 code (e.g. "DKK", "EUR", "USD")</li>
  *     <li>JPA-mapped as an {@code @Embeddable} component with overridden column names when needed</li>
  * </ul>
- * </p>
  * <p>
  * Important notes for production use:
+ * </p>
  * <ul>
  *     <li>Arithmetic operations (add, subtract, multiply, compare) should <strong>not</strong> be
  *         implemented directly on this class — use a proper money library (JSR-354 Moneta,
@@ -56,7 +57,6 @@ import java.math.BigDecimal;
  *     <li>No built-in formatting — use {@code NumberFormat.getCurrencyInstance()} or similar
  *         when displaying to users</li>
  * </ul>
- * </p>
  */
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)

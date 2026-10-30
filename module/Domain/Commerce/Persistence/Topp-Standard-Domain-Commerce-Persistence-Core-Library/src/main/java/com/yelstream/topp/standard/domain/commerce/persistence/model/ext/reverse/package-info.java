@@ -18,6 +18,6 @@
  */
 
 /**
- * Customer service & reverse logistics.
+ * Customer service &amp; reverse logistics.
  */
 package com.yelstream.topp.standard.domain.commerce.persistence.model.ext.reverse;

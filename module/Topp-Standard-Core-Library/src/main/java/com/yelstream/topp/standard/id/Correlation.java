@@ -86,7 +86,7 @@ public final class Correlation<X,Y> {
     /**
      * Composes this correlation with some other correlation.
      * <p>
-     *     This is chaining, X <-> Y <-> Z.
+     *     This is chaining, X &lt;-&gt; Y &lt;-&gt; Z.
      * </p>
      * @param other Other correlation.
      * @return Resulting correlation.

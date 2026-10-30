@@ -18,6 +18,6 @@
  */
 
 /**
- * Support real B2B negotiation & approval.
+ * Support real B2B negotiation &amp; approval.
  */
 package com.yelstream.topp.standard.domain.commerce.persistence.model.ext.quotation;

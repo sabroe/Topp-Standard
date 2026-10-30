@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.xml.stream;
 import lombok.experimental.UtilityClass;
 
 /**
- * Utility addressing instances of {@link XMLStreamReader}.
+ * Utility addressing instances of {@link javax.xml.stream.XMLStreamReader XMLStreamReader}.
  * @author Morten Sabroe Mortensen
  * @version 1.0
  * @since 2025-06-19

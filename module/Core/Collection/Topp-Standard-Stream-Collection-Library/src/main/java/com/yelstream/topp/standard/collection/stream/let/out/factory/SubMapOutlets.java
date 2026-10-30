@@ -22,7 +22,7 @@ package com.yelstream.topp.standard.collection.stream.let.out.factory;
 import lombok.experimental.UtilityClass;
 
 /**
- * Creation of {@link SubMapOutlet} instances using abstract map types.
+ * Creation of {@link com.yelstream.topp.standard.collection.stream.let.out.SubMapOutlet SubMapOutlet} instances using abstract map types.
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-07-07

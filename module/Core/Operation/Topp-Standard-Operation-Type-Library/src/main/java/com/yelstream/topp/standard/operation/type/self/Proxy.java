@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
  * Static proxy for a fluent type hence dependent upon itself as the self-referential type.
  * <p>
  *     This is experimental at best.
- *     </br>
+ *     <br/>
  *     A proxy may not need to involve a delegate of a fluent type.
  *     <br/>
  *     This pattern does not help using Lombok {@code lombok.Delegate};

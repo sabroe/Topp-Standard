@@ -91,11 +91,11 @@ public enum StandardURIPredicate {
      * Tests if the URI has properties, contains {@code ;} (e.g., as in a {@code jdbc} URL).
      * <p>
      *     Examples:
-     *     <ul>
-     *         <li>{@code jdbc:sqlserver://localhost:1433} (opaque, non-standard scheme)</li>
-     *         <li>{@code sqlserver://localhost:1433;databaseName=database1} (hierarchical, non-standard scheme and authority)</li>
-     *     </ul>
      * </p>
+     * <ul>
+     *     <li>{@code jdbc:sqlserver://localhost:1433} (opaque, non-standard scheme)</li>
+     *     <li>{@code sqlserver://localhost:1433;databaseName=database1} (hierarchical, non-standard scheme and authority)</li>
+     * </ul>
      */
     HasPropertySeparator(uri -> uri != null  && uri.getSchemeSpecificPart()!=null && uri.getSchemeSpecificPart().contains(";")),
 

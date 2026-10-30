@@ -29,20 +29,20 @@ package com.yelstream.topp.standard.domain.commerce.persistence.model.core.order
  * </p>
  * <p>
  * Typical state transitions (most common happy path):
+ * </p>
  * <pre>
  * NEW → PLACED → PAID → SHIPPED → DELIVERED
  *                     ↳ CANCELLED (at any point before DELIVERED)
  *                     ↳ RETURNED (after DELIVERED)
  * </pre>
- * </p>
  * <p>
  * Business rules usually enforce:
+ * </p>
  * <ul>
  *     <li>Only move forward (except to CANCELLED or RETURNED)</li>
  *     <li>Certain actions only allowed in specific states (e.g. capture payment only in PLACED)</li>
  *     <li>Some states trigger side effects (email, inventory allocation, invoice creation)</li>
  * </ul>
- * </p>
  * <p>
  * This set covers ~90% of real-world order flows. If your business requires more granularity
  * (e.g. PARTIALLY_SHIPPED, AWAITING_APPROVAL, IN_PRODUCTION, READY_FOR_PICKUP),

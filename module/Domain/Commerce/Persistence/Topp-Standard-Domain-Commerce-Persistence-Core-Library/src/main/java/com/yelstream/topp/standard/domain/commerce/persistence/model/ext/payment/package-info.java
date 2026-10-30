@@ -18,6 +18,6 @@
  */
 
 /**
- * Handle payments & refunds.
+ * Handle payments &amp; refunds.
  */
 package com.yelstream.topp.standard.domain.commerce.persistence.model.ext.payment;
