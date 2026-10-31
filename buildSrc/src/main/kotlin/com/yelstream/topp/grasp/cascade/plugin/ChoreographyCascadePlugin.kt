@@ -250,7 +250,9 @@ class ChoreographyCascadePlugin : Plugin<Project> {
             project.extensions.extraProperties.set(key.toString(), value)
         }
 
-        project.logger.debug("[${project.name}]:> Project properties: ${project.properties.filter { it.key != "parent" && it.key != "rootProject" }}")  // ✅ Fixed: project.logger
+        if (project.logger.isDebugEnabled) {
+            project.logger.debug("[${project.name}]:> Project properties: ${project.providers.gradlePropertiesPrefixedBy("").get().filter { it.key != "parent" && it.key != "rootProject" }}")  // ✅ Fixed: project.logger
+        }
 
         val allProps = Properties().apply {
             putAll(project.custom)
