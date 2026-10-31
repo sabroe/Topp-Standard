@@ -70,29 +70,27 @@ val Project.module: Module
         }
     }
 
-object ProjectBuildTime {
-    val instance: BuildTime by lazy {
-//        println("🌍 Global build time computed ONCE: ${ZonedDateTime.now()}")
-        BuildTime.now()
-    }
-}
-
 val Project.rawModule: Properties
     get() = extra["rawModule"] as? Properties ?: Properties().also { extra["rawModule"] = it }
 
 val Project.custom: Properties
     get() = extra["custom"] as? Properties ?: Properties().also { extra["custom"] = it }
 
-val Project.nonRootGradle: Properties
-    get() = extra["nonRootGradle"] as? Properties ?: Properties().also { extra["nonRootGradle"] = it }
-
-val Project.structural: Properties
-    get() = extra["structural"] as? Properties ?: Properties().also { extra["structural"] = it }
-
 val Project.local: Properties
     get() = extra["local"] as? Properties ?: Properties().also { extra["local"] = it }
 
-val structuralPropertiesCache = mutableMapOf<File, Properties>()
+/**
+ * Overrides an existing property of this project.
+ * A property inherited from a parent project, e.g. from the parent's `gradle.properties`, cannot be set on
+ * this project; it is shadowed by an extra property on this project instead.
+ */
+fun Project.overrideProperty(name: String, value: Any?) {
+    try {
+        setProperty(name, value)
+    } catch (_: groovy.lang.MissingPropertyException) {
+        extensions.extraProperties.set(name, value)
+    }
+}
 
 fun Project.loadProperties(fileName: String): Properties {
     val file = file(fileName)
@@ -158,21 +156,6 @@ fun Properties.resolvePlaceholders(project: Project, sources: Properties): Prope
     return resolved
 }
 
-fun Project.computeStructuralProperties(): Properties {
-    val result = Properties()
-    var currentDir: File? = projectDir.absoluteFile
-
-    while (currentDir != null) {
-        val currentDirKey = currentDir.absoluteFile
-        val cachedProps = structuralPropertiesCache[currentDirKey]
-        val dirProps = cachedProps ?: loadProperties(File(currentDir, "gradle.properties"))
-        result.putAll(dirProps)
-        structuralPropertiesCache[currentDirKey] = dirProps
-        currentDir = if (currentDir.absolutePath == rootDir.absolutePath) null else currentDir.parentFile
-    }
-    return result
-}
-
 class ChoreographyCascadePlugin : Plugin<Project> {
     companion object {
         const val PROPERTY_NAME_PREFIX = "plugin.choreography-cascade"
@@ -182,67 +165,49 @@ class ChoreographyCascadePlugin : Plugin<Project> {
     }
 
     override fun apply(project: Project) {
+        // The build time is computed here, once per build, and shared by all projects.
+        // Without the configuration cache, it is fresh in every build.
+        // With the configuration cache, this method does not run on a cache hit, so the build time,
+        // and everything derived from it, keeps the value from when the cache entry was stored.
+        // Do not keep it in a static (object or companion) value: Gradle keeps buildSrc classes
+        // loaded between builds in the same daemon, so a static value would be reused by later builds.
+        val buildTime = BuildTime.now()
+
         initializeExtensions(project)
         project.subprojects.forEach { sub ->
             initializeExtensions(sub)
         }
 
-        configureProject(project)
+        configureProject(project, buildTime)
         project.subprojects.forEach { sub ->  //TODO: If project.getProperty("cascade.enable")!=false then do this
-            configureProject(sub)
+            configureProject(sub, buildTime)
         }
     }
 //    companion object {
         private fun initializeExtensions(project: Project) {
             project.extensions.extraProperties["custom"] = Properties()
             project.extensions.extraProperties["rawModule"] = Properties()
-            project.extensions.extraProperties["nonRootGradle"] = Properties()
-            project.extensions.extraProperties["structural"] = Properties()
             project.extensions.extraProperties["local"] = Properties()
         }
 //    }
 
-    private fun configureProject(project: Project) {
+    private fun configureProject(project: Project, buildTime: BuildTime) {
         project.extra["custom"] = Properties()
         project.extra["rawModule"] = Properties()
-        project.extra["nonRootGradle"] = Properties()
-        project.extra["structural"] = Properties()
         project.extra["local"] = Properties()
 
-        ProjectBuildTime.instance.populate { key, value ->
+        buildTime.populate { key, value ->
             project.custom[key] = value
         }
 
         project.module.setProperty("default.project.group", "com.example")
-        project.module.setProperty("default.project.version", ProjectBuildTime.instance.sanitizedBuildTime)
+        project.module.setProperty("default.project.version", buildTime.sanitizedBuildTime)
 
         project.inheritPropertiesFromFile("custom.properties",{it.custom},{it.custom})
         project.inheritPropertiesFromFile("module.properties",{it.rawModule},{it.custom})
 
-
-
-        if (project != project.rootProject) {
-            val nonRootProps = project.loadProperties("gradle.properties")
-            project.parent?.let { parent ->
-                project.nonRootGradle.putAll(parent.nonRootGradle)
-            }
-            project.nonRootGradle.putAll(nonRootProps)
-            nonRootProps.forEach { (key, value) ->
-//                project.setProperty(key.toString(), value)
-                project.extensions.extraProperties.set(key.toString(), value)
-            }
-        }
-
-
-
-        if (project != project.rootProject) {
-            val structuralProps = project.computeStructuralProperties()
-            project.structural.putAll(structuralProps)
-            structuralProps.forEach { (key, value) ->
-  //              project.setProperty(key.toString(), value)
-                project.extensions.extraProperties.set(key.toString(), value)
-            }
-        }
+        // "gradle.properties" files are not read here; Gradle has already loaded them as project properties.
+        // Their values are used by placeholder resolution and may be overridden by the files below.
 
         val localProps = project.loadProperties("local.properties")
         localProps.forEach { (key, value) ->
@@ -256,8 +221,6 @@ class ChoreographyCascadePlugin : Plugin<Project> {
 
         val allProps = Properties().apply {
             putAll(project.custom)
-            putAll(project.nonRootGradle)
-            putAll(project.structural)
             putAll(project.loadProperties("local.properties")) // Re-load to ensure latest
         }
 
@@ -266,11 +229,10 @@ class ChoreographyCascadePlugin : Plugin<Project> {
         resolvedProps.forEach { (key, value) ->
             val keyStr = key.toString()
             if (project.hasProperty(keyStr)) {
-                project.setProperty(keyStr, value)
+                project.overrideProperty(keyStr, value)
                 project.logger.debug("[${project.name}]:> Set existing property $keyStr to $value")
             } else {
                 project.logger.debug("[${project.name}]:> Skipped setting $keyStr - not a known project property")
-                project.module.setProperty(keyStr, value)
             }
             project.module.setProperty(keyStr, value)
         }
