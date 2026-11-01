@@ -22,8 +22,10 @@ What the plugin adds on top of plain Gradle:
    `version` and `description`.
 4. **A build timestamp shared by every project**, preset in several formats, for example
    `project.version = 0.4.9-${sanitized-build-time}`.
-5. **`local.properties` for module-local values.** It applies to its own module only, is not inherited
-   by child modules, and wins over every other source, including `-P` on the command line.
+5. **`local.properties` for module-local values.** It applies to its own module only, is not passed down
+   to child modules by the plugin, and wins over every other source, including `-P` on the command line.
+   A child without its own value still finds the parent's through `findProperty`. Use
+   `project.extra.properties[key]` to read only the module's own value (§5.1).
 
 ## 1. Purpose
 
@@ -36,7 +38,7 @@ In practice it does four things:
 1. **Cascades** (inherits) property files down the project tree, with the child overriding the parent.
 2. **Resolves `${...}` placeholders** in property values.
 3. **Promotes `project.*` keys** to real Gradle project properties, for example `project.version` sets `project.version`.
-4. **Overrides** Gradle project properties of the same name, for example a value from a `gradle.properties` file, see §6.
+4. **Overrides** Gradle project properties of the same name, for example a value from a `gradle.properties` file, see §7.
 
 `gradle.properties` files work exactly as in plain Gradle, with or without the plugin.
 The plugin never reads them itself.
@@ -71,7 +73,7 @@ Both files are committed with the module. "Local" means local to the module, not
 | | Subproject `gradle.properties` | `local.properties` |
 |---|---|---|
 | Read by | Gradle | The plugin |
-| Seen by child modules | Yes. Gradle's lookup reads through to parent projects. | No. Only the module's own file is read. |
+| Seen by child modules | Only for keys that no build-wide source (root `gradle.properties`, `-P`, `~/.gradle/gradle.properties`) also sets. Gradle's lookup reads through to parent projects, but a child finds its own copy of a build-wide value first. Real properties such as `version` are not inherited (§5.1). | Not by the plugin: only the module's own file is read, and its keys are not passed down. But each key is also set as an extra property on the module, so a child without its own value still finds the parent's through `findProperty`. `project.extra.properties[key]` reads only the module's own value (§5.1). |
 | `${...}` placeholders | Not resolved | Resolved |
 | Precedence | Loses to `-P`, `ORG_GRADLE_PROJECT_*` and `~/.gradle/gradle.properties` in plain Gradle. | Highest. Applied last, so it wins over every other file and over `-P`. |
 | Typical use | Values shared by a module and its children. | A setting for this one module, for example `convention.publish.enable = false` in `SLF4J-Proxy-Demo-Application`. |
@@ -80,7 +82,7 @@ Both files are committed with the module. "Local" means local to the module, not
 
 `BuildTime` is computed once per build, in the plugin's `apply`, so every project sees the same instant.
 Without the configuration cache it is fresh in every build. With the configuration cache it keeps the
-value from when the cache entry was stored, see §7, item 7.
+value from when the cache entry was stored, see §8, item 7.
 The keys are that one instant in different formats, not different granularities.
 `sanitized-build-time` is the Zulu time with `T` replaced by `-` and colons removed, so it is safe in
 versions and file names. The number of fraction digits depends on the JVM clock; the examples show three.
@@ -120,6 +122,8 @@ For each project:
     So `project.group` and `project.version` set `group` and `version`, and `project.description` sets `description`.
     The name must be a property the project already has. An unknown name, such as `project.foo`,
     makes `setProperty` throw `MissingPropertyException`, which fails the build.
+    Every other module key is set as an extra property on the project, so it can be read by name with
+    `project.findProperty(key)`, see §5.1.
 
 "`A + B`" means "start with A and let B overwrite".
 
@@ -146,10 +150,10 @@ project.version = 0.4.9-${sanitized-build-time}
 
 | Accessor | Contents |
 |---|---|
-| `project.custom` / `project.properties["custom"]` | Cascaded `custom.properties` plus build-time keys. **Placeholders are not resolved.** |
+| `project.custom` / `project.properties["custom"]` | Cascaded `custom.properties` plus build-time keys. **Placeholders are not resolved.** The plugin's internal inheritance chain; conventions should not read it. |
 | `project.module.properties` / `project.module.findProperty(k)` | Everything from the plugin's files, merged and resolved: the `custom.properties` cascade, `local.properties`, the build-time keys and the `default.project.*` values. Gradle's own project properties are **not** copied in. |
 | `project.group`, `project.version`, ... | Set from `project.*` keys. |
-| `project.findProperty(k)` | Gradle's project properties (`gradle.properties`, `-P`, ...), keys from `local.properties`, and overridden keys (§3, step 9). |
+| `project.findProperty(k)` | Gradle's project properties (`gradle.properties`, `-P`, ...) and every module key (§3, step 10), see §5.1. |
 
 `project.module` is created by the plugin, not by Gradle. It is a Kotlin extension property on `Project`
 that stores a `Module` object as the extra property `"module"`. Kotlin code needs
@@ -157,18 +161,234 @@ that stores a `Module` object as the extra property `"module"`. Kotlin code need
 
 Two places to look:
 
-- **The plugin's values** are in `project.module.properties`. A `custom.properties` key that is not also a Gradle
-  property, such as `java.language-version`, is **not** visible through `project.findProperty`.
+- **The plugin's values** are listed in `project.module.properties`. Each one is also an extra property on the
+  project, so a key such as `java.language-version` can be read with `project.findProperty`.
 - **Gradle's values** (`gradle.properties`, `-P`, `~/.gradle/gradle.properties`) are read by name with
   `project.findProperty(k)`, `val k: String by project` or `project.hasProperty(k)`. Child projects read through
   to their parents' values. They are not in `project.module.properties`, unless the same key is also defined in
   one of the plugin's files.
 
-The conventions currently read `project.properties["custom"]`:
-`convention.java-options` for Java version, encoding, compiler and Javadoc options, and
-`convention.publish` for the POM data.
+`convention.java-options` (Java version, encoding, compiler and Javadoc options) and `convention.publish`
+(the POM data and signing) read their values by name with `project.findProperty`. They don't read `custom`.
+So they work with and without the plugin: plain Gradle supplies values from `gradle.properties` files and `-P`,
+and the plugin adds its resolved values, including `local.properties` keys.
 
-## 6. What plain Gradle cannot do
+They use helpers in `com.yelstream.topp.grasp.util.Projects`, in the Topp-Gradle-Convention build:
+
+| Helper | Result |
+|---|---|
+| `stringProperty(key)` | The trimmed value, or `null` when unset or blank |
+| `stringProperty(key, default)` | The trimmed value, or `default` when unset or blank |
+| `booleanProperty(key, default)` | `true` or `false`. Any other value fails the build and names the key. |
+| `intProperty(key, default)` | An integer. Any other value fails the build and names the key. |
+| `listProperty(key)` | The value split on whitespace, or an empty list when unset or blank |
+
+A blank value, such as `key =`, counts as unset and gives the default, not `""`.
+
+### 5.1 Reading a property by name: `findProperty`, `hasProperty`, `by project`
+
+These three read the same thing:
+
+| Call | Result when the property is missing |
+|---|---|
+| `project.findProperty(key)` | `null` |
+| `project.hasProperty(key)` | `false` (returns only whether it exists) |
+| `val x: String by project` | Fails with `MissingPropertyException`. `val x: String? by project` gives `null`. The property name is the variable name, so dotted keys can't be used. |
+
+**Lookup order.** Gradle searches the project and stops at the first hit:
+
+1. Real properties of the `Project` object, such as `name`, `group`, `version` and `description`.
+2. The project's own extra properties (`project.extra`).
+3. Extensions, by name, for example `java` or `publishing`.
+4. Tasks, by name.
+5. The parent project's extra properties, then its parent's, up to the root. These are read-only from the child.
+
+**Where the values come from.** These were checked in this build with Gradle 9.8.2:
+
+| Source | Stored as | `findProperty` in a child module | `providers.gradleProperty(key)` |
+|---|---|---|---|
+| Root `gradle.properties`, `~/.gradle/gradle.properties`, `-P`, `ORG_GRADLE_PROJECT_*` | An own extra property on **every** project | Found, as the module's own value | Found |
+| A subproject's `gradle.properties` | An own extra property on **that** project only | Found by reading through to the parent | **Not** found |
+| CC plugin module keys (`custom.properties`, `local.properties`, build time) | An own extra property on each project, set from that project's own module (§3, step 10) | Found, as the module's own value | **Not** found |
+| A key that matches a real property, for example `version` | Sets the real property, not an extra | Found (step 1) | Root and `-P` sources only |
+
+Consequences:
+
+- **Plain Gradle and the plugin look the same.** A convention that reads `project.findProperty(key)` gets the
+  value whether it comes from a `gradle.properties` file, `-P` or the CC plugin. It works with and without the plugin.
+- **`providers.gradleProperty(key)` is not equivalent.** It sees only the build-wide sources Gradle loads at
+  startup, before any plugin runs. It doesn't see a subproject's `gradle.properties` or anything the CC plugin sets.
+  Use it only for build-wide settings.
+- **The CC plugin wins.** It runs after Gradle has created the projects, so its extra property replaces a
+  value of the same name from `gradle.properties` or `-P` on that project.
+- **Reading through to the parent still applies.** If a module has no value for a key and its parent has one,
+  `findProperty` in the module returns the parent's value. This includes a parent's `local.properties` keys, so
+  for `findProperty` they are not limited to their own module. To read only the module's own value, use
+  `project.extra.properties[key]`, or `project.extensions.extraProperties.has(key)` to check that it exists.
+- **Values are untyped.** Everything from a property file is a `String`. Convert it yourself, for example
+  `findProperty(key)?.toString()?.trim()?.toBoolean()`. A cast such as `as? Boolean` always gives `null`.
+
+**Overriding with a subproject's `gradle.properties`.** Plain Gradle's only override mechanism is the
+parent lookup above, and it is limited. Checked with a temporary `module/gradle.properties`, without the CC plugin
+setting these keys:
+
+| Key | Root `gradle.properties` | `module/gradle.properties` | `-P` |
+|---|---|---|---|
+| `xxx.yyy` | `anything` | `fromSub` | – |
+| `probe.cli` | – | `fromSub` | `fromCli` |
+| `description` | – | `descFromSub` | – |
+
+| Key | `findProperty` in `:module` | `findProperty` in `:module:Topp-Standard-Core-Library` (child) |
+|---|---|---|
+| `xxx.yyy` | `fromSub`: the subproject file beats the root file | `anything`: the root value is back |
+| `probe.cli` | `fromCli`: `-P` beats the subproject file | `fromCli` |
+| `description` | `descFromSub`: the real property is set | `null`: not inherited |
+
+- **A key set only in the subproject's file** is inherited by the children, through the parent lookup.
+- **A key also set by a build-wide source** (root `gradle.properties`, `-P`, `~/.gradle/gradle.properties`)
+  can't be overridden for a subtree. Every project has its own copy of the build-wide value, and the child
+  finds that copy before it looks at the parent. The subproject's file changes the value for that project only.
+- **Real properties** such as `version`, `group` and `description` are set on that project only and are never inherited.
+- **`-P` always wins** over the subproject's file.
+
+The CC plugin's `custom.properties` doesn't have these limits. Values are copied down the tree, so each
+child starts from its parent's values as its own and then applies its own overrides. This works for every
+key, including keys also set at the root, and for real properties through `project.*` keys.
+
+**Configuration cache.**
+
+- **These calls run only while the build is configured.** On a cache hit, configuration is skipped. No build
+  script, plugin or lookup runs, and tasks use the values stored in the cache entry.
+- **Gradle properties are cache inputs.** Changing a value from `gradle.properties` or `-P` invalidates the
+  entry, for example "cannot be reused because the set of Gradle properties prefixed by '' has changed: the
+  value of 'probe.cli' was changed". In this build, **adding** an unrelated `-P` also invalidates it ("'probe.unused'
+  was added"). Something in the build enumerates all Gradle properties, which makes the whole set an input. A
+  build that reads only single keys would depend only on those keys.
+- **CC plugin values are not inputs by themselves.** They are extra properties computed during configuration.
+  The cache depends on what they were computed from: the `custom.properties` and `local.properties` files (§8),
+  and the Gradle properties and system properties used in placeholders. Editing any of these invalidates the entry.
+- **The build time is the exception.** It is not tracked as an input, so on a cache hit it keeps its stored value
+  (§8, item 7).
+- **Isolated Projects** (incubating) doesn't allow reading another project's state. Reading through to a parent's
+  extra properties is not allowed there.
+
+## 6. Setting version, group and artifact name
+
+A published artifact is identified by `groupId:artifactId:version`. In this build these come from
+`project.group`, the publication's `artifactId` (by default `project.name`) and `project.version`.
+There are two ways to set `group` and `version`.
+
+### 6.1 `group` and `version` in the root `gradle.properties`
+
+```properties
+# root gradle.properties
+group = com.yelstream.topp.standard
+version = 0.4.9
+```
+
+This is plain Gradle and works without the plugin.
+
+- **It applies to every project in the build.** The root `gradle.properties` covers the whole build.
+  When Gradle creates each project, it sets matching real properties, so `project.group` and
+  `project.version` are set on the root and on every subproject.
+- **It is set before any build script runs**, so every script and plugin sees the value.
+- **Values are literal.** `${...}` is not resolved, so you can't build the version from the build time.
+- **Per-module overrides are limited.** A subproject's own `gradle.properties` can set `version` for that
+  project. `version` is a real property, not an extra property, so the subproject's children don't read
+  through to it. They keep the root value.
+- **`-Pversion=...` on the command line wins over the file**, using normal Gradle precedence.
+- **It is overridden by the plugin.** A `project.version` from `custom.properties` or `local.properties`
+  replaces it, see §6.2.
+
+### 6.2 `project.group` and `project.version` in `custom.properties`
+
+```properties
+# root custom.properties
+project.group = com.yelstream.topp.standard
+project.version = 0.4.9
+```
+
+This needs the plugin. The keys are promoted to the real properties in §3, step 10.
+
+- **It applies to every project in the build.** The `custom.properties` cascade passes the keys down
+  to every subproject.
+- **It can be overridden at any level of the hierarchy.** A `custom.properties` in any module, or in an
+  intermediate folder project, overrides the value for that project and all of its children. Its
+  siblings and parents keep their own value.
+- **`local.properties` overrides it for one module only.** Its children are not affected.
+- **`${...}` is resolved**, for example `project.version = 0.4.9-${sanitized-build-time}`.
+- **It wins over Gradle's own sources.** The plugin runs after Gradle has set the properties, so it
+  overrides `group` and `version` from any `gradle.properties`, `-Pversion=...`, `ORG_GRADLE_PROJECT_version`
+  and `~/.gradle/gradle.properties`. As a result, **`-Pversion=...` on the command line has no effect** while
+  `project.version` is set in a `custom.properties` file.
+- **A subproject build script still wins.** `version = "..."` in a subproject's build script runs after
+  the plugin. Conventions read `project.version` when they are applied (for example the publication in
+  `convention.publish`), so a version set later in the same script doesn't reach them.
+- **There is no fallback.** The `default.project.*` values are not used (§8, item 2). A project that gets no
+  `project.version` from any file keeps `unspecified`. A project with no `project.group` keeps Gradle's
+  derived group: `""` for the root, `Yelstream-Topp-Standard-Project` for a top-level child, and so on.
+
+Use one of the two mechanisms, not both. The root `custom.properties` currently sets both values,
+and the root `gradle.properties` sets neither.
+
+### 6.3 `default.project.group` and `default.project.version`
+
+> **TODO:** Describe the intended effect of `default.project.group` and `default.project.version`, and
+> make the code match it.
+
+What the code does today:
+
+- The plugin sets `default.project.group = com.example` and
+  `default.project.version = <sanitized-build-time>` in each project's `module` (§3, step 3).
+- **They have no effect.** `default.*` keys are not promoted to project properties, and placeholder
+  lookup does not search `module` (§8, item 2). A project with no `project.group` or `project.version`
+  keeps Gradle's own defaults (§6.2).
+- **They can't be overridden from a file.** They are written to `module`, not to `custom`. A
+  `default.project.version` key in `custom.properties` is stored in `module` under the same name and
+  replaces the built-in value there, but it still has no effect.
+
+The apparent intent is a fallback: when no file sets `project.version`, the version becomes the
+sanitized build time, and the group becomes `com.example`.
+
+### 6.4 Artifact name
+
+The name shows up in three places, each set separately:
+
+| Name | Default | Override | Set by |
+|---|---|---|---|
+| Project name | Folder name from `include(...)`. The root uses `rootProject.name` in `settings.gradle.kts`. | `project(":x").name = "..."` in settings | Gradle |
+| Archive file name (`<archivesName>-<version>.jar`) | `project.name` with spaces replaced by `-` | `archives.base-name-prefix` is prefixed | `convention.archive-naming` |
+| Maven `artifactId` | `project.name` | `publishing.publication.artifactId` | `convention.publish` |
+
+- **Set `artifactId` in every published module.** Every module currently sets
+  `publishing.publication.artifactId` in its `custom.properties`. Because `custom.properties` is
+  inherited, a module nested under another module would inherit its parent's `artifactId`. Two
+  publications would then share a name (§8, item 8).
+- **The archive name and `artifactId` are independent.** For example, the jar can be named
+  `Topp-Standard-Nillable-Library-0.4.9.jar` while it is published as `topp-standard-nillable`.
+- **`archives.base-name-prefix` is read with `project.extra.properties`.** A key in `custom.properties`
+  isn't seen there (§8, item 9). Set it in `local.properties` or a `gradle.properties`. No module sets it today.
+
+### 6.5 Values that default to `group` and `version`
+
+These read `project.group` and `project.version` unless they are overridden:
+
+| Where | Override keys |
+|---|---|
+| Maven publication `groupId` and `version` (`convention.publish`) | `publishing.publication.groupId`, `publishing.publication.version`, from any source read by `findProperty` |
+| Jar manifest `Implementation-Group` and `Implementation-Version` (`convention.jar-manifest`) | `jar.manifest.implementation-group` / `implementation.group`, and `jar.manifest.implementation-version` / `implementation.version` |
+| Java module version (`javaModuleVersion`, `convention.java-options`) | none |
+| `description` | `project.description` in `custom.properties` |
+
+- **`convention.publish` reads by name with `project.findProperty`** (§5). `publishing.publication.*` values
+  can come from `custom.properties`, `local.properties`, a `gradle.properties` file or `-P`, and `${...}`
+  placeholders arrive resolved. A blank value, such as `publishing.publication.version =`, counts as unset,
+  so the default `project.group` or `project.version` is used.
+- **`convention.jar-manifest` reads `project.extra.properties`.** The `implementation.*` keys in the
+  root `custom.properties` aren't seen there, so they have no effect on the manifest. For example, the
+  vendor falls back to `Yelstream` (§8, item 10).
+
+## 7. What plain Gradle cannot do
 
 | Capability | Plain Gradle | CC-plugin |
 |---|---|---|
@@ -177,20 +397,21 @@ The conventions currently read `project.properties["custom"]`:
 | `${...}` interpolation in property values | No. Values are literal strings. | Yes, with `default.` fallbacks and system properties. |
 | Set `group` or `version` per module from an inherited file | Only via each project's own `gradle.properties` (`version=...`), with no inheritance or interpolation. | `project.version` etc. in `custom.properties`, inherited and interpolated. |
 | One build timestamp shared by all projects and usable as a value | No. | `build-time`, `sanitized-build-time`, ... |
-| Module-local values that are not inherited and win over everything | No. A subproject's `gradle.properties` is seen by its child projects and loses to `-P` and `~/.gradle/gradle.properties`. | `local.properties`, see §2. |
-| Override a Gradle property for one module and its children | Only with the module's own `gradle.properties`, which loses to `-P` and `~/.gradle/gradle.properties`. | Define the key in `custom.properties` (inherited) or `local.properties` (this module only). |
+| Module-local values that are not inherited and win over everything | No. A subproject's `gradle.properties` is seen by its child projects and loses to `-P` and `~/.gradle/gradle.properties`. | `local.properties`, see §2. The plugin doesn't pass its keys down, but a child without its own value still finds the parent's through `findProperty`. Read `project.extra.properties[key]` for the module's own value only (§5.1). |
+| Override a Gradle property for one module and its children | Only partly, with the module's own `gradle.properties`. It loses to `-P` and `~/.gradle/gradle.properties`. It reaches the children only for keys that no build-wide source sets. A key that is also in the root `gradle.properties` is overridden for the module alone, and real properties such as `version` are never inherited (§5.1). | Define the key in `custom.properties` (inherited, for every key) or `local.properties` (this module only). |
 
 Gradle decides precedence once, when it creates each project. The plugin runs afterwards, so a key
 in `custom.properties` or `local.properties` also overrides a value given with `-P`,
 `ORG_GRADLE_PROJECT_*` or `~/.gradle/gradle.properties`.
 
-## 7. Known issues in the current implementation
+## 8. Known issues in the current implementation
 
 These are differences between what the code does and what the design appears to intend.
 
-1. **Consumers read unresolved values.** `convention.java-options` and `convention.publish` read
-   `custom`, not `module`, so `${...}` placeholders arrive there unresolved, and `local.properties`
-   values never reach them.
+1. **Fixed: consumers read unresolved values.** `convention.java-options` and `convention.publish` used to
+   read `custom`, so `${...}` placeholders arrived unresolved, `local.properties` values never reached
+   them, and every `javadoc.*` boolean was ignored (an `as? Boolean` cast on a string). They now read
+   by name with `project.findProperty`, which sees the plugin's resolved values (§5).
 2. **The defaults are never used.** `default.project.group` and `default.project.version` are stored in
    `module`. Placeholder lookup searches the merged set, project properties and system properties,
    not `module`, and `default.*` keys are not promoted. A project with no `project.version` keeps `unspecified`.
@@ -202,6 +423,20 @@ These are differences between what the code does and what the design appears to 
 7. **With the configuration cache, the build time is frozen in the cache entry.** On a cache hit the
    configuration does not run, so the build time and everything built from it keep the value from when the
    entry was stored. A new value only appears when some configuration input changes.
+8. **`publishing.publication.artifactId` is inherited.** Each module sets it in its `custom.properties`,
+   which cascades. A module nested under another published module, without its own value, gets the
+   parent's `artifactId`, so two publications share a name. Moving the key to `local.properties` doesn't
+   fully help: `convention.publish` reads it with `findProperty`, and a child without its own value finds
+   the parent's (§5.1).
+9. **Fixed: `archives.base-name-prefix` couldn't be set from `custom.properties`.** `convention.archive-naming`
+   reads it with `project.extra.properties`, which used to miss `custom.properties` keys. Every module key is
+   now set as an extra property on each project (§3, step 10), so the key works from `custom.properties`.
+   No module sets it yet, so the prefix is still empty.
+10. **The `implementation.*` keys in the root `custom.properties` have no effect.**
+    `convention.jar-manifest` reads `jar.manifest.*` and `implementation.*` with `project.extra.properties`,
+    which doesn't see `custom.properties` keys (same reason as item 9). The manifest falls back to
+    `project.name`, `project.group`, `project.version` and the vendor `Yelstream`, so
+    `implementation.vendor-name` and the other values in the file are ignored.
 
 The build time was earlier kept in a static `lazy` value, which Gradle's daemon reused across builds.
 It is now computed in `apply` and must not be moved back into a static value.

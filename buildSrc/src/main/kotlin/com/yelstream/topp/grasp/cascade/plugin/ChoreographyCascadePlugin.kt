@@ -248,6 +248,11 @@ class ChoreographyCascadePlugin : Plugin<Project> {
                 val name = key.removePrefix(keyPrefix)
                 project.setProperty(name, value)
   //              project.extensions.extraProperties.set(name, value)
+            } else {
+                // Make every other key readable as a plain Gradle project property, e.g. with
+                // project.findProperty(key), so conventions work with and without this plugin.
+                // Not visible to providers.gradleProperty(key).
+                project.extensions.extraProperties.set(key, value)
             }
         }
 
