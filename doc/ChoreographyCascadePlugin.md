@@ -22,10 +22,9 @@ What the plugin adds on top of plain Gradle:
    `version` and `description`.
 4. **A build timestamp shared by every project**, preset in several formats, for example
    `project.version = 0.4.9-${sanitized-build-time}`.
-5. **`local.properties` for module-local values.** It applies to its own module only, is not passed down
-   to child modules by the plugin, and wins over every other source, including `-P` on the command line.
-   A child without its own value still finds the parent's through `findProperty`. Use
-   `project.extra.properties[key]` to read only the module's own value (§5.1).
+5. **`local.properties` for module-local values.** It applies to its own module only, is not seen by
+   child modules, also not through `findProperty` (§3, step 6), and wins over every other source,
+   including `-P` on the command line.
 
 ## 1. Purpose
 
@@ -73,19 +72,54 @@ Both files are committed with the module. "Local" means local to the module, not
 | | Subproject `gradle.properties` | `local.properties` |
 |---|---|---|
 | Read by | Gradle | The plugin |
-| Seen by child modules | Only for keys that no build-wide source (root `gradle.properties`, `-P`, `~/.gradle/gradle.properties`) also sets. Gradle's lookup reads through to parent projects, but a child finds its own copy of a build-wide value first. Real properties such as `version` are not inherited (§5.1). | Not by the plugin: only the module's own file is read, and its keys are not passed down. But each key is also set as an extra property on the module, so a child without its own value still finds the parent's through `findProperty`. `project.extra.properties[key]` reads only the module's own value (§5.1). |
+| Seen by child modules | Only for keys that no build-wide source (root `gradle.properties`, `-P`, `~/.gradle/gradle.properties`) also sets. Gradle's lookup reads through to parent projects, but a child finds its own copy of a build-wide value first. Real properties such as `version` are not inherited (§5.1). | No. Only the module's own file is read, and its keys are hidden from child modules, also from `findProperty` (§3, step 6). |
 | `${...}` placeholders | Not resolved | Resolved |
 | Precedence | Loses to `-P`, `ORG_GRADLE_PROJECT_*` and `~/.gradle/gradle.properties` in plain Gradle. | Highest. Applied last, so it wins over every other file and over `-P`. |
 | Typical use | Values shared by a module and its children. | A setting for this one module, for example `convention.publish.enable = false` in `SLF4J-Proxy-Demo-Application`. |
 
+**A child's own value wins over the parent's `local.properties`.** Checked with temporary files, read with
+`findProperty`. `module/local.properties` set `probe.k1`, `probe.k2` and `probe.k3` to `parentLocal`, and the
+child `:module:Core` set each key in a different file:
+
+| Key | Child `:module:Core` sets it in | `:module` | `:module:Core` | Grandchild `…:Topp-Standard-Core-Language-Library` |
+|---|---|---|---|---|
+| `probe.k1` | its `gradle.properties` | `parentLocal` | `childGradleProperties` | `childGradleProperties`, inherited as normal |
+| `probe.k2` | its `custom.properties` | `parentLocal` | `childCustom` | `childCustom`, cascaded as normal |
+| `probe.k3` | its `local.properties` | `parentLocal` | `childLocal` | `null`, hidden as intended |
+
+- **The child's own `gradle.properties`, or a build-wide source such as `-P`:** the child already has its own
+  value when the parent's local keys are hidden (§3, step 6), so that value is kept.
+- **The child's own `custom.properties` or `local.properties`:** the parent's value is hidden first, and the
+  child's resolved values replace it later in the same step (§3, steps 9 and 10).
+- **The child's build script** runs after the plugin, so a value set there wins as well.
+
+The hiding only fills keys that would otherwise leak from the parent. Values inherited the normal way still
+reach the grandchild, and `:module:Core`'s own `local.properties` value stays hidden from it.
+
 ### Build-time keys
 
 `BuildTime` is computed once per build, in the plugin's `apply`, so every project sees the same instant.
-Without the configuration cache it is fresh in every build. With the configuration cache it keeps the
-value from when the cache entry was stored, see §8, item 7.
+The instant comes from `BuildInstantValueSource`, a Gradle `ValueSource` that wraps a `java.time.InstantSource`.
+`BuildTime` turns it into a `ZonedDateTime` in the system time zone, and the keys below are formatted from that.
 The keys are that one instant in different formats, not different granularities.
 `sanitized-build-time` is the Zulu time with `T` replaced by `-` and colons removed, so it is safe in
 versions and file names. The number of fraction digits depends on the JVM clock; the examples show three.
+
+The Gradle property `build-time.tick` rounds the instant down to steps of an ISO-8601 duration, for example
+`-Pbuild-time.tick=PT1H` or `build-time.tick = P1D` in the root `gradle.properties`. Steps are counted from
+the epoch in UTC, so `P1D` steps at 00:00 UTC, not at local midnight. Without the property there is no rounding.
+
+The value source is obtained at configuration time, so the build time is a configuration-cache input.
+Gradle obtains it again on every build and reuses a cache entry only while it is unchanged:
+
+| `build-time.tick` | Without the configuration cache | With the configuration cache |
+|---|---|---|
+| unset (default) | Exact time, new in every build | Exact time, new in every build. A cache entry is never reused. |
+| `PT1M` / `PT1H` | Rounded down, for example `2026-11-01T01:00:00Z` | Rounded down. A cache entry is reused within the minute or hour. |
+| `P1D` | Rounded down to `2026-11-01T00:00:00Z` | Rounded down. A cache entry is reused for the whole day. |
+
+The time zone is applied after the value source. With a coarse tick and the configuration cache, a time
+zone change within the same step keeps the old offset and zone in a reused entry.
 It adds these keys to `custom`:
 
 | Key | Example |
@@ -108,7 +142,16 @@ For each project:
 3. Set the module defaults `default.project.group = com.example` and `default.project.version = <sanitized-build-time>`.
 4. **`custom` cascade:** `custom = parent.custom + ./custom.properties`.
 5. **`rawModule`:** `rawModule = parent.custom + ./module.properties`.
-6. **`local.properties`:** each key is written as an extra property.
+6. **`local.properties`:**
+   1. **Hide the parent's local values.** Gradle's lookup reads through to parent projects, and an extra
+      property can't be removed. So for each key the parent set from its `local.properties`, and that this
+      project doesn't have itself, this project gets its own extra property. Its value is what the parent
+      saw before applying the file, possibly `null`. Only the direct parent is looked at: it was configured
+      first, so it already holds the right value for its own parent's local keys.
+   2. **Read** this project's `local.properties`, and record what the project sees for each of its keys
+      at this point. Child projects use these values in step 6.1.
+
+   The values are applied in steps 9 and 10, like all other keys.
 7. **Merge**, where later sources win: `custom` → `local.properties`.
 8. **Resolve placeholders** in the merged set (§4).
 9. **Store** every resolved key in the project's `Module` object (`project.module`).
@@ -222,9 +265,10 @@ Consequences:
 - **The CC plugin wins.** It runs after Gradle has created the projects, so its extra property replaces a
   value of the same name from `gradle.properties` or `-P` on that project.
 - **Reading through to the parent still applies.** If a module has no value for a key and its parent has one,
-  `findProperty` in the module returns the parent's value. This includes a parent's `local.properties` keys, so
-  for `findProperty` they are not limited to their own module. To read only the module's own value, use
-  `project.extra.properties[key]`, or `project.extensions.extraProperties.has(key)` to check that it exists.
+  `findProperty` in the module returns the parent's value. The exception is a parent's `local.properties` keys:
+  the plugin hides them with the module's own value (§3, step 6). When no other source sets the key, that value
+  is `null`, so `findProperty` returns `null`, but `hasProperty` returns `true`. Check with `findProperty`, not
+  `hasProperty`. To read only the module's own value, use `project.extra.properties[key]`.
 - **Values are untyped.** Everything from a property file is a `String`. Convert it yourself, for example
   `findProperty(key)?.toString()?.trim()?.toBoolean()`. A cast such as `as? Boolean` always gives `null`.
 
@@ -259,16 +303,28 @@ key, including keys also set at the root, and for real properties through `proje
 
 - **These calls run only while the build is configured.** On a cache hit, configuration is skipped. No build
   script, plugin or lookup runs, and tasks use the values stored in the cache entry.
-- **Gradle properties are cache inputs.** Changing a value from `gradle.properties` or `-P` invalidates the
-  entry, for example "cannot be reused because the set of Gradle properties prefixed by '' has changed: the
-  value of 'probe.cli' was changed". In this build, **adding** an unrelated `-P` also invalidates it ("'probe.unused'
-  was added"). Something in the build enumerates all Gradle properties, which makes the whole set an input. A
-  build that reads only single keys would depend only on those keys.
+- **Extra properties are not stored in the cache.** The cache holds the task graph and each task's configured
+  state, not the `Project` objects. On a cache hit no extra property exists, neither from `gradle.properties`
+  nor from the CC plugin. A value survives only if it was copied into a task during configuration, for example
+  `java.compiler.default-args` into `compileJava.options.compilerArgs`.
+- **So read properties at configuration time and copy the value into the task.** The conventions do this: the
+  `stringProperty(...)` helpers run while the convention is applied. Don't call `project.findProperty` in a task
+  action (`doFirst`/`doLast`). With the configuration cache on, Gradle reports that as a problem
+  ("invocation of `Task.project` at execution time").
+- **Gradle properties are cache inputs, one key at a time.** Changing a value that the build reads, from
+  `gradle.properties` or `-P`, invalidates the entry, for example "cannot be reused because Gradle property
+  'probe.gp' has changed". A missing key that is looked up is tracked as well. An unrelated `-P` that nothing
+  reads does not invalidate the entry.
+- **Listing all Gradle properties makes the whole set an input.** `providers.gradlePropertiesPrefixedBy("")`
+  does that, and then adding any `-P` invalidates the entry. The property dump in `convention.java-options`
+  uses it, so it runs only on request, as the task `dumpProperties` (group "help"). Only a build that runs
+  that task depends on the whole set.
 - **CC plugin values are not inputs by themselves.** They are extra properties computed during configuration.
   The cache depends on what they were computed from: the `custom.properties` and `local.properties` files (§8),
   and the Gradle properties and system properties used in placeholders. Editing any of these invalidates the entry.
-- **The build time is the exception.** It is not tracked as an input, so on a cache hit it keeps its stored value
-  (§8, item 7).
+- **The build time is obtained from a value source**, so it is an input as well. Without `build-time.tick`,
+  it changes on every build, and a cache entry is never reused. With a tick, an entry is reused within each
+  step (§2, "Build-time keys").
 - **Isolated Projects** (incubating) doesn't allow reading another project's state. Reading through to a parent's
   extra properties is not allowed there.
 
@@ -397,7 +453,7 @@ These read `project.group` and `project.version` unless they are overridden:
 | `${...}` interpolation in property values | No. Values are literal strings. | Yes, with `default.` fallbacks and system properties. |
 | Set `group` or `version` per module from an inherited file | Only via each project's own `gradle.properties` (`version=...`), with no inheritance or interpolation. | `project.version` etc. in `custom.properties`, inherited and interpolated. |
 | One build timestamp shared by all projects and usable as a value | No. | `build-time`, `sanitized-build-time`, ... |
-| Module-local values that are not inherited and win over everything | No. A subproject's `gradle.properties` is seen by its child projects and loses to `-P` and `~/.gradle/gradle.properties`. | `local.properties`, see §2. The plugin doesn't pass its keys down, but a child without its own value still finds the parent's through `findProperty`. Read `project.extra.properties[key]` for the module's own value only (§5.1). |
+| Module-local values that are not inherited and win over everything | No. A subproject's `gradle.properties` is seen by its child projects and loses to `-P` and `~/.gradle/gradle.properties`. | `local.properties`, see §2. Its keys are hidden from child modules, also from `findProperty` (§3, step 6). |
 | Override a Gradle property for one module and its children | Only partly, with the module's own `gradle.properties`. It loses to `-P` and `~/.gradle/gradle.properties`. It reaches the children only for keys that no build-wide source sets. A key that is also in the root `gradle.properties` is overridden for the module alone, and real properties such as `version` are never inherited (§5.1). | Define the key in `custom.properties` (inherited, for every key) or `local.properties` (this module only). |
 
 Gradle decides precedence once, when it creates each project. The plugin runs afterwards, so a key
@@ -416,18 +472,19 @@ These are differences between what the code does and what the design appears to 
    `module`. Placeholder lookup searches the merged set, project properties and system properties,
    not `module`, and `default.*` keys are not promoted. A project with no `project.version` keeps `unspecified`.
 3. **`module.properties` is loaded but not used.** `rawModule` is filled but never merged or resolved.
-4. **`local.properties` is read twice** (steps 6 and 7).
+4. **Fixed: `local.properties` was read twice** (steps 6 and 7). It was also written as extra properties
+   before its placeholders were resolved. It is now read once and applied with the other keys.
 5. **Unused settings.** `ENABLE_PROPERTY_NAME`, `PROPERTY_NAME_PREFIX` and `DEFAULT_DELAY` are declared
    but not read. The `TODO` about `cascade.enable` is not implemented, so the plugin cannot be switched off per project.
 6. **Holders are set twice.** `initializeExtensions` and the start of `configureProject` both set them.
-7. **With the configuration cache, the build time is frozen in the cache entry.** On a cache hit the
-   configuration does not run, so the build time and everything built from it keep the value from when the
-   entry was stored. A new value only appears when some configuration input changes.
+7. **Fixed: with the configuration cache, the build time was frozen in the cache entry.** It came from the
+   clock, which Gradle can't track, so a reused entry kept the time from when it was stored. It now comes from
+   a value source, which Gradle checks on every build (§2, "Build-time keys"). The price: without
+   `build-time.tick`, a cache entry is never reused, because the time always changes.
 8. **`publishing.publication.artifactId` is inherited.** Each module sets it in its `custom.properties`,
    which cascades. A module nested under another published module, without its own value, gets the
-   parent's `artifactId`, so two publications share a name. Moving the key to `local.properties` doesn't
-   fully help: `convention.publish` reads it with `findProperty`, and a child without its own value finds
-   the parent's (§5.1).
+   parent's `artifactId`, so two publications share a name. Moving the key to each module's
+   `local.properties` avoids this, because those keys are hidden from child modules (§3, step 6).
 9. **Fixed: `archives.base-name-prefix` couldn't be set from `custom.properties`.** `convention.archive-naming`
    reads it with `project.extra.properties`, which used to miss `custom.properties` keys. Every module key is
    now set as an extra property on each project (§3, step 10), so the key works from `custom.properties`.

@@ -52,6 +52,12 @@ open class Module(private val project: Project) : ExtensionAware {
         internalProperties.configure()
     }
 
+    /**
+     * For each key in this project's `local.properties`: the value the project saw before the file was applied.
+     * Child projects use it to hide this project's local values from Gradle's lookup in parent projects.
+     */
+    val localPrevious = mutableMapOf<String, Any?>()
+
     var description: String? = null
 
     val extra: ExtraPropertiesExtension
@@ -166,12 +172,16 @@ class ChoreographyCascadePlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         // The build time is computed here, once per build, and shared by all projects.
-        // Without the configuration cache, it is fresh in every build.
-        // With the configuration cache, this method does not run on a cache hit, so the build time,
-        // and everything derived from it, keeps the value from when the cache entry was stored.
+        // It is obtained from a value source at configuration time, which makes it a configuration-cache
+        // input: Gradle obtains it again on each build and reuses a cache entry only while it is unchanged.
+        // The Gradle property "build-time.tick" (an ISO-8601 duration such as PT1H) rounds it down,
+        // so a cache entry can be reused within each step. Without it, the time changes on every build.
         // Do not keep it in a static (object or companion) value: Gradle keeps buildSrc classes
         // loaded between builds in the same daemon, so a static value would be reused by later builds.
-        val buildTime = BuildTime.now()
+        val buildInstant = project.providers.of(BuildInstantValueSource::class.java) {
+            parameters.tick.set(project.providers.gradleProperty("build-time.tick"))
+        }.get()
+        val buildTime = BuildTime(buildInstant)
 
         initializeExtensions(project)
         project.subprojects.forEach { sub ->
@@ -191,6 +201,27 @@ class ChoreographyCascadePlugin : Plugin<Project> {
         }
 //    }
 
+    /**
+     * Hides the parent's `local.properties` values from this project.
+     * Gradle's property lookup reads through to parent projects, and an extra property can't be removed.
+     * So for each key the parent set from its `local.properties`, and that this project doesn't have itself,
+     * this project gets its own extra property with the value the parent saw before applying the file.
+     * That value may be `null`.
+     *
+     * Only the direct parent is needed. Projects are configured parent first, so the parent already holds
+     * the correct value for its own parent's local keys.
+     */
+    private fun shadowParentLocalKeys(project: Project) {
+        val parent = project.parent ?: return
+        val extra = project.extensions.extraProperties
+        parent.module.localPrevious.forEach { (key, previous) ->
+            if (!extra.has(key)) {
+                extra.set(key, previous)
+                project.logger.debug("[${project.name}]:> Shadowed parent's local property $key with $previous")
+            }
+        }
+    }
+
     private fun configureProject(project: Project, buildTime: BuildTime) {
         project.extra["custom"] = Properties()
         project.extra["rawModule"] = Properties()
@@ -209,10 +240,14 @@ class ChoreographyCascadePlugin : Plugin<Project> {
         // "gradle.properties" files are not read here; Gradle has already loaded them as project properties.
         // Their values are used by placeholder resolution and may be overridden by the files below.
 
+        // Keep the parent's local.properties values local to the parent. Must run before anything on this
+        // project reads properties, including placeholder resolution.
+        shadowParentLocalKeys(project)
+
         val localProps = project.loadProperties("local.properties")
-        localProps.forEach { (key, value) ->
-  //          project.setProperty(key.toString(), value)
-            project.extensions.extraProperties.set(key.toString(), value)
+        localProps.keys.forEach { key ->
+            val keyStr = key.toString()
+            project.module.localPrevious[keyStr] = project.findProperty(keyStr)
         }
 
         if (project.logger.isDebugEnabled) {
@@ -221,7 +256,7 @@ class ChoreographyCascadePlugin : Plugin<Project> {
 
         val allProps = Properties().apply {
             putAll(project.custom)
-            putAll(project.loadProperties("local.properties")) // Re-load to ensure latest
+            putAll(localProps)
         }
 
         val resolvedProps = allProps.resolvePlaceholders(project, allProps)

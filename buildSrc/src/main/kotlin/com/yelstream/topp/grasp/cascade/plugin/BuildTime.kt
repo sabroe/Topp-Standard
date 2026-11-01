@@ -19,6 +19,8 @@
 
 package com.yelstream.topp.grasp.cascade.plugin;
 
+import java.time.Instant
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
@@ -32,6 +34,9 @@ data class BuildTime constructor(
     val sanitizedBuildTime: String = buildTimeZulu.replace("T", "-").replace(":", "")
 
     companion object {
+        operator fun invoke(instant: Instant, zone: ZoneId = ZoneId.systemDefault()): BuildTime =
+            invoke(ZonedDateTime.ofInstant(instant, zone))
+
         operator fun invoke(zonedTime: ZonedDateTime): BuildTime {
             return BuildTime(
                 buildZonedTime = zonedTime,
