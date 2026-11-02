@@ -53,10 +53,15 @@ open class Module(private val project: Project) : ExtensionAware {
     }
 
     /**
-     * For each key in this project's `local.properties`: the value the project saw before the file was applied.
-     * Child projects use it to hide this project's local values from Gradle's lookup in parent projects.
+     * The keys of this project's own `local.properties`. Child projects hide these keys (see [hiddenKeys]).
      */
-    val localPrevious = mutableMapOf<String, Any?>()
+    val localKeys = mutableSetOf<String>()
+
+    /**
+     * The keys hidden on this project: `local.properties` keys of the projects above it in the area,
+     * which this project doesn't define itself. Each one is set as an extra property with the value `null`.
+     */
+    val hiddenKeys = mutableSetOf<String>()
 
     /**
      * True once the CC-plugin has configured this project.
@@ -116,6 +121,16 @@ val Project.local: Properties
 fun Project.hasOwnProperty(name: String): Boolean =
     extensions.extraProperties.has(name) ||
         org.codehaus.groovy.runtime.InvokerHelper.getMetaClass(this).hasProperty(this, name) != null
+
+/**
+ * Gives the value of a property this project has itself, see [hasOwnProperty], or `null`.
+ * Unlike [Project.findProperty], it doesn't look in parent projects.
+ */
+fun Project.findOwnProperty(name: String): Any? {
+    val extra = extensions.extraProperties
+    if (extra.has(name)) return extra[name]
+    return org.codehaus.groovy.runtime.InvokerHelper.getMetaClass(this).hasProperty(this, name)?.getProperty(this)
+}
 
 /**
  * Overrides an existing property of this project.
@@ -180,8 +195,8 @@ fun Properties.resolvePlaceholders(project: Project, sources: Properties): Prope
             if (propKey in keyChain) return@replace match.value
             val resolvedValue = sources.getProperty(propKey)
                 ?: sources.getProperty("default.$propKey")
-                ?: project.findProperty(propKey)?.toString()
-                ?: project.findProperty("default.$propKey")?.toString()
+                ?: project.findOwnProperty(propKey)?.toString()
+                ?: project.findOwnProperty("default.$propKey")?.toString()
                 ?: System.getProperty(propKey)
                 ?: System.getProperty("default.$propKey")
                 ?: match.value
@@ -263,22 +278,21 @@ class ChoreographyCascadePlugin : Plugin<Project> {
     }
 
     /**
-     * Hides the parent's `local.properties` values from this project.
-     * Gradle's property lookup reads through to parent projects, and an extra property can't be removed.
-     * So for each key the parent set from its `local.properties`, and that this project doesn't have itself,
-     * this project gets its own extra property with the value the parent saw before applying the file.
-     * That value may be `null`.
+     * Hides the `local.properties` keys of the projects above this one from this project.
+     * The plugin never copies them down, but Gradle 9 still finds a parent's extra property through its
+     * deprecated lookup in parent projects. Gradle 10 removes that lookup, and this step is then not needed.
      *
-     * Only the direct parent is needed. Projects are configured parent first, so the parent already holds
-     * the correct value for its own parent's local keys.
+     * Every such key that this project doesn't have itself is set as an extra property with the value `null`,
+     * which is what Gradle 10 gives. The parent's hidden keys are passed on as well, so no project below
+     * has to look in its parent either.
      */
-    private fun shadowParentLocalKeys(project: Project) {
+    private fun hideParentLocalKeys(project: Project) {
         val parent = project.parent?.takeIf { it.isCascadeConfigured } ?: return
-        val extra = project.extensions.extraProperties
-        parent.module.localPrevious.forEach { (key, previous) ->
-            if (!extra.has(key)) {
-                extra.set(key, previous)
-                project.logger.debug("[${project.name}]:> Shadowed parent's local property $key with $previous")
+        (parent.module.localKeys + parent.module.hiddenKeys).forEach { key ->
+            if (!project.hasOwnProperty(key)) {
+                project.extensions.extraProperties.set(key, null)
+                project.module.hiddenKeys += key
+                project.logger.debug("[${project.name}]:> Hid local property $key of a project above")
             }
         }
     }
@@ -300,15 +314,8 @@ class ChoreographyCascadePlugin : Plugin<Project> {
         // "gradle.properties" files are not read here; Gradle has already loaded them as project properties.
         // Their values are used by placeholder resolution and may be overridden by the files below.
 
-        // Keep the parent's local.properties values local to the parent. Must run before anything on this
-        // project reads properties, including placeholder resolution.
-        shadowParentLocalKeys(project)
-
         val localProps = project.loadProperties("local.properties")
-        localProps.keys.forEach { key ->
-            val keyStr = key.toString()
-            project.module.localPrevious[keyStr] = project.findProperty(keyStr)
-        }
+        localProps.keys.forEach { key -> project.module.localKeys += key.toString() }
 
         if (project.logger.isDebugEnabled) {
             project.logger.debug("[${project.name}]:> Project properties: ${project.providers.gradlePropertiesPrefixedBy("").get().filter { it.key != "parent" && it.key != "rootProject" }}")  // ✅ Fixed: project.logger
@@ -350,6 +357,9 @@ class ChoreographyCascadePlugin : Plugin<Project> {
                 project.extensions.extraProperties.set(key, value)
             }
         }
+
+        // Last, so that every key this project defines itself is already set and is not hidden.
+        hideParentLocalKeys(project)
 
 //project.logger.error("[${project.name}]:> Properties: ${project.properties}")
 

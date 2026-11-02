@@ -23,7 +23,7 @@ What the plugin adds on top of plain Gradle:
 4. **A build timestamp shared by every project**, preset in several formats, for example
    `project.version = 0.4.9-${sanitized-build-time}`.
 5. **`local.properties` for module-local values.** It applies to its own module only, is not seen by
-   child modules, also not through `findProperty` (§3, step 6), and wins over every other source,
+   child modules, also not through `findProperty` (§3, step 11), and wins over every other source,
    including `-P` on the command line.
 
 ## 1. Purpose
@@ -60,9 +60,10 @@ The plugin does not read `gradle.properties` files. Gradle loads them as project
 creates each project, before the plugin runs. This includes the folders between a module and the root,
 because `include("a:b:c")` makes `a` and `a:b` projects too. So with or without the plugin:
 
-- each file works as in plain Gradle, with child projects reading through to their parents' values;
+- each file works as in plain Gradle. A subproject's file reaches that project's children only through Gradle's
+  lookup in parent projects, which Gradle 9.8 deprecates and Gradle 10 removes (§5.1);
 - placeholders inside `gradle.properties` values are **not** resolved;
-- its values **can** be used in placeholders in the plugin's files, through `project.findProperty` (§4);
+- its values **can** be used in placeholders in the plugin's files, as properties of the project itself (§4);
 - its values **can** be overridden by defining the same key in `custom.properties` or `local.properties` (§3, step 9).
 
 ### `local.properties` compared with `gradle.properties`
@@ -72,29 +73,32 @@ Both files are committed with the module. "Local" means local to the module, not
 | | Subproject `gradle.properties` | `local.properties` |
 |---|---|---|
 | Read by | Gradle | The plugin |
-| Seen by child modules | Only for keys that no build-wide source (root `gradle.properties`, `-P`, `~/.gradle/gradle.properties`) also sets. Gradle's lookup reads through to parent projects, but a child finds its own copy of a build-wide value first. Real properties such as `version` are not inherited (§5.1). | No. Only the module's own file is read, and its keys are hidden from child modules, also from `findProperty` (§3, step 6). |
+| Seen by child modules | Only for keys that no build-wide source (root `gradle.properties`, `-P`, `~/.gradle/gradle.properties`) also sets. Gradle's lookup in parent projects finds the others, with a deprecation warning, but a child finds its own copy of a build-wide value first. Gradle 10 removes that lookup, and then a subproject's file is not seen by child modules at all. Real properties such as `version` are not inherited (§5.1). | No. Only the module's own file is read, and its keys are hidden from child modules, also from `findProperty` (§3, step 11). |
 | `${...}` placeholders | Not resolved | Resolved |
 | Precedence | Loses to `-P`, `ORG_GRADLE_PROJECT_*` and `~/.gradle/gradle.properties` in plain Gradle. | Highest. Applied last, so it wins over every other file and over `-P`. |
 | Typical use | Values shared by a module and its children. | A setting for this one module, for example `convention.publish.enable = false` in `SLF4J-Proxy-Demo-Application`. |
 
 **A child's own value wins over the parent's `local.properties`.** Checked with temporary files, read with
-`findProperty`. `module/local.properties` set `probe.k1`, `probe.k2` and `probe.k3` to `parentLocal`, and the
-child `:module:Core` set each key in a different file:
+`findProperty`, with Gradle 9.8.2. `module/local.properties` set `probe.k1` to `probe.k4` to `parentLocal`, and
+the child `:module:Core` set the first three keys in a different file:
 
 | Key | Child `:module:Core` sets it in | `:module` | `:module:Core` | Grandchild `…:Topp-Standard-Core-Language-Library` |
 |---|---|---|---|---|
-| `probe.k1` | its `gradle.properties` | `parentLocal` | `childGradleProperties` | `childGradleProperties`, inherited as normal |
+| `probe.k1` | its `gradle.properties` | `parentLocal` | `childGradleProperties` | `childGradleProperties`, through Gradle's deprecated lookup in parent projects (§5.1) |
 | `probe.k2` | its `custom.properties` | `parentLocal` | `childCustom` | `childCustom`, cascaded as normal |
 | `probe.k3` | its `local.properties` | `parentLocal` | `childLocal` | `null`, hidden as intended |
+| `probe.k4` | – | `parentLocal` | `null`, hidden as intended | `null`, hidden as intended |
 
-- **The child's own `gradle.properties`, or a build-wide source such as `-P`:** the child already has its own
-  value when the parent's local keys are hidden (§3, step 6), so that value is kept.
-- **The child's own `custom.properties` or `local.properties`:** the parent's value is hidden first, and the
-  child's resolved values replace it later in the same step (§3, steps 9 and 10).
+- **The child's own value is kept, from any source.** The hiding is the last step (§3, step 11), and it only
+  fills keys that the child doesn't have itself.
 - **The child's build script** runs after the plugin, so a value set there wins as well.
+- **Hidden keys are passed down.** The grandchild hides the local keys of both `:module` and `:module:Core`
+  itself, so it never has to look in a parent.
 
-The hiding only fills keys that would otherwise leak from the parent. Values inherited the normal way still
-reach the grandchild, and `:module:Core`'s own `local.properties` value stays hidden from it.
+**Why the hiding is needed only with Gradle 9.** The plugin never copies `local.properties` keys down. But
+Gradle 9 still finds a parent's extra property through its lookup in parent projects, deprecated in 9.8 (§5.1).
+The hiding sets the key to `null` on the child, which is what Gradle 10 gives without it. With Gradle 10 the
+step can be removed.
 
 ### Build-time keys
 
@@ -152,24 +156,14 @@ For each project:
 3. Set the module defaults `default.project.group = com.example` and `default.project.version = <sanitized-build-time>`.
 4. **`custom` cascade:** `custom = parent.custom + ./custom.properties`.
 5. **`rawModule`:** `rawModule = parent.custom + ./module.properties`.
-6. **`local.properties`:**
-   1. **Hide the parent's local values.** Gradle's lookup reads through to parent projects, and an extra
-      property can't be removed. So for each key the parent set from its `local.properties`, and that this
-      project doesn't have itself, this project gets its own extra property. Its value is what the parent
-      saw before applying the file, possibly `null`. Only the direct parent is looked at: it was configured
-      first, so it already holds the right value for its own parent's local keys.
-   2. **Read** this project's `local.properties`, and record what the project sees for each of its keys
-      at this point. Child projects use these values in step 6.1.
-
+6. **`local.properties`:** read this project's file, and record its keys for the projects below (step 11).
    The values are applied in steps 9 and 10, like all other keys.
 7. **Merge**, where later sources win: `custom` → `local.properties`.
 8. **Resolve placeholders** in the merged set (§4).
 9. **Store** every resolved key in the project's `Module` object (`project.module`).
-   If the project already has a property with that name, for example from a `gradle.properties` file
-   or from `-P`, it is overridden. A property of the project itself is set with `project.setProperty`.
-   A property inherited from a parent project cannot be set that way, so an extra property with the
-   same name is set on the project, which shadows the parent's value. The parent and its other
-   children keep the original value.
+   If the project already has a property with that name itself, for example from the root `gradle.properties`
+   or from `-P`, it is overridden with `project.setProperty`. Only the project itself is checked, not its parents
+   (§5.1).
 10. **Promote** every module key that starts with `project.`:
     the prefix is removed and `project.setProperty(<rest>, value)` is called.
     So `project.group` and `project.version` set `group` and `version`, and `project.description` sets `description`.
@@ -177,6 +171,10 @@ For each project:
     makes `setProperty` throw `MissingPropertyException`, which fails the build.
     Every other module key is set as an extra property on the project, so it can be read by name with
     `project.findProperty(key)`, see §5.1.
+11. **Hide the local keys of the projects above.** For each `local.properties` key of a project above this one
+    in the area, and for each key the parent hid, that this project doesn't have itself: set an extra property
+    with the value `null`, and record the key as hidden for the projects below. See §2, "`local.properties`
+    compared with `gradle.properties`". Needed only with Gradle 9.
 
 "`A + B`" means "start with A and let B overwrite".
 
@@ -185,8 +183,10 @@ For each project:
 Values may contain `${key}`. Each placeholder is looked up in this order, and the first hit wins:
 
 1. the merged set (`key`, then `default.key`)
-2. `project.findProperty(key)`, then `default.key`. This covers every Gradle project property,
-   including values from `gradle.properties` files, `-P` and `~/.gradle/gradle.properties`.
+2. a property of the project itself, then `default.key`: a real property such as `version`, or one of the
+   project's own extra properties. These include values from the root `gradle.properties`, `-P` and
+   `~/.gradle/gradle.properties`, which Gradle sets on every project. Parent projects are not searched, so a key
+   set only in the `gradle.properties` of a subproject above is not found, as in Gradle 10.
 3. `System.getProperty(key)`, then `default.key`
 4. no hit: the placeholder is left as written
 
@@ -217,8 +217,8 @@ Two places to look:
 - **The plugin's values** are listed in `project.module.properties`. Each one is also an extra property on the
   project, so a key such as `java.language-version` can be read with `project.findProperty`.
 - **Gradle's values** (`gradle.properties`, `-P`, `~/.gradle/gradle.properties`) are read by name with
-  `project.findProperty(k)`, `val k: String by project` or `project.hasProperty(k)`. Child projects read through
-  to their parents' values. They are not in `project.module.properties`, unless the same key is also defined in
+  `project.findProperty(k)`, `val k: String by project` or `project.hasProperty(k)`. A subproject's
+  `gradle.properties` reaches its children only through Gradle's lookup in parent projects (§5.1). They are not in `project.module.properties`, unless the same key is also defined in
   one of the plugin's files.
 
 `convention.java-options` (Java version, encoding, compiler and Javadoc options) and `convention.publish`
@@ -255,13 +255,16 @@ These three read the same thing:
 3. Extensions, by name, for example `java` or `publishing`.
 4. Tasks, by name.
 5. The parent project's extra properties, then its parent's, up to the root. These are read-only from the child.
+   Gradle 9.8 deprecates this step and warns "Implicit lookup of properties in parent projects has been
+   deprecated". Gradle 10 removes it. The CC-plugin doesn't use it: it reads the parent's holders directly and
+   sets every key on each project itself, so this build gives no such warning.
 
 **Where the values come from.** These were checked in this build with Gradle 9.8.2:
 
 | Source | Stored as | `findProperty` in a child module | `providers.gradleProperty(key)` |
 |---|---|---|---|
 | Root `gradle.properties`, `~/.gradle/gradle.properties`, `-P`, `ORG_GRADLE_PROJECT_*` | An own extra property on **every** project | Found, as the module's own value | Found |
-| A subproject's `gradle.properties` | An own extra property on **that** project only | Found by reading through to the parent | **Not** found |
+| A subproject's `gradle.properties` | An own extra property on **that** project only | Found through the lookup in parent projects, with a deprecation warning. Not found in Gradle 10. | **Not** found |
 | CC plugin module keys (`custom.properties`, `local.properties`, build time) | An own extra property on each project, set from that project's own module (§3, step 10) | Found, as the module's own value | **Not** found |
 | A key that matches a real property, for example `version` | Sets the real property, not an extra | Found (step 1) | Root and `-P` sources only |
 
@@ -274,16 +277,16 @@ Consequences:
   Use it only for build-wide settings.
 - **The CC plugin wins.** It runs after Gradle has created the projects, so its extra property replaces a
   value of the same name from `gradle.properties` or `-P` on that project.
-- **Reading through to the parent still applies.** If a module has no value for a key and its parent has one,
-  `findProperty` in the module returns the parent's value. The exception is a parent's `local.properties` keys:
-  the plugin hides them with the module's own value (§3, step 6). When no other source sets the key, that value
-  is `null`, so `findProperty` returns `null`, but `hasProperty` returns `true`. Check with `findProperty`, not
-  `hasProperty`. To read only the module's own value, use `project.extra.properties[key]`.
+- **The lookup in parent projects is going away.** In Gradle 9, if a module has no value for a key and its
+  parent has one, `findProperty` in the module returns the parent's value, with a deprecation warning. Gradle 10
+  returns `null`. The exception is a parent's `local.properties` keys: the plugin hides them by setting them to
+  `null` on the module (§3, step 11), so `findProperty` returns `null`, but `hasProperty` returns `true`. Check
+  with `findProperty`, not `hasProperty`. To read only the module's own value, use `project.extra.properties[key]`.
 - **Values are untyped.** Everything from a property file is a `String`. Convert it yourself, for example
   `findProperty(key)?.toString()?.trim()?.toBoolean()`. A cast such as `as? Boolean` always gives `null`.
 
 **Overriding with a subproject's `gradle.properties`.** Plain Gradle's only override mechanism is the
-parent lookup above, and it is limited. Checked with a temporary `module/gradle.properties`, without the CC plugin
+parent lookup above. It is limited, Gradle 9.8 deprecates it, and Gradle 10 removes it. Checked with a temporary `module/gradle.properties`, without the CC plugin
 setting these keys:
 
 | Key | Root `gradle.properties` | `module/gradle.properties` | `-P` |
@@ -298,7 +301,8 @@ setting these keys:
 | `probe.cli` | `fromCli`: `-P` beats the subproject file | `fromCli` |
 | `description` | `descFromSub`: the real property is set | `null`: not inherited |
 
-- **A key set only in the subproject's file** is inherited by the children, through the parent lookup.
+- **A key set only in the subproject's file** is inherited by the children, through the parent lookup, with a
+  deprecation warning. In Gradle 10 the children don't see it.
 - **A key also set by a build-wide source** (root `gradle.properties`, `-P`, `~/.gradle/gradle.properties`)
   can't be overridden for a subtree. Every project has its own copy of the build-wide value, and the child
   finds that copy before it looks at the parent. The subproject's file changes the value for that project only.
@@ -307,7 +311,8 @@ setting these keys:
 
 The CC plugin's `custom.properties` doesn't have these limits. Values are copied down the tree, so each
 child starts from its parent's values as its own and then applies its own overrides. This works for every
-key, including keys also set at the root, and for real properties through `project.*` keys.
+key, including keys also set at the root, and for real properties through `project.*` keys. It doesn't depend
+on the lookup in parent projects, so it keeps working in Gradle 10.
 
 **Configuration cache.**
 
@@ -335,8 +340,9 @@ key, including keys also set at the root, and for real properties through `proje
 - **The build time is obtained from a value source**, so it is an input as well. Without `build-time.tick`,
   it changes on every build, and a cache entry is never reused. With a tick, an entry is reused within each
   step (§2, "Build-time keys").
-- **Isolated Projects** (incubating) doesn't allow reading another project's state. Reading through to a parent's
-  extra properties is not allowed there.
+- **Isolated Projects** (incubating) doesn't allow reading another project's state. Reading a parent's extra
+  properties is not allowed there, neither directly, as the CC-plugin reads its parent's holders, nor through
+  the lookup in parent projects.
 
 ## 6. Setting version, group and artifact name
 
@@ -360,8 +366,8 @@ This is plain Gradle and works without the plugin.
 - **It is set before any build script runs**, so every script and plugin sees the value.
 - **Values are literal.** `${...}` is not resolved, so you can't build the version from the build time.
 - **Per-module overrides are limited.** A subproject's own `gradle.properties` can set `version` for that
-  project. `version` is a real property, not an extra property, so the subproject's children don't read
-  through to it. They keep the root value.
+  project. `version` is a real property, not an extra property, so the subproject's children don't inherit
+  it, not even through the lookup in parent projects. They keep the root value.
 - **`-Pversion=...` on the command line wins over the file**, using normal Gradle precedence.
 - **It is overridden by the plugin.** A `project.version` from `custom.properties` or `local.properties`
   replaces it, see §6.2.
@@ -460,13 +466,13 @@ These read `project.group` and `project.version` unless they are overridden:
 
 | Capability | Plain Gradle | CC-plugin |
 |---|---|---|
-| Per-module configuration file inherited from parent modules | No. Only `gradle.properties` exists, with read-through lookup to parent projects. | `custom.properties` cascades down the tree with the child overriding the parent. |
+| Per-module configuration file inherited from parent modules | No. Only `gradle.properties` exists, with lookup in parent projects, which Gradle 9.8 deprecates and Gradle 10 removes. | `custom.properties` cascades down the tree with the child overriding the parent. |
 | Enumerate the effective merged configuration of a project | No. Inherited properties can be looked up one name at a time but cannot be listed as one map. | `project.module.properties` lists everything from the plugin's files, resolved. `project.custom` lists the `custom.properties` cascade alone, with placeholders unresolved. Gradle's own properties stay in Gradle and are read by name. |
 | `${...}` interpolation in property values | No. Values are literal strings. | Yes, with `default.` fallbacks and system properties. |
 | Set `group` or `version` per module from an inherited file | Only via each project's own `gradle.properties` (`version=...`), with no inheritance or interpolation. | `project.version` etc. in `custom.properties`, inherited and interpolated. |
 | One build timestamp shared by all projects and usable as a value | No. | `build-time`, `sanitized-build-time`, ... |
-| Module-local values that are not inherited and win over everything | No. A subproject's `gradle.properties` is seen by its child projects and loses to `-P` and `~/.gradle/gradle.properties`. | `local.properties`, see §2. Its keys are hidden from child modules, also from `findProperty` (§3, step 6). |
-| Override a Gradle property for one module and its children | Only partly, with the module's own `gradle.properties`. It loses to `-P` and `~/.gradle/gradle.properties`. It reaches the children only for keys that no build-wide source sets. A key that is also in the root `gradle.properties` is overridden for the module alone, and real properties such as `version` are never inherited (§5.1). | Define the key in `custom.properties` (inherited, for every key) or `local.properties` (this module only). |
+| Module-local values that are not inherited and win over everything | No. A subproject's `gradle.properties` is seen by its child projects, through the deprecated lookup in parent projects, and loses to `-P` and `~/.gradle/gradle.properties`. | `local.properties`, see §2. Its keys are hidden from child modules, also from `findProperty` (§3, step 11). |
+| Override a Gradle property for one module and its children | Only partly, with the module's own `gradle.properties`. It loses to `-P` and `~/.gradle/gradle.properties`. It reaches the children only through the lookup in parent projects, deprecated in Gradle 9.8 and removed in Gradle 10, and only for keys that no build-wide source sets. A key that is also in the root `gradle.properties` is overridden for the module alone, and real properties such as `version` are never inherited (§5.1). | Define the key in `custom.properties` (inherited, for every key) or `local.properties` (this module only). |
 
 Gradle decides precedence once, when it creates each project. The plugin runs afterwards, so a key
 in `custom.properties` or `local.properties` also overrides a value given with `-P`,
@@ -543,7 +549,7 @@ These are differences between what the code does and what the design appears to 
 8. **`publishing.publication.artifactId` is inherited.** Each module sets it in its `custom.properties`,
    which cascades. A module nested under another published module, without its own value, gets the
    parent's `artifactId`, so two publications share a name. Moving the key to each module's
-   `local.properties` avoids this, because those keys are hidden from child modules (§3, step 6).
+   `local.properties` avoids this, because those keys are hidden from child modules (§3, step 11).
 9. ~~**Fixed: `archives.base-name-prefix` couldn't be set from `custom.properties`.** `convention.archive-naming`
    reads it with `project.extra.properties`, which used to miss `custom.properties` keys. Every module key is
    now set as an extra property on each project (§3, step 10), so the key works from `custom.properties`.
