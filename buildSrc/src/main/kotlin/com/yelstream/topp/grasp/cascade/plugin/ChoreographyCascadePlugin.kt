@@ -58,6 +58,12 @@ open class Module(private val project: Project) : ExtensionAware {
      */
     val localPrevious = mutableMapOf<String, Any?>()
 
+    /**
+     * True once the CC-plugin has configured this project.
+     * The upper-most application on a project's path configures it; an application further down skips it.
+     */
+    var configured: Boolean = false
+
     var description: String? = null
 
     val extra: ExtraPropertiesExtension
@@ -76,14 +82,30 @@ val Project.module: Module
         }
     }
 
+/**
+ * True if the CC-plugin has configured this project.
+ * Doesn't create anything on the project, so it is safe to ask about a project outside the plugin's area.
+ */
+val Project.isCascadeConfigured: Boolean
+    get() = extensions.extraProperties.has(Constants.MODULE_KEY) && module.configured
+
+/**
+ * Gives this project's holder with the given name, and creates it as an empty [Properties] if it doesn't exist.
+ * An existing holder is left as it is.
+ */
+private fun Project.holder(name: String): Properties {
+    val extra = extensions.extraProperties
+    return (if (extra.has(name)) extra[name] as? Properties else null) ?: Properties().also { extra[name] = it }
+}
+
 val Project.rawModule: Properties
-    get() = extra["rawModule"] as? Properties ?: Properties().also { extra["rawModule"] = it }
+    get() = holder("rawModule")
 
 val Project.custom: Properties
-    get() = extra["custom"] as? Properties ?: Properties().also { extra["custom"] = it }
+    get() = holder("custom")
 
 val Project.local: Properties
-    get() = extra["local"] as? Properties ?: Properties().also { extra["local"] = it }
+    get() = holder("local")
 
 /**
  * Overrides an existing property of this project.
@@ -116,7 +138,8 @@ fun Project.loadProperties(file: File): Properties {
 class PropertyInheritBuilder(private val projectAccessor: (Project) -> Properties,
                              private val parentAccessor: (Project) -> Properties) {
     fun inherit(project: Project, properties: Properties) {
-        project.parent?.let { parent ->
+        // A parent outside the plugin's area has no holders, and counts as empty.
+        project.parent?.takeIf { it.isCascadeConfigured }?.let { parent ->
             projectAccessor(project).putAll(parentAccessor(parent))
         }
         projectAccessor(project).putAll(properties)
@@ -176,7 +199,27 @@ class ChoreographyCascadePlugin : Plugin<Project> {
     }
 
     override fun apply(project: Project) {
-        // The build time is computed here, once per build, and shared by all projects.
+        // The plugin's area is this project and every project below it (§8 of the documentation).
+        // The upper-most application on a project's path configures it. If an application above this one
+        // has already configured this project, it has configured everything below it too: nothing to do.
+        if (project.isCascadeConfigured) {
+            project.logger.info("[${project.name}]:> Already configured by an application of the plugin above; skipped.")
+            return
+        }
+
+        // Projects below that are already configured were configured by an application further down, which
+        // ran first. That happens only if a child's build script is evaluated before its parent's, for
+        // example with evaluationDependsOn. They keep that configuration, including its build time.
+        val (alreadyConfigured, area) = (listOf(project) + project.subprojects).partition { it.isCascadeConfigured }
+        if (alreadyConfigured.isNotEmpty()) {
+            project.logger.warn(
+                "[${project.name}]:> The CC-plugin was applied further down before it was applied here. " +
+                "These projects keep that configuration: ${alreadyConfigured.joinToString { it.path }}"
+            )
+        }
+
+        // The build time is computed here, once per area, by the upper-most application, and shared by all
+        // projects in the area.
         // It is obtained from a value source at configuration time, which makes it a configuration-cache
         // input: Gradle obtains it again on each build and reuses a cache entry only while it is unchanged.
         // The Gradle property "build-time.tick" (an ISO-8601 duration such as PT1H) rounds it down,
@@ -194,23 +237,20 @@ class ChoreographyCascadePlugin : Plugin<Project> {
         }.get()
         val buildTime = BuildTime(buildZonedTime)
 
-        initializeExtensions(project)
-        project.subprojects.forEach { sub ->
-            initializeExtensions(sub)
-        }
+        // Make sure the holders exist on every project in the area. Existing holders are left as they are.
+        area.forEach { ensureHolders(it) }
 
-        configureProject(project, buildTime)
-        project.subprojects.forEach { sub ->  //TODO: If project.getProperty("cascade.enable")!=false then do this
-            configureProject(sub, buildTime)
+        // The area is in Gradle's project order, by depth and then path, so each parent comes before its children.
+        area.forEach { p ->  //TODO: If project.getProperty("cascade.enable")!=false then do this
+            configureProject(p, buildTime)
         }
     }
-//    companion object {
-        private fun initializeExtensions(project: Project) {
-            project.extensions.extraProperties["custom"] = Properties()
-            project.extensions.extraProperties["rawModule"] = Properties()
-            project.extensions.extraProperties["local"] = Properties()
-        }
-//    }
+
+    private fun ensureHolders(project: Project) {
+        project.custom
+        project.rawModule
+        project.local
+    }
 
     /**
      * Hides the parent's `local.properties` values from this project.
@@ -223,7 +263,7 @@ class ChoreographyCascadePlugin : Plugin<Project> {
      * the correct value for its own parent's local keys.
      */
     private fun shadowParentLocalKeys(project: Project) {
-        val parent = project.parent ?: return
+        val parent = project.parent?.takeIf { it.isCascadeConfigured } ?: return
         val extra = project.extensions.extraProperties
         parent.module.localPrevious.forEach { (key, previous) ->
             if (!extra.has(key)) {
@@ -234,9 +274,8 @@ class ChoreographyCascadePlugin : Plugin<Project> {
     }
 
     private fun configureProject(project: Project, buildTime: BuildTime) {
-        project.extra["custom"] = Properties()
-        project.extra["rawModule"] = Properties()
-        project.extra["local"] = Properties()
+        // Mark first: from here on, this project counts as inside the area, also for its children.
+        project.module.configured = true
 
         buildTime.populate { key, value ->
             project.custom[key] = value

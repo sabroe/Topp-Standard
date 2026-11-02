@@ -4,8 +4,8 @@
 |---|---|
 | Plugin id | `com.yelstream.topp.grasp.choreography-cascade` |
 | Class | `com.yelstream.topp.grasp.cascade.plugin.ChoreographyCascadePlugin` (`buildSrc`) |
-| Applied to | The root project only. It configures the root and all subprojects itself. |
-| When it runs | At apply time, while the root build script is evaluated, before any subproject build script runs. |
+| Applied to | The root project, or any project below it (§8). It configures that project and all projects below it itself. |
+| When it runs | At apply time, while the build script of the project it is applied to is evaluated, before the build scripts of the projects below it run. |
 
 ## In short
 
@@ -140,12 +140,14 @@ It adds these keys to `custom`:
 
 ## 3. Processing order
 
-The root project is processed first, then the subprojects in path order. Because a parent's
-path sorts before its children's, each parent is complete before its children read from it.
+The project the plugin is applied to is processed first, usually the root (§8), then the projects below it
+in Gradle's project order, by depth and then path. So each parent is complete before its children read from it.
+Before any project is processed, the three holders are created on every project in the area if they don't
+exist yet.
 
 For each project:
 
-1. Reset the three holders to empty.
+1. Mark the project as configured by the plugin (§8).
 2. Put the build-time keys into `custom`.
 3. Set the module defaults `default.project.group = com.example` and `default.project.version = <sanitized-build-time>`.
 4. **`custom` cascade:** `custom = parent.custom + ./custom.properties`.
@@ -328,7 +330,7 @@ key, including keys also set at the root, and for real properties through `proje
   uses it, so it runs only on request, as the task `dumpProperties` (group "help"). Only a build that runs
   that task depends on the whole set.
 - **CC plugin values are not inputs by themselves.** They are extra properties computed during configuration.
-  The cache depends on what they were computed from: the `custom.properties` and `local.properties` files (§8),
+  The cache depends on what they were computed from: the `custom.properties` and `local.properties` files (§9),
   and the Gradle properties and system properties used in placeholders. Editing any of these invalidates the entry.
 - **The build time is obtained from a value source**, so it is an input as well. Without `build-time.tick`,
   it changes on every build, and a cache entry is never reused. With a tick, an entry is reused within each
@@ -388,7 +390,7 @@ This needs the plugin. The keys are promoted to the real properties in §3, step
 - **A subproject build script still wins.** `version = "..."` in a subproject's build script runs after
   the plugin. Conventions read `project.version` when they are applied (for example the publication in
   `convention.publish`), so a version set later in the same script doesn't reach them.
-- **There is no fallback.** The `default.project.*` values are not used (§8, item 2). A project that gets no
+- **There is no fallback.** The `default.project.*` values are not used (§9, item 2). A project that gets no
   `project.version` from any file keeps `unspecified`. A project with no `project.group` keeps Gradle's
   derived group: `""` for the root, `Yelstream-Topp-Standard-Project` for a top-level child, and so on.
 
@@ -405,7 +407,7 @@ What the code does today:
 - The plugin sets `default.project.group = com.example` and
   `default.project.version = <sanitized-build-time>` in each project's `module` (§3, step 3).
 - **They have no effect.** `default.*` keys are not promoted to project properties, and placeholder
-  lookup does not search `module` (§8, item 2). A project with no `project.group` or `project.version`
+  lookup does not search `module` (§9, item 2). A project with no `project.group` or `project.version`
   keeps Gradle's own defaults (§6.2).
 - **They can't be overridden from a file.** They are written to `module`, not to `custom`. A
   `default.project.version` key in `custom.properties` is stored in `module` under the same name and
@@ -427,11 +429,12 @@ The name shows up in three places, each set separately:
 - **Set `artifactId` in every published module.** Every module currently sets
   `publishing.publication.artifactId` in its `custom.properties`. Because `custom.properties` is
   inherited, a module nested under another module would inherit its parent's `artifactId`. Two
-  publications would then share a name (§8, item 8).
+  publications would then share a name (§9, item 8).
 - **The archive name and `artifactId` are independent.** For example, the jar can be named
   `Topp-Standard-Nillable-Library-0.4.9.jar` while it is published as `topp-standard-nillable`.
-- **`archives.base-name-prefix` is read with `project.extra.properties`.** A key in `custom.properties`
-  isn't seen there (§8, item 9). Set it in `local.properties` or a `gradle.properties`. No module sets it today.
+- **`archives.base-name-prefix` is read with `project.extra.properties`.** The plugin sets every module key
+  as an extra property on each project (§3, step 10), so the key works from `custom.properties`,
+  `local.properties` or a `gradle.properties`. No module sets it today.
 
 ### 6.5 Values that default to `group` and `version`
 
@@ -448,9 +451,10 @@ These read `project.group` and `project.version` unless they are overridden:
   can come from `custom.properties`, `local.properties`, a `gradle.properties` file or `-P`, and `${...}`
   placeholders arrive resolved. A blank value, such as `publishing.publication.version =`, counts as unset,
   so the default `project.group` or `project.version` is used.
-- **`convention.jar-manifest` reads `project.extra.properties`.** The `implementation.*` keys in the
-  root `custom.properties` aren't seen there, so they have no effect on the manifest. For example, the
-  vendor falls back to `Yelstream` (§8, item 10).
+- **`convention.jar-manifest` also reads by name with `project.findProperty`.** The `jar.manifest.*` and
+  `implementation.*` keys can come from the same sources, for example the `implementation.*` keys in the
+  root `custom.properties`. A blank value, such as `implementation.version =`, counts as unset, so the
+  default `project.version` is used.
 
 ## 7. What plain Gradle cannot do
 
@@ -468,7 +472,53 @@ Gradle decides precedence once, when it creates each project. The plugin runs af
 in `custom.properties` or `local.properties` also overrides a value given with `-P`,
 `ORG_GRADLE_PROJECT_*` or `~/.gradle/gradle.properties`.
 
-## 8. Known issues in the current implementation
+## 8. Where the plugin may be applied
+
+The plugin configures the project it is applied to and every project below it (Gradle's `subprojects`,
+which means all projects below, not only the direct children). Here, that set of projects is called the
+plugin's *area*.
+
+All four cases are implemented. The plugin marks each project it configures (`project.module.configured`),
+and an application skips the projects that are already marked.
+
+### 8.1 The four ways to apply it
+
+| Case | Applied at | Example | Area |
+|---|---|---|---|
+| 1 | The root only | the root `build.gradle.kts` | Every project in the build. |
+| 2 | Any one level | the root, or `:module:Core` | That project and everything below it. |
+| 3 | A sub-level only, not the root | `:module:Core` and `:module:Logging`, but not `:` | Each application has its own area. Projects outside every area, the root among them, are not configured. |
+| 4 | The root or a project below it, and again at a level below that first application | `:` and `:module:Core` | The area of the first, upper-most application. It already contains the area of the inner one. |
+
+### 8.2 What happens
+
+- **The upper-most application on the path decides.** For any project, the applications that matter are the
+  ones on the path from the root down to that project. The upper-most of them configures the project.
+  In case 4, the inner application at `:module:Core` finds its projects already configured by the
+  application at `:`, and does not configure them again.
+- **Build time is set once only, by the upper-most application on the path.** Every project gets the build
+  time from that application. In case 4, `:module:Core` and the projects below it get the build time from
+  the application at `:`, not a new one. In case 3, two applications on separate paths, such as
+  `:module:Core` and `:module:Logging`, each set their own build time. These agree unless the build crosses
+  a step of `build-time.tick` between the two.
+- **The holders are created if they don't exist.** For the project it is applied to and for every project
+  below it, an application makes sure that `custom`, `rawModule` and `local` exist. If a holder doesn't
+  exist, it is created as an empty `Properties()`. If it already exists, it is left as it is. So an inner
+  application (case 4) never wipes holders that an outer application has filled.
+- **The start of an area inherits nothing through the cascade from outside it.** In cases 2 and 3 the parent of
+  the project the plugin is applied to has no holders, so its `custom` counts as empty. The start project's
+  `custom` holds the build-time keys and its own `custom.properties`, and the cascade continues from there.
+  Values from above the area still reach it through Gradle's normal lookup: `gradle.properties` files,
+  `-P`, and extra properties.
+- **Order is unchanged within an area.** An application runs while the build script of its project is
+  evaluated, which is before the build scripts of the projects below it. Within the area, each parent is
+  configured before its children, as in §3.
+- **If an inner application runs first.** Gradle evaluates a parent's build script before its children's,
+  so the upper-most application normally runs first. If a child is evaluated first, for example because of
+  `evaluationDependsOn`, the inner application configures its area first, as in case 3. The outer application
+  then skips those projects, which keep that configuration, and logs a warning that lists them.
+
+## 9. Known issues in the current implementation
 
 These are differences between what the code does and what the design appears to intend.
 
@@ -484,7 +534,8 @@ These are differences between what the code does and what the design appears to 
    before its placeholders were resolved. It is now read once and applied with the other keys.~~
 5. **Unused settings.** `ENABLE_PROPERTY_NAME`, `PROPERTY_NAME_PREFIX` and `DEFAULT_DELAY` are declared
    but not read. The `TODO` about `cascade.enable` is not implemented, so the plugin cannot be switched off per project.
-6. **Holders are set twice.** `initializeExtensions` and the start of `configureProject` both set them.
+6. ~~**Holders are set twice.** `initializeExtensions` and the start of `configureProject` both set them.~~
+   Fixed with §8: the holders are created once, only if they don't exist.
 7. ~~**Fixed: with the configuration cache, the build time was frozen in the cache entry.** It came from the
    clock, which Gradle can't track, so a reused entry kept the time from when it was stored. It now comes from
    a value source, which Gradle checks on every build (§2, "Build-time keys"). The price: without
@@ -512,6 +563,15 @@ These are differences between what the code does and what the design appears to 
     value as unset, as `convention.java-options` and `convention.publish` do. Without a toolchain, the Java
     version falls back to `targetCompatibility`. The fix is in the `Topp-Gradle-Convention` checkout, which is
     the convention used, not in the copy in this repository's `convention/` folder.~~
+12. ~~**Only case 1 of §8 works: applied at the root.** Applied anywhere else, the code differs from §8:~~
+    - ~~**Applied below the root (cases 2 and 3):** the start project copies its parent's `custom` holder,
+      which doesn't exist outside the area. `Project.custom` reads it with `extra["custom"]`, which throws
+      `UnknownPropertyException` for a missing key, so the build most likely fails.~~
+    - ~~**Applied twice on one path (case 4):** the inner application configures its projects a second time.
+      `configureProject` resets the holders to empty (§3, step 1) instead of creating them only if they
+      don't exist, and reads every file again.~~
+    - ~~**Build time:** every application obtains its own build time, also an inner one, instead of using the
+      one from the upper-most application on the path.~~
 
 The build time was earlier kept in a static `lazy` value, which Gradle's daemon reused across builds.
 It is now computed in `apply` and must not be moved back into a static value.
