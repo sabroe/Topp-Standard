@@ -24,7 +24,7 @@ plugins {
     id 'maven-publish'
     id 'signing'
 
-    id("io.github.mictaege.spoon-gradle-plugin") version "2025.2"
+    id("io.github.mictaege.spoon-gradle-plugin") version "2026.2"
 
 }
 java {
@@ -40,7 +40,7 @@ dependencies {
 
 spoon {
     processors = ['io.github.mictaege.spoon_processors.CheckNotNullProcessor']
-    compliance 17
+    compliance = 17
     exclude = ['main', 'test']
     fileFilter = { File src -> src.text.contains("@NotNull") }
 }
