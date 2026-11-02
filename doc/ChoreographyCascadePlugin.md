@@ -535,6 +535,9 @@ These are differences between what the code does and what the design appears to 
 2. **The defaults are never used.** `default.project.group` and `default.project.version` are stored in
    `module`. Placeholder lookup searches the merged set, project properties and system properties,
    not `module`, and `default.*` keys are not promoted. A project with no `project.version` keeps `unspecified`.
+   The `default.*` keys are set as extra properties (§3, step 10), so they can be read with `findProperty`,
+   but nothing reads them. This shows when the plugin is applied below the root (§8, cases 2 and 3): the start
+   of the area inherits no `project.version` through the cascade, so it keeps `unspecified`.
 3. **`module.properties` is loaded but not used.** `rawModule` is filled but never merged or resolved.
 4. ~~**Fixed: `local.properties` was read twice** (steps 6 and 7). It was also written as extra properties
    before its placeholders were resolved. It is now read once and applied with the other keys.~~
@@ -578,6 +581,22 @@ These are differences between what the code does and what the design appears to 
       don't exist, and reads every file again.~~
     - ~~**Build time:** every application obtains its own build time, also an inner one, instead of using the
       one from the upper-most application on the path.~~
+13. ~~**Fixed: lookups in parent projects.** Gradle 9.8 deprecates the implicit lookup of properties in parent
+    projects, and Gradle 10 removes it. The plugin used it in three places: `hasProperty` in step 9, which gave
+    one warning per key per subproject (3,286 in this build); `findProperty` in placeholder resolution; and
+    `findProperty` when recording what a project saw before its own `local.properties`. Step 9 and placeholder
+    resolution (§4) now check only the project itself (`hasOwnProperty`, `findOwnProperty`), and the hiding of local keys is simpler
+    (§3, step 11). The build now gives no such warning.~~
+14. **The `local` holder is never filled.** `project.local` is created with the other holders (§3) but stays empty.
+    `configureProject` reads `local.properties` into a local variable and applies the values with the other
+    keys, so nothing is lost, but code that reads `project.local` always gets an empty `Properties`. Either fill
+    it with the file's values or remove the holder.
+15. **The hiding of local keys is needed only with Gradle 9** (§3, step 11). With Gradle 10, a parent's extra
+    property is not found from a child at all, so the step can be removed, together with `Module.localKeys`,
+    `Module.hiddenKeys`, and the `probe.k4` row in §2.
+16. **Unused code in `BuildTime`.** `BuildTime.now()` and `BuildTime(instant, zone)` are not called anywhere.
+    The plugin uses `BuildTime(zonedTime)` with the value from `BuildTimeValueSource`. `BuildTime.now()` reads the
+    clock directly, which Gradle can't track, so it must not be used for the build time (item 7).
 
 The build time was earlier kept in a static `lazy` value, which Gradle's daemon reused across builds.
 It is now computed in `apply` and must not be moved back into a static value.
@@ -588,9 +607,9 @@ The configuration cache otherwise works with the plugin. Checked with `--configu
 - 0 configuration cache problems. The second run reused the entry.
 - Gradle tracks the plugin's reads as cache inputs, although they use plain `java.io`. The inputs include the
   `custom.properties` and `local.properties` reads, the existence checks for files that are missing, and the
-  `findProperty`/`hasProperty` lookups. Editing a `custom.properties` invalidates the entry
+  property lookups. Editing a `custom.properties` invalidates the entry
   ("cannot be reused because file '…custom.properties' has changed").
-- The plugin is **not** compatible with Isolated Projects, a stricter, still incubating mode. The root
-  project configures every subproject, and each subproject reads its parent's `custom` holder.
+- The plugin is **not** compatible with Isolated Projects, a stricter, still incubating mode. The project the
+  plugin is applied to configures every project below it, and each project reads its parent's `custom` holder.
 
 The cache is still switched off in the root `gradle.properties` (`org.gradle.configuration-cache=false`).
