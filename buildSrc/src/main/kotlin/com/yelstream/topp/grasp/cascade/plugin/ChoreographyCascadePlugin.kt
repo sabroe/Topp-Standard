@@ -108,6 +108,16 @@ val Project.local: Properties
     get() = holder("local")
 
 /**
+ * True if this project has the property itself: a property of the project object, such as `version`,
+ * or one of its own extra properties, for example from a `gradle.properties` file.
+ * Unlike [Project.hasProperty], it doesn't look in parent projects. Gradle 9.8 deprecates that lookup,
+ * and Gradle 10 removes it.
+ */
+fun Project.hasOwnProperty(name: String): Boolean =
+    extensions.extraProperties.has(name) ||
+        org.codehaus.groovy.runtime.InvokerHelper.getMetaClass(this).hasProperty(this, name) != null
+
+/**
  * Overrides an existing property of this project.
  * A property inherited from a parent project, e.g. from the parent's `gradle.properties`, cannot be set on
  * this project; it is shadowed by an extra property on this project instead.
@@ -313,7 +323,7 @@ class ChoreographyCascadePlugin : Plugin<Project> {
 
         resolvedProps.forEach { (key, value) ->
             val keyStr = key.toString()
-            if (project.hasProperty(keyStr)) {
+            if (project.hasOwnProperty(keyStr)) {
                 project.overrideProperty(keyStr, value)
                 project.logger.debug("[${project.name}]:> Set existing property $keyStr to $value")
             } else {
