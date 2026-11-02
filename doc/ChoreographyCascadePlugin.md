@@ -541,8 +541,7 @@ These are differences between what the code does and what the design appears to 
 3. **`module.properties` is loaded but not used.** `rawModule` is filled but never merged or resolved.
 4. ~~**Fixed: `local.properties` was read twice** (steps 6 and 7). It was also written as extra properties
    before its placeholders were resolved. It is now read once and applied with the other keys.~~
-5. **Unused settings.** `ENABLE_PROPERTY_NAME`, `PROPERTY_NAME_PREFIX` and `DEFAULT_DELAY` are declared
-   but not read. The `TODO` about `cascade.enable` is not implemented, so the plugin cannot be switched off per project.
+5. **The plugin cannot be switched off per project.** The `TODO` about `cascade.enable` is not implemented.
 6. ~~**Holders are set twice.** `initializeExtensions` and the start of `configureProject` both set them.~~
    Fixed with §8: the holders are created once, only if they don't exist.
 7. ~~**Fixed: with the configuration cache, the build time was frozen in the cache entry.** It came from the
@@ -589,17 +588,15 @@ These are differences between what the code does and what the design appears to 
     (§3, step 11). The build now gives no such warning.~~
 14. **The `local` holder is never filled.** `project.local` is created with the other holders (§3) but stays empty.
     `configureProject` reads `local.properties` into a local variable and applies the values with the other
-    keys, so nothing is lost, but code that reads `project.local` always gets an empty `Properties`. Either fill
-    it with the file's values or remove the holder.
+    keys, so nothing is lost, but code that reads `project.local` always gets an empty `Properties`. The fix is to fill
+    it with the file's values.
 15. **The hiding of local keys is needed only with Gradle 9** (§3, step 11). With Gradle 10, a parent's extra
     property is not found from a child at all, so the step can be removed, together with `Module.localKeys`,
     `Module.hiddenKeys`, and the `probe.k4` row in §2.
-16. **Unused code in `BuildTime`.** `BuildTime.now()` and `BuildTime(instant, zone)` are not called anywhere.
-    The plugin uses `BuildTime(zonedTime)` with the value from `BuildTimeValueSource`. `BuildTime.now()` reads the
-    clock directly, which Gradle can't track, so it must not be used for the build time (item 7).
-
 The build time was earlier kept in a static `lazy` value, which Gradle's daemon reused across builds.
-It is now computed in `apply` and must not be moved back into a static value.
+It is now computed in `apply` and must not be moved back into a static value. The plugin takes it from
+`BuildTimeValueSource`, through `BuildTime(zonedTime)`. `BuildTime.now()` reads the clock directly, which
+Gradle can't track, so the plugin must not use it for the build time (item 7).
 
 The configuration cache otherwise works with the plugin. Checked with `--configuration-cache` on
 `:module:Topp-Standard-Core-Library:jar` and `generatePomFileForMavenJavaPublication`:
