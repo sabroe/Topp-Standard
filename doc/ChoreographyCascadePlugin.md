@@ -472,36 +472,46 @@ in `custom.properties` or `local.properties` also overrides a value given with `
 
 These are differences between what the code does and what the design appears to intend.
 
-1. **Fixed: consumers read unresolved values.** `convention.java-options` and `convention.publish` used to
+1. ~~**Fixed: consumers read unresolved values.** `convention.java-options` and `convention.publish` used to
    read `custom`, so `${...}` placeholders arrived unresolved, `local.properties` values never reached
    them, and every `javadoc.*` boolean was ignored (an `as? Boolean` cast on a string). They now read
-   by name with `project.findProperty`, which sees the plugin's resolved values (§5).
+   by name with `project.findProperty`, which sees the plugin's resolved values (§5).~~
 2. **The defaults are never used.** `default.project.group` and `default.project.version` are stored in
    `module`. Placeholder lookup searches the merged set, project properties and system properties,
    not `module`, and `default.*` keys are not promoted. A project with no `project.version` keeps `unspecified`.
 3. **`module.properties` is loaded but not used.** `rawModule` is filled but never merged or resolved.
-4. **Fixed: `local.properties` was read twice** (steps 6 and 7). It was also written as extra properties
-   before its placeholders were resolved. It is now read once and applied with the other keys.
+4. ~~**Fixed: `local.properties` was read twice** (steps 6 and 7). It was also written as extra properties
+   before its placeholders were resolved. It is now read once and applied with the other keys.~~
 5. **Unused settings.** `ENABLE_PROPERTY_NAME`, `PROPERTY_NAME_PREFIX` and `DEFAULT_DELAY` are declared
    but not read. The `TODO` about `cascade.enable` is not implemented, so the plugin cannot be switched off per project.
 6. **Holders are set twice.** `initializeExtensions` and the start of `configureProject` both set them.
-7. **Fixed: with the configuration cache, the build time was frozen in the cache entry.** It came from the
+7. ~~**Fixed: with the configuration cache, the build time was frozen in the cache entry.** It came from the
    clock, which Gradle can't track, so a reused entry kept the time from when it was stored. It now comes from
    a value source, which Gradle checks on every build (§2, "Build-time keys"). The price: without
-   `build-time.tick`, a cache entry is never reused, because the time always changes.
+   `build-time.tick`, a cache entry is never reused, because the time always changes.~~
 8. **`publishing.publication.artifactId` is inherited.** Each module sets it in its `custom.properties`,
    which cascades. A module nested under another published module, without its own value, gets the
    parent's `artifactId`, so two publications share a name. Moving the key to each module's
    `local.properties` avoids this, because those keys are hidden from child modules (§3, step 6).
-9. **Fixed: `archives.base-name-prefix` couldn't be set from `custom.properties`.** `convention.archive-naming`
+9. ~~**Fixed: `archives.base-name-prefix` couldn't be set from `custom.properties`.** `convention.archive-naming`
    reads it with `project.extra.properties`, which used to miss `custom.properties` keys. Every module key is
    now set as an extra property on each project (§3, step 10), so the key works from `custom.properties`.
-   No module sets it yet, so the prefix is still empty.
-10. **The `implementation.*` keys in the root `custom.properties` have no effect.**
+   No module sets it yet, so the prefix is still empty.~~
+10. ~~**The `implementation.*` keys in the root `custom.properties` have no effect.**
     `convention.jar-manifest` reads `jar.manifest.*` and `implementation.*` with `project.extra.properties`,
     which doesn't see `custom.properties` keys (same reason as item 9). The manifest falls back to
     `project.name`, `project.group`, `project.version` and the vendor `Yelstream`, so
-    `implementation.vendor-name` and the other values in the file are ignored.
+    `implementation.vendor-name` and the other values in the file are ignored.~~
+11. ~~**Fixed: empty values in the jar manifest.** The root `custom.properties` has `implementation.title =`,
+    `implementation.version =` and `implementation.group =`. `convention.jar-manifest` read them with
+    `project.extra.properties[...] as? String`, and an empty string is not `null`, so the fallbacks
+    `project.name`, `project.version` and `project.group` were never used, and the jar got empty
+    `Implementation-Title`, `Implementation-Version` and `Implementation-Group`.
+    `Implementation-Java-Language-Version` was empty too, because `java.language-version.tool-chain = *`
+    sets no toolchain. The convention now reads every key with `project.stringProperty`, which treats a blank
+    value as unset, as `convention.java-options` and `convention.publish` do. Without a toolchain, the Java
+    version falls back to `targetCompatibility`. The fix is in the `Topp-Gradle-Convention` checkout, which is
+    the convention used, not in the copy in this repository's `convention/` folder.~~
 
 The build time was earlier kept in a static `lazy` value, which Gradle's daemon reused across builds.
 It is now computed in `apply` and must not be moved back into a static value.
