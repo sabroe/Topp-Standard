@@ -23,6 +23,7 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 data class BuildTime constructor(
         val buildZonedTime: ZonedDateTime,
@@ -31,7 +32,10 @@ data class BuildTime constructor(
         val buildTimeZoned: String
 ) {
     val buildTime: String = buildTimeZulu  // Simple delegation
-    val sanitizedBuildTime: String = buildTimeZulu.replace("T", "-").replace(":", "")
+    // Whole seconds only, so the value has no fraction even when the build time is not rounded.
+    val sanitizedBuildTime: String = DateTimeFormatter.ISO_INSTANT
+        .format(buildZonedTime.truncatedTo(ChronoUnit.SECONDS))
+        .replace("T", "-").replace(":", "")  // E.g., '2011-12-03-101530Z'
 
     companion object {
         operator fun invoke(instant: Instant, zone: ZoneId = ZoneId.systemDefault()): BuildTime =

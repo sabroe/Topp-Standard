@@ -99,27 +99,35 @@ reach the grandchild, and `:module:Core`'s own `local.properties` value stays hi
 ### Build-time keys
 
 `BuildTime` is computed once per build, in the plugin's `apply`, so every project sees the same instant.
-The instant comes from `BuildInstantValueSource`, a Gradle `ValueSource` that wraps a `java.time.InstantSource`.
-`BuildTime` turns it into a `ZonedDateTime` in the system time zone, and the keys below are formatted from that.
+The time comes from `BuildTimeValueSource`, a Gradle `ValueSource` that returns a `ZonedDateTime`:
+an instant from a `java.time.InstantSource`, in the build's time zone. The keys below are formatted from that.
 The keys are that one instant in different formats, not different granularities.
-`sanitized-build-time` is the Zulu time with `T` replaced by `-` and colons removed, so it is safe in
-versions and file names. The number of fraction digits depends on the JVM clock; the examples show three.
+`sanitized-build-time` is the Zulu time cut to whole seconds, with `T` replaced by `-` and colons removed,
+so it is safe in versions and file names. In the other keys, the number of fraction digits depends on the
+JVM clock; the examples show three.
 
 The Gradle property `build-time.tick` rounds the instant down to steps of an ISO-8601 duration, for example
 `-Pbuild-time.tick=PT1H` or `build-time.tick = P1D` in the root `gradle.properties`. Steps are counted from
-the epoch in UTC, so `P1D` steps at 00:00 UTC, not at local midnight. Without the property there is no rounding.
+the epoch in UTC, so `P1D` steps at 00:00 UTC, not at local midnight. If the property is unset, the default
+`PT3M` is used. An empty value, for example `-Pbuild-time.tick=`, turns rounding off.
+
+The Gradle property `build-time.zone` sets the time zone by ID, for example `-Pbuild-time.zone=UTC`.
+If it is unset, the JVM's default time zone is used. Setting it gives the same values on every machine.
+An invalid tick or zone fails the build with a message that names the property and the value.
 
 The value source is obtained at configuration time, so the build time is a configuration-cache input.
 Gradle obtains it again on every build and reuses a cache entry only while it is unchanged:
 
 | `build-time.tick` | Without the configuration cache | With the configuration cache |
 |---|---|---|
-| unset (default) | Exact time, new in every build | Exact time, new in every build. A cache entry is never reused. |
+| unset (default `PT3M`) | Rounded down to 3 minutes, for example `2026-11-01T01:03:00Z` | Rounded down. A cache entry is reused within each 3 minutes. |
+| empty | Exact time, new in every build | Exact time, new in every build. A cache entry is never reused. |
 | `PT1M` / `PT1H` | Rounded down, for example `2026-11-01T01:00:00Z` | Rounded down. A cache entry is reused within the minute or hour. |
 | `P1D` | Rounded down to `2026-11-01T00:00:00Z` | Rounded down. A cache entry is reused for the whole day. |
 
-The time zone is applied after the value source. With a coarse tick and the configuration cache, a time
-zone change within the same step keeps the old offset and zone in a reused entry.
+The time zone is part of the value, so a change of `build-time.zone` also invalidates a cache entry.
+Without `build-time.zone`, the JVM's default zone is used. A running Gradle daemon keeps the default zone
+it started with, even with `-Duser.timezone`, so a change of the machine's zone takes effect only in a new daemon.
 It adds these keys to `custom`:
 
 | Key | Example |
@@ -128,7 +136,7 @@ It adds these keys to `custom`:
 | `build-time-zulu` | `2026-10-31T10:15:30.123Z` |
 | `build-time-offset` | `2026-10-31T11:15:30.123+01:00` |
 | `build-time-zoned` | `2026-10-31T11:15:30.123+01:00[Europe/Copenhagen]` |
-| `sanitized-build-time` | `2026-10-31-101530.123Z` |
+| `sanitized-build-time` | `2026-10-31-101530Z` |
 
 ## 3. Processing order
 

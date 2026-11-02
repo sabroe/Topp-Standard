@@ -168,6 +168,11 @@ class ChoreographyCascadePlugin : Plugin<Project> {
 
         const val ENABLE_PROPERTY_NAME = "enable"
         const val DEFAULT_DELAY = 100L
+
+        const val BUILD_TIME_TICK_PROPERTY_NAME = "build-time.tick"
+        const val DEFAULT_BUILD_TIME_TICK = "PT3M"
+
+        const val BUILD_TIME_ZONE_PROPERTY_NAME = "build-time.zone"
     }
 
     override fun apply(project: Project) {
@@ -175,13 +180,19 @@ class ChoreographyCascadePlugin : Plugin<Project> {
         // It is obtained from a value source at configuration time, which makes it a configuration-cache
         // input: Gradle obtains it again on each build and reuses a cache entry only while it is unchanged.
         // The Gradle property "build-time.tick" (an ISO-8601 duration such as PT1H) rounds it down,
-        // so a cache entry can be reused within each step. Without it, the time changes on every build.
+        // so a cache entry can be reused within each step. If the property is unset, the default
+        // tick (3 minutes) is used. Set it to an empty value to turn rounding off.
+        // The Gradle property "build-time.zone" (a time zone ID such as UTC) sets the time zone;
+        // if it is unset, the JVM's default time zone is used. The zone is part of the cache input too.
         // Do not keep it in a static (object or companion) value: Gradle keeps buildSrc classes
         // loaded between builds in the same daemon, so a static value would be reused by later builds.
-        val buildInstant = project.providers.of(BuildInstantValueSource::class.java) {
-            parameters.tick.set(project.providers.gradleProperty("build-time.tick"))
+        val buildZonedTime = project.providers.of(BuildTimeValueSource::class.java) {
+            parameters.tick.set(
+                project.providers.gradleProperty(BUILD_TIME_TICK_PROPERTY_NAME).orElse(DEFAULT_BUILD_TIME_TICK)
+            )
+            parameters.zone.set(project.providers.gradleProperty(BUILD_TIME_ZONE_PROPERTY_NAME))
         }.get()
-        val buildTime = BuildTime(buildInstant)
+        val buildTime = BuildTime(buildZonedTime)
 
         initializeExtensions(project)
         project.subprojects.forEach { sub ->
