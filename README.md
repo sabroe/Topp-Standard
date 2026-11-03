@@ -129,11 +129,7 @@ included with `includeBuild(...)`, works just as well. The benefit: the conventi
 
 ## Published Artifacts
 
-The modules in this repository are continuously published and versioned via Maven Central.
-
-All artifacts can be explored here:
-
-https://central.sonatype.com/search?q=com.yelstream.topp.standard
+All artifacts, including those not featured above: https://central.sonatype.com/search?q=com.yelstream.topp.standard
 
 This project reflects a systems design practice: small parts, hard boundaries, continuous evolution.
 
