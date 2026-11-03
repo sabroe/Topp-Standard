@@ -68,6 +68,14 @@ project.plugins.withType<JavaPlugin> {
             filter {
                 includeTestsMatching("*TestSuite")
             }
+
+            //Note: Unset properties keep Gradle's defaults (1 fork, 512m heap).
+            project.findProperty("convention.${conventionName}.test.max-parallel-forks")?.toString()?.trim()?.let {
+                maxParallelForks = it.toInt()
+            }
+            project.findProperty("convention.${conventionName}.test.max-heap-size")?.toString()?.trim()?.let {
+                maxHeapSize = it
+            }
         }
     }
 }

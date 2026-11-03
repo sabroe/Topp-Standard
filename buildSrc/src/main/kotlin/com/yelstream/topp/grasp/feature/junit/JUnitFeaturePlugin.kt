@@ -36,6 +36,8 @@ class JUnitFeaturePlugin : Plugin<Project> {
         const val ENABLE_MAIN_PART_FEATURE: String = "$FEATURE_ROOT.part.main.enable"
         const val ENABLE_TEST_PART_FEATURE: String = "$FEATURE_ROOT.part.test.enable"
         const val ENABLE_CONSTRAINTS_PART_FEATURE: String = "$FEATURE_ROOT.part.constraints.enable"
+        const val TEST_MAX_PARALLEL_FORKS: String = "$FEATURE_ROOT.test.max-parallel-forks"
+        const val TEST_MAX_HEAP_SIZE: String = "$FEATURE_ROOT.test.max-heap-size"
     }
 
     override fun apply(project: Project) {
@@ -79,6 +81,14 @@ class JUnitFeaturePlugin : Plugin<Project> {
                 filter {
                     includeTestsMatching("*TestSuite")
                 }
+            }
+
+            //Note: Unset properties keep Gradle's defaults (1 fork, 512m heap).
+            Projects.propertyValue(project, TEST_MAX_PARALLEL_FORKS).ifPresent {
+                maxParallelForks = it.toInt()
+            }
+            Projects.propertyValue(project, TEST_MAX_HEAP_SIZE).ifPresent {
+                maxHeapSize = it
             }
         }
     }
