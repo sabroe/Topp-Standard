@@ -51,8 +51,8 @@ class RootFeaturePlugin : Plugin<Project> {
     }
 
     override fun apply(project: Project) {
-project.pluginManager.apply("com.dorongold.task-tree")
         if (Projects.enabled(project,ENABLE_FEATURE).orElse(true)) {
+            project.pluginManager.apply("com.dorongold.task-tree")
             execute(project)
         }
     }
