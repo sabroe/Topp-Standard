@@ -282,9 +282,15 @@ class ChoreographyCascadePlugin : Plugin<Project> {
      * The plugin never copies them down, but Gradle 9 still finds a parent's extra property through its
      * deprecated lookup in parent projects. Gradle 10 removes that lookup, and this step is then not needed.
      *
-     * Every such key that this project doesn't have itself is set as an extra property with the value `null`,
-     * which is what Gradle 10 gives. The parent's hidden keys are passed on as well, so no project below
-     * has to look in its parent either.
+     * Every such key that this project doesn't have itself is set as an extra property with the value `null`.
+     * The parent's hidden keys are passed on as well, so no project below has to look in its parent either.
+     *
+     * For `findProperty`, this gives `null`, as Gradle 10 does. It is not the same in every way: Gradle 10 makes
+     * the key absent, while this makes it present with the value `null`. So `hasProperty` gives `true` instead
+     * of `false`, `property` gives `null` instead of throwing, and the key is listed in `properties`.
+     *
+     * With `enableFeaturePreview("NO_IMPLICIT_LOOKUP_IN_PARENT_PROJECTS")` in the settings, Gradle 9 already
+     * behaves as Gradle 10, and this step is not needed.
      */
     private fun hideParentLocalKeys(project: Project) {
         val parent = project.parent?.takeIf { it.isCascadeConfigured } ?: return
