@@ -132,6 +132,21 @@ The build spans three GitHub repositories:
 2. [Topp-Gradle-Convention](https://github.com/sabroe/Topp-Gradle-Convention) — the shared Gradle convention plugins applied to every module.
 3. [Topp-Standard](https://github.com/sabroe/Topp-Standard) — this repository; the Java modules themselves.
 
+To use the same setup in a project of your own, clone the bootstrap repository to `~/.topp/gradle/script/Topp-Gradle-Bootstrap`
+(on Windows: `%USERPROFILE%\.topp\gradle\script\Topp-Gradle-Bootstrap`) and apply it in `settings.gradle.kts`:
+
+```kotlin
+pluginManagement {
+    includeBuild("${System.getProperty("user.home")}/.topp/gradle/script/Topp-Gradle-Bootstrap")
+}
+
+plugins {
+    id("bootstrap")
+}
+```
+
+The `bootstrap` plugin then checks out Topp-Gradle-Convention and makes its convention plugins available to every module.
+
 
 ## Technical Constraints
 
