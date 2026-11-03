@@ -8,7 +8,6 @@ Each module evolves independently — from early experimentation to stable produ
 
 Rather than forming a single framework, the project focuses on small, focused building blocks that can be combined and integrated across Java SE and Jakarta EE applications.
 
-
 ## Built for what's next
 
 - **Ready for Gradle 10** — tracks Gradle release candidates, runs with all deprecation warnings visible, and enables `NO_IMPLICIT_LOOKUP_IN_PARENT_PROJECTS` so Gradle 10 behavior applies already today.
@@ -17,15 +16,11 @@ Rather than forming a single framework, the project focuses on small, focused bu
 - **Latest Java** — built on Java SE 27 via Gradle toolchains, strict JPMS modules, zero-warning compilation with `-Werror`.
 - **Supply-chain aware** — every module ships a CycloneDX SBOM; dependencies are managed in a single version catalog.
 
-
-
 ## Small parts, big systems
 
 Composable runtime systems build behavior from small, well-defined, replaceable parts — combined at the edges, not hardwired inside — that can be replaced or relocated without upfront coupling decisions.
 
 This perspective unifies composition, correctness, evolution, and operability.
-
-
 
 ### Composition
 
@@ -34,8 +29,6 @@ Systems are dynamically assembled from independent components with explicit bind
 - Composition is defined at the application level, not embedded in frameworks  
 - Protocol encoding is separate from transport  
 - Components operate in-process or across processes  
-
-
 
 ### Structure
 
@@ -46,16 +39,12 @@ Systems are governed by static invariants that define correctness and coupling c
 - State and behavior are localized to maintain high cohesion and avoid hidden coupling  
 - Complexity is structured, not distributed — local scope remains simple, system behavior remains rich  
 
-
-
 ### Operation
 
 Systems are designed for runtime observability and behavioral transparency.
 
 - Behavior is exposed through stable interfaces — understandable without inspecting the implementation  
 - Components are observable and testable in isolation  
-
-
 
 ### Evolution
 
@@ -69,12 +58,8 @@ Systems evolve continuously over time rather than remaining fixed artifacts.
 
 Evolution is constrained by structural invariants and enabled by composability.
 
-
 The system as a whole evolves continuously rather than through rewrites. 
 Coherence emerges from this structured evolution, not from scale.
-
-
-
 
 ## Featured Modules
 
@@ -92,7 +77,6 @@ A selection of refined, production-ready modules. Each module is independently v
 | [`topp-standard-time`](https://central.sonatype.com/artifact/com.yelstream.topp.standard/topp-standard-time)                                                     | [`com.yelstream.topp.standard.time`](https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time)                                                      | [`:Core:Time:Topp-Standard-Time-Library`](https://github.com/sabroe/Topp-Standard/tree/main/module/Core/Time/Topp-Standard-Time-Library)                                                             |
 | [`topp-standard-time-legacy`](https://central.sonatype.com/artifact/com.yelstream.topp.standard/topp-standard-time-legacy)                                       | [`com.yelstream.topp.standard.time.legacy`](https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-time-legacy)                                        | [`:Core:Time:Topp-Standard-Time-Legacy-Library`](https://github.com/sabroe/Topp-Standard/tree/main/module/Core/Time/Topp-Standard-Time-Legacy-Library)                                               |
 
-
 A selection of work-in-progress, soon-to-be-production-ready modules. Each module is independently versioned and published.
 
 | Artifact @ Maven Central                                                                                                                                         | JPMS Module @ JavaDoc                                                                                                                                            | Gradle Module @ GitHub                                                                                                                                                                               |
@@ -107,8 +91,6 @@ A selection of work-in-progress, soon-to-be-production-ready modules. Each modul
 | [`topp-standard-logging-slf4j-console-logger`](https://central.sonatype.com/artifact/com.yelstream.topp.standard/topp-standard-logging-slf4j-console-logger)     | [`com.yelstream.topp.standard.logging.slf4j.spi.service.console`](https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-logging-slf4j-console-logger) | [`:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library`](https://github.com/sabroe/Topp-Standard/tree/main/module/Logging/SLF4J/Topp-Standard-Logging-SLF4J-Console-Logger-Library)     |
 | [`topp-standard-logging-slf4j-service-provider`](https://central.sonatype.com/artifact/com.yelstream.topp.standard/topp-standard-logging-slf4j-service-provider) | [`com.yelstream.topp.standard.logging.slf4j.provider`](https://javadoc.io/doc/com.yelstream.topp.standard/topp-standard-logging-slf4j-service-provider)          | [`:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library`](https://github.com/sabroe/Topp-Standard/tree/main/module/Logging/SLF4J/Topp-Standard-Logging-SLF4J-Service-Provider-Library) |
 
-
-
 ## Repository Overview
 
 The featured modules represent only a small, curated subset of the project.
@@ -119,7 +101,6 @@ Hence, the project serves three purposes:
 - A continuously evolving collection of code, built over time through discovery, invention, and iterative refinement.
 - A continuously published set of named artifacts for practical use via Maven Central.
 - An exploration of an advanced Gradle multi-module architecture built on custom convention plugins and continuous module integration.
-
 
 ## Setup
 
@@ -148,14 +129,12 @@ Topp Standard *chooses* to use the bootstrap — nothing forces it. A local clon
 included directly with `includeBuild(...)`, works just as well. The benefit of the bootstrap is that the conventions
 follow the `main` branch of Topp-Gradle-Convention automatically, with no manual pulls or version bumps.
 
-
 ## Technical Constraints
 
 - Internal dependencies are validated to be acyclic.
 - Framework-agnostic by default, with selective integration for Spring Framework, Spring Boot, Quarkus, SmallRye, Eclipse MicroProfile, Jakarta EE (including CDI), SLF4J, and the MCP Java SDK.
 - Zero warnings allowed: `-Xlint:rawtypes`, `-Xlint:unchecked`, `-Xlint:deprecation`, and `-Werror` on every module.
 - Java SE 21 is the baseline for most modules; selected modules target up to Java SE 27.
-
 
 ## Published Artifacts
 
