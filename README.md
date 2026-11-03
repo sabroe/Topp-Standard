@@ -45,7 +45,6 @@ Systems are governed by static invariants that define correctness and coupling c
 - Dependencies are strictly directional and acyclic — cycles are design failures  
 - State and behavior are localized to maintain high cohesion and avoid hidden coupling  
 - Complexity is structured, not distributed — local scope remains simple, system behavior remains rich  
-- Concerns evolve along independent axes without forced synchronization  
 
 
 
@@ -53,10 +52,8 @@ Systems are governed by static invariants that define correctness and coupling c
 
 Systems are designed for runtime observability and behavioral transparency.
 
-- Components expose behavior through stable interfaces  
-- Execution is understandable without inspecting internal implementation  
+- Behavior is exposed through stable interfaces — understandable without inspecting the implementation  
 - Components are observable and testable in isolation  
-- Integration points define runtime boundaries between components  
 
 
 
@@ -68,6 +65,7 @@ Systems evolve continuously over time rather than remaining fixed artifacts.
 - Components are named, shaped, and refined through use  
 - Libraries may be split, merged, or re-scoped as understanding improves  
 - Boundaries and responsibilities are not final at creation time  
+- Concerns evolve along independent axes without forced synchronization  
 
 Evolution is constrained by structural invariants and enabled by composability.
 
