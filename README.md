@@ -110,24 +110,15 @@ The build spans three GitHub repositories:
 2. [Topp-Gradle-Convention](https://github.com/sabroe/Topp-Gradle-Convention) — the shared Gradle convention plugins applied to every module.
 3. [Topp-Standard](https://github.com/sabroe/Topp-Standard) — this repository; the Java modules themselves.
 
-To use the same setup in a project of your own, clone the bootstrap repository to `~/.topp/gradle/script/Topp-Gradle-Bootstrap`
-(on Windows: `%USERPROFILE%\.topp\gradle\script\Topp-Gradle-Bootstrap`) and apply it in `settings.gradle.kts`:
+To use the same setup, clone Topp-Gradle-Bootstrap to `~/.topp/gradle/script/Topp-Gradle-Bootstrap` and add to `settings.gradle.kts`:
 
 ```kotlin
-pluginManagement {
-    includeBuild("${System.getProperty("user.home")}/.topp/gradle/script/Topp-Gradle-Bootstrap")
-}
-
-plugins {
-    id("bootstrap")
-}
+pluginManagement { includeBuild("${System.getProperty("user.home")}/.topp/gradle/script/Topp-Gradle-Bootstrap") }
+plugins { id("bootstrap") }
 ```
 
-The `bootstrap` plugin then checks out Topp-Gradle-Convention and makes its convention plugins available to every module.
-
 Topp Standard *chooses* to use the bootstrap — nothing forces it. A local clone of Topp-Gradle-Convention,
-included directly with `includeBuild(...)`, works just as well. The benefit of the bootstrap is that the conventions
-follow the `main` branch of Topp-Gradle-Convention automatically, with no manual pulls or version bumps.
+included with `includeBuild(...)`, works just as well. The benefit: the conventions follow its `main` branch automatically.
 
 ## Technical Constraints
 
