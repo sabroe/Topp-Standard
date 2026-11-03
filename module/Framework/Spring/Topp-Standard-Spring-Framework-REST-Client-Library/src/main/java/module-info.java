@@ -19,9 +19,6 @@
 
 /**
  * Topp Standard Spring Framework HTTP Client Library addressing select elements of HTTP-clients.
- * <p>
- *
- * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-02-18

@@ -32,7 +32,6 @@ import java.net.spi.URLStreamHandlerProvider;
  *     which is mostly fixed, but may be dynamic over time.
  * </p>
  * <p>
- * <p>
  *     Note that this is to be registered as a service under
  *     {@code META-INF/services/java.net.spi.URLStreamHandlerProvider},
  *     listed in the JPMS module definition in which this is contained,

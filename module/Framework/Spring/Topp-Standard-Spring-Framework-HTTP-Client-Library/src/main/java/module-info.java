@@ -19,9 +19,6 @@
 
 /**
  * Topp Standard Spring Framework REST Client Library addressing select elements of REST-clients.
- * <p>
- *
- * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-02-18

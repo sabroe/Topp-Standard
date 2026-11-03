@@ -21,9 +21,6 @@ import com.yelstream.topp.standard.annotation.mark.lifecycle.Provisional;
 
 /**
  * Topp Standard Tool Source Repository Git Library addressing select elements of Git repositories.
- * <p>
- *
- * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-03-02

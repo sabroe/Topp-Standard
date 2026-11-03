@@ -35,7 +35,7 @@ public interface Trait {
      * <p>
      *     Regular in the sense that no elements are up for special interpretation,
      *     that there is no "entry", no "tag", no special properties.
-     * <p>
+     * </p>
      * @return Indicates, if the scheme is regular.
      */
     boolean isRegular();
@@ -45,7 +45,7 @@ public interface Trait {
      * <p>
      *     The definition of an entry comes from a JAR URL like {@code jar:<url>!/entry}.
      *     It is, by defintion, the part after "!/" in the scheme-specific part.
-     * <p>
+     * </p>
      * @return Indicates, if the scheme has an entry.
      */
     boolean isWithEntry();
@@ -57,7 +57,7 @@ public interface Trait {
      *     For
      *     {@code jdbc:sqlserver://localhost:1433;databaseName=database1;user=user1;password=password1}
      *     the properties are named {@code databaseName}, {@code user}, {@code password}.
-     * <p>
+     * </p>
      * @return Indicates, if the scheme has properties.
      */
     boolean isWithProperties();
@@ -67,7 +67,7 @@ public interface Trait {
      * <p>
      *     A Docker URL may have a tag like {@code latest} or {@code 1.0.0},
      *     initiated by a colon ":" at the end of the path.
-     * <p>
+     * </p>
      * @return Indicates, if the scheme has a tag.
      */
     boolean isWithTag();
@@ -79,7 +79,7 @@ public interface Trait {
      *     per definition,
      *     an inner URI in the form of {@code <url>}.
      *     This inner URI may be a regular file URI or a non-regular JAR URI.
-     * <p>
+     * </p>
      * <p>
      *     A non-regular JDBC URI like
      *     {@code jdbc:sqlserver://localhost:1433;databaseName=database1;user=user1;password=password1}
