@@ -88,6 +88,7 @@ public class DefaultLoggingEventBuilders {
      * @param builder Logging-event builder.
      * @return Level of the logger addressed by logging-event builder.
      */
+    @SuppressWarnings("removal")  //Note: Uses deprecated API on purpose, until it is removed.
     public static Level getLevelLogger(DefaultLoggingEventBuilder builder) {
         Logger logger=getLogger(builder);
         return logger==null?null:Loggers.getLevel(logger);

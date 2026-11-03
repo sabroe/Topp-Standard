@@ -34,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @version 1.0
  * @since 2025-01-11
  */
+@SuppressWarnings("removal")  //Note: Tests deprecated API on purpose, until it is removed.
 class OpenEventRecordingLoggerTest {
     /**
      * Tests that the initial event queue is empty.

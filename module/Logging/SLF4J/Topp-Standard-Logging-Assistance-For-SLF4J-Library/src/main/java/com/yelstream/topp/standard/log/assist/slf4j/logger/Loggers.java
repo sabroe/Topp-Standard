@@ -60,6 +60,7 @@ public class Loggers {
      * @return Levels enabled.
      *         This is immutable.
      */
+    @SuppressWarnings("removal")  //Note: Uses deprecated API on purpose, until it is removed.
     public static List<Level> getLevels(Logger logger) {
         return Levels.getLevelsSorted().stream().filter(logger::isEnabledForLevel).toList();
     }
@@ -69,6 +70,7 @@ public class Loggers {
      * @param logger Logger.
      * @return Levels enabled.
      */
+    @SuppressWarnings("removal")  //Note: Uses deprecated API on purpose, until it is removed.
     public static Level getLevel(Logger logger) {
         return Levels.getLevelsSorted().stream().filter(logger::isEnabledForLevel).findFirst().orElse(null);
     }

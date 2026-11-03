@@ -37,14 +37,17 @@ import org.slf4j.spi.LoggingEventBuilder;
  */
 @NoArgsConstructor(access=AccessLevel.PRIVATE)
 public final class ScriberFactory {
+    @SuppressWarnings("removal")  //Note: Uses deprecated API on purpose, until it is removed.
     public LoggerAt<Scriber<LoggingEventBuilder>> from(Logger logger) {
         return LoggerAt.of(logger,Scribers::of);
     }
 
+    @SuppressWarnings("removal")  //Note: Uses deprecated API on purpose, until it is removed.
     public LoggerAt<Scriber<LoggingEventBuilder>> from(Class<?> clazz) {
         return from(LoggerFactory.getLogger(clazz));
     }
 
+    @SuppressWarnings("removal")  //Note: Uses deprecated API on purpose, until it is removed.
     public LoggerAt<Scriber<LoggingEventBuilder>> from(String name) {
         return from(LoggerFactory.getLogger(name));
     }

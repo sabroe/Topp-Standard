@@ -114,6 +114,7 @@ public class LoggingEventBuilders {
      * @param builder Logging-event builder.
      * @return Level of the logger addressed by logging-event builder.
      */
+    @SuppressWarnings("removal")  //Note: Uses deprecated API on purpose, until it is removed.
     public static Level getLevelForLogger(LoggingEventBuilder builder) {
         Logger logger=getLogger(builder);
         return logger==null?null:Loggers.getLevel(logger);
@@ -139,6 +140,7 @@ public class LoggingEventBuilders {
             };
     }
 
+    @SuppressWarnings("removal")  //Note: Uses deprecated API on purpose, until it is removed.
     public static LoggerAt<LoggingEventBuilder> at(Logger logger) {
         return LoggerAt.of(logger);
     }

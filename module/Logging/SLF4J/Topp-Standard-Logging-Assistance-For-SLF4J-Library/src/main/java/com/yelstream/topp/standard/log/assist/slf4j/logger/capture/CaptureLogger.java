@@ -130,7 +130,7 @@ public class CaptureLogger extends LegacyAbstractLogger {
          * @param level Log level.
          * @return This builder.
          */
-        @SuppressWarnings("java:S1117")  //Another s*** rule made up by an imbecile thinking that all are dumber hence destroying the joy of Java
+        @SuppressWarnings({"java:S1117","removal"})  //Another s*** rule made up by an imbecile thinking that all are dumber hence destroying the joy of Java
         public Builder levelEnable(Level level) {
             Levels.enable(level,(traceEnabled, debugEnabled, infoEnabled, warnEnabled, errorEnabled)->{
                 traceEnabled(traceEnabled);

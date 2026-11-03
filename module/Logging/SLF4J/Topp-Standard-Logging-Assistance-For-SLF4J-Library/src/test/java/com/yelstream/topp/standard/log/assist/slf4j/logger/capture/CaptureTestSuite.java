@@ -34,5 +34,6 @@ import org.junit.platform.suite.api.Suite;
 @Deprecated(forRemoval = true)
 @Suite
 @SelectClasses({CaptureLoggerTest.class,OpenEventRecordingLoggerTest.class})
+@SuppressWarnings("removal")  //Note: Tests deprecated API on purpose, until it is removed.
 class CaptureTestSuite {
 }

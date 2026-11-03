@@ -35,6 +35,7 @@ import java.util.List;
  * @deprecated Moved to another module and in a newer version!
  */
 @Deprecated(forRemoval = true)
+@SuppressWarnings("removal")  //Note: Tests deprecated API on purpose, until it is removed.
 class CaptureLoggerTest {
     /**
      * Tests capture of plain logging.

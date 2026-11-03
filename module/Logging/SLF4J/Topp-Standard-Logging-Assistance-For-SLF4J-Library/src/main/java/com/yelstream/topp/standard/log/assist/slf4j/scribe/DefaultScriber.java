@@ -47,6 +47,7 @@ final class DefaultScriber<B extends LoggingEventBuilder> extends AbstractLoggin
     }
 
     @Override
+    @SuppressWarnings("deprecation")  //Note: Uses deprecated API on purpose, until it is removed.
     public boolean isEnabled() {
         return LoggingEventBuilders.isLoggingEnabled(delegate);
     }

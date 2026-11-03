@@ -38,6 +38,7 @@ public class Scribers {
         return DefaultScriber.of(loggingEventBuilder);
     }
 
+    @SuppressWarnings("removal")  //Note: Uses deprecated API on purpose, until it is removed.
     public static LoggerAt<Scriber<LoggingEventBuilder>> of(Logger logger) {
         return LoggerAt.of(logger,Scribers::of);
     }

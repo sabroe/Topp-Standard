@@ -36,6 +36,7 @@ import java.util.List;
  * @since 2025-01-10
  */
 @Slf4j
+@SuppressWarnings("removal")  //Note: Tests deprecated API on purpose, until it is removed.
 class ScribersTest {
     /**
      * Tests the baseline effect of using the native {@link org.slf4j.spi.LoggingEventBuilder}.

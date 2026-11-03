@@ -41,6 +41,7 @@ import java.util.function.Function;
  */
 @Deprecated(forRemoval = true)
 @AllArgsConstructor(access=AccessLevel.PRIVATE)
+@SuppressWarnings("removal")  //Note: Uses deprecated API on purpose, until it is removed.
 public class LoggerAt<R> implements ActionableAt<R> {
     /**
      * SLF4J logger.

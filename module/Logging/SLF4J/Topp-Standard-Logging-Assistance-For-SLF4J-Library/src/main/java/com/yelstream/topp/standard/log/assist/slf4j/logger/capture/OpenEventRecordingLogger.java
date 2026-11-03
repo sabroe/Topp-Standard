@@ -107,7 +107,7 @@ public class OpenEventRecordingLogger extends EventRecordingLogger {
         private boolean warnEnabled=true;
         private boolean errorEnabled=true;
 
-        @SuppressWarnings("java:S1117")  //Another s*** rule made up by an imbecile thinking that all are dumber hence destroying the joy of Java
+        @SuppressWarnings({"java:S1117","removal"})  //Another s*** rule made up by an imbecile thinking that all are dumber hence destroying the joy of Java
         public Builder levelEnable(Level level) {
             Levels.enable(level,(traceEnabled, debugEnabled, infoEnabled, warnEnabled, errorEnabled)->{
                 traceEnabled(traceEnabled);
