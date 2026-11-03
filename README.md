@@ -148,6 +148,10 @@ plugins {
 
 The `bootstrap` plugin then checks out Topp-Gradle-Convention and makes its convention plugins available to every module.
 
+Topp Standard *chooses* to use the bootstrap — nothing forces it. A local clone of Topp-Gradle-Convention,
+included directly with `includeBuild(...)`, works just as well. The benefit of the bootstrap is that the conventions
+follow the `main` branch of Topp-Gradle-Convention automatically, with no manual pulls or version bumps.
+
 
 ## Technical Constraints
 
