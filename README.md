@@ -118,7 +118,7 @@ The build spans three GitHub repositories:
 3. [Topp-Standard](https://github.com/sabroe/Topp-Standard) — this repository; the Java modules themselves.
 
 ```mermaid
-flowchart LR
+flowchart TB
     S["Topp-Standard<br/>Java modules"] -->|applies bootstrap plugin| B["Topp-Gradle-Bootstrap<br/>settings plugin"]
     B -->|checks out main branch| C["Topp-Gradle-Convention<br/>convention plugins"]
     C -->|applied to every module| S
