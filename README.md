@@ -117,6 +117,13 @@ The build spans three GitHub repositories:
 2. [Topp-Gradle-Convention](https://github.com/sabroe/Topp-Gradle-Convention) — the shared Gradle convention plugins applied to every module.
 3. [Topp-Standard](https://github.com/sabroe/Topp-Standard) — this repository; the Java modules themselves.
 
+```mermaid
+flowchart LR
+    S["Topp-Standard<br/>Java modules"] -->|applies bootstrap plugin| B["Topp-Gradle-Bootstrap<br/>settings plugin"]
+    B -->|checks out main branch| C["Topp-Gradle-Convention<br/>convention plugins"]
+    C -->|applied to every module| S
+```
+
 To use the same setup, clone Topp-Gradle-Bootstrap to `~/.topp/gradle/script/Topp-Gradle-Bootstrap` and add to `settings.gradle.kts`:
 
 ```kotlin
