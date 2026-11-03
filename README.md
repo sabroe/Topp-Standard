@@ -19,11 +19,9 @@ Rather than forming a single framework, the project focuses on small, focused bu
 
 
 
-## How I think about systems
+## Small parts, big systems
 
-Composable runtime systems are systems where behavior is built from small, well-defined, replaceable parts — combined at the edges, not hardwired inside.
-
-I design systems as composable runtime structures, independent components that can be combined, replaced, or relocated without upfront coupling decisions.
+Composable runtime systems build behavior from small, well-defined, replaceable parts — combined at the edges, not hardwired inside — that can be replaced or relocated without upfront coupling decisions.
 
 This perspective unifies composition, correctness, evolution, and operability.
 
@@ -169,6 +167,6 @@ All artifacts can be explored here:
 
 https://central.sonatype.com/search?q=com.yelstream.topp.standard
 
-This project reflects a systems design practice focused on composable, evolvable runtime architectures.
+This project reflects a systems design practice: small parts, hard boundaries, continuous evolution.
 
 **-- Morten Sabroe Mortensen**
