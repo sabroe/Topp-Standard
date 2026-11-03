@@ -15,6 +15,31 @@ Each module evolves independently — from early experimentation to stable produ
 
 Rather than forming a single framework, the project focuses on small, focused building blocks that can be combined and integrated across Java SE and Jakarta EE applications.
 
+## Setup
+
+The build spans three GitHub repositories:
+
+1. [Topp-Gradle-Bootstrap](https://github.com/sabroe/Topp-Gradle-Bootstrap) — the `bootstrap` settings plugin; checks out and wires in the conventions.
+2. [Topp-Gradle-Convention](https://github.com/sabroe/Topp-Gradle-Convention) — the shared Gradle convention plugins applied to every module.
+3. [Topp-Standard](https://github.com/sabroe/Topp-Standard) — this repository; the Java modules themselves.
+
+```mermaid
+flowchart TB
+    S["Topp-Standard<br/>Java modules"] -->|applies bootstrap plugin| B["Topp-Gradle-Bootstrap<br/>settings plugin"]
+    B -->|checks out main branch| C["Topp-Gradle-Convention<br/>convention plugins"]
+    C -->|applied to every module| S
+```
+
+To use the same setup, clone Topp-Gradle-Bootstrap to `~/.topp/gradle/script/Topp-Gradle-Bootstrap` and add to `settings.gradle.kts`:
+
+```kotlin
+pluginManagement { includeBuild("${System.getProperty("user.home")}/.topp/gradle/script/Topp-Gradle-Bootstrap") }
+plugins { id("bootstrap") }
+```
+
+Topp Standard *chooses* to use the bootstrap — nothing forces it. A local clone of Topp-Gradle-Convention,
+included with `includeBuild(...)`, works just as well. The benefit: the conventions follow its `main` branch automatically.
+
 ## Built for what's next
 
 - **Ready for Gradle 10** — tracks Gradle release candidates, runs with all deprecation warnings visible, and enables `NO_IMPLICIT_LOOKUP_IN_PARENT_PROJECTS` so Gradle 10 behavior applies already today.
@@ -108,31 +133,6 @@ Hence, the project serves three purposes:
 - A continuously evolving collection of code, built over time through discovery, invention, and iterative refinement.
 - A continuously published set of named artifacts for practical use via Maven Central.
 - An exploration of an advanced Gradle multi-module architecture built on custom convention plugins and continuous module integration.
-
-## Setup
-
-The build spans three GitHub repositories:
-
-1. [Topp-Gradle-Bootstrap](https://github.com/sabroe/Topp-Gradle-Bootstrap) — the `bootstrap` settings plugin; checks out and wires in the conventions.
-2. [Topp-Gradle-Convention](https://github.com/sabroe/Topp-Gradle-Convention) — the shared Gradle convention plugins applied to every module.
-3. [Topp-Standard](https://github.com/sabroe/Topp-Standard) — this repository; the Java modules themselves.
-
-```mermaid
-flowchart TB
-    S["Topp-Standard<br/>Java modules"] -->|applies bootstrap plugin| B["Topp-Gradle-Bootstrap<br/>settings plugin"]
-    B -->|checks out main branch| C["Topp-Gradle-Convention<br/>convention plugins"]
-    C -->|applied to every module| S
-```
-
-To use the same setup, clone Topp-Gradle-Bootstrap to `~/.topp/gradle/script/Topp-Gradle-Bootstrap` and add to `settings.gradle.kts`:
-
-```kotlin
-pluginManagement { includeBuild("${System.getProperty("user.home")}/.topp/gradle/script/Topp-Gradle-Bootstrap") }
-plugins { id("bootstrap") }
-```
-
-Topp Standard *chooses* to use the bootstrap — nothing forces it. A local clone of Topp-Gradle-Convention,
-included with `includeBuild(...)`, works just as well. The benefit: the conventions follow its `main` branch automatically.
 
 ## Technical Constraints
 
