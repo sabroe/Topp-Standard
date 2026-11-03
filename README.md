@@ -1,5 +1,12 @@
 # Topp Standard @ Yelstream
 
+[![Maven Central](https://img.shields.io/badge/Maven_Central-com.yelstream.topp.standard-C71A36?logo=apachemaven)](https://central.sonatype.com/search?q=com.yelstream.topp.standard)
+[![Java](https://img.shields.io/badge/Java-21%E2%80%9327-ED8B00?logo=openjdk&logoColor=white)](#technical-constraints)
+[![Gradle](https://img.shields.io/badge/Gradle-9_%7C_10--ready-02303A?logo=gradle)](#built-for-whats-next)
+[![Configuration Cache](https://img.shields.io/badge/Configuration_Cache-on-2EA44F?logo=gradle)](#built-for-whats-next)
+[![License](https://img.shields.io/github/license/sabroe/Topp-Standard)](LICENSE)
+[![Last commit](https://img.shields.io/github/last-commit/sabroe/Topp-Standard)](https://github.com/sabroe/Topp-Standard/commits/main)
+
 Small, strict, composable Java libraries —
 JPMS to the core, zero warnings, continuously on Maven Central.
 
