@@ -150,12 +150,10 @@ The `bootstrap` plugin then checks out Topp-Gradle-Convention and makes its conv
 
 ## Technical Constraints
 
-- All artifacts are strict JPMS modules implemented in modern Java and validated to maintain acyclic internal dependencies.
-- The architecture enforces strong modular boundaries and favors framework-agnostic implementations, while selectively integrating with ecosystems such as Spring Framework, Spring Boot, Quarkus, SmallRye, Eclipse MicroProfile, and Jakarta EE (including CDI), as well as selected external libraries such as SLF4J.
-- All artifacts are compiled under strict Java compiler settings -- including `-Xlint:rawtypes`, `-Xlint:unchecked`, `-Xlint:deprecation`, and `-Werror` -- enforcing zero-warning compilation as a build requirement.
-- The project is built using Gradle 9.8.2 (Gradle release candidate version is 9.9.0 RC1, released on 30 Oct 2026).
-- The project is built using Java SE 27.
-- Java SE 21 is the baseline for most modules, while selected modules target newer versions up to Java SE 27.
+- Internal dependencies are validated to be acyclic.
+- Framework-agnostic by default, with selective integration for Spring Framework, Spring Boot, Quarkus, SmallRye, Eclipse MicroProfile, Jakarta EE (including CDI), SLF4J, and the MCP Java SDK.
+- Zero warnings allowed: `-Xlint:rawtypes`, `-Xlint:unchecked`, `-Xlint:deprecation`, and `-Werror` on every module.
+- Java SE 21 is the baseline for most modules; selected modules target up to Java SE 27.
 
 
 ## Published Artifacts
