@@ -1,4 +1,4 @@
-# Topp Standard @ Yelstream
+# Topp Standard
 
 [![Maven Central](https://img.shields.io/badge/Maven_Central-com.yelstream.topp.standard-C71A36?logo=apachemaven)](https://central.sonatype.com/search?q=com.yelstream.topp.standard)
 [![Java](https://img.shields.io/badge/Java-21%E2%80%9327-ED8B00?logo=openjdk&logoColor=white)](#technical-constraints)
