@@ -149,6 +149,8 @@ Hence, the project serves three purposes:
 
 ## Published Artifacts
 
+[![Topp Standard on Maven Central: artifacts, latest versions and release dates](.github/assets/maven-central.svg)](https://central.sonatype.com/search?q=com.yelstream.topp.standard)
+
 All artifacts, including those not featured above: https://central.sonatype.com/search?q=com.yelstream.topp.standard
 
 This project reflects a systems design practice: small parts, hard boundaries, continuous evolution.

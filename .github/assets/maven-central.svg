@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="348" viewBox="0 0 880 348" role="img" aria-labelledby="t">
+  <title id="t">Topp Standard on Maven Central: 64 artifacts under com.yelstream.topp.standard, 716 versions in total, latest release 2026-09-18</title>
+  <style>
+    text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 13px; fill: #d0d7de; white-space: pre; }
+    .head { fill: #8b949e; font-size: 11.5px; letter-spacing: 0.5px; } .dim { fill: #8b949e; } .ver { fill: #3fb950; font-weight: bold; }
+    .info { fill: #79c0ff; } .ok { fill: #3fb950; font-weight: bold; } .line { opacity: 0; }
+  </style>
+
+  <!-- Master clock: one 28.9-second cycle, repeated forever. -->
+  <rect width="0" height="0"><animate id="loop" attributeName="x" from="0" to="0" begin="0s;loop.end" dur="28.9s"/></rect>
+
+  <!-- Window -->
+  <rect x="0.5" y="0.5" width="879" height="347" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <path d="M0.5 28 H880" stroke="#30363d"/>
+  <circle cx="18" cy="14.5" r="5.5" fill="#ff5f57"/><circle cx="36" cy="14.5" r="5.5" fill="#febc2e"/><circle cx="54" cy="14.5" r="5.5" fill="#28c840"/>
+  <text x="440" y="18.5" text-anchor="middle" class="dim">Maven Central — com.yelstream.topp.standard</text>
+
+  <!-- Column headings -->
+  <g class="line"><set attributeName="opacity" to="0" begin="loop.begin"/><set attributeName="opacity" to="1" begin="loop.begin+0.5s"/>
+    <text x="18" y="56" class="head">ARTIFACT</text><text x="430" y="56" class="head">LATEST</text><text x="540" y="56" class="head">VERSIONS</text><text x="660" y="56" class="head">UPDATED</text>
+    <path d="M18 66 H862" stroke="#30363d"/></g>
+
+  <!-- Rows: real artifacts from Maven Central, scrolling up through the window -->
+  <clipPath id="view"><rect x="0" y="82" width="880" height="252"/></clipPath>
+  <g clip-path="url(#view)">
+    <g>
+      <animateTransform attributeName="transform" type="translate" begin="loop.begin" dur="28.9s" values="0 0;0 0;0 -1344;0 -1344;0 -1386;0 -1386" keyTimes="0;0.0554;0.6090;0.6367;0.6540;1"/>
+      <text x="18" y="349">topp-standard-annotation-intention</text><text x="430" y="349" class="ver">0.4.7</text><text x="540" y="349" class="dim">  5</text><text x="660" y="349" class="dim">2026-09-17</text>
+      <text x="18" y="370">topp-standard-annotation-processing</text><text x="430" y="370" class="ver">0.4.7</text><text x="540" y="370" class="dim">  5</text><text x="660" y="370" class="dim">2026-09-17</text>
+      <text x="18" y="391">topp-standard-annotator</text><text x="430" y="391" class="ver">0.3.8</text><text x="540" y="391" class="dim"> 18</text><text x="660" y="391" class="dim">2026-02-01</text>
+      <text x="18" y="412">topp-standard-apache-activemq</text><text x="430" y="412" class="ver">0.2.3</text><text x="540" y="412" class="dim">  2</text><text x="660" y="412" class="dim">2025-03-02</text>
+      <text x="18" y="433">topp-standard-apache-activemq-artemis</text><text x="430" y="433" class="ver">0.3.2</text><text x="540" y="433" class="dim">  4</text><text x="660" y="433" class="dim">2025-07-07</text>
+      <text x="18" y="454">topp-standard-apache-activemq-classic</text><text x="430" y="454" class="ver">0.3.2</text><text x="540" y="454" class="dim">  4</text><text x="660" y="454" class="dim">2025-07-07</text>
+      <text x="18" y="475">topp-standard-apache-poi-document</text><text x="430" y="475" class="ver">0.4.7</text><text x="540" y="475" class="dim"> 10</text><text x="660" y="475" class="dim">2026-09-17</text>
+      <text x="18" y="496">topp-standard-core</text><text x="430" y="496" class="ver">0.4.7</text><text x="540" y="496" class="dim"> 34</text><text x="660" y="496" class="dim">2026-09-17</text>
+      <text x="18" y="517">topp-standard-dual-access-io</text><text x="430" y="517" class="ver">0.4.7</text><text x="540" y="517" class="dim">  9</text><text x="660" y="517" class="dim">2026-09-17</text>
+      <text x="18" y="538">topp-standard-gradle-contribution</text><text x="430" y="538" class="ver">0.4.7</text><text x="540" y="538" class="dim"> 21</text><text x="660" y="538" class="dim">2026-09-17</text>
+      <text x="18" y="559">topp-standard-health-serialization</text><text x="430" y="559" class="ver">0.4.7</text><text x="540" y="559" class="dim"> 25</text><text x="660" y="559" class="dim">2026-09-17</text>
+      <text x="18" y="580">topp-standard-jakarta-jaxb</text><text x="430" y="580" class="ver">0.4.7</text><text x="540" y="580" class="dim"> 10</text><text x="660" y="580" class="dim">2026-09-17</text>
+      <text x="18" y="601">topp-standard-jakarta-jms</text><text x="430" y="601" class="ver">0.3.2</text><text x="540" y="601" class="dim">  4</text><text x="660" y="601" class="dim">2025-07-07</text>
+      <text x="18" y="622">topp-standard-jakarta-messaging</text><text x="430" y="622" class="ver">0.2.3</text><text x="540" y="622" class="dim">  2</text><text x="660" y="622" class="dim">2025-03-02</text>
+      <text x="18" y="643">topp-standard-json-data</text><text x="430" y="643" class="ver">0.4.7</text><text x="540" y="643" class="dim">  5</text><text x="660" y="643" class="dim">2026-09-17</text>
+      <text x="18" y="664">topp-standard-legacy-time-adapter</text><text x="430" y="664" class="ver">0.3.9</text><text x="540" y="664" class="dim">  1</text><text x="660" y="664" class="dim">2026-04-12</text>
+      <text x="18" y="685">topp-standard-loader</text><text x="430" y="685" class="ver">0.3.2</text><text x="540" y="685" class="dim">  1</text><text x="660" y="685" class="dim">2025-07-07</text>
+      <text x="18" y="706">topp-standard-log-assist-slf4j</text><text x="430" y="706" class="ver">0.4.7</text><text x="540" y="706" class="dim"> 25</text><text x="660" y="706" class="dim">2026-09-17</text>
+      <text x="18" y="727">topp-standard-log-resist-slf4j</text><text x="430" y="727" class="ver">0.4.7</text><text x="540" y="727" class="dim"> 25</text><text x="660" y="727" class="dim">2026-09-17</text>
+      <text x="18" y="748">topp-standard-log-slf4j-base</text><text x="430" y="748" class="ver">0.4.7</text><text x="540" y="748" class="dim">  5</text><text x="660" y="748" class="dim">2026-09-17</text>
+      <text x="18" y="769">topp-standard-log-slf4j-console-logger</text><text x="430" y="769" class="ver">0.4.7</text><text x="540" y="769" class="dim">  5</text><text x="660" y="769" class="dim">2026-09-17</text>
+      <text x="18" y="790">topp-standard-log-slf4j-proxy-logger</text><text x="430" y="790" class="ver">0.4.7</text><text x="540" y="790" class="dim">  5</text><text x="660" y="790" class="dim">2026-09-17</text>
+      <text x="18" y="811">topp-standard-log-slf4j-service-provider</text><text x="430" y="811" class="ver">0.4.7</text><text x="540" y="811" class="dim">  5</text><text x="660" y="811" class="dim">2026-09-17</text>
+      <text x="18" y="832">topp-standard-management</text><text x="430" y="832" class="ver">0.4.7</text><text x="540" y="832" class="dim"> 17</text><text x="660" y="832" class="dim">2026-09-17</text>
+      <text x="18" y="853">topp-standard-mcp-server</text><text x="430" y="853" class="ver">0.4.7</text><text x="540" y="853" class="dim">  4</text><text x="660" y="853" class="dim">2026-09-17</text>
+      <text x="18" y="874">topp-standard-microprofile-config</text><text x="430" y="874" class="ver">0.4.7</text><text x="540" y="874" class="dim"> 30</text><text x="660" y="874" class="dim">2026-09-17</text>
+      <text x="18" y="895">topp-standard-microprofile-health</text><text x="430" y="895" class="ver">0.4.7</text><text x="540" y="895" class="dim"> 25</text><text x="660" y="895" class="dim">2026-09-17</text>
+      <text x="18" y="916">topp-standard-net-tool</text><text x="430" y="916" class="ver">0.4.7</text><text x="540" y="916" class="dim"> 25</text><text x="660" y="916" class="dim">2026-09-17</text>
+      <text x="18" y="937">topp-standard-nillable</text><text x="430" y="937" class="ver">0.4.7</text><text x="540" y="937" class="dim"> 13</text><text x="660" y="937" class="dim">2026-09-17</text>
+      <text x="18" y="958">topp-standard-operation-comparison</text><text x="430" y="958" class="ver">0.4.7</text><text x="540" y="958" class="dim">  7</text><text x="660" y="958" class="dim">2026-09-17</text>
+      <text x="18" y="979">topp-standard-operation-reflection</text><text x="430" y="979" class="ver">0.4.7</text><text x="540" y="979" class="dim">  4</text><text x="660" y="979" class="dim">2026-09-17</text>
+      <text x="18" y="1000">topp-standard-operation-text</text><text x="430" y="1000" class="ver">0.4.7</text><text x="540" y="1000" class="dim">  5</text><text x="660" y="1000" class="dim">2026-09-17</text>
+      <text x="18" y="1021">topp-standard-operation-type</text><text x="430" y="1021" class="ver">0.4.7</text><text x="540" y="1021" class="dim">  6</text><text x="660" y="1021" class="dim">2026-09-17</text>
+      <text x="18" y="1042">topp-standard-polyglarium</text><text x="430" y="1042" class="ver">0.4.7</text><text x="540" y="1042" class="dim"> 15</text><text x="660" y="1042" class="dim">2026-09-17</text>
+      <text x="18" y="1063">topp-standard-quarkus-config</text><text x="430" y="1063" class="ver">0.4.7</text><text x="540" y="1063" class="dim"> 30</text><text x="660" y="1063" class="dim">2026-09-17</text>
+      <text x="18" y="1084">topp-standard-regular-expression</text><text x="430" y="1084" class="ver">0.4.7</text><text x="540" y="1084" class="dim">  8</text><text x="660" y="1084" class="dim">2026-09-17</text>
+      <text x="18" y="1105">topp-standard-resource</text><text x="430" y="1105" class="ver">0.4.7</text><text x="540" y="1105" class="dim">  9</text><text x="660" y="1105" class="dim">2026-09-17</text>
+      <text x="18" y="1126">topp-standard-scriptarium</text><text x="430" y="1126" class="ver">0.4.7</text><text x="540" y="1126" class="dim"> 15</text><text x="660" y="1126" class="dim">2026-09-17</text>
+      <text x="18" y="1147">topp-standard-smallrye-config</text><text x="430" y="1147" class="ver">0.4.7</text><text x="540" y="1147" class="dim"> 30</text><text x="660" y="1147" class="dim">2026-09-17</text>
+      <text x="18" y="1168">topp-standard-smallrye-reactive-messaging</text><text x="430" y="1168" class="ver">0.4.7</text><text x="540" y="1168" class="dim"> 13</text><text x="660" y="1168" class="dim">2026-09-17</text>
+      <text x="18" y="1189">topp-standard-source-transformation</text><text x="430" y="1189" class="ver">0.4.7</text><text x="540" y="1189" class="dim">  5</text><text x="660" y="1189" class="dim">2026-09-17</text>
+      <text x="18" y="1210">topp-standard-spring-boot-actuator-health</text><text x="430" y="1210" class="ver">0.4.7</text><text x="540" y="1210" class="dim"> 25</text><text x="660" y="1210" class="dim">2026-09-17</text>
+      <text x="18" y="1231">topp-standard-spring-framework-http-client</text><text x="430" y="1231" class="ver">0.4.7</text><text x="540" y="1231" class="dim">  5</text><text x="660" y="1231" class="dim">2026-09-17</text>
+      <text x="18" y="1252">topp-standard-spring-framework-rest-client</text><text x="430" y="1252" class="ver">0.4.7</text><text x="540" y="1252" class="dim">  5</text><text x="660" y="1252" class="dim">2026-09-17</text>
+      <text x="18" y="1273">topp-standard-stream-collection</text><text x="430" y="1273" class="ver">0.4.7</text><text x="540" y="1273" class="dim">  9</text><text x="660" y="1273" class="dim">2026-09-17</text>
+      <text x="18" y="1294">topp-standard-stream-gatherer</text><text x="430" y="1294" class="ver">0.4.7</text><text x="540" y="1294" class="dim">  8</text><text x="660" y="1294" class="dim">2026-09-17</text>
+      <text x="18" y="1315">topp-standard-system-holder</text><text x="430" y="1315" class="ver">0.4.7</text><text x="540" y="1315" class="dim">  7</text><text x="660" y="1315" class="dim">2026-09-17</text>
+      <text x="18" y="1336">topp-standard-system-loader</text><text x="430" y="1336" class="ver">0.4.7</text><text x="540" y="1336" class="dim">  9</text><text x="660" y="1336" class="dim">2026-09-17</text>
+      <text x="18" y="1357">topp-standard-terminal</text><text x="430" y="1357" class="ver">0.4.7</text><text x="540" y="1357" class="dim">  5</text><text x="660" y="1357" class="dim">2026-09-17</text>
+      <text x="18" y="1378">topp-standard-text-manifestation</text><text x="430" y="1378" class="ver">0.4.7</text><text x="540" y="1378" class="dim"> 16</text><text x="660" y="1378" class="dim">2026-09-17</text>
+      <text x="18" y="1399">topp-standard-time</text><text x="430" y="1399" class="ver">0.4.7</text><text x="540" y="1399" class="dim"> 10</text><text x="660" y="1399" class="dim">2026-09-17</text>
+      <text x="18" y="1420">topp-standard-time-formatting</text><text x="430" y="1420" class="ver">0.4.7</text><text x="540" y="1420" class="dim">  5</text><text x="660" y="1420" class="dim">2026-09-17</text>
+      <text x="18" y="1441">topp-standard-time-legacy</text><text x="430" y="1441" class="ver">0.4.7</text><text x="540" y="1441" class="dim">  9</text><text x="660" y="1441" class="dim">2026-09-17</text>
+      <text x="18" y="1462">topp-standard-tool-source-repository-git</text><text x="430" y="1462" class="ver">0.4.7</text><text x="540" y="1462" class="dim">  5</text><text x="660" y="1462" class="dim">2026-09-17</text>
+      <text x="18" y="1483">topp-standard-uniform-resource</text><text x="430" y="1483" class="ver">0.4.7</text><text x="540" y="1483" class="dim">  9</text><text x="660" y="1483" class="dim">2026-09-17</text>
+      <text x="18" y="1504">topp-standard-w3c-xml-signature-schema</text><text x="430" y="1504" class="ver">0.4.7</text><text x="540" y="1504" class="dim"> 10</text><text x="660" y="1504" class="dim">2026-09-17</text>
+      <text x="18" y="1525">topp-standard-xml</text><text x="430" y="1525" class="ver">0.4.7</text><text x="540" y="1525" class="dim"> 14</text><text x="660" y="1525" class="dim">2026-09-17</text>
+      <text x="18" y="1546">topp-standard-xml-bind</text><text x="430" y="1546" class="ver">0.4.9</text><text x="540" y="1546" class="dim"> 16</text><text x="660" y="1546" class="dim">2026-09-18</text>
+      <text x="18" y="1567">topp-standard-xml-crypto</text><text x="430" y="1567" class="ver">0.4.7</text><text x="540" y="1567" class="dim"> 13</text><text x="660" y="1567" class="dim">2026-09-17</text>
+      <text x="18" y="1588">topp-standard-xml-easy</text><text x="430" y="1588" class="ver">0.4.7</text><text x="540" y="1588" class="dim"> 10</text><text x="660" y="1588" class="dim">2026-09-17</text>
+      <text x="18" y="1609">topp-standard-xml-empress</text><text x="430" y="1609" class="ver">0.2.4</text><text x="540" y="1609" class="dim">  2</text><text x="660" y="1609" class="dim">2025-04-04</text>
+      <text x="18" y="1630">topp-standard-xml-process</text><text x="430" y="1630" class="ver">0.4.7</text><text x="540" y="1630" class="dim"> 14</text><text x="660" y="1630" class="dim">2026-09-17</text>
+      <text x="18" y="1651">topp-standard-xml-stream</text><text x="430" y="1651" class="ver">0.4.7</text><text x="540" y="1651" class="dim"> 14</text><text x="660" y="1651" class="dim">2026-09-17</text>
+      <text x="18" y="1672">topp-standard-xml-time</text><text x="430" y="1672" class="ver">0.4.7</text><text x="540" y="1672" class="dim">  5</text><text x="660" y="1672" class="dim">2026-09-17</text>
+      <text x="18" y="1714" class="ok">64 artifacts · 716 versions published · latest release 2026-09-18</text>
+    </g>
+  </g>
+</svg>
