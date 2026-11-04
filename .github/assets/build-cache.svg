@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="296" viewBox="0 0 880 296" role="img" aria-labelledby="t">
+  <title id="t">Second build of Topp Standard: configuration cache reused, 719 tasks, 662 up-to-date, BUILD SUCCESSFUL in 27s</title>
+  <style>
+    text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 12.5px; fill: #d0d7de; white-space: pre; }
+    .prompt { fill: #7ee787; }
+    .cmd { fill: #ffffff; }
+    .info { fill: #79c0ff; }
+    .dim { fill: #8b949e; }
+    .ok { fill: #3fb950; font-weight: bold; }
+    .line { opacity: 0; }
+  </style>
+
+  <!-- Master clock: one 10-second cycle, repeated forever. -->
+  <rect width="0" height="0"><animate id="loop" attributeName="x" from="0" to="0" begin="0s;loop.end" dur="10s"/></rect>
+
+  <!-- Window -->
+  <rect x="0.5" y="0.5" width="879" height="295" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <path d="M0.5 28 H879.5" stroke="#30363d"/>
+  <circle cx="18" cy="14.5" r="5.5" fill="#ff5f57"/>
+  <circle cx="36" cy="14.5" r="5.5" fill="#febc2e"/>
+  <circle cx="54" cy="14.5" r="5.5" fill="#28c840"/>
+  <text x="440" y="18.5" text-anchor="middle" class="dim">Topp-Standard — second build</text>
+
+  <!-- Command, typed out -->
+  <clipPath id="typing">
+    <rect x="34" y="40" height="22" width="0">
+      <set attributeName="width" to="0" begin="loop.begin"/>
+      <animate attributeName="width" from="0" to="330" begin="loop.begin+0.4s" dur="1.4s" fill="freeze"/>
+    </rect>
+  </clipPath>
+  <text x="18" y="56" class="prompt">$</text>
+  <text x="34" y="56" class="cmd" clip-path="url(#typing)">./gradlew build -Pbuild-time.tick=PT1H</text>
+
+  <!-- Output: real lines from the run -->
+  <g class="line"><set attributeName="opacity" to="0" begin="loop.begin"/><set attributeName="opacity" to="1" begin="loop.begin+2.3s"/>
+    <text x="18" y="80" class="info">Reusing configuration cache.</text></g>
+  <g class="line"><set attributeName="opacity" to="0" begin="loop.begin"/><set attributeName="opacity" to="1" begin="loop.begin+2.7s"/>
+    <text x="18" y="102">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:compileJava <tspan class="dim">UP-TO-DATE</tspan></text></g>
+  <g class="line"><set attributeName="opacity" to="0" begin="loop.begin"/><set attributeName="opacity" to="1" begin="loop.begin+2.9s"/>
+    <text x="18" y="122">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:delombok <tspan class="dim">UP-TO-DATE</tspan></text></g>
+  <g class="line"><set attributeName="opacity" to="0" begin="loop.begin"/><set attributeName="opacity" to="1" begin="loop.begin+3.1s"/>
+    <text x="18" y="142">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:jar <tspan class="dim">UP-TO-DATE</tspan></text></g>
+  <g class="line"><set attributeName="opacity" to="0" begin="loop.begin"/><set attributeName="opacity" to="1" begin="loop.begin+3.3s"/>
+    <text x="18" y="162">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:distZip <tspan class="dim">UP-TO-DATE</tspan></text></g>
+  <g class="line"><set attributeName="opacity" to="0" begin="loop.begin"/><set attributeName="opacity" to="1" begin="loop.begin+3.6s"/>
+    <text x="18" y="184" class="dim">…</text></g>
+  <g class="line"><set attributeName="opacity" to="0" begin="loop.begin"/><set attributeName="opacity" to="1" begin="loop.begin+4.6s"/>
+    <text x="18" y="216" class="ok">BUILD SUCCESSFUL in 27s</text></g>
+  <g class="line"><set attributeName="opacity" to="0" begin="loop.begin"/><set attributeName="opacity" to="1" begin="loop.begin+4.9s"/>
+    <text x="18" y="238">719 actionable tasks: 57 executed, 662 up-to-date</text></g>
+  <g class="line"><set attributeName="opacity" to="0" begin="loop.begin"/><set attributeName="opacity" to="1" begin="loop.begin+5.2s"/>
+    <text x="18" y="260" class="info">Configuration cache entry reused.</text></g>
+</svg>

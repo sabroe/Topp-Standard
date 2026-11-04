@@ -48,6 +48,8 @@ included with `includeBuild(...)`, works just as well. The benefit: the conventi
 - **Latest Java** — built on Java SE 27 via Gradle toolchains, strict JPMS modules, zero-warning compilation with `-Werror`.
 - **Supply-chain aware** — every module ships a CycloneDX SBOM; dependencies are managed in a single version catalog.
 
+![Second build: configuration cache reused, 662 of 719 tasks up-to-date, BUILD SUCCESSFUL in 27s](.github/assets/build-cache.svg)
+
 ## Small parts, big systems
 
 Composable runtime systems build behavior from small, well-defined, replaceable parts — combined at the edges, not hardwired inside — that can be replaced or relocated without upfront coupling decisions.
