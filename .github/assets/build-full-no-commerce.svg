@@ -1,0 +1,1370 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="408" viewBox="0 0 880 408" role="img" aria-labelledby="t">
+  <title id="t">First build of Topp Standard: all 1336 task lines scrolling past, 744 tasks executed, BUILD SUCCESSFUL in 6m</title>
+  <style>
+    text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 12.5px; fill: #d0d7de; white-space: pre; }
+    .prompt { fill: #7ee787; } .cmd { fill: #ffffff; } .info { fill: #79c0ff; } .dim { fill: #8b949e; }
+    .ok { fill: #3fb950; font-weight: bold; } .line { opacity: 0; }
+  </style>
+
+  <!-- Master clock: one 42-second cycle, repeated forever. -->
+  <rect width="0" height="0"><animate id="loop" attributeName="x" from="0" to="0" begin="0s;loop.end" dur="42s"/></rect>
+
+  <!-- Window -->
+  <rect x="0.5" y="0.5" width="879" height="407" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <path d="M0.5 28 H880" stroke="#30363d"/>
+  <circle cx="18" cy="14.5" r="5.5" fill="#ff5f57"/><circle cx="36" cy="14.5" r="5.5" fill="#febc2e"/><circle cx="54" cy="14.5" r="5.5" fill="#28c840"/>
+  <text x="440" y="18.5" text-anchor="middle" class="dim">Topp-Standard — first build, from nothing cached</text>
+
+  <!-- Command, typed out -->
+  <clipPath id="typing"><rect x="34" y="40" height="22" width="0"><set attributeName="width" to="0" begin="loop.begin"/><animate attributeName="width" from="0" to="140" begin="loop.begin+0.4s" dur="0.8s" fill="freeze"/></rect></clipPath>
+  <text x="18" y="56" class="prompt">$</text>
+  <text x="34" y="56" class="cmd" clip-path="url(#typing)">./gradlew build</text>
+  <g class="line"><set attributeName="opacity" to="0" begin="loop.begin"/><set attributeName="opacity" to="1" begin="loop.begin+1.5s"/><text x="18" y="78" class="info">Calculating task graph as no cached configuration is available for tasks: build</text></g>
+
+  <!-- Output: all real task lines, then the real summary, scrolling up through the window -->
+  <clipPath id="view"><rect x="0" y="88" width="880" height="306"/></clipPath>
+  <g clip-path="url(#view)">
+    <g>
+      <animateTransform attributeName="transform" type="translate" begin="loop.begin" dur="42s" values="0 0;0 0;0 -22712;0 -22712;0 -22780;0 -22780" keyTimes="0;0.0524;0.7667;0.7881;0.8060;1"/>
+      <text x="18" y="407">&gt; Task :Topp-Gradle-Bootstrap:checkKotlinCompilerVersion</text>
+      <text x="18" y="424">&gt; Task :Topp-Gradle-Bootstrap:checkKotlinGradlePluginConfigurationErrors <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="441">&gt; Task :Topp-Gradle-Bootstrap:generateExternalPluginSpecBuilders</text>
+      <text x="18" y="458">&gt; Task :Topp-Gradle-Bootstrap:extractPluginRequests <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="475">&gt; Task :Topp-Gradle-Bootstrap:generatePluginAdapters <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="492">&gt; Task :Topp-Gradle-Bootstrap:extractPrecompiledScriptPluginPlugins</text>
+      <text x="18" y="509">&gt; Task :Topp-Gradle-Bootstrap:generateScriptPluginAdapters</text>
+      <text x="18" y="526">&gt; Task :Topp-Gradle-Bootstrap:pluginDescriptors</text>
+      <text x="18" y="543">&gt; Task :Topp-Gradle-Bootstrap:processResources</text>
+      <text x="18" y="560">&gt; Task :Topp-Gradle-Bootstrap:compilePluginsBlocks</text>
+      <text x="18" y="577">&gt; Task :Topp-Gradle-Bootstrap:generatePrecompiledScriptPluginAccessors</text>
+      <text x="18" y="594">&gt; Task :Topp-Gradle-Bootstrap:compileKotlin</text>
+      <text x="18" y="611">&gt; Task :Topp-Gradle-Bootstrap:compileJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="628">&gt; Task :Topp-Gradle-Bootstrap:compileGroovy <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="645">&gt; Task :Topp-Gradle-Bootstrap:compileGroovyPlugins <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="662">&gt; Task :Topp-Gradle-Bootstrap:classes</text>
+      <text x="18" y="679">&gt; Task :Topp-Gradle-Bootstrap:jar</text>
+      <text x="18" y="696">&gt; Task :buildSrc:checkKotlinCompilerVersion</text>
+      <text x="18" y="713">&gt; Task :buildSrc:checkKotlinGradlePluginConfigurationErrors <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="730">&gt; Task :buildSrc:extractPluginRequests <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="747">&gt; Task :buildSrc:generatePluginAdapters <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="764">&gt; Task :buildSrc:pluginDescriptors</text>
+      <text x="18" y="781">&gt; Task :buildSrc:processResources</text>
+      <text x="18" y="798">&gt; Task :buildSrc:compileKotlin</text>
+      <text x="18" y="815">&gt; Task :buildSrc:compileJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="832">&gt; Task :buildSrc:compileGroovy <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="849">&gt; Task :buildSrc:compileGroovyPlugins <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="866">&gt; Task :buildSrc:classes</text>
+      <text x="18" y="883">&gt; Task :buildSrc:jar</text>
+      <text x="18" y="900">&gt; Task :Topp-Gradle-Feature:checkKotlinCompilerVersion</text>
+      <text x="18" y="917">&gt; Task :Topp-Gradle-Feature:checkKotlinGradlePluginConfigurationErrors <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="934">&gt; Task :Topp-Gradle-Feature:generateExternalPluginSpecBuilders</text>
+      <text x="18" y="951">&gt; Task :Topp-Gradle-Feature:extractPluginRequests <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="968">&gt; Task :Topp-Gradle-Feature:generatePluginAdapters <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="985">&gt; Task :Topp-Gradle-Feature:extractPrecompiledScriptPluginPlugins</text>
+      <text x="18" y="1002">&gt; Task :Topp-Gradle-Feature:generateScriptPluginAdapters</text>
+      <text x="18" y="1019">&gt; Task :Topp-Gradle-Feature:pluginDescriptors</text>
+      <text x="18" y="1036">&gt; Task :Topp-Gradle-Feature:processResources</text>
+      <text x="18" y="1053">&gt; Task :Topp-Gradle-Feature:compilePluginsBlocks</text>
+      <text x="18" y="1070">&gt; Task :Topp-Gradle-Feature:generatePrecompiledScriptPluginAccessors</text>
+      <text x="18" y="1087">&gt; Task :Topp-Gradle-Feature:compileKotlin</text>
+      <text x="18" y="1104">&gt; Task :Topp-Gradle-Feature:compileJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1121">&gt; Task :Topp-Gradle-Feature:compileGroovy <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1138">&gt; Task :Topp-Gradle-Feature:compileGroovyPlugins <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1155">&gt; Task :Topp-Gradle-Feature:classes</text>
+      <text x="18" y="1172">&gt; Task :Topp-Gradle-Feature:jar</text>
+      <text x="18" y="1189">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:generateGitProperties</text>
+      <text x="18" y="1206">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1223">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:generateGitProperties</text>
+      <text x="18" y="1240">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:processResources</text>
+      <text x="18" y="1257">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:compileJava</text>
+      <text x="18" y="1274">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:classes</text>
+      <text x="18" y="1291">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:jar</text>
+      <text x="18" y="1308">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:compileJava</text>
+      <text x="18" y="1325">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:generateGitProperties</text>
+      <text x="18" y="1342">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1359">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:classes</text>
+      <text x="18" y="1376">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:jar</text>
+      <text x="18" y="1393">&gt; Task :module:Topp-Standard-Core-Library:sourcesJar</text>
+      <text x="18" y="1410">&gt; Task :module:Topp-Standard-Core-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1427">&gt; Task :module:Topp-Standard-Core-Library:delombokInput</text>
+      <text x="18" y="1444">&gt; Task :module:Topp-Standard-Core-Library:generateGitProperties</text>
+      <text x="18" y="1461">&gt; Task :module:Topp-Standard-Core-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1478">&gt; Task :module:Topp-Standard-Nillable-Library:delombokInput</text>
+      <text x="18" y="1495">&gt; Task :module:Topp-Standard-Nillable-Library:sourcesJar</text>
+      <text x="18" y="1512">&gt; Task :module:Topp-Standard-Nillable-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1529">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:distTar</text>
+      <text x="18" y="1546">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:distZip</text>
+      <text x="18" y="1563">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:delombokInput</text>
+      <text x="18" y="1580">&gt; Task :module:Topp-Standard-Nillable-Library:generateGitProperties</text>
+      <text x="18" y="1597">&gt; Task :module:Topp-Standard-Nillable-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1614">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:sourcesJar</text>
+      <text x="18" y="1631">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:compileJava</text>
+      <text x="18" y="1648">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:classes</text>
+      <text x="18" y="1665">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:jar</text>
+      <text x="18" y="1682">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:decycleMain</text>
+      <text x="18" y="1699">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1716">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1733">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="1750">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1767">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:decycle</text>
+      <text x="18" y="1784">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="1801">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="1818">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:check</text>
+      <text x="18" y="1835">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:distTar</text>
+      <text x="18" y="1852">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:distZip</text>
+      <text x="18" y="1869">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:delombokInput</text>
+      <text x="18" y="1886">&gt; Task :module:Topp-Standard-Nillable-Library:compileJava</text>
+      <text x="18" y="1903">&gt; Task :module:Topp-Standard-Nillable-Library:classes</text>
+      <text x="18" y="1920">&gt; Task :module:Topp-Standard-Nillable-Library:jar</text>
+      <text x="18" y="1937">&gt; Task :module:Topp-Standard-Nillable-Library:distTar</text>
+      <text x="18" y="1954">&gt; Task :module:Topp-Standard-Nillable-Library:distZip</text>
+      <text x="18" y="1971">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:delombok</text>
+      <text x="18" y="1988">&gt; Task :module:Topp-Standard-Nillable-Library:decycleMain</text>
+      <text x="18" y="2005">&gt; Task :module:Topp-Standard-Nillable-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="2022">&gt; Task :module:Topp-Standard-Nillable-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="2039">&gt; Task :module:Topp-Standard-Nillable-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="2056">&gt; Task :module:Topp-Standard-Nillable-Library:decycle</text>
+      <text x="18" y="2073">&gt; Task :module:Topp-Standard-Nillable-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="2090">&gt; Task :module:Topp-Standard-Nillable-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="2107">&gt; Task :module:Topp-Standard-Nillable-Library:check</text>
+      <text x="18" y="2124">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:delombok</text>
+      <text x="18" y="2141">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:javadoc</text>
+      <text x="18" y="2158">&gt; Task :module:Topp-Standard-Nillable-Library:delombok</text>
+      <text x="18" y="2175">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:javadocJar</text>
+      <text x="18" y="2192">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:assemble</text>
+      <text x="18" y="2209">&gt; Task :module:Annotation:Topp-Standard-Annotation-Intention-Library:build</text>
+      <text x="18" y="2226">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:sourcesJar</text>
+      <text x="18" y="2243">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:decycleMain</text>
+      <text x="18" y="2260">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="2277">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="2294">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="2311">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="2328">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:decycle</text>
+      <text x="18" y="2345">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="2362">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="2379">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:check</text>
+      <text x="18" y="2396">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:javadoc</text>
+      <text x="18" y="2413">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:compileJava</text>
+      <text x="18" y="2430">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:javadocJar</text>
+      <text x="18" y="2447">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:assemble</text>
+      <text x="18" y="2464">&gt; Task :module:Annotation:Topp-Standard-Annotation-Processing-Library:build</text>
+      <text x="18" y="2481">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:delombokInput</text>
+      <text x="18" y="2498">&gt; Task :module:Topp-Standard-Nillable-Library:javadoc</text>
+      <text x="18" y="2515">&gt; Task :module:Topp-Standard-Nillable-Library:javadocJar</text>
+      <text x="18" y="2532">&gt; Task :module:Topp-Standard-Nillable-Library:assemble</text>
+      <text x="18" y="2549">&gt; Task :module:Topp-Standard-Nillable-Library:build</text>
+      <text x="18" y="2566">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:sourcesJar</text>
+      <text x="18" y="2583">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="2600">&gt; Task :module:Topp-Standard-Core-Library:compileJava</text>
+      <text x="18" y="2617">&gt; Task :module:Topp-Standard-Core-Library:classes</text>
+      <text x="18" y="2634">&gt; Task :module:Topp-Standard-Core-Library:jar</text>
+      <text x="18" y="2651">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:generateGitProperties</text>
+      <text x="18" y="2668">&gt; Task :module:Topp-Standard-Core-Library:distTar</text>
+      <text x="18" y="2685">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:generateGitProperties</text>
+      <text x="18" y="2702">&gt; Task :module:Topp-Standard-Core-Library:distZip</text>
+      <text x="18" y="2719">&gt; Task :module:Topp-Standard-Core-Library:decycleMain</text>
+      <text x="18" y="2736">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:processResources</text>
+      <text x="18" y="2753">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:classes</text>
+      <text x="18" y="2770">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:jar</text>
+      <text x="18" y="2787">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:distTar</text>
+      <text x="18" y="2804">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:delombok</text>
+      <text x="18" y="2821">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:distZip</text>
+      <text x="18" y="2838">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:decycleMain</text>
+      <text x="18" y="2855">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="2872">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="2889">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="2906">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:decycle</text>
+      <text x="18" y="2923">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="2940">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="2957">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:check</text>
+      <text x="18" y="2974">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:compileJava</text>
+      <text x="18" y="2991">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="3008">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:classes</text>
+      <text x="18" y="3025">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:jar</text>
+      <text x="18" y="3042">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:distTar</text>
+      <text x="18" y="3059">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:javadoc</text>
+      <text x="18" y="3076">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:distZip</text>
+      <text x="18" y="3093">&gt; Task :module:Topp-Standard-Core-Library:compileTestJava</text>
+      <text x="18" y="3110">&gt; Task :module:Topp-Standard-Core-Library:testClasses</text>
+      <text x="18" y="3127">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:delombokInput</text>
+      <text x="18" y="3144">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:javadocJar</text>
+      <text x="18" y="3161">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:assemble</text>
+      <text x="18" y="3178">&gt; Task :module:Annotation:Topp-Standard-Source-Transformation-Library:build</text>
+      <text x="18" y="3195">&gt; Task :module:Topp-Standard-Core-Library:decycleTest</text>
+      <text x="18" y="3212">&gt; Task :module:Topp-Standard-Core-Library:decycle</text>
+      <text x="18" y="3229">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:sourcesJar</text>
+      <text x="18" y="3246">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:decycleMain</text>
+      <text x="18" y="3263">&gt; Task :module:Topp-Standard-Core-Library:delombok</text>
+      <text x="18" y="3280">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:compileTestJava</text>
+      <text x="18" y="3297">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="3314">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:testClasses</text>
+      <text x="18" y="3331">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:decycleTest</text>
+      <text x="18" y="3348">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:decycle</text>
+      <text x="18" y="3365">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:delombok</text>
+      <text x="18" y="3382">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:javadoc</text>
+      <text x="18" y="3399">&gt; Task :module:Topp-Standard-Core-Library:test</text>
+      <text x="18" y="3416">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:test</text>
+      <text x="18" y="3433">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:javadocJar</text>
+      <text x="18" y="3450">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:assemble</text>
+      <text x="18" y="3467">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:check</text>
+      <text x="18" y="3484">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:build</text>
+      <text x="18" y="3501">&gt; Task :module:Build:Topp-Standard-Gradle-Contribution-Library:jacocoTestReport</text>
+      <text x="18" y="3518">&gt; Task :module:Topp-Standard-Core-Library:javadoc</text>
+      <text x="18" y="3535">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:generateGitProperties</text>
+      <text x="18" y="3552">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="3569">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:compileJava</text>
+      <text x="18" y="3586">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:classes</text>
+      <text x="18" y="3603">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:delombokInput</text>
+      <text x="18" y="3620">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:jar</text>
+      <text x="18" y="3637">&gt; Task :module:Topp-Standard-Core-Library:javadocJar</text>
+      <text x="18" y="3654">&gt; Task :module:Topp-Standard-Core-Library:assemble</text>
+      <text x="18" y="3671">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:distTar</text>
+      <text x="18" y="3688">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:sourcesJar</text>
+      <text x="18" y="3705">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:decycleMain</text>
+      <text x="18" y="3722">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:distZip</text>
+      <text x="18" y="3739">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="3756">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:compileTestJava</text>
+      <text x="18" y="3773">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:testClasses</text>
+      <text x="18" y="3790">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:decycleTest</text>
+      <text x="18" y="3807">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:decycle</text>
+      <text x="18" y="3824">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:compileJava</text>
+      <text x="18" y="3841">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:delombok</text>
+      <text x="18" y="3858">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:test</text>
+      <text x="18" y="3875">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:compileJava</text>
+      <text x="18" y="3892">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:check</text>
+      <text x="18" y="3909">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:jacocoTestReport</text>
+      <text x="18" y="3926">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:javadoc</text>
+      <text x="18" y="3943">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:generateGitProperties</text>
+      <text x="18" y="3960">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="3977">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:classes</text>
+      <text x="18" y="3994">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:jar</text>
+      <text x="18" y="4011">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:delombokInput</text>
+      <text x="18" y="4028">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:javadocJar</text>
+      <text x="18" y="4045">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:assemble</text>
+      <text x="18" y="4062">&gt; Task :module:Configuration:Topp-Standard-MicroProfile-Config-Library:build</text>
+      <text x="18" y="4079">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:sourcesJar</text>
+      <text x="18" y="4096">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:decycleMain</text>
+      <text x="18" y="4113">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4130">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4147">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="4164">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4181">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:decycle</text>
+      <text x="18" y="4198">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:generateGitProperties</text>
+      <text x="18" y="4215">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4232">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:classes</text>
+      <text x="18" y="4249">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:jar</text>
+      <text x="18" y="4266">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:delombokInput</text>
+      <text x="18" y="4283">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:distTar</text>
+      <text x="18" y="4300">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4317">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="4334">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:check</text>
+      <text x="18" y="4351">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:distTar</text>
+      <text x="18" y="4368">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:distZip</text>
+      <text x="18" y="4385">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:distZip</text>
+      <text x="18" y="4402">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:sourcesJar</text>
+      <text x="18" y="4419">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:decycleMain</text>
+      <text x="18" y="4436">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4453">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4470">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="4487">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4504">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:decycle</text>
+      <text x="18" y="4521">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4538">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="4555">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:check</text>
+      <text x="18" y="4572">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:delombok</text>
+      <text x="18" y="4589">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:compileJava</text>
+      <text x="18" y="4606">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:delombok</text>
+      <text x="18" y="4623">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:javadoc</text>
+      <text x="18" y="4640">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:generateGitProperties</text>
+      <text x="18" y="4657">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4674">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:classes</text>
+      <text x="18" y="4691">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:jar</text>
+      <text x="18" y="4708">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:javadocJar</text>
+      <text x="18" y="4725">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:assemble</text>
+      <text x="18" y="4742">&gt; Task :module:Configuration:Topp-Standard-Quarkus-Config-Library:build</text>
+      <text x="18" y="4759">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:generateGitProperties</text>
+      <text x="18" y="4776">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4793">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:javadoc</text>
+      <text x="18" y="4810">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:compileJava</text>
+      <text x="18" y="4827">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:classes</text>
+      <text x="18" y="4844">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:jar</text>
+      <text x="18" y="4861">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:javadocJar</text>
+      <text x="18" y="4878">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:assemble</text>
+      <text x="18" y="4895">&gt; Task :module:Configuration:Topp-Standard-SmallRye-Config-Library:build</text>
+      <text x="18" y="4912">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:compileJava</text>
+      <text x="18" y="4929">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:generateGitProperties</text>
+      <text x="18" y="4946">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="4963">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:classes</text>
+      <text x="18" y="4980">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:jar</text>
+      <text x="18" y="4997">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:generateGitProperties</text>
+      <text x="18" y="5014">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5031">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:generateGitProperties</text>
+      <text x="18" y="5048">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:processResources</text>
+      <text x="18" y="5065">&gt; Task :module:Core:Topp-Standard-Resource-Library:delombokInput</text>
+      <text x="18" y="5082">&gt; Task :module:Core:Topp-Standard-Resource-Library:sourcesJar</text>
+      <text x="18" y="5099">&gt; Task :module:Core:Topp-Standard-Resource-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5116">&gt; Task :module:Core:Topp-Standard-Resource-Library:generateGitProperties</text>
+      <text x="18" y="5133">&gt; Task :module:Core:Topp-Standard-Resource-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5150">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:compileJava</text>
+      <text x="18" y="5167">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:classes</text>
+      <text x="18" y="5184">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:jar</text>
+      <text x="18" y="5201">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:generateGitProperties</text>
+      <text x="18" y="5218">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5235">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:delombokInput</text>
+      <text x="18" y="5252">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:sourcesJar</text>
+      <text x="18" y="5269">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5286">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:compileJava</text>
+      <text x="18" y="5303">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:classes</text>
+      <text x="18" y="5320">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:jar</text>
+      <text x="18" y="5337">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:distTar</text>
+      <text x="18" y="5354">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:distZip</text>
+      <text x="18" y="5371">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:generateGitProperties</text>
+      <text x="18" y="5388">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:decycleMain</text>
+      <text x="18" y="5405">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5422">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="5439">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5456">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:decycle</text>
+      <text x="18" y="5473">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5490">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="5507">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:check</text>
+      <text x="18" y="5524">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:compileJava</text>
+      <text x="18" y="5541">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5558">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:classes</text>
+      <text x="18" y="5575">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:jar</text>
+      <text x="18" y="5592">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:distTar</text>
+      <text x="18" y="5609">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:compileJava</text>
+      <text x="18" y="5626">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:classes</text>
+      <text x="18" y="5643">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:jar</text>
+      <text x="18" y="5660">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:distZip</text>
+      <text x="18" y="5677">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:delombokInput</text>
+      <text x="18" y="5694">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:delombok</text>
+      <text x="18" y="5711">&gt; Task :module:Core:Topp-Standard-Resource-Library:compileJava</text>
+      <text x="18" y="5728">&gt; Task :module:Core:Topp-Standard-Resource-Library:classes</text>
+      <text x="18" y="5745">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:javadoc</text>
+      <text x="18" y="5762">&gt; Task :module:Core:Topp-Standard-Resource-Library:jar</text>
+      <text x="18" y="5779">&gt; Task :module:Core:Topp-Standard-Resource-Library:distTar</text>
+      <text x="18" y="5796">&gt; Task :module:Core:Topp-Standard-Resource-Library:distZip</text>
+      <text x="18" y="5813">&gt; Task :module:Core:Topp-Standard-Resource-Library:decycleMain</text>
+      <text x="18" y="5830">&gt; Task :module:Core:Topp-Standard-Resource-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5847">&gt; Task :module:Core:Topp-Standard-Resource-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="5864">&gt; Task :module:Core:Topp-Standard-Resource-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5881">&gt; Task :module:Core:Topp-Standard-Resource-Library:decycle</text>
+      <text x="18" y="5898">&gt; Task :module:Core:Topp-Standard-Resource-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="5915">&gt; Task :module:Core:Topp-Standard-Resource-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="5932">&gt; Task :module:Core:Topp-Standard-Resource-Library:check</text>
+      <text x="18" y="5949">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:javadocJar</text>
+      <text x="18" y="5966">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:assemble</text>
+      <text x="18" y="5983">&gt; Task :module:Health:Topp-Standard-Health-Serialization-Library:build</text>
+      <text x="18" y="6000">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:sourcesJar</text>
+      <text x="18" y="6017">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:decycleMain</text>
+      <text x="18" y="6034">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6051">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6068">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="6085">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6102">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:decycle</text>
+      <text x="18" y="6119">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6136">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="6153">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:check</text>
+      <text x="18" y="6170">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:delombok</text>
+      <text x="18" y="6187">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:compileJava</text>
+      <text x="18" y="6204">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:generateGitProperties</text>
+      <text x="18" y="6221">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6238">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:classes</text>
+      <text x="18" y="6255">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:javadoc</text>
+      <text x="18" y="6272">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:jar</text>
+      <text x="18" y="6289">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:javadocJar</text>
+      <text x="18" y="6306">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:assemble</text>
+      <text x="18" y="6323">&gt; Task :module:Health:Topp-Standard-MicroProfile-Health-Library:build</text>
+      <text x="18" y="6340">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:distTar</text>
+      <text x="18" y="6357">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:delombokInput</text>
+      <text x="18" y="6374">&gt; Task :module:Core:Topp-Standard-Resource-Library:delombok</text>
+      <text x="18" y="6391">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:distZip</text>
+      <text x="18" y="6408">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:sourcesJar</text>
+      <text x="18" y="6425">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:decycleMain</text>
+      <text x="18" y="6442">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6459">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6476">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="6493">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6510">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:decycle</text>
+      <text x="18" y="6527">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6544">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="6561">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:check</text>
+      <text x="18" y="6578">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:delombok</text>
+      <text x="18" y="6595">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:compileJava</text>
+      <text x="18" y="6612">&gt; Task :module:Core:Topp-Standard-Resource-Library:javadoc</text>
+      <text x="18" y="6629">&gt; Task :module:Core:Topp-Standard-Resource-Library:javadocJar</text>
+      <text x="18" y="6646">&gt; Task :module:Core:Topp-Standard-Resource-Library:assemble</text>
+      <text x="18" y="6663">&gt; Task :module:Core:Topp-Standard-Resource-Library:build</text>
+      <text x="18" y="6680">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:delombokInput</text>
+      <text x="18" y="6697">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:generateGitProperties</text>
+      <text x="18" y="6714">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6731">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:classes</text>
+      <text x="18" y="6748">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:jar</text>
+      <text x="18" y="6765">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:javadoc</text>
+      <text x="18" y="6782">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:javadocJar</text>
+      <text x="18" y="6799">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:assemble</text>
+      <text x="18" y="6816">&gt; Task :module:Health:Topp-Standard-Spring-Boot-Actuator-Health-Library:build</text>
+      <text x="18" y="6833">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:delombok</text>
+      <text x="18" y="6850">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:distTar</text>
+      <text x="18" y="6867">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:sourcesJar</text>
+      <text x="18" y="6884">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:javadoc</text>
+      <text x="18" y="6901">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:decycleMain</text>
+      <text x="18" y="6918">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6935">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6952">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="6969">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="6986">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:decycle</text>
+      <text x="18" y="7003">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="7020">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="7037">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:check</text>
+      <text x="18" y="7054">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:javadocJar</text>
+      <text x="18" y="7071">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:generateGitProperties</text>
+      <text x="18" y="7088">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:processResources</text>
+      <text x="18" y="7105">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:delombokInput</text>
+      <text x="18" y="7122">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:sourcesJar</text>
+      <text x="18" y="7139">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="7156">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:compileJava</text>
+      <text x="18" y="7173">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:classes</text>
+      <text x="18" y="7190">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:jar</text>
+      <text x="18" y="7207">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:distTar</text>
+      <text x="18" y="7224">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:distZip</text>
+      <text x="18" y="7241">&gt; Task :module:Management:Topp-Standard-Management-Library:compileJava</text>
+      <text x="18" y="7258">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:decycleMain</text>
+      <text x="18" y="7275">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="7292">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="7309">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="7326">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:decycle</text>
+      <text x="18" y="7343">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="7360">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="7377">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:check</text>
+      <text x="18" y="7394">&gt; Task :module:Management:Topp-Standard-Management-Library:generateGitProperties</text>
+      <text x="18" y="7411">&gt; Task :module:Management:Topp-Standard-Management-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="7428">&gt; Task :module:Management:Topp-Standard-Management-Library:classes</text>
+      <text x="18" y="7445">&gt; Task :module:Management:Topp-Standard-Management-Library:jar</text>
+      <text x="18" y="7462">&gt; Task :module:Management:Topp-Standard-Management-Library:distTar</text>
+      <text x="18" y="7479">&gt; Task :module:Management:Topp-Standard-Management-Library:distZip</text>
+      <text x="18" y="7496">&gt; Task :module:Management:Topp-Standard-Management-Library:delombokInput</text>
+      <text x="18" y="7513">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:delombok</text>
+      <text x="18" y="7530">&gt; Task :module:Topp-Standard-Core-Library:check</text>
+      <text x="18" y="7547">&gt; Task :module:Topp-Standard-Core-Library:build</text>
+      <text x="18" y="7564">&gt; Task :module:Topp-Standard-Core-Library:jacocoTestReport</text>
+      <text x="18" y="7581">&gt; Task :module:Management:Topp-Standard-Management-Library:sourcesJar</text>
+      <text x="18" y="7598">&gt; Task :module:Management:Topp-Standard-Management-Library:decycleMain</text>
+      <text x="18" y="7615">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:javadoc</text>
+      <text x="18" y="7632">&gt; Task :module:Management:Topp-Standard-Management-Library:delombok</text>
+      <text x="18" y="7649">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:javadocJar</text>
+      <text x="18" y="7666">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:assemble</text>
+      <text x="18" y="7683">&gt; Task :module:Interoperation:Topp-Standard-Scriptarium-Interoperability-Library:build</text>
+      <text x="18" y="7700">&gt; Task :module:Management:Topp-Standard-Management-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="7717">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:distZip</text>
+      <text x="18" y="7734">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:assemble</text>
+      <text x="18" y="7751">&gt; Task :module:Interoperation:Topp-Standard-Polyglarium-Interoperability-Library:build</text>
+      <text x="18" y="7768">&gt; Task :module:Management:Topp-Standard-Management-Library:compileTestJava</text>
+      <text x="18" y="7785">&gt; Task :module:Management:Topp-Standard-Management-Library:testClasses</text>
+      <text x="18" y="7802">&gt; Task :module:Management:Topp-Standard-Management-Library:decycleTest</text>
+      <text x="18" y="7819">&gt; Task :module:Management:Topp-Standard-Management-Library:decycle</text>
+      <text x="18" y="7836">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:compileJava</text>
+      <text x="18" y="7853">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:delombokInput</text>
+      <text x="18" y="7870">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:generateGitProperties</text>
+      <text x="18" y="7887">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="7904">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:classes</text>
+      <text x="18" y="7921">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:jar</text>
+      <text x="18" y="7938">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:distTar</text>
+      <text x="18" y="7955">&gt; Task :module:Management:Topp-Standard-Management-Library:javadoc</text>
+      <text x="18" y="7972">&gt; Task :module:Management:Topp-Standard-Management-Library:javadocJar</text>
+      <text x="18" y="7989">&gt; Task :module:Management:Topp-Standard-Management-Library:assemble</text>
+      <text x="18" y="8006">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:sourcesJar</text>
+      <text x="18" y="8023">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:decycleMain</text>
+      <text x="18" y="8040">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="8057">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="8074">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="8091">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="8108">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:decycle</text>
+      <text x="18" y="8125">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="8142">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="8159">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:check</text>
+      <text x="18" y="8176">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:distZip</text>
+      <text x="18" y="8193">&gt; Task :module:Management:Topp-Standard-Management-Library:test</text>
+      <text x="18" y="8210">&gt; Task :module:Management:Topp-Standard-Management-Library:jacocoTestReport</text>
+      <text x="18" y="8227">&gt; Task :module:Management:Topp-Standard-Management-Library:check</text>
+      <text x="18" y="8244">&gt; Task :module:Management:Topp-Standard-Management-Library:build</text>
+      <text x="18" y="8261">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:delombokInput</text>
+      <text x="18" y="8278">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:sourcesJar</text>
+      <text x="18" y="8295">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="8312">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:compileJava</text>
+      <text x="18" y="8329">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:delombok</text>
+      <text x="18" y="8346">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:generateGitProperties</text>
+      <text x="18" y="8363">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:processResources</text>
+      <text x="18" y="8380">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:classes</text>
+      <text x="18" y="8397">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:jar</text>
+      <text x="18" y="8414">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:startScripts</text>
+      <text x="18" y="8431">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:distTar</text>
+      <text x="18" y="8448">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:distZip</text>
+      <text x="18" y="8465">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:decycleMain</text>
+      <text x="18" y="8482">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="8499">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="8516">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="8533">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:decycle</text>
+      <text x="18" y="8550">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="8567">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="8584">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:check</text>
+      <text x="18" y="8601">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:generateGitProperties</text>
+      <text x="18" y="8618">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="8635">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:compileJava</text>
+      <text x="18" y="8652">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:classes</text>
+      <text x="18" y="8669">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:jar</text>
+      <text x="18" y="8686">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:distTar</text>
+      <text x="18" y="8703">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:distZip</text>
+      <text x="18" y="8720">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:sourcesJar</text>
+      <text x="18" y="8737">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:delombokInput</text>
+      <text x="18" y="8754">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:javadoc</text>
+      <text x="18" y="8771">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:decycleMain</text>
+      <text x="18" y="8788">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:javadocJar</text>
+      <text x="18" y="8805">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:assemble</text>
+      <text x="18" y="8822">&gt; Task :module:Network:Topp-Standard-Network-Tooling-Library:build</text>
+      <text x="18" y="8839">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="8856">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:distTar</text>
+      <text x="18" y="8873">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:distZip</text>
+      <text x="18" y="8890">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:delombok</text>
+      <text x="18" y="8907">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:delombokInput</text>
+      <text x="18" y="8924">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:compileTestJava</text>
+      <text x="18" y="8941">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:testClasses</text>
+      <text x="18" y="8958">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:decycleTest</text>
+      <text x="18" y="8975">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:decycle</text>
+      <text x="18" y="8992">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:javadoc</text>
+      <text x="18" y="9009">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:javadocJar</text>
+      <text x="18" y="9026">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:assemble</text>
+      <text x="18" y="9043">&gt; Task :module:Terminal:Topp-Standard-Terminal-Library:build</text>
+      <text x="18" y="9060">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:sourcesJar</text>
+      <text x="18" y="9077">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:decycleMain</text>
+      <text x="18" y="9094">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:delombok</text>
+      <text x="18" y="9111">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:delombok</text>
+      <text x="18" y="9128">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:compileTestJava</text>
+      <text x="18" y="9145">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="9162">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:testClasses</text>
+      <text x="18" y="9179">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:decycleTest</text>
+      <text x="18" y="9196">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:decycle</text>
+      <text x="18" y="9213">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:test</text>
+      <text x="18" y="9230">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:jacocoTestReport</text>
+      <text x="18" y="9247">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:check</text>
+      <text x="18" y="9264">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:compileJava</text>
+      <text x="18" y="9281">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:javadoc</text>
+      <text x="18" y="9298">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:test</text>
+      <text x="18" y="9315">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:javadoc</text>
+      <text x="18" y="9332">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:javadocJar</text>
+      <text x="18" y="9349">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:assemble</text>
+      <text x="18" y="9366">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:check</text>
+      <text x="18" y="9383">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:build</text>
+      <text x="18" y="9400">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Collection-Library:jacocoTestReport</text>
+      <text x="18" y="9417">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:delombokInput</text>
+      <text x="18" y="9434">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:sourcesJar</text>
+      <text x="18" y="9451">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="9468">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:distTar</text>
+      <text x="18" y="9485">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:distZip</text>
+      <text x="18" y="9502">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:delombokInput</text>
+      <text x="18" y="9519">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:javadocJar</text>
+      <text x="18" y="9536">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:assemble</text>
+      <text x="18" y="9553">&gt; Task :module:Text:Topp-Standard-Text-Manifestation-Library:build</text>
+      <text x="18" y="9570">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:sourcesJar</text>
+      <text x="18" y="9587">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:decycleMain</text>
+      <text x="18" y="9604">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="9621">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="9638">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="9655">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="9672">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:decycle</text>
+      <text x="18" y="9689">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="9706">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="9723">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:check</text>
+      <text x="18" y="9740">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:distTar</text>
+      <text x="18" y="9757">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:generateGitProperties</text>
+      <text x="18" y="9774">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="9791">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:classes</text>
+      <text x="18" y="9808">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:jar</text>
+      <text x="18" y="9825">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:distZip</text>
+      <text x="18" y="9842">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:distTar</text>
+      <text x="18" y="9859">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:distZip</text>
+      <text x="18" y="9876">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:decycleMain</text>
+      <text x="18" y="9893">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:delombokInput</text>
+      <text x="18" y="9910">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:compileTestJava</text>
+      <text x="18" y="9927">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:testClasses</text>
+      <text x="18" y="9944">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:decycleTest</text>
+      <text x="18" y="9961">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:decycle</text>
+      <text x="18" y="9978">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:delombok</text>
+      <text x="18" y="9995">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:delombok</text>
+      <text x="18" y="10012">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:javadoc</text>
+      <text x="18" y="10029">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:test</text>
+      <text x="18" y="10046">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:javadocJar</text>
+      <text x="18" y="10063">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:assemble</text>
+      <text x="18" y="10080">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:check</text>
+      <text x="18" y="10097">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:build</text>
+      <text x="18" y="10114">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:sourcesJar</text>
+      <text x="18" y="10131">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:javadoc</text>
+      <text x="18" y="10148">&gt; Task :module:Core:Collection:Topp-Standard-Stream-Gatherer-Library:jacocoTestReport</text>
+      <text x="18" y="10165">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:javadocJar</text>
+      <text x="18" y="10182">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:assemble</text>
+      <text x="18" y="10199">&gt; Task :module:Core:IO:Topp-Standard-Dual-Access-IO-Library:build</text>
+      <text x="18" y="10216">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:processTestResources</text>
+      <text x="18" y="10233">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:decycleMain</text>
+      <text x="18" y="10250">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:distTar</text>
+      <text x="18" y="10267">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:distZip</text>
+      <text x="18" y="10284">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:sourcesJar</text>
+      <text x="18" y="10301">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:delombokInput</text>
+      <text x="18" y="10318">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:decycleMain</text>
+      <text x="18" y="10335">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:delombok</text>
+      <text x="18" y="10352">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:compileTestJava</text>
+      <text x="18" y="10369">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="10386">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:testClasses</text>
+      <text x="18" y="10403">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:decycleTest</text>
+      <text x="18" y="10420">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:decycle</text>
+      <text x="18" y="10437">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:compileTestJava</text>
+      <text x="18" y="10454">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:testClasses</text>
+      <text x="18" y="10471">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:delombok</text>
+      <text x="18" y="10488">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:decycleTest</text>
+      <text x="18" y="10505">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:decycle</text>
+      <text x="18" y="10522">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:javadoc</text>
+      <text x="18" y="10539">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:javadocJar</text>
+      <text x="18" y="10556">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:assemble</text>
+      <text x="18" y="10573">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:compileJava</text>
+      <text x="18" y="10590">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:javadoc</text>
+      <text x="18" y="10607">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:javadocJar</text>
+      <text x="18" y="10624">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:assemble</text>
+      <text x="18" y="10641">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:delombokInput</text>
+      <text x="18" y="10658">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:test</text>
+      <text x="18" y="10675">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:test</text>
+      <text x="18" y="10692">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:jacocoTestReport</text>
+      <text x="18" y="10709">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:check</text>
+      <text x="18" y="10726">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Comparison-Library:build</text>
+      <text x="18" y="10743">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:sourcesJar</text>
+      <text x="18" y="10760">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="10777">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:generateGitProperties</text>
+      <text x="18" y="10794">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:check</text>
+      <text x="18" y="10811">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:build</text>
+      <text x="18" y="10828">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="10845">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:classes</text>
+      <text x="18" y="10862">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:jar</text>
+      <text x="18" y="10879">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:distTar</text>
+      <text x="18" y="10896">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:distZip</text>
+      <text x="18" y="10913">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:decycleMain</text>
+      <text x="18" y="10930">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="10947">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="10964">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="10981">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:decycle</text>
+      <text x="18" y="10998">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="11015">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="11032">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:check</text>
+      <text x="18" y="11049">&gt; Task :module:Core:Net:Topp-Standard-Uniform-Resource-Library:jacocoTestReport</text>
+      <text x="18" y="11066">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:delombokInput</text>
+      <text x="18" y="11083">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:sourcesJar</text>
+      <text x="18" y="11100">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="11117">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:compileJava</text>
+      <text x="18" y="11134">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:generateGitProperties</text>
+      <text x="18" y="11151">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="11168">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:classes</text>
+      <text x="18" y="11185">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:jar</text>
+      <text x="18" y="11202">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:distTar</text>
+      <text x="18" y="11219">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:delombok</text>
+      <text x="18" y="11236">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:distZip</text>
+      <text x="18" y="11253">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:decycleMain</text>
+      <text x="18" y="11270">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="11287">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="11304">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="11321">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:decycle</text>
+      <text x="18" y="11338">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="11355">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="11372">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:check</text>
+      <text x="18" y="11389">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:compileJava</text>
+      <text x="18" y="11406">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:delombokInput</text>
+      <text x="18" y="11423">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:delombok</text>
+      <text x="18" y="11440">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:javadoc</text>
+      <text x="18" y="11457">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:javadocJar</text>
+      <text x="18" y="11474">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:assemble</text>
+      <text x="18" y="11491">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Reflection-Library:build</text>
+      <text x="18" y="11508">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:sourcesJar</text>
+      <text x="18" y="11525">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="11542">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:distTar</text>
+      <text x="18" y="11559">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:distZip</text>
+      <text x="18" y="11576">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:generateGitProperties</text>
+      <text x="18" y="11593">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="11610">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:classes</text>
+      <text x="18" y="11627">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:jar</text>
+      <text x="18" y="11644">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:distTar</text>
+      <text x="18" y="11661">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:delombokInput</text>
+      <text x="18" y="11678">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:distZip</text>
+      <text x="18" y="11695">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:decycleMain</text>
+      <text x="18" y="11712">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:javadoc</text>
+      <text x="18" y="11729">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:javadocJar</text>
+      <text x="18" y="11746">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:assemble</text>
+      <text x="18" y="11763">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Text-Library:build</text>
+      <text x="18" y="11780">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:sourcesJar</text>
+      <text x="18" y="11797">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:decycleMain</text>
+      <text x="18" y="11814">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:compileTestJava</text>
+      <text x="18" y="11831">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:testClasses</text>
+      <text x="18" y="11848">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:decycleTest</text>
+      <text x="18" y="11865">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:decycle</text>
+      <text x="18" y="11882">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:delombok</text>
+      <text x="18" y="11899">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:compileTestJava</text>
+      <text x="18" y="11916">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="11933">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:testClasses</text>
+      <text x="18" y="11950">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:decycleTest</text>
+      <text x="18" y="11967">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:decycle</text>
+      <text x="18" y="11984">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:delombok</text>
+      <text x="18" y="12001">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:javadoc</text>
+      <text x="18" y="12018">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:javadocJar</text>
+      <text x="18" y="12035">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:assemble</text>
+      <text x="18" y="12052">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:distTar</text>
+      <text x="18" y="12069">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:distZip</text>
+      <text x="18" y="12086">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:delombokInput</text>
+      <text x="18" y="12103">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:javadoc</text>
+      <text x="18" y="12120">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:javadocJar</text>
+      <text x="18" y="12137">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:assemble</text>
+      <text x="18" y="12154">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:sourcesJar</text>
+      <text x="18" y="12171">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:decycleMain</text>
+      <text x="18" y="12188">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:test</text>
+      <text x="18" y="12205">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:jacocoTestReport</text>
+      <text x="18" y="12222">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:check</text>
+      <text x="18" y="12239">&gt; Task :module:Core:System:Topp-Standard-System-Holder-Library:build</text>
+      <text x="18" y="12256">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="12273">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:test</text>
+      <text x="18" y="12290">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:jacocoTestReport</text>
+      <text x="18" y="12307">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:check</text>
+      <text x="18" y="12324">&gt; Task :module:Core:Operation:Topp-Standard-Operation-Type-Library:build</text>
+      <text x="18" y="12341">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:compileTestJava</text>
+      <text x="18" y="12358">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:testClasses</text>
+      <text x="18" y="12375">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:decycleTest</text>
+      <text x="18" y="12392">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:decycle</text>
+      <text x="18" y="12409">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:compileJava</text>
+      <text x="18" y="12426">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:delombokInput</text>
+      <text x="18" y="12443">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:generateGitProperties</text>
+      <text x="18" y="12460">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="12477">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:classes</text>
+      <text x="18" y="12494">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:jar</text>
+      <text x="18" y="12511">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:distTar</text>
+      <text x="18" y="12528">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:distZip</text>
+      <text x="18" y="12545">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:sourcesJar</text>
+      <text x="18" y="12562">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:decycleMain</text>
+      <text x="18" y="12579">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:delombok</text>
+      <text x="18" y="12596">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:compileTestJava</text>
+      <text x="18" y="12613">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="12630">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:testClasses</text>
+      <text x="18" y="12647">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:decycleTest</text>
+      <text x="18" y="12664">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:decycle</text>
+      <text x="18" y="12681">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:test</text>
+      <text x="18" y="12698">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:delombok</text>
+      <text x="18" y="12715">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:check</text>
+      <text x="18" y="12732">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:jacocoTestReport</text>
+      <text x="18" y="12749">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:javadoc</text>
+      <text x="18" y="12766">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:javadocJar</text>
+      <text x="18" y="12783">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:assemble</text>
+      <text x="18" y="12800">&gt; Task :module:Core:System:Topp-Standard-System-Loader-Library:build</text>
+      <text x="18" y="12817">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:compileJava</text>
+      <text x="18" y="12834">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:delombokInput</text>
+      <text x="18" y="12851">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:javadoc</text>
+      <text x="18" y="12868">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:javadocJar</text>
+      <text x="18" y="12885">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:assemble</text>
+      <text x="18" y="12902">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:sourcesJar</text>
+      <text x="18" y="12919">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="12936">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:generateGitProperties</text>
+      <text x="18" y="12953">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="12970">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:classes</text>
+      <text x="18" y="12987">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:jar</text>
+      <text x="18" y="13004">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:distTar</text>
+      <text x="18" y="13021">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:distZip</text>
+      <text x="18" y="13038">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:test</text>
+      <text x="18" y="13055">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:decycleMain</text>
+      <text x="18" y="13072">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:check</text>
+      <text x="18" y="13089">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:build</text>
+      <text x="18" y="13106">&gt; Task :module:Core:Text:Topp-Standard-Regular-Expression-Library:jacocoTestReport</text>
+      <text x="18" y="13123">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="13140">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="13157">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="13174">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:decycle</text>
+      <text x="18" y="13191">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="13208">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="13225">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:check</text>
+      <text x="18" y="13242">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:compileJava</text>
+      <text x="18" y="13259">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:delombokInput</text>
+      <text x="18" y="13276">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:delombok</text>
+      <text x="18" y="13293">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:delombokInput</text>
+      <text x="18" y="13310">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:generateGitProperties</text>
+      <text x="18" y="13327">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="13344">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:classes</text>
+      <text x="18" y="13361">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:jar</text>
+      <text x="18" y="13378">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:generateGitProperties</text>
+      <text x="18" y="13395">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="13412">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:sourcesJar</text>
+      <text x="18" y="13429">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="13446">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:distTar</text>
+      <text x="18" y="13463">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:distZip</text>
+      <text x="18" y="13480">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:sourcesJar</text>
+      <text x="18" y="13497">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:decycleMain</text>
+      <text x="18" y="13514">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:compileJava</text>
+      <text x="18" y="13531">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:classes</text>
+      <text x="18" y="13548">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:jar</text>
+      <text x="18" y="13565">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:distTar</text>
+      <text x="18" y="13582">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:distZip</text>
+      <text x="18" y="13599">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:compileTestJava</text>
+      <text x="18" y="13616">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:javadoc</text>
+      <text x="18" y="13633">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:decycleMain</text>
+      <text x="18" y="13650">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:javadocJar</text>
+      <text x="18" y="13667">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:assemble</text>
+      <text x="18" y="13684">&gt; Task :module:Core:Time:Topp-Standard-Time-Formatting-Library:build</text>
+      <text x="18" y="13701">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="13718">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:testClasses</text>
+      <text x="18" y="13735">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:decycleTest</text>
+      <text x="18" y="13752">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:decycle</text>
+      <text x="18" y="13769">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:delombok</text>
+      <text x="18" y="13786">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:compileTestJava</text>
+      <text x="18" y="13803">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:testClasses</text>
+      <text x="18" y="13820">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:decycleTest</text>
+      <text x="18" y="13837">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:decycle</text>
+      <text x="18" y="13854">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:test</text>
+      <text x="18" y="13871">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:delombok</text>
+      <text x="18" y="13888">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:check</text>
+      <text x="18" y="13905">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:jacocoTestReport</text>
+      <text x="18" y="13922">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:compileJava</text>
+      <text x="18" y="13939">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:delombokInput</text>
+      <text x="18" y="13956">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:javadoc</text>
+      <text x="18" y="13973">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:generateGitProperties</text>
+      <text x="18" y="13990">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:test</text>
+      <text x="18" y="14007">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:javadocJar</text>
+      <text x="18" y="14024">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:check</text>
+      <text x="18" y="14041">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:assemble</text>
+      <text x="18" y="14058">&gt; Task :module:Core:Time:Topp-Standard-Time-Library:build</text>
+      <text x="18" y="14075">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="14092">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:classes</text>
+      <text x="18" y="14109">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:jar</text>
+      <text x="18" y="14126">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:distTar</text>
+      <text x="18" y="14143">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:distZip</text>
+      <text x="18" y="14160">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:sourcesJar</text>
+      <text x="18" y="14177">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:jacocoTestReport</text>
+      <text x="18" y="14194">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="14211">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="14228">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="14245">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="14262">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="14279">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="14296">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:decycleMain</text>
+      <text x="18" y="14313">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:decycle</text>
+      <text x="18" y="14330">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:check</text>
+      <text x="18" y="14347">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:delombok</text>
+      <text x="18" y="14364">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:generateGitProperties</text>
+      <text x="18" y="14381">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="14398">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:javadoc</text>
+      <text x="18" y="14415">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:javadocJar</text>
+      <text x="18" y="14432">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:assemble</text>
+      <text x="18" y="14449">&gt; Task :module:Core:Time:Topp-Standard-Time-Legacy-Library:build</text>
+      <text x="18" y="14466">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:delombokInput</text>
+      <text x="18" y="14483">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:sourcesJar</text>
+      <text x="18" y="14500">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="14517">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:compileJava</text>
+      <text x="18" y="14534">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:classes</text>
+      <text x="18" y="14551">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:jar</text>
+      <text x="18" y="14568">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:javadoc</text>
+      <text x="18" y="14585">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:javadocJar</text>
+      <text x="18" y="14602">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:assemble</text>
+      <text x="18" y="14619">&gt; Task :module:Data:JSON:Topp-Standard-JSON-Library:build</text>
+      <text x="18" y="14636">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:generateGitProperties</text>
+      <text x="18" y="14653">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="14670">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:delombokInput</text>
+      <text x="18" y="14687">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:sourcesJar</text>
+      <text x="18" y="14704">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="14721">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:generateGitProperties</text>
+      <text x="18" y="14738">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="14755">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:compileJava</text>
+      <text x="18" y="14772">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:classes</text>
+      <text x="18" y="14789">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:jar</text>
+      <text x="18" y="14806">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:distTar</text>
+      <text x="18" y="14823">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:distZip</text>
+      <text x="18" y="14840">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:compileJava</text>
+      <text x="18" y="14857">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:classes</text>
+      <text x="18" y="14874">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:jar</text>
+      <text x="18" y="14891">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:distTar</text>
+      <text x="18" y="14908">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:distZip</text>
+      <text x="18" y="14925">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:compileJava</text>
+      <text x="18" y="14942">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:decycleMain</text>
+      <text x="18" y="14959">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:generateGitProperties</text>
+      <text x="18" y="14976">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:decycleMain</text>
+      <text x="18" y="14993">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="15010">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="15027">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="15044">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:decycle</text>
+      <text x="18" y="15061">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="15078">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="15095">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:check</text>
+      <text x="18" y="15112">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="15129">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:classes</text>
+      <text x="18" y="15146">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:jar</text>
+      <text x="18" y="15163">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:compileTestJava</text>
+      <text x="18" y="15180">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:testClasses</text>
+      <text x="18" y="15197">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:decycleTest</text>
+      <text x="18" y="15214">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:decycle</text>
+      <text x="18" y="15231">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:delombok</text>
+      <text x="18" y="15248">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:compileJava</text>
+      <text x="18" y="15265">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:delombok</text>
+      <text x="18" y="15282">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:javadoc</text>
+      <text x="18" y="15299">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:javadocJar</text>
+      <text x="18" y="15316">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:assemble</text>
+      <text x="18" y="15333">&gt; Task :module:Data:XML:Topp-Standard-XML-Crypto-Library:build</text>
+      <text x="18" y="15350">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:delombokInput</text>
+      <text x="18" y="15367">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:generateGitProperties</text>
+      <text x="18" y="15384">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="15401">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:classes</text>
+      <text x="18" y="15418">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:jar</text>
+      <text x="18" y="15435">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:distTar</text>
+      <text x="18" y="15452">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:distZip</text>
+      <text x="18" y="15469">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:sourcesJar</text>
+      <text x="18" y="15486">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:decycleMain</text>
+      <text x="18" y="15503">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="15520">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="15537">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="15554">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="15571">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:decycle</text>
+      <text x="18" y="15588">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="15605">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="15622">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:check</text>
+      <text x="18" y="15639">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:test</text>
+      <text x="18" y="15656">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:jacocoTestReport</text>
+      <text x="18" y="15673">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:check</text>
+      <text x="18" y="15690">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:compileJava</text>
+      <text x="18" y="15707">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:delombokInput</text>
+      <text x="18" y="15724">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:javadoc</text>
+      <text x="18" y="15741">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:javadocJar</text>
+      <text x="18" y="15758">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:assemble</text>
+      <text x="18" y="15775">&gt; Task :module:Data:XML:Topp-Standard-XML-Bind-Library:build</text>
+      <text x="18" y="15792">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:sourcesJar</text>
+      <text x="18" y="15809">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="15826">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:distTar</text>
+      <text x="18" y="15843">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:distZip</text>
+      <text x="18" y="15860">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:delombok</text>
+      <text x="18" y="15877">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:delombokInput</text>
+      <text x="18" y="15894">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:generateGitProperties</text>
+      <text x="18" y="15911">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="15928">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:classes</text>
+      <text x="18" y="15945">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:jar</text>
+      <text x="18" y="15962">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:distTar</text>
+      <text x="18" y="15979">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:distZip</text>
+      <text x="18" y="15996">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:decycleMain</text>
+      <text x="18" y="16013">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16030">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="16047">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16064">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:decycle</text>
+      <text x="18" y="16081">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16098">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="16115">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:check</text>
+      <text x="18" y="16132">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:sourcesJar</text>
+      <text x="18" y="16149">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:decycleMain</text>
+      <text x="18" y="16166">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16183">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16200">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="16217">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16234">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:decycle</text>
+      <text x="18" y="16251">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16268">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="16285">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:check</text>
+      <text x="18" y="16302">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:distTar</text>
+      <text x="18" y="16319">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:distZip</text>
+      <text x="18" y="16336">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:delombokInput</text>
+      <text x="18" y="16353">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:delombok</text>
+      <text x="18" y="16370">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:javadoc</text>
+      <text x="18" y="16387">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:javadocJar</text>
+      <text x="18" y="16404">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:assemble</text>
+      <text x="18" y="16421">&gt; Task :module:Data:XML:Topp-Standard-XML-Easy-Library:build</text>
+      <text x="18" y="16438">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:sourcesJar</text>
+      <text x="18" y="16455">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:decycleMain</text>
+      <text x="18" y="16472">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16489">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16506">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="16523">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16540">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:decycle</text>
+      <text x="18" y="16557">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16574">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="16591">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:check</text>
+      <text x="18" y="16608">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:javadoc</text>
+      <text x="18" y="16625">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:compileJava</text>
+      <text x="18" y="16642">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:javadocJar</text>
+      <text x="18" y="16659">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:assemble</text>
+      <text x="18" y="16676">&gt; Task :module:Data:XML:Topp-Standard-XML-Library:build</text>
+      <text x="18" y="16693">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:delombokInput</text>
+      <text x="18" y="16710">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:delombok</text>
+      <text x="18" y="16727">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:delombok</text>
+      <text x="18" y="16744">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:generateGitProperties</text>
+      <text x="18" y="16761">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16778">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:classes</text>
+      <text x="18" y="16795">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:jar</text>
+      <text x="18" y="16812">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:distTar</text>
+      <text x="18" y="16829">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:distZip</text>
+      <text x="18" y="16846">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:sourcesJar</text>
+      <text x="18" y="16863">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:javadoc</text>
+      <text x="18" y="16880">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:decycleMain</text>
+      <text x="18" y="16897">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:javadocJar</text>
+      <text x="18" y="16914">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:assemble</text>
+      <text x="18" y="16931">&gt; Task :module:Data:XML:Topp-Standard-XML-Stream-Library:build</text>
+      <text x="18" y="16948">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="16965">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:delombok</text>
+      <text x="18" y="16982">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:compileTestJava</text>
+      <text x="18" y="16999">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:testClasses</text>
+      <text x="18" y="17016">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:decycleTest</text>
+      <text x="18" y="17033">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:decycle</text>
+      <text x="18" y="17050">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:javadoc</text>
+      <text x="18" y="17067">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:compileJava</text>
+      <text x="18" y="17084">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:javadocJar</text>
+      <text x="18" y="17101">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:assemble</text>
+      <text x="18" y="17118">&gt; Task :module:Data:XML:Topp-Standard-XML-Process-Library:build</text>
+      <text x="18" y="17135">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:delombokInput</text>
+      <text x="18" y="17152">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:javadoc</text>
+      <text x="18" y="17169">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:javadocJar</text>
+      <text x="18" y="17186">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:assemble</text>
+      <text x="18" y="17203">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:sourcesJar</text>
+      <text x="18" y="17220">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="17237">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:generateGitProperties</text>
+      <text x="18" y="17254">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="17271">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:classes</text>
+      <text x="18" y="17288">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:jar</text>
+      <text x="18" y="17305">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:distTar</text>
+      <text x="18" y="17322">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:test</text>
+      <text x="18" y="17339">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:distZip</text>
+      <text x="18" y="17356">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:check</text>
+      <text x="18" y="17373">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:build</text>
+      <text x="18" y="17390">&gt; Task :module:Data:XML:Topp-Standard-XML-Time-Library:jacocoTestReport</text>
+      <text x="18" y="17407">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="17424">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="17441">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:compileJava</text>
+      <text x="18" y="17458">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="17475">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="17492">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="17509">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:delombokInput</text>
+      <text x="18" y="17526">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:decycleMain</text>
+      <text x="18" y="17543">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:decycle</text>
+      <text x="18" y="17560">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:check</text>
+      <text x="18" y="17577">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:sourcesJar</text>
+      <text x="18" y="17594">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="17611">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:delombok</text>
+      <text x="18" y="17628">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:compileJava</text>
+      <text x="18" y="17645">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:generateGitProperties</text>
+      <text x="18" y="17662">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="17679">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:classes</text>
+      <text x="18" y="17696">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:jar</text>
+      <text x="18" y="17713">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:javadoc</text>
+      <text x="18" y="17730">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:distTar</text>
+      <text x="18" y="17747">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:javadocJar</text>
+      <text x="18" y="17764">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:assemble</text>
+      <text x="18" y="17781">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-HTTP-Client-Library:build</text>
+      <text x="18" y="17798">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:decycleMain</text>
+      <text x="18" y="17815">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="17832">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="17849">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="17866">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:decycle</text>
+      <text x="18" y="17883">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="17900">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="17917">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:check</text>
+      <text x="18" y="17934">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:delombok</text>
+      <text x="18" y="17951">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:distZip</text>
+      <text x="18" y="17968">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:generateGitProperties</text>
+      <text x="18" y="17985">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="18002">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:classes</text>
+      <text x="18" y="18019">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:jar</text>
+      <text x="18" y="18036">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:generateGitProperties</text>
+      <text x="18" y="18053">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="18070">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:javadoc</text>
+      <text x="18" y="18087">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:javadocJar</text>
+      <text x="18" y="18104">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:assemble</text>
+      <text x="18" y="18121">&gt; Task :module:Framework:Spring:Topp-Standard-Spring-Framework-REST-Client-Library:build</text>
+      <text x="18" y="18138">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:generateGitProperties</text>
+      <text x="18" y="18155">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:processResources</text>
+      <text x="18" y="18172">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:delombokInput</text>
+      <text x="18" y="18189">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:sourcesJar</text>
+      <text x="18" y="18206">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="18223">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:generateGitProperties</text>
+      <text x="18" y="18240">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:processResources</text>
+      <text x="18" y="18257">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:generateGitProperties</text>
+      <text x="18" y="18274">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:processResources</text>
+      <text x="18" y="18291">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:delombokInput</text>
+      <text x="18" y="18308">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:sourcesJar</text>
+      <text x="18" y="18325">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="18342">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:compileJava</text>
+      <text x="18" y="18359">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:classes</text>
+      <text x="18" y="18376">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:jar</text>
+      <text x="18" y="18393">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:compileJava</text>
+      <text x="18" y="18410">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:generateGitProperties</text>
+      <text x="18" y="18427">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="18444">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:classes</text>
+      <text x="18" y="18461">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:jar</text>
+      <text x="18" y="18478">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:distTar</text>
+      <text x="18" y="18495">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:compileJava</text>
+      <text x="18" y="18512">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:classes</text>
+      <text x="18" y="18529">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:jar</text>
+      <text x="18" y="18546">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:compileJava</text>
+      <text x="18" y="18563">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:classes</text>
+      <text x="18" y="18580">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:jar</text>
+      <text x="18" y="18597">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:distZip</text>
+      <text x="18" y="18614">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:generateGitProperties</text>
+      <text x="18" y="18631">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:decycleMain</text>
+      <text x="18" y="18648">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:compileJava</text>
+      <text x="18" y="18665">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:classes</text>
+      <text x="18" y="18682">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:jar</text>
+      <text x="18" y="18699">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:startScripts</text>
+      <text x="18" y="18716">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:distTar</text>
+      <text x="18" y="18733">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:compileTestJava</text>
+      <text x="18" y="18750">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:distZip</text>
+      <text x="18" y="18767">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:decycleMain</text>
+      <text x="18" y="18784">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="18801">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="18818">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="18835">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:decycle</text>
+      <text x="18" y="18852">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="18869">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="18886">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:check</text>
+      <text x="18" y="18903">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:testClasses</text>
+      <text x="18" y="18920">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:decycleTest</text>
+      <text x="18" y="18937">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:decycle</text>
+      <text x="18" y="18954">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:compileJava</text>
+      <text x="18" y="18971">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="18988">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:classes</text>
+      <text x="18" y="19005">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:jar</text>
+      <text x="18" y="19022">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:distTar</text>
+      <text x="18" y="19039">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:delombok</text>
+      <text x="18" y="19056">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:distZip</text>
+      <text x="18" y="19073">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:delombokInput</text>
+      <text x="18" y="19090">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:delombok</text>
+      <text x="18" y="19107">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:test</text>
+      <text x="18" y="19124">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:javadoc</text>
+      <text x="18" y="19141">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:jacocoTestReport</text>
+      <text x="18" y="19158">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:check</text>
+      <text x="18" y="19175">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:javadocJar</text>
+      <text x="18" y="19192">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:assemble</text>
+      <text x="18" y="19209">&gt; Task :module:Logging:Demo:SLF4J-Proxy-Demo-Application:build</text>
+      <text x="18" y="19226">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:sourcesJar</text>
+      <text x="18" y="19243">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:decycleMain</text>
+      <text x="18" y="19260">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="19277">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:distTar</text>
+      <text x="18" y="19294">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:distZip</text>
+      <text x="18" y="19311">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:delombokInput</text>
+      <text x="18" y="19328">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:javadoc</text>
+      <text x="18" y="19345">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:javadocJar</text>
+      <text x="18" y="19362">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:assemble</text>
+      <text x="18" y="19379">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Assistance-For-SLF4J-Library:build</text>
+      <text x="18" y="19396">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:sourcesJar</text>
+      <text x="18" y="19413">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:decycleMain</text>
+      <text x="18" y="19430">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:compileTestJava</text>
+      <text x="18" y="19447">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:testClasses</text>
+      <text x="18" y="19464">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:delombok</text>
+      <text x="18" y="19481">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:decycleTest</text>
+      <text x="18" y="19498">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:decycle</text>
+      <text x="18" y="19515">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:compileTestJava</text>
+      <text x="18" y="19532">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="19549">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:testClasses</text>
+      <text x="18" y="19566">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:decycleTest</text>
+      <text x="18" y="19583">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:decycle</text>
+      <text x="18" y="19600">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:delombok</text>
+      <text x="18" y="19617">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:javadoc</text>
+      <text x="18" y="19634">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:javadocJar</text>
+      <text x="18" y="19651">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:assemble</text>
+      <text x="18" y="19668">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:distTar</text>
+      <text x="18" y="19685">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:distZip</text>
+      <text x="18" y="19702">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:delombokInput</text>
+      <text x="18" y="19719">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:test</text>
+      <text x="18" y="19736">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:jacocoTestReport</text>
+      <text x="18" y="19753">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:check</text>
+      <text x="18" y="19770">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:sourcesJar</text>
+      <text x="18" y="19787">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:decycleMain</text>
+      <text x="18" y="19804">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="19821">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="19838">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="19855">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="19872">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:decycle</text>
+      <text x="18" y="19889">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="19906">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="19923">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:check</text>
+      <text x="18" y="19940">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:distTar</text>
+      <text x="18" y="19957">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:javadoc</text>
+      <text x="18" y="19974">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:javadocJar</text>
+      <text x="18" y="19991">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:assemble</text>
+      <text x="18" y="20008">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Base-Library:build</text>
+      <text x="18" y="20025">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:delombokInput</text>
+      <text x="18" y="20042">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:distZip</text>
+      <text x="18" y="20059">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:sourcesJar</text>
+      <text x="18" y="20076">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:decycleMain</text>
+      <text x="18" y="20093">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20110">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20127">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="20144">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20161">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:decycle</text>
+      <text x="18" y="20178">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20195">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="20212">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:check</text>
+      <text x="18" y="20229">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:distTar</text>
+      <text x="18" y="20246">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:test</text>
+      <text x="18" y="20263">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:jacocoTestReport</text>
+      <text x="18" y="20280">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:check</text>
+      <text x="18" y="20297">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-Resistance-For-SLF4J-Library:build</text>
+      <text x="18" y="20314">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:delombokInput</text>
+      <text x="18" y="20331">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:delombok</text>
+      <text x="18" y="20348">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:distZip</text>
+      <text x="18" y="20365">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:sourcesJar</text>
+      <text x="18" y="20382">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:decycleMain</text>
+      <text x="18" y="20399">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20416">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20433">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="20450">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20467">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:decycle</text>
+      <text x="18" y="20484">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20501">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="20518">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:check</text>
+      <text x="18" y="20535">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:delombok</text>
+      <text x="18" y="20552">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:javadoc</text>
+      <text x="18" y="20569">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:javadocJar</text>
+      <text x="18" y="20586">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:assemble</text>
+      <text x="18" y="20603">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Console-Logger-Library:build</text>
+      <text x="18" y="20620">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:compileJava</text>
+      <text x="18" y="20637">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:delombokInput</text>
+      <text x="18" y="20654">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:javadoc</text>
+      <text x="18" y="20671">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:javadocJar</text>
+      <text x="18" y="20688">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:assemble</text>
+      <text x="18" y="20705">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Proxy-Logger-Library:build</text>
+      <text x="18" y="20722">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:sourcesJar</text>
+      <text x="18" y="20739">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20756">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:compileJava</text>
+      <text x="18" y="20773">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:generateGitProperties</text>
+      <text x="18" y="20790">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20807">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:classes</text>
+      <text x="18" y="20824">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:jar</text>
+      <text x="18" y="20841">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:delombok</text>
+      <text x="18" y="20858">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:distTar</text>
+      <text x="18" y="20875">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:delombok</text>
+      <text x="18" y="20892">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:distZip</text>
+      <text x="18" y="20909">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:generateGitProperties</text>
+      <text x="18" y="20926">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20943">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="20960">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20977">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="20994">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="21011">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21028">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:classes</text>
+      <text x="18" y="21045">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:jar</text>
+      <text x="18" y="21062">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:decycleMain</text>
+      <text x="18" y="21079">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:decycle</text>
+      <text x="18" y="21096">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:check</text>
+      <text x="18" y="21113">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:distTar</text>
+      <text x="18" y="21130">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:delombokInput</text>
+      <text x="18" y="21147">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:javadoc</text>
+      <text x="18" y="21164">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:distZip</text>
+      <text x="18" y="21181">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:sourcesJar</text>
+      <text x="18" y="21198">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:javadocJar</text>
+      <text x="18" y="21215">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:assemble</text>
+      <text x="18" y="21232">&gt; Task :module:Media:Apache:Topp-Standard-Apache-POI-Document-Library:build</text>
+      <text x="18" y="21249">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21266">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21283">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="21300">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21317">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21334">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="21351">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:decycleMain</text>
+      <text x="18" y="21368">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:decycle</text>
+      <text x="18" y="21385">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:check</text>
+      <text x="18" y="21402">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:javadoc</text>
+      <text x="18" y="21419">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:javadocJar</text>
+      <text x="18" y="21436">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:assemble</text>
+      <text x="18" y="21453">&gt; Task :module:Logging:SLF4J:Topp-Standard-Logging-SLF4J-Service-Provider-Library:build</text>
+      <text x="18" y="21470">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:delombokInput</text>
+      <text x="18" y="21487">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:sourcesJar</text>
+      <text x="18" y="21504">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21521">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:compileJava</text>
+      <text x="18" y="21538">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:delombok</text>
+      <text x="18" y="21555">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:generateGitProperties</text>
+      <text x="18" y="21572">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21589">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:classes</text>
+      <text x="18" y="21606">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:jar</text>
+      <text x="18" y="21623">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:distTar</text>
+      <text x="18" y="21640">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:distZip</text>
+      <text x="18" y="21657">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:compileJava</text>
+      <text x="18" y="21674">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21691">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="21708">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21725">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21742">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="21759">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:decycleMain</text>
+      <text x="18" y="21776">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:decycle</text>
+      <text x="18" y="21793">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:check</text>
+      <text x="18" y="21810">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:delombokInput</text>
+      <text x="18" y="21827">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:javadoc</text>
+      <text x="18" y="21844">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:delombok</text>
+      <text x="18" y="21861">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:javadocJar</text>
+      <text x="18" y="21878">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:assemble</text>
+      <text x="18" y="21895">&gt; Task :module:Messaging:SmallRye:Topp-Standard-SmallRye-Reactive-Messaging-Library:build</text>
+      <text x="18" y="21912">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:sourcesJar</text>
+      <text x="18" y="21929">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21946">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:generateGitProperties</text>
+      <text x="18" y="21963">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="21980">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:classes</text>
+      <text x="18" y="21997">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:jar</text>
+      <text x="18" y="22014">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:distTar</text>
+      <text x="18" y="22031">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:delombok</text>
+      <text x="18" y="22048">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:distZip</text>
+      <text x="18" y="22065">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:compileJava</text>
+      <text x="18" y="22082">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22099">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="22116">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22133">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22150">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="22167">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:decycleMain</text>
+      <text x="18" y="22184">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:decycle</text>
+      <text x="18" y="22201">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:check</text>
+      <text x="18" y="22218">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:delombokInput</text>
+      <text x="18" y="22235">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:javadoc</text>
+      <text x="18" y="22252">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:javadocJar</text>
+      <text x="18" y="22269">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:assemble</text>
+      <text x="18" y="22286">&gt; Task :module:Tool:Source-Control:Topp-Standard-Git-Repository-Library:build</text>
+      <text x="18" y="22303">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:sourcesJar</text>
+      <text x="18" y="22320">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22337">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:javadoc</text>
+      <text x="18" y="22354">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:javadocJar</text>
+      <text x="18" y="22371">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:assemble</text>
+      <text x="18" y="22388">&gt; Task :module:AI:MCP:Demo:MCP-Server-Library:build</text>
+      <text x="18" y="22405">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:generateGitProperties</text>
+      <text x="18" y="22422">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:processResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22439">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:classes</text>
+      <text x="18" y="22456">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:jar</text>
+      <text x="18" y="22473">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:distTar</text>
+      <text x="18" y="22490">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:distZip</text>
+      <text x="18" y="22507">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:compileJava</text>
+      <text x="18" y="22524">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22541">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="22558">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22575">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22592">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="22609">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:decycleMain</text>
+      <text x="18" y="22626">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:decycle</text>
+      <text x="18" y="22643">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:check</text>
+      <text x="18" y="22660">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:sourcesJar</text>
+      <text x="18" y="22677">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:processTestResources <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22694">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:delombokInput</text>
+      <text x="18" y="22711">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:delombok</text>
+      <text x="18" y="22728">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:generateGitProperties</text>
+      <text x="18" y="22745">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:processResources</text>
+      <text x="18" y="22762">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:classes</text>
+      <text x="18" y="22779">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:jar</text>
+      <text x="18" y="22796">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:distTar</text>
+      <text x="18" y="22813">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:distZip</text>
+      <text x="18" y="22830">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:decycleMain</text>
+      <text x="18" y="22847">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:compileTestJava <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22864">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:testClasses <tspan class="dim">UP-TO-DATE</tspan></text>
+      <text x="18" y="22881">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:decycleTest <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22898">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:decycle</text>
+      <text x="18" y="22915">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:test <tspan class="dim">NO-SOURCE</tspan></text>
+      <text x="18" y="22932">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:jacocoTestReport <tspan class="dim">SKIPPED</tspan></text>
+      <text x="18" y="22949">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:check</text>
+      <text x="18" y="22966">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:javadoc</text>
+      <text x="18" y="22983">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:javadocJar</text>
+      <text x="18" y="23000">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:assemble</text>
+      <text x="18" y="23017">&gt; Task :module:Data:Jakarta:JAXB:Topp-Standard-Jakarta-JAXB-Library:build</text>
+      <text x="18" y="23034">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:delombok</text>
+      <text x="18" y="23051">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:javadoc</text>
+      <text x="18" y="23068">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:javadocJar</text>
+      <text x="18" y="23085">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:assemble</text>
+      <text x="18" y="23102">&gt; Task :module:Data:XSD:W3C:Topp-Standard-W3C-XML-Signature-Schema-Library:build</text>
+      <text x="18" y="23136" class="ok">BUILD SUCCESSFUL in 6m</text>
+      <text x="18" y="23153">744 actionable tasks: 744 executed</text>
+      <text x="18" y="23170" class="info">Configuration cache entry stored.</text>
+    </g>
+  </g>
+</svg>

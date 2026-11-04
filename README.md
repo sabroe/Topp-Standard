@@ -15,7 +15,7 @@ Each module evolves independently — from early experimentation to stable produ
 
 Rather than forming a single framework, the project focuses on small, focused building blocks that can be combined and integrated across Java SE and Jakarta EE applications.
 
-![First build from nothing cached: all 744 tasks executed, BUILD SUCCESSFUL in 6m](.github/assets/build-full.svg)
+![First build from nothing cached: all 744 tasks executed, BUILD SUCCESSFUL in 6m](.github/assets/build-full-no-commerce.svg)
 
 ## Setup
 
