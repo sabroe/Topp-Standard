@@ -26,6 +26,7 @@ plugins {
 }
 
 dependencies {
-    implementation("io.modelcontextprotocol.sdk:mcp:2.1.0")
-    implementation("io.javalin:javalin:7.1.0")
+    implementation("io.modelcontextprotocol.sdk:mcp:2.2.0")  //MCP Java SDK, https://github.com/modelcontextprotocol/java-sdk
+    implementation("io.javalin:javalin:7.2.4")
+    implementation project(':module:AI:MCP:MCP-Server-Library')
 }

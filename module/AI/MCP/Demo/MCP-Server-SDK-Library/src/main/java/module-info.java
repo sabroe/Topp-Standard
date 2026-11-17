@@ -26,7 +26,7 @@
 module com.yelstream.topp.standard.ai.mcp {
     requires static lombok;
     requires org.slf4j;
-//    requires jdk.httpserver;
     requires io.javalin;
-//    requires io.modelcontextprotocol.sdk.mcp;
+    requires com.yelstream.topp.standard.mcp;
+    exports com.yelstream.topp.standard.ai.mcp;
 }
