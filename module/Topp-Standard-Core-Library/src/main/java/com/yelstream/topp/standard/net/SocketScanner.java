@@ -34,8 +34,11 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
@@ -77,6 +80,90 @@ public class SocketScanner {
      */
     @lombok.Builder.Default
     private final Supplier<ManagedExecutor> executorSupplier=()->ManagedExecutor.of(Executors.newVirtualThreadPerTaskExecutor());
+
+    /**
+     * Method used to probe each port.
+     */
+    public enum Probe {
+        /**
+         * Connects a socket to the port; the port is occupied if the connect succeeds.
+         * <p>
+         *     This works for any address, local or remote.
+         *     Note that on Windows, a connect to a closed port takes about 2 seconds to be refused.
+         * </p>
+         */
+        CONNECT,
+
+        /**
+         * Binds a server-socket to the port; the port is occupied if the bind fails.
+         * <p>
+         *     This works for local addresses only.
+         *     It is fast and does not use ephemeral ports.
+         * </p>
+         */
+        BIND
+    }
+
+    /**
+     * Probe method per port.
+     */
+    @lombok.Builder.Default
+    private final Probe probe=Probe.CONNECT;
+
+    /**
+     * Maximum number of probes in flight at the same time.
+     * <p>
+     *     This keeps a scan from exhausting the ephemeral ports of the operating system.
+     * </p>
+     */
+    @lombok.Builder.Default
+    private final int maxConcurrency=1024;
+
+    /**
+     * Creates an executor that keeps at most {@link #maxConcurrency} commands in flight at the same time.
+     * Submission blocks until a permit is free.
+     * @param executor Underlying executor.
+     * @return Limited executor.
+     */
+    private Executor createLimitedExecutor(Executor executor) {
+        Semaphore permits=new Semaphore(maxConcurrency);
+        return command->{
+            permits.acquireUninterruptibly();
+            try {
+                executor.execute(()->{
+                    try {
+                        command.run();
+                    } finally {
+                        permits.release();
+                    }
+                });
+            } catch (RuntimeException ex) {
+                permits.release();
+                throw ex;
+            }
+        };
+    }
+
+    /**
+     * Probes a single port.
+     * @param address Address.
+     * @param port Port.
+     * @param executor Executor.
+     * @return Port if occupied, otherwise {@code null}.
+     */
+    private CompletableFuture<Integer> probePort(InetAddress address,
+                                                 int port,
+                                                 Executor executor) {
+        InetSocketAddress endpoint=new InetSocketAddress(address,port);
+        return switch (probe) {
+            case CONNECT ->
+                Sockets.TestConnects.withDetailedConnectResult(Sockets.ConnectParameter.of(endpoint,timeout),executor)
+                    .thenApply(result->result!=null && result.success()?port:null);
+            case BIND ->
+                ServerSockets.TestBinds.withDetailedBindResult(ServerSockets.BindParameter.of(endpoint,null),executor)
+                    .thenApply(result->result!=null && result.failure()?port:null);
+        };
+    }
 
     @Getter
     @ToString
@@ -129,30 +216,24 @@ public class SocketScanner {
             Result.Builder resultBuilder=Result.builder();
 
             try (ManagedExecutor executor=executorSupplier.get()) {
+                Executor limitedExecutor=createLimitedExecutor(executor);
                 for (var addressSupplier: addressSuppliers) {
                     InetAddress address=addressSupplier.get();
-                    log.atDebug().setMessage("Start scan of address {}.").addArgument(address).log();
-
-                    log.atDebug().setMessage("Stop scan.").log();
+                    log.atDebug().setMessage("Start scan of address {} using probe {}.").addArgument(address).addArgument(probe).log();
 
                     Result.Scan.Builder scanBuilder=Result.Scan.builder();
 
                     scanBuilder.address(address);
 
-                    List<CompletableFuture<Sockets.DetailedConnectResult>> futures=
-                        ports.get().mapToObj(port -> {
-                            return Sockets.TestConnects.withDetailedConnectResult(Sockets.ConnectParameter.of(new InetSocketAddress(address, port), timeout), executor);
-                            //TO-DO: Note that both 'Sockets' AND 'ServerSockets' have applicable tests; to be resolved!
-                        }).toList();
+                    List<CompletableFuture<Integer>> futures=
+                        ports.get().mapToObj(port->probePort(address,port,limitedExecutor)).toList();
 
-                    CompletableFuture<List<Sockets.DetailedConnectResult>> allFutures=CompletableFutures.allOf(futures);
-                    List<Sockets.DetailedConnectResult> results =
-                        allFutures.thenApply(v -> v.stream().filter(r -> r != null && r.success()).toList()).join();
+                    CompletableFuture<List<Integer>> allFutures=CompletableFutures.allOf(futures);
+                    List<Integer> occupiedPorts=
+                        allFutures.thenApply(v->v.stream().filter(Objects::nonNull).toList()).join();
 
                     List<Result.Scan.PortStatus> portStatuses=
-                        results.stream().map(result -> {
-                            return Result.Scan.PortStatus.of(SocketAddresses.getInetSocketAddress(result.getConnectParameter().getEndpoint()).getPort(), result.success());
-                        }).toList();
+                        occupiedPorts.stream().map(port->Result.Scan.PortStatus.of(port,true)).toList();
                     scanBuilder.portStatuses(portStatuses);
 
                     Result.Scan scan=scanBuilder.build();

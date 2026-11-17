@@ -130,7 +130,7 @@ include("module:Domain:Commerce:Persistence:Topp-Standard-Domain-Commerce-Persis
 //include("module:Demo:Application:Commerce:-Library")
 
 include("module:AI:MCP:MCP-Server-Library")
-//include("module:AI:MCP:Demo:MCP-Server-Spring-Application")
+include("module:AI:MCP:Demo:MCP-Server-Spring-Application")
 //include("module:AI:MCP:Demo:MCP-Server-Quarkus-Application")
 include("module:AI:MCP:Demo:MCP-Server-SDK-Library")
 
