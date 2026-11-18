@@ -19,6 +19,7 @@
 
 package com.yelstream.topp.standard.mcp.spec;
 
+import io.modelcontextprotocol.server.McpServerFeatures;
 import io.modelcontextprotocol.server.McpSyncServerExchange;
 import io.modelcontextprotocol.spec.McpSchema;
 import lombok.experimental.UtilityClass;
@@ -77,4 +78,25 @@ public class McpSchemas {
         return McpSchema.CallToolResult.builder().addTextContent(message).build();
     }
 
+    /**
+     * Creates the specification of the addition tool, combining {@link #addNumbersTool()} and {@link #addNumbers}.
+     * @return Created tool specification.
+     */
+    public static McpServerFeatures.SyncToolSpecification addNumbersSpecification() {
+        return McpServerFeatures.SyncToolSpecification.builder()
+                .tool(addNumbersTool())
+                .callHandler(McpSchemas::addNumbers)
+                .build();
+    }
+
+    /**
+     * Creates the specification of the greeting tool, combining {@link #greetPersonTool()} and {@link #greetPerson}.
+     * @return Created tool specification.
+     */
+    public static McpServerFeatures.SyncToolSpecification greetPersonSpecification() {
+        return McpServerFeatures.SyncToolSpecification.builder()
+                .tool(greetPersonTool())
+                .callHandler(McpSchemas::greetPerson)
+                .build();
+    }
 }

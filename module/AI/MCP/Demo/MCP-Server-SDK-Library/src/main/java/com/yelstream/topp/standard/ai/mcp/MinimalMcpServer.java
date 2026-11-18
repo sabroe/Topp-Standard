@@ -1,29 +1,33 @@
 package com.yelstream.topp.standard.ai.mcp;
 
+import com.yelstream.topp.standard.mcp.server.McpSyncServers;
 import com.yelstream.topp.standard.mcp.spec.McpSchemas;
 import io.javalin.Javalin;
-import io.modelcontextprotocol.server.McpServer;
 import io.modelcontextprotocol.server.McpSyncServer;
 import io.modelcontextprotocol.server.transport.HttpServletStreamableServerTransportProvider;
+import io.modelcontextprotocol.spec.McpSchema;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
 
 public class MinimalMcpServer {
     private static final String MCP_ENDPOINT = "/mcp";
     public static void main(String[] args) {
-        // 1. Streamable-HTTP transport; it is a jakarta.servlet.http.HttpServlet.
+        // 1. Definition of the MCP server; independent of any transport.
+        McpSyncServers.Definition definition = McpSyncServers.Definition.builder()
+                .serverInfo(McpSchema.Implementation.builder("Minimal MCP Server", "0.1.0").build())
+                .tool(McpSchemas.addNumbersSpecification())
+                .tool(McpSchemas.greetPersonSpecification())
+                .build();
+
+        // 2. Streamable-HTTP transport; it is a jakarta.servlet.http.HttpServlet.
         HttpServletStreamableServerTransportProvider transport =
                 HttpServletStreamableServerTransportProvider.builder()
                         .mcpEndpoint(MCP_ENDPOINT)
                         .build();
 
-        // 2. MCP server with tools, bound to the transport.
-        McpSyncServer mcpServer = McpServer.sync(transport)
-                .serverInfo("Minimal MCP Server", "0.1.0")
-                .toolCall(McpSchemas.addNumbersTool(), McpSchemas::addNumbers)
-                .toolCall(McpSchemas.greetPersonTool(), McpSchemas::greetPerson)
-                .build();
+        // 3. MCP server, created by binding the definition to the transport.
+        McpSyncServer mcpServer = definition.bind(transport);
 
-        // 3. Javalin 7: mount the servlet in Jetty, define routes in config.
+        // 4. Javalin 7: mount the servlet in Jetty, define routes in config.
         Javalin app = Javalin.create(config -> {
             config.jetty.modifyServletContextHandler(handler ->
                     handler.addServlet(new ServletHolder(transport), MCP_ENDPOINT));
