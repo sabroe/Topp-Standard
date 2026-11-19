@@ -129,6 +129,7 @@ include("module:Core:Time:Topp-Standard-Time-Legacy-Library")
 include("module:Domain:Commerce:Persistence:Topp-Standard-Domain-Commerce-Persistence-Core-Library")
 //include("module:Demo:Application:Commerce:-Library")
 
+include("module:AI:MCP:Javalin-Library")
 include("module:AI:MCP:MCP-Server-Library")
 include("module:AI:MCP:Demo:MCP-Server-Spring-Application")
 //include("module:AI:MCP:Demo:MCP-Server-Quarkus-Application")

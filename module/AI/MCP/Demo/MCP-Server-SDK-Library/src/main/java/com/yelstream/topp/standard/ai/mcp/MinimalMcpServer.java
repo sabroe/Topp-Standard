@@ -1,12 +1,14 @@
 package com.yelstream.topp.standard.ai.mcp;
 
+import com.yelstream.topp.standard.javalin.Javalins;
 import com.yelstream.topp.standard.mcp.server.McpSyncServers;
 import com.yelstream.topp.standard.mcp.spec.McpSchemas;
 import io.javalin.Javalin;
 import io.modelcontextprotocol.server.McpSyncServer;
 import io.modelcontextprotocol.server.transport.HttpServletStreamableServerTransportProvider;
 import io.modelcontextprotocol.spec.McpSchema;
-import org.eclipse.jetty.ee10.servlet.ServletHolder;
+
+import java.util.concurrent.CompletableFuture;
 
 public class MinimalMcpServer {
     private static final String MCP_ENDPOINT = "/mcp";
@@ -27,20 +29,12 @@ public class MinimalMcpServer {
         // 3. MCP server, created by binding the definition to the transport.
         McpSyncServer mcpServer = definition.bind(transport);
 
-        // 4. Javalin 7: mount the servlet in Jetty, define routes in config.
-        Javalin app = Javalin.create(config -> {
-            config.jetty.modifyServletContextHandler(handler ->
-                    handler.addServlet(new ServletHolder(transport), MCP_ENDPOINT));
-            config.routes.get("/", ctx ->
-                    ctx.result("MCP server running - connect clients to http://localhost:8080" + MCP_ENDPOINT));
-        });
+        // 4. Javalin: mount the servlet and start the server.
+        Javalin app = Javalins.create(transport, MCP_ENDPOINT);
+        CompletableFuture<Void> running =
+                Javalins.stopOnShutdown(Javalins.start(app, 8080), mcpServer::closeGracefully);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            mcpServer.closeGracefully();
-            app.stop();
-        }));
-
-        app.start(8080);
-        System.out.println("Minimal MCP server started at http://localhost:8080" + MCP_ENDPOINT);
+        System.out.printf("Minimal MCP server started at http://localhost:%d%s%n", app.port(), MCP_ENDPOINT);
+        running.join();
     }
 }
