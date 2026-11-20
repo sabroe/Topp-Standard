@@ -43,8 +43,8 @@ import java.util.function.BiFunction;
  * </p>
  * <pre>{@code
  * McpAsyncServers.Definition definition = McpAsyncServers.Definition.builder()
- *         .serverInfo(McpSchema.Implementation.builder("My MCP Server", "1.0.0").build())
- *         .tool(toolSpecification)
+ *         .serverInfo("My MCP Server", "1.0.0")
+ *         .toolSpecification(tool, callHandler)
  *         .build();
  * McpAsyncServer mcpServer = definition.bind(transport);
  * }</pre>

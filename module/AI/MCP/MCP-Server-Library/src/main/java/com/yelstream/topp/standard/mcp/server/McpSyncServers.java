@@ -44,8 +44,8 @@ import java.util.function.BiFunction;
  * </p>
  * <pre>{@code
  * McpSyncServers.Definition definition = McpSyncServers.Definition.builder()
- *         .serverInfo(McpSchema.Implementation.builder("My MCP Server", "1.0.0").build())
- *         .tool(toolSpecification)
+ *         .serverInfo("My MCP Server", "1.0.0")
+ *         .toolSpecification(tool, callHandler)
  *         .build();
  * McpSyncServer mcpServer = definition.bind(transport);
  * }</pre>

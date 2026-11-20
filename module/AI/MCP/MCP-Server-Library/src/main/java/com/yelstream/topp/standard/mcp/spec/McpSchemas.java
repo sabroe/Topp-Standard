@@ -40,8 +40,9 @@ import java.util.Map;
  *         see {@link #greetPersonSpecification()}.</li>
  * </ul>
  * <p>
- * The specifications can be added to a server definition, e.g.
- * {@code McpSyncServers.Definition.builder().tool(McpSchemas.addNumbersSpecification())}.
+ * The tools can be added to a server definition from their descriptions and call handlers, e.g.
+ * {@code McpSyncServers.Definition.builder().toolSpecification(McpSchemas.addNumbersTool(), McpSchemas::addNumbers)},
+ * or as specifications, e.g. {@code .tool(McpSchemas.addNumbersSpecification())}.
  * </p>
  *
  * @author Morten Sabroe Mortensen

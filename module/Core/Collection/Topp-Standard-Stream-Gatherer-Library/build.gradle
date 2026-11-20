@@ -37,7 +37,7 @@ dependencies {
 
 /*
     constraints {
-        implementation('org.slf4j:slf4j-simple:2.0.117') {
+        implementation('org.slf4j:slf4j-simple:2.0.20') {
             because 'Default version set by build.gradle'
             attributes {
                 attribute(Attribute.of('com.example.plugin', String), 'build.gradle')
