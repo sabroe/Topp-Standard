@@ -18,7 +18,20 @@
  */
 
 /**
- * Topp Standard MCP Server library.
+ * Topp Standard MCP Server SDK demo.
+ * <p>
+ * Demonstrates an MCP server built on the MCP Java SDK, exposed over Streamable-HTTP by Javalin.
+ * Starting point is {@link com.yelstream.topp.standard.ai.mcp.MinimalMcpServer}.
+ * </p>
+ * <p>
+ * Builds on:
+ * </p>
+ * <ul>
+ *     <li>{@code com.yelstream.topp.standard.mcp}: MCP server definitions and tool specifications;
+ *         brings in the MCP Java SDK.</li>
+ *     <li>{@code com.yelstream.topp.standard.javalin}: Javalin hosting of servlet transports;
+ *         brings in Javalin.</li>
+ * </ul>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-01-26
@@ -26,7 +39,7 @@
 module com.yelstream.topp.standard.ai.mcp {
     requires static lombok;
     requires org.slf4j;
-    requires com.yelstream.topp.javalin;
+    requires com.yelstream.topp.standard.javalin;
     requires com.yelstream.topp.standard.mcp;
     exports com.yelstream.topp.standard.ai.mcp;
 }

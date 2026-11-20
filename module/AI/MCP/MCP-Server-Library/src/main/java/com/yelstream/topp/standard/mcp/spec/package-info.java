@@ -18,6 +18,17 @@
  */
 
 /**
+ * Utilities addressing the MCP schema of the MCP Java SDK, i.e. the types of the MCP specification.
+ * <p>
+ * Contents:
+ * </p>
+ * <ul>
+ *     <li>{@link com.yelstream.topp.standard.mcp.spec.McpSchemas}:
+ *         demo tools, {@code add_numbers} and {@code greet_person},
+ *         each as a tool description, a call handler, and a tool specification ready to add to a server.</li>
+ * </ul>
  *
+ * @author Morten Sabroe Mortensen
+ * @since 2026-11-19
  */
 package com.yelstream.topp.standard.mcp.spec;

@@ -18,6 +18,21 @@
  */
 
 /**
+ * Demo of an MCP server built on the MCP Java SDK, exposed over Streamable-HTTP by Javalin.
+ * <p>
+ * Contents:
+ * </p>
+ * <ul>
+ *     <li>{@link com.yelstream.topp.standard.ai.mcp.McpHttpServer}:
+ *         running MCP server, created and started from an MCP server definition,
+ *         exposed over Streamable-HTTP by Javalin;
+ *         e.g. {@code McpHttpServer.start(definition, port, endpoint)},
+ *         after which {@code join()} waits until the server stops, and {@code close()} stops it.</li>
+ *     <li>{@link com.yelstream.topp.standard.ai.mcp.MinimalMcpServer}:
+ *         runnable minimal MCP server offering two demo tools.</li>
+ * </ul>
  *
+ * @author Morten Sabroe Mortensen
+ * @since 2026-11-19
  */
 package com.yelstream.topp.standard.ai.mcp;

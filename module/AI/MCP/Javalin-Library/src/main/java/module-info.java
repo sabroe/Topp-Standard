@@ -19,11 +19,28 @@
 
 /**
  * Topp Standard Javalin library.
+ * <p>
+ * Utilities for hosting servlet transports, e.g. MCP Streamable-HTTP transports, in Javalin.
+ * Javalin is required transitively, so users of this module can use the Javalin types directly.
+ * </p>
+ * <p>
+ * Package {@link com.yelstream.topp.standard.javalin}:
+ * </p>
+ * <ul>
+ *     <li>{@link com.yelstream.topp.standard.javalin.Javalins}:
+ *         creation of a Javalin instance mounting a servlet transport at an endpoint,
+ *         and lifecycle of the server through a shutdown handle.</li>
+ *     <li>{@link com.yelstream.topp.standard.javalin.ErrorBodyRewriteFilter}:
+ *         servlet filter rewriting the bodies of error responses.</li>
+ * </ul>
+ * <p>
+ * Independent of MCP; the transport is any {@code jakarta.servlet.http.HttpServlet}.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2025-01-26
  */
-module com.yelstream.topp.javalin {
+module com.yelstream.topp.standard.javalin {
     requires static lombok;
     requires org.slf4j;
     requires transitive io.javalin;

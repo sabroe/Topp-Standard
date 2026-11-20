@@ -19,6 +19,22 @@
 
 /**
  * Topp Standard MCP Server library.
+ * <p>
+ * Utilities on top of the server side of the MCP Java SDK.
+ * The SDK is required transitively, so users of this module can use the SDK types directly.
+ * </p>
+ * <p>
+ * Packages:
+ * </p>
+ * <ul>
+ *     <li>{@link com.yelstream.topp.standard.mcp.server}:
+ *         definitions of MCP servers independent of any transport, and rewriting of transport error bodies.</li>
+ *     <li>{@link com.yelstream.topp.standard.mcp.spec}:
+ *         utilities addressing the MCP schema, e.g. demo tools.</li>
+ * </ul>
+ * <p>
+ * Independent of any HTTP server; hosting of servlet transports is done elsewhere, e.g. with Javalin.
+ * </p>
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-11-17

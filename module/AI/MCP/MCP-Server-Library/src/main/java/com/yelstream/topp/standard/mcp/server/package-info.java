@@ -18,6 +18,26 @@
  */
 
 /**
+ * Utilities addressing MCP servers of the MCP Java SDK.
+ * <p>
+ * Contents:
+ * </p>
+ * <ul>
+ *     <li>{@link com.yelstream.topp.standard.mcp.server.McpSyncServers}:
+ *         definition of a synchronous MCP server, independent of any transport, bound to a transport later.</li>
+ *     <li>{@link com.yelstream.topp.standard.mcp.server.McpAsyncServers}:
+ *         the same for asynchronous MCP servers.</li>
+ *     <li>{@link com.yelstream.topp.standard.mcp.server.McpErrorBodies}:
+ *         rewriting of error bodies written by MCP servlet transports into JSON-RPC error responses;
+ *         meant as the rewriter of a servlet filter in front of the transport,
+ *         e.g. {@code ErrorBodyRewriteFilter} via
+ *         {@code Javalins.create(transport, "/mcp", McpErrorBodies::toJsonRpcError)}.</li>
+ *     <li>{@link com.yelstream.topp.standard.mcp.server.McpServers} and
+ *         {@link com.yelstream.topp.standard.mcp.server.SyncSpecifications}:
+ *         utilities addressing server builders and specifications of the SDK.</li>
+ * </ul>
  *
+ * @author Morten Sabroe Mortensen
+ * @since 2026-11-19
  */
 package com.yelstream.topp.standard.mcp.server;

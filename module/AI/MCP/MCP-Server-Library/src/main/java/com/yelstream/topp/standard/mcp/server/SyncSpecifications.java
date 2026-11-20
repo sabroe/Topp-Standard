@@ -24,6 +24,19 @@ import lombok.experimental.UtilityClass;
 
 /**
  * Utilities addressing instances of {@link McpServer.SyncSpecification}.
+ * <p>
+ * In the MCP Java SDK, a synchronous server specification is created by {@code McpServer.sync(transport)},
+ * already bound to a transport. It collects the server information, features and settings,
+ * and builds the {@link io.modelcontextprotocol.server.McpSyncServer}.
+ * </p>
+ * <p>
+ * Related utilities:
+ * </p>
+ * <ul>
+ *     <li>{@link McpSyncServers}: a definition of a synchronous server, independent of any transport,
+ *         applied to a specification when bound to a transport.</li>
+ *     <li>{@link McpServers}: utilities addressing {@link McpServer}, the entry point creating specifications.</li>
+ * </ul>
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-11-17

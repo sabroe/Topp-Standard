@@ -22,7 +22,20 @@ import io.modelcontextprotocol.server.McpServer;
 import lombok.experimental.UtilityClass;
 
 /**
- * Utilities addressing instances of {@link McpServer}.
+ * Utilities addressing {@link McpServer}.
+ * <p>
+ * In the MCP Java SDK, {@link McpServer} is the entry point for creating servers:
+ * its static factory methods, e.g. {@code McpServer.sync(transport)} and {@code McpServer.async(transport)},
+ * return a server specification already bound to a transport, which in turn builds the server.
+ * </p>
+ * <p>
+ * Related utilities:
+ * </p>
+ * <ul>
+ *     <li>{@link McpSyncServers} and {@link McpAsyncServers}:
+ *         definitions of servers independent of any transport, bound to a transport later.</li>
+ *     <li>{@link SyncSpecifications}: utilities addressing synchronous server specifications.</li>
+ * </ul>
  *
  * @author Morten Sabroe Mortensen
  * @since 2026-11-17

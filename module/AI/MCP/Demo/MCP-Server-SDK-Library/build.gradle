@@ -23,6 +23,11 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'signing'
+    id 'application'
+}
+
+application {
+    mainClass = 'com.yelstream.topp.standard.ai.mcp.MinimalMcpServer'
 }
 
 dependencies {

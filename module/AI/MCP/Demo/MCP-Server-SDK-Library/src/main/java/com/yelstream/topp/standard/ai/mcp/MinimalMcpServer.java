@@ -1,40 +1,52 @@
+/*
+ * Project: Topp Standard
+ * GitHub: https://github.com/sabroe/Topp-Standard
+ *
+ * Copyright 2024-2026 Morten Sabroe Mortensen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.yelstream.topp.standard.ai.mcp;
 
-import com.yelstream.topp.standard.javalin.Javalins;
 import com.yelstream.topp.standard.mcp.server.McpSyncServers;
 import com.yelstream.topp.standard.mcp.spec.McpSchemas;
-import io.javalin.Javalin;
-import io.modelcontextprotocol.server.McpSyncServer;
-import io.modelcontextprotocol.server.transport.HttpServletStreamableServerTransportProvider;
-import io.modelcontextprotocol.spec.McpSchema;
 
-import java.util.concurrent.CompletableFuture;
-
+/**
+ * Minimal MCP server, exposed over Streamable-HTTP.
+ * <p>
+ * Offers two demo tools, adding numbers and greeting a person,
+ * on {@link McpHttpServer#DEFAULT_PORT} at {@link McpHttpServer#DEFAULT_MCP_ENDPOINT}.
+ * </p>
+ *
+ * @author Morten Sabroe Mortensen
+ * @since 2026-11-18
+ */
 public class MinimalMcpServer {
-    private static final String MCP_ENDPOINT = "/mcp";
+    /**
+     * Starts the MCP server and waits until it stops,
+     * e.g. when the JVM is shut down by Ctrl+C.
+     * @param args Command-line arguments; ignored.
+     */
     public static void main(String[] args) {
-        // 1. Definition of the MCP server; independent of any transport.
         McpSyncServers.Definition definition = McpSyncServers.Definition.builder()
-                .serverInfo(McpSchema.Implementation.builder("Minimal MCP Server", "0.1.0").build())
-                .tool(McpSchemas.addNumbersSpecification())
-                .tool(McpSchemas.greetPersonSpecification())
+                .serverInfo("Minimal MCP Server", "0.1.0")
+                .toolSpecification(McpSchemas.addNumbersTool(),McpSchemas::addNumbers)
+                .toolSpecification(McpSchemas.greetPersonTool(),McpSchemas::greetPerson)
                 .build();
 
-        // 2. Streamable-HTTP transport; it is a jakarta.servlet.http.HttpServlet.
-        HttpServletStreamableServerTransportProvider transport =
-                HttpServletStreamableServerTransportProvider.builder()
-                        .mcpEndpoint(MCP_ENDPOINT)
-                        .build();
-
-        // 3. MCP server, created by binding the definition to the transport.
-        McpSyncServer mcpServer = definition.bind(transport);
-
-        // 4. Javalin: mount the servlet and start the server.
-        Javalin app = Javalins.create(transport, MCP_ENDPOINT);
-        CompletableFuture<Void> running =
-                Javalins.stopOnShutdown(Javalins.start(app, 8080), mcpServer::closeGracefully);
-
-        System.out.printf("Minimal MCP server started at http://localhost:%d%s%n", app.port(), MCP_ENDPOINT);
-        running.join();
+        try (McpHttpServer server = McpHttpServer.start(definition)) {
+            server.join();
+        }
     }
 }
